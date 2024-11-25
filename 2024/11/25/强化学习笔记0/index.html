@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>Archives | Cold Rain&#39;s Blog</title>
+    <title>强化学习笔记0——引言 | Cold Rain&#39;s Blog</title>
     <meta name="author" content="冷雨" />
     <meta name="description" content="希望能成为一个厉害的人" />
     <meta name="keywords" content="" />
@@ -37,6 +37,10 @@
 
 
 <script src="/js/lib/preview.js"></script>
+
+
+
+
 
 
 
@@ -150,64 +154,82 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            
-<div id="archives">
-    
-    <div id="timeline-wrap" ref="timeline">
+            <div class="article">
+    <div>
+        <h1>强化学习笔记0——引言</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/11/25
+        </span>
         
-        <div class="timeline" data-title="强化学习笔记0——引言">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2024/11/25</div>
-                <a href="/2024/11/25/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B00/">
-                    <h3>强化学习笔记0——引言</h3>
+        <span class="category">
+            <a href="/categories/RL%EF%BC%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%89%E7%90%86%E8%AE%BA%E7%AC%94%E8%AE%B0/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                RL（强化学习）理论笔记
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/RL%EF%BC%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%89/" style="color: #ffa2c4">
+                    RL（强化学习）
                 </a>
-                <div class="info">
-                    
-                    <span class="category">
-                        <a href="/categories/RL%EF%BC%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%89%E7%90%86%E8%AE%BA%E7%AC%94%E8%AE%B0/">
-                            <span class="icon">
-                                <i class="fa-solid fa-bookmark fa-fw"></i>
-                            </span>
-                            RL（强化学习）理论笔记
-                        </a>
-                    </span>
-                    
-                    
-                    <span class="tags">
-                        <span class="icon">
-                            <i class="fa-solid fa-tags fa-fw"></i>
-                        </span>
-                        
-                        
-                        <span class="tag">
-                            
-                            <a href="/tags/RL%EF%BC%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%89/" style="color: #ffa2c4">
-                                RL（强化学习）
-                            </a>
-                        </span>
-                        
-                        <span class="tag">
-                            
-                            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00a596">
-                                笔记
-                            </a>
-                        </span>
-                        
-                        <span class="tag">
-                            
-                            <a href="/tags/%E7%BA%AF%E7%90%86%E8%AE%BA/" style="color: #ffa2c4">
-                                纯理论
-                            </a>
-                        </span>
-                        
-                    </span>
-                    
-                </div>
-            </div>
-        </div>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00bcd4">
+                    笔记
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BA%AF%E7%90%86%E8%AE%BA/" style="color: #ff7d73">
+                    纯理论
+                </a>
+            </span>
+            
+        </span>
         
     </div>
+    
+    <div class="content" v-pre>
+        <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><h2 id="Warning"><a href="#Warning" class="headerlink" title="Warning"></a>Warning</h2><blockquote>
+<p>本笔记摘录自西湖大学<strong>赵世钰老师</strong>的<strong>强化学习</strong>理论课程<br>本笔记内容均为纯理论，不包含实践编程部分。如果需要同时学习编程，请配合<strong>“DRL实践笔记”</strong>食用<br>学习本部分内容需要具有一定的<strong>深度学习基础</strong>！！！</p>
+</blockquote>
+<h2 id="学习强化学习原理的建议"><a href="#学习强化学习原理的建议" class="headerlink" title="学习强化学习原理的建议"></a>学习强化学习原理的建议</h2><ol>
+<li>希望各位能够放平心态，放弃速成的想法：<strong>速成是不可能的事情</strong>。事实上在生活中，你面临的很多焦虑都来自于没有给自己的目标<strong>分配合适的时间</strong>。比如我读一篇论文，我应该花一周左右的时间，然而我因为种种事情，只给它分配了一天的时间，并要求自己必须在一天内学会，等到一天快结束的时候你会发现你根本无法完成。</li>
+<li>强化学习理论有两个特点：一是数学性很强，二是系统性很强。其中，数学性很强是指你需要去理解算法背后的原理与本质；而系统性很强是指强化学习理论知识体系是一环扣一环的，需要一步一步踏踏实实地、系统地去学习。</li>
+<li>学到一半如果有搞不懂的地方，各位一定要停下来去理解清楚，千万不要带着问题继续往前走</li>
+</ol>
+<h2 id="一张图梳理RL脉络"><a href="#一张图梳理RL脉络" class="headerlink" title="一张图梳理RL脉络"></a>一张图梳理RL脉络</h2><p><img src="/./images/pic1.png" alt="强化学习基本知识体系图"></p>
+<p>强化学习主要分为两个板块：一是基础工具，二是算法和方法</p>
+<p><strong>基础工具</strong>包括基础概念、贝尔曼公式、贝尔曼最优公式等</p>
+<p><strong>算法和方法</strong>包括值迭代和策略迭代、蒙特卡洛算法、时序差分算法、基于值函数的近似方法、policy gradient方法、actor-critic方法等</p>
+<h2 id="强化学习的最终目标"><a href="#强化学习的最终目标" class="headerlink" title="强化学习的最终目标"></a>强化学习的最终目标</h2><p>强化学习的最终目标是：求解最优策略</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
 </div>
 
             <footer id="footer">
@@ -238,6 +260,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>
