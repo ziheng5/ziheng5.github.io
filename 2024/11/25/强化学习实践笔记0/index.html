@@ -189,21 +189,21 @@
             
             <span class="tag">
                 
-                <a href="/tags/RL%EF%BC%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%89/" style="color: #00a596">
+                <a href="/tags/RL%EF%BC%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%89/" style="color: #00bcd4">
                     RL（强化学习）
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00bcd4">
+                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #03a9f4">
                     笔记
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E5%AE%9E%E6%88%98/" style="color: #00a596">
+                <a href="/tags/%E5%AE%9E%E6%88%98/" style="color: #ff7d73">
                     实战
                 </a>
             </span>
@@ -262,7 +262,7 @@ class Net(nn.Module):
 </code></pre>
 <p>NN 并没有什么特别之处，它将从环境中得到的单个观察结果作为输入向量，并输出一个数字作为可以执行的动作。</p>
 <p>NN 的输出是动作的概率分布，所以一个比较直接的方法是在最后一层使用一个非线性的softmax。但是，在前面的 NN 中，我们不使用 softmax 来增加训练过程中数值的稳定性。</p>
-<p>比起先计算 softmax （使用了幂运算）再计算交叉熵损失（使用了对数概率），我们使用pytorch 的 nn.CrossEntropyLoss 类，它将 softmax 和交叉熵合二为一，能够提供更好的数值稳定性。CrossEntropyLoss 要求参数是NN中的原始、未归一化的值。</p>
+<p>比起先计算 softmax （使用了幂运算）再计算交叉熵损失（使用了对数概率），我们使用pytorch 的 <code>nn.CrossEntropyLoss</code> 类，它将 softmax 和交叉熵合二为一，能够提供更好的数值稳定性。<code>CrossEntropyLoss</code> 要求参数是NN中的原始、未归一化的值。</p>
 <pre><code class="python">from collections import namedtuple
 
 Episode = namedtuple(&#39;Episode&#39;, field_names=[&#39;reward&#39;, &#39;steps&#39;])
@@ -272,8 +272,8 @@ EpisodeStep = namedtuple(
 </code></pre>
 <p>在这里，我们定义了两个命名元组类型的帮助类：</p>
 <ol>
-<li>EpisodeStep：这个用于表示智能体在片段中执行的一步，同时它会保存来自环境的观察和采取的动作。在精英片段的训练中我们会用到它</li>
-<li>Episode：这是单个片段，它保存了总的无折扣奖励以及EpisodeStep集合</li>
+<li><strong>EpisodeStep</strong>：这个用于表示智能体在片段中执行的一步，同时它会保存来自环境的观察和采取的动作。在精英片段的训练中我们会用到它</li>
+<li><strong>Episode</strong>：这是单个片段，它保存了总的无折扣奖励以及EpisodeStep集合</li>
 </ol>
 <pre><code class="python"># 用片段生成批的函数
 def iterate_batches(env, net, batch_size):
@@ -307,15 +307,15 @@ def iterate_batches(env, net, batch_size):
 
             obs = next_obs
 </code></pre>
-<p>上述函数接受环境（Gym库中的Env实例）、NN 以及每个迭代需要生成的片段数作为输入</p>
+<p>上述函数接受环境（Gym库中的<code>Env</code>实例）、NN 以及每个迭代需要生成的片段数作为输入</p>
 <p>在每次迭代中，将当前的观察转换成 PyTorch 张量，并将其传入 NN 以获得动作概率分布。有以下几件事需要注意：</p>
 <ol>
-<li>所有 pytorch 中的 nn.Module 实例都接受一批数据，对于 NN 也是一样的，所以我们将观察（在 cartpole 中为一个由 4 个数字组成的向量）转换成 1*4 大小的张量</li>
-<li>由于没有在 NN 的输出使用非线性函数，它会输出一个原始的动作分数，因此需要将其用 softmax 函数处理</li>
-<li>NN 和 softmax 层都返回包含了梯度的张量，所以我们需要通过访问 tensor.data 字段来将其数据取出来，然后将张量转换成 Numpy 数组，该数组和输入一样，有同样的二维结构，0轴是批的维度，所以我们需要获取第一个元素，这样才能得到动作概率的一维向量。</li>
+<li>所有 pytorch 中的 <code>nn.Module</code> 实例都接受一批数据，对于 NN 也是一样的，所以我们将观察（在 cartpole 中为一个由 4 个数字组成的向量）转换成 1*4 大小的张量</li>
+<li>由于没有在 NN 的输出使用非线性函数，它会输出一个原始的动作分数，因此需要将其用 <code>softmax</code> 函数处理</li>
+<li>NN 和 softmax 层都返回包含了梯度的张量，所以我们需要通过访问 <code>tensor.data</code> 字段来将其数据取出来，然后将张量转换成 Numpy 数组，该数组和输入一样，有同样的二维结构，0轴是批的维度，所以我们需要获取第一个元素，这样才能得到动作概率的一维向量。</li>
 </ol>
-<p>既然有了动作的概率分布，只需要哦使用 Numpy 的 random.choice() 函数对分布进行采样，就能获得当前步骤该选择的动作。然后，将动作传给环境来获得下一个观察、奖励以及片段是否结束的标记</p>
-<p>奖励被加入当前片段的总奖励，片段的步骤列表也添加来一个（observation, action）对。注意，保存的是用来选择动作的观察，而不是动作执行后从环境返回的观察。这些都是需要牢记的微小但重要的细节。</p>
+<p>既然有了动作的概率分布，只需要使用 Numpy 的 <code>random.choice()</code> 函数对分布进行采样，就能获得当前步骤该选择的动作。然后，将动作传给环境来获得下一个观察、奖励以及片段是否结束的标记</p>
+<p>奖励被加入当前片段的总奖励，片段的步骤列表也添加来一个<strong>（observation, action）对</strong>。注意，保存的是用来选择动作的观察，而不是动作执行后从环境返回的观察。这些都是需要牢记的微小但重要的细节。</p>
 <p>在这个函数的逻辑处理中，要理解一个非常重要的方面是：NN 的训练和片段的生成是同时进行的。它们并不是完全并行的，但是每积累了足够（16）的片段之后，控制权将转移到调用方，调用方会用梯度下降来训练 NN。所以，每当 yield 返回时， NN 都会稍微有点进步</p>
 <pre><code class="python">def filter_batch(batch, percentile):
     rewards = list(map(lambda s: s.reward, batch))
@@ -335,7 +335,7 @@ def iterate_batches(env, net, batch_size):
         return train_obs_v, train_act_v, value_bound, reward_mean    # 最后两个值只用于写入 TensorBoard,以检验智能体的性能
 </code></pre>
 <p>这个函数是交叉熵的核心——根据给定的一批片段和百分位值，计算奖励边界，以用于过滤要用于训练的精英片段。</p>
-<p>为了获得奖励边界，我们将使用 Numpy 的 percentile 函数，该函数根据给定的值列表和百分位计算百分位的值。</p>
+<p>为了获得奖励边界，我们将使用 Numpy 的 <code>percentile</code> 函数，该函数根据给定的值列表和百分位计算百分位的值。</p>
 <p>然后再计算平均奖励用于监控</p>
 <p>然后过滤片段。针对批中的每个片段，检查其总奖励值是否高于边界，如果高于，则将其观察和动作添加到要训练的列表中。</p>
 <h2 id="1-4-完整代码"><a href="#1-4-完整代码" class="headerlink" title="1.4 完整代码"></a>1.4 完整代码</h2><pre><code class="python">#!/usr/bin/env python3
