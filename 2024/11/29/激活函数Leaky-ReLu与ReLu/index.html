@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>Tags: 杂谈 | Cold Rain&#39;s Blog</title>
+    <title>激活函数 Leaky ReLu 与 ReLu 的区别 | Cold Rain&#39;s Blog</title>
     <meta name="author" content="冷雨" />
     <meta name="description" content="希望能成为一个厉害的人" />
     <meta name="keywords" content="" />
@@ -42,6 +42,10 @@
 
 
 <script src="/js/lib/preview.js"></script>
+
+
+
+
 
 
 
@@ -155,196 +159,76 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="archives">
-    
-    <div class="categories-tags">
-        
-        
-        
-        <span>
-            <a href="/tags/RL%EF%BC%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%89/" style="background: #00a596">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                RL（强化学习）
-            </a>
+            <div class="article">
+    <div>
+        <h1>激活函数 Leaky ReLu 与 ReLu 的区别</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/11/29
         </span>
         
-        
-        
-        <span>
-            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="background: #00bcd4">
+        <span class="category">
+            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
                 <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                笔记
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E5%AE%9E%E6%88%98/" style="background: #03a9f4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                实战
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E6%9D%82%E8%B0%88/" style="background: linear-gradient(120deg, #9abbf7 0%, #ffbbf4 100%)">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                杂谈
-            </a>
-        </span>
-        
-        
-        
-        
-        
-        <span>
-            <a href="/tags/PyTorch/" style="background: #00a596">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                PyTorch
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="background: #ffa2c4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
                 深度学习
             </a>
         </span>
         
         
-        
-        <span>
-            <a href="/tags/%E7%BA%AF%E7%90%86%E8%AE%BA/" style="background: #03a9f4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                纯理论
-            </a>
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88/" style="color: #00a596">
+                    杂谈
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
+                    深度学习
+                </a>
+            </span>
+            
         </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E7%AB%9E%E8%B5%9B/" style="background: #ffa2c4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                竞赛
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="background: #00a596">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                数学建模
-            </a>
-        </span>
-        
         
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2024/11/29</div>
-            <a href="/2024/11/29/%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0Leaky-ReLu%E4%B8%8EReLu/">
-                <h3>激活函数 Leaky ReLu 与 ReLu 的区别</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        深度学习
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E6%9D%82%E8%B0%88/" style="color: #ff7d73">
-                            杂谈
-                        </a>
-                    </span>
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
-                            深度学习
-                        </a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
+    <div class="content" v-pre>
+        <h1 id="1-ReLu（线性修正单元）"><a href="#1-ReLu（线性修正单元）" class="headerlink" title="1. ReLu（线性修正单元）"></a>1. ReLu（线性修正单元）</h1><p>ReLu 函数对于正数部分直接输出，对于负数部分输出为零</p>
+<p>$$ f(x)&#x3D;max(0,x) $$</p>
+<blockquote>
+<p>优点：非常简单，计算速度快。在很多情况下表现良好</p>
+</blockquote>
+<blockquote>
+<p>缺点：可能存在<strong>神经元死亡</strong>的问题，即某些神经元在训练过程中可能永远不会被激活，导致权重无法更新。</p>
+</blockquote>
+<h1 id="2-Leaky-ReLu"><a href="#2-Leaky-ReLu" class="headerlink" title="2. Leaky ReLu"></a>2. Leaky ReLu</h1><p>Leaky ReLu 对于负数部分不再输出零，而是输出一个很小的负数，通常用一个小斜率 $\alpha$ 乘以输入。<br>$$<br>f(x)&#x3D;<br>\left{\begin{matrix}<br>  x, {if} {x&gt;0} \<br>  \alpha x, if x\le0<br>\end{matrix}\right.<br>$$</p>
+<blockquote>
+<p>优点：解决零 ReLU 的神经元死亡问题，因为负数有一个小的梯度。</p>
+</blockquote>
+<blockquote>
+<p>缺点：对于 $\alpha$ 的选择比较敏感，需要调参。 </p>
+</blockquote>
+
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2024/11/26</div>
-            <a href="/2024/11/26/test/">
-                <h3>个人简介</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E6%9D%82%E8%B0%88/">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        杂谈
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E6%9D%82%E8%B0%88/" style="color: #ffa2c4">
-                            杂谈
-                        </a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
+    
+    
+    
+    
+    
     
 </div>
 
@@ -376,6 +260,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>
