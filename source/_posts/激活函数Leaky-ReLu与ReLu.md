@@ -20,13 +20,9 @@ $$ f(x)=max(0,x) $$
 
 # 2. Leaky ReLu
 Leaky ReLu 对于负数部分不再输出零，而是输出一个很小的负数，通常用一个小斜率 $\alpha$ 乘以输入。
-$$
-f(x)=
-\left\{\begin{matrix} 
-  x, {if} {x>0} \\  
-  \alpha x, if x\le0 
-\end{matrix}\right. 
-$$
+
+$$ f(x)=\left\\{\begin{matrix} x, {if} {x>0} \\\\ \alpha x, if x\le0 \end{matrix}\right. $$
+
 > 优点：解决零 ReLU 的神经元死亡问题，因为负数有一个小的梯度。
 
 > 缺点：对于 $\alpha$ 的选择比较敏感，需要调参。 
