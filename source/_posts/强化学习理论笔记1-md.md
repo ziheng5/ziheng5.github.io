@@ -16,7 +16,7 @@ description: |
 ## 1.1 深度学习是什么？
 ![deep-learning](./images/class/deep-learning.png)
 
-深度学习是机器学习下的一个基于深度神经网络的子领域。
+深度学习是机器学习下的一个基于深度神经网络的机器学习方法，能够从海量数据和知识中学习，从而一定程度上具备了人的能力。
 
 ![nn](./images/class/nn.png)
 
@@ -794,5 +794,65 @@ print(x[:, 1, 1])
 print(x[0, 0, :])
 ```
 
-索引一开始可能会相当令人困惑，特别是对于较大的张量（我仍然需要尝试多次索引才能正确）。但通过一些练习，并遵循数据探索者的座右铭（***可视化，可视化，再可视化***），你将开始掌握它。
+索引一开始可能会相当令人困惑，特别是对于较大的张量（我仍然需要尝试多次索引才能正确）。但通过一些练习，并不断尝试对数据进行可视化，你将开始掌握它。
 
+## 3.11 PyTorch 张量与 Numpy 数组
+
+由于 NumPy 是一个流行的 Python 数值计算库，因此 PyTorch 具有与其良好交互的功能。
+
+你需要用于 NumPy 到 PyTorch（以及返回）的两种主要方法是：
+* [`torch.from_numpy(ndarray)`](https://pytorch.org/docs/stable/generated/torch.from_numpy.html) - NumPy 数组 -> PyTorch 张量。
+* [`torch.Tensor.numpy()`](https://pytorch.org/docs/stable/generated/torch.Tensor.numpy.html) - PyTorch 张量 -> NumPy 数组。
+
+让我们尝试一下。
+```Python
+# NumPy array to tensor
+import torch
+import numpy as np
+array = np.arange(1.0, 8.0)
+tensor = torch.from_numpy(array)
+print(array)
+print(tensor)
+```
+> **注意**：默认情况下，NumPy 数组是使用数据类型 `float64` 创建的，如果将其转换为 PyTorch 张量，它将保留相同的数据类型（如上所示）。
+>
+> 但是，许多 PyTorch 计算默认使用 `float32`。
+>
+> 因此，如果要将 NumPy 数组 (float64) -> PyTorch 张量 (float64) -> PyTorch 张量 (float32)，可以使用 `tensor = torch.from_numpy(array).type(torch.float32)`。
+
+因为我们在上面重新分配了 `tensor`，所以如果更改张量，数组将保持不变。
+
+```Python
+# Change the array, keep the tensor
+array = array + 1
+array, tensor
+```
+如果你想从 PyTorch 张量转换为 NumPy 数组，你可以调用 `tensor.numpy()`。
+
+```Python
+# Tensor to NumPy array
+tensor = torch.ones(7) # create a tensor of ones with dtype=float32
+numpy_tensor = tensor.numpy() # will be dtype=float32 unless changed
+tensor, numpy_tensor
+```
+
+与上述相同的规则适用，如果你改变原始的“张量”，新的 `numpy_tensor` 保持不变。
+
+```Python
+# Change the tensor, keep the array the same
+tensor = tensor + 1
+tensor, numpy_tensor
+```
+
+# 4. 尾声
+> ⚠️下面内容为个人推荐，具体情况视自身而定
+## 4.1 理论课程推荐
+吴恩达深度学习课程： BV1FT4y1E74V（BV号）
+## 4.2 PyTorch 教程推荐
+土堆：B站up主“我是土堆”
+## 4.3 深度学习实践网站推荐
+1. GitHub（多读读别人的开源项目）
+2. Kaggle（对于不同的问题，可以多参考不同人的思路与代码，能够大大提高利用深度学习理论知识、PyTorch框架来解决实际问题的能力）
+
+## 4.4 杂谈
+（略）
