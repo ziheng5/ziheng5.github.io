@@ -196,7 +196,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
                     深度学习
                 </a>
             </span>
@@ -213,6 +213,276 @@
 <p>深度学习是机器学习下的一个基于深度神经网络的子领域。</p>
 <p><img src="/./images/class/nn.png" alt="nn"></p>
 <p>深度学习是一种结构启发的机器学习，人脑在深度学习方面的结构，被称为人工神经网络</p>
+<h1 id="2-PyTorch-简介"><a href="#2-PyTorch-简介" class="headerlink" title="2. PyTorch 简介"></a>2. PyTorch 简介</h1><h2 id="2-1-什么是-PyTorch❓"><a href="#2-1-什么是-PyTorch❓" class="headerlink" title="2.1 什么是 PyTorch❓"></a>2.1 什么是 PyTorch❓</h2><p>PyTorch 是当下最热门的开源机器学习与深度学习框架。</p>
+<h2 id="2-2-PyTorch-可以做什么呢❓"><a href="#2-2-PyTorch-可以做什么呢❓" class="headerlink" title="2.2 PyTorch 可以做什么呢❓"></a>2.2 PyTorch 可以做什么呢❓</h2><p>PyTorch 允许你使用 Python 代码来操作和处理数据，并编写机器学习算法。</p>
+<h2 id="2-3-有哪些人在使用它呢❓"><a href="#2-3-有哪些人在使用它呢❓" class="headerlink" title="2.3 有哪些人在使用它呢❓"></a>2.3 有哪些人在使用它呢❓</h2><p>许多世界上最大的科技公司，比如<a target="_blank" rel="noopener" href="https://ai.facebook.com/blog/pytorch-builds-the-future-of-ai-and-machine-learning-at-facebook/">Meta（Facebook）</a>、特斯拉和微软，以及人工智能研究公司如<a target="_blank" rel="noopener" href="https://openai.com/blog/openai-pytorch/">OpenAI</a>，都使用PyTorch来推动研究并将机器学习应用到他们的产品中。</p>
+<p>例如，Andrej Karpathy（特斯拉的人工智能负责人）在多个演讲中（<a target="_blank" rel="noopener" href="https://youtu.be/oBklltKXtDE">PyTorch DevCon 2019</a>，<a target="_blank" rel="noopener" href="https://youtu.be/j0z4FweCy4M?t=2904">特斯拉AI日2021</a>）讨论了特斯拉如何使用PyTorch来驱动他们的自动驾驶计算机视觉模型。</p>
+<p>此外，PyTorch也被用于其他各个行业，比如农业，用于<a target="_blank" rel="noopener" href="https://medium.com/pytorch/ai-for-ag-production-machine-learning-for-agriculture-e8cfdb9849a1">在拖拉机上实现计算机视觉</a>。</p>
+<h2 id="2-4-为什么选择-PyTorch❓"><a href="#2-4-为什么选择-PyTorch❓" class="headerlink" title="2.4 为什么选择 PyTorch❓"></a>2.4 为什么选择 PyTorch❓</h2><p>相比于过去热门的 TensorFlow 框架，如今的机器学习研究者门更倾向于使用 PyTorch 。截至2022年2月， PyTorch 是 <a target="_blank" rel="noopener" href="https://paperswithcode.com/trends">Papers With Code</a> 上使用最多的深度学习框架，这是一个跟踪机器学习研究论文及其附带代码库的网站。</p>
+<p>PyTorch 框架还帮助处理许多事情，比如调用 GPU 加速（让您的代码运行得更快），这些都是在后台自动完成的。</p>
+<p>因此，在 PyTorch 框架下，你可以专注于操作数据和编写算法，其他繁琐的操作都可以由 PyTorch 自动完成（如梯度计算、权重更新等）</p>
+<p>如果像特斯拉和 Meta（Facebook） 这样的公司使用它来构建他们部署的模型，以驱动数百个应用、驱动数千辆汽车和向数十亿人提供内容，那么它在开发方面显然也是能力出众的。</p>
+<h2 id="2-5-我们将在本节课中讲解哪些内容"><a href="#2-5-我们将在本节课中讲解哪些内容" class="headerlink" title="2.5 我们将在本节课中讲解哪些内容"></a>2.5 我们将在本节课中讲解哪些内容</h2><table>
+<thead>
+<tr>
+<th><strong>主题</strong></th>
+<th><strong>内容</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>张量简介</strong></td>
+<td>张量是所有机器学习和深度学习的基本构建块。</td>
+</tr>
+<tr>
+<td><strong>创建张量</strong></td>
+<td>张量可以表示几乎所有类型的数据（图像、文字、数字表格）。</td>
+</tr>
+<tr>
+<td><strong>从张量中获取信息</strong></td>
+<td>如果你可以将信息放入张量，你也会想要将其取出。</td>
+</tr>
+<tr>
+<td><strong>操作张量</strong></td>
+<td>机器学习算法（如神经网络）涉及以多种不同方式操作张量，例如添加、乘法、组合。</td>
+</tr>
+<tr>
+<td><strong>处理张量形状</strong></td>
+<td>机器学习中最常见问题之一是处理形状不匹配（尝试将形状错误的张量与其他张量混合）。</td>
+</tr>
+<tr>
+<td><strong>张量索引</strong></td>
+<td>如果你曾在Python列表或NumPy数组上进行过索引，那么在张量上的操作非常相似，只是张量可以有更多的维度。</td>
+</tr>
+<tr>
+<td><strong>混合PyTorch张量和NumPy</strong></td>
+<td>PyTorch使用张量（<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/tensors.html"><code>torch.Tensor</code></a>），NumPy喜欢数组（<a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html"><code>np.ndarray</code></a>），有时你可能想要混合使用这些。</td>
+</tr>
+<tr>
+<td><strong>可复现性</strong></td>
+<td>机器学习非常实验性，因为它使用大量的<em>随机性</em>来工作，有时你可能希望这种<em>随机性</em>不要太随机。</td>
+</tr>
+<tr>
+<td><strong>在GPU上运行张量</strong></td>
+<td>GPU（图形处理单元）可以使你的代码更快，PyTorch使得在GPU上运行你的代码变得简单。</td>
+</tr>
+</tbody></table>
+<h1 id="3-PyTorch-基本用法"><a href="#3-PyTorch-基本用法" class="headerlink" title="3. PyTorch 基本用法"></a>3. PyTorch 基本用法</h1><h2 id="3-1-引入-PyTorch"><a href="#3-1-引入-PyTorch" class="headerlink" title="3.1 引入 PyTorch"></a>3.1 引入 PyTorch</h2><blockquote>
+<p><strong>注意：</strong> 在运行这个笔记本中的任何代码之前，你应该已经完成了<a target="_blank" rel="noopener" href="https://pytorch.org/get-started/locally/">PyTorch安装步骤</a>。</p>
+<p>然而，<strong>如果你在Google Colab上运行</strong>，一切都应该可以正常工作（Google Colab自带PyTorch和其他库的安装）。</p>
+</blockquote>
+<pre><code class="python">import torch
+
+# 检查能否调用 cuda
+print(torch.cuda.is_available())
+
+# 输出 PyTorch 版本
+print(torch.__version__)
+</code></pre>
+<p>如果调用 <code>is_available()</code> 输出的结果为 <code>True</code> ，则说明 PyTorch 安装成功且可以正常调用 cuda</p>
+<p>这里 <code>torch.__version__</code> 输出了我们安装的 PyTorch 的版本。我这里输出的版本为 <code>2.5.0</code> 。一般来说，PyTorch 高版本对低版本具有向下兼容性，但注意：PyTorch <code>2.X.X</code> 系列版本与 <code>1.X.X</code> 系列版本更能差别较大。</p>
+<h2 id="3-2-什么是张量❓"><a href="#3-2-什么是张量❓" class="headerlink" title="3.2 什么是张量❓"></a>3.2 什么是张量❓</h2><p>现在我们已经导入了 PyTorch,是时候学习关于张量的知识了📚</p>
+<p>张量是机器学习的基本构建块，它们的任务是以数值的方式表示数据。</p>
+<p>例如，你可以将一张图像表示为形状为 <code>[3, 224, 224]</code> 的张量，这意味着 <code>[颜色通道，高度，宽度]</code> ，即图像有3个颜色通道（红色、绿色、蓝色），高度为224像素，宽度为224像素。</p>
+<p>在张量术语（用于描述张量的定义）中，该张量有三个维度，分别对应颜色通道、高度和宽度。</p>
+<blockquote>
+<p>如果想要了解更多关于张量的理论知识，请自行查找<strong>线性代数</strong>相关资料学习📚</p>
+<p>这里我们不具体讲解理论知识，各位理解即可。</p>
+</blockquote>
+<p>下面我们通过代码来理解张量。</p>
+<h2 id="3-3-在-PyTorch-中创建张量"><a href="#3-3-在-PyTorch-中创建张量" class="headerlink" title="3.3 在 PyTorch 中创建张量"></a>3.3 在 PyTorch 中创建张量</h2><p>PyTorch非常喜欢张量。以至于有一个完整的文档页面专门介绍<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/tensors.html"><code>torch.Tensor</code></a>类。</p>
+<p>你的第一项家庭作业是<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/tensors.html">阅读<code>torch.Tensor</code>的文档</a>10分钟。但你可以在稍后进行。</p>
+<p>让我们开始编码。</p>
+<h3 id="3-3-1-标量"><a href="#3-3-1-标量" class="headerlink" title="3.3.1 标量"></a>3.3.1 标量</h3><p>我们首先将要创建的是一个<strong>标量</strong>。</p>
+<p>标量是一个单独的数字，在张量术语中，它是一个零维张量。</p>
+<blockquote>
+<p><strong>注意：</strong> 这是本课程的一个趋势。我们将专注于编写特定的代码。但通常我会设置一些练习，涉及阅读和熟悉PyTorch文档。毕竟，一旦你完成了这个课程，你无疑会想要学习更多。而文档是你经常会去查找的地方。</p>
+</blockquote>
+<pre><code class="Python"># Scalar
+scalar = torch.tensor(7)
+print(scalar)
+</code></pre>
+<p>看到上面打印出的<code>tensor(7)</code>了吗？</p>
+<p>这意味着尽管 <code>scalar</code> 是一个单独的数字，但它的类型是 <code>torch.Tensor</code>。</p>
+<p>我们可以使用 <code>ndim</code> 属性来检查张量的维度。</p>
+<pre><code class="Python">print(scalar.ndim)
+</code></pre>
+<p>如果我们想要从张量中检索数字呢？</p>
+<p>比如，将其从 <code>torch.Tensor</code> 转换为Python整数？</p>
+<p>为此，我们可以使用 <code>item()</code> 方法。</p>
+<pre><code class="Python">print(scalar.item())
+</code></pre>
+<h3 id="3-3-2-向量"><a href="#3-3-2-向量" class="headerlink" title="3.3.2 向量"></a>3.3.2 向量</h3><p>好的，现在我们来看一个<strong>向量</strong>。</p>
+<p>向量是一种单维度的张量，但它可以包含许多数字。</p>
+<p>比如，你可以有一个向量 <code>[3, 2]</code> 来描述你房子里的 <code>[卧室，浴室]</code> 数量。或者你可以有一个 <code>[3, 2, 2]</code> 来描述你房子里的 <code>[卧室，浴室，车位]</code> 数量。</p>
+<p>这里的重要趋势是向量在它所能代表的内容上是灵活的（和张量一样）。</p>
+<pre><code class="Python"># vector
+vector = torch.tensor([7, 7])
+print(vector)
+</code></pre>
+<p>太好了，<code>vector</code> 现在包含了两个7。</p>
+<p>你认为它将有多少个维度？</p>
+<pre><code class="Python">print(vector.ndim)
+</code></pre>
+<p>嗯，这有点奇怪，<code>vector</code> 包含了两个数字，但只有一个维度。</p>
+<p>我来告诉你一个窍门。</p>
+<p>你可以通过外部的方括号数量（<code>[</code>）来判断PyTorch中张量的维度，你只需要数一边的方括号数量。</p>
+<p><code>vector</code> 有多少个方括号？</p>
+<p>另一个对张量来说重要的概念是它们的 <code>shape</code> 属性。<code>shape</code> 告诉你它们内部的元素是如何排列的。</p>
+<p>让我们来检查一下 <code>vector</code> 的形状。</p>
+<pre><code class="Python">print(vector,shape)
+</code></pre>
+<p>上述返回 <code>torch.Size([2])</code> ，这意味着我们的向量的形状是 <code>[2]</code> 。这是因为我们把两个元素放在了方括号内部（<code>[7, 7]</code>）。</p>
+<h3 id="3-3-3-矩阵"><a href="#3-3-3-矩阵" class="headerlink" title="3.3.3 矩阵"></a>3.3.3 矩阵</h3><p>现在我们来看一个<strong>矩阵</strong>。</p>
+<pre><code class="Python">matrix = torch.tensor([[7, 8],
+                       [9, 10]])
+print(matrix)
+</code></pre>
+<p>矩阵和向量一样灵活，只是它们多了一个维度。</p>
+<pre><code class="Python">print(matrix.ndim)
+</code></pre>
+<p><code>matrix</code> 有两个维度（你数了一边外部的方括号数量了吗？）。</p>
+<p>你认为它将具有什么样的<code>shape</code>？</p>
+<pre><code class="Python">print(matrix.shape)
+</code></pre>
+<p>我们得到的输出是 <code>torch.Size([2, 2])</code>，因为 <code>matrix</code> 深度为两个元素，宽度也为两个元素。</p>
+<p>那么我们来创建一个<strong>张量</strong>怎么样？</p>
+<pre><code class="Python">tensor = torch.tensor([[[1, 2, 3],
+                        [3, 6, 9],
+                        [2, 4, 5]]])
+print(tensor)
+</code></pre>
+<p>这个张量看起来真不错。</p>
+<blockquote>
+<p>张量几乎可以代表任何东西。</p>
+</blockquote>
+<p>你认为它有多少个维度？（提示：使用方括号计数技巧）</p>
+<pre><code class="Python">print(tensor.ndim)
+</code></pre>
+<p>那么它有着什么样的 <code>shape</code> 呢？</p>
+<pre><code class="Python">print(tensor.shape)
+</code></pre>
+<p>好的，输出是 <code>torch.Size([1, 3, 3])</code>。</p>
+<p>维度是从外向内排列的。</p>
+<p>这意味着有一个3乘3的维度。</p>
+<p>让我们总结一下。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>它是什么？</th>
+<th>维度数量</th>
+<th>通常&#x2F;示例是小写还是大写</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>标量（scalar）</strong></td>
+<td>一个单独的数字</td>
+<td>0</td>
+<td>小写（<code>a</code>）</td>
+</tr>
+<tr>
+<td><strong>向量（vector）</strong></td>
+<td>有方向的数字（例如风速和方向）但也可能有其他许多数字</td>
+<td>1</td>
+<td>小写（<code>y</code>）</td>
+</tr>
+<tr>
+<td><strong>矩阵（matrix）</strong></td>
+<td>一个二维数组</td>
+<td>2</td>
+<td>大写（<code>Q</code>）</td>
+</tr>
+<tr>
+<td><strong>张量（tensor）</strong></td>
+<td>一个n维数组</td>
+<td>可以是任何数量，0维张量是标量，1维张量是向量</td>
+<td>大写（<code>X</code>）</td>
+</tr>
+</tbody></table>
+<h2 id="3-4-随机张量"><a href="#3-4-随机张量" class="headerlink" title="3.4 随机张量"></a>3.4 随机张量</h2><p>我们已经确定张量代表了某种形式的数据。</p>
+<p>机器学习模型，比如神经网络，会操作张量并在其中寻找模式。</p>
+<p>但在使用PyTorch构建机器学习模型时，你很少会手工创建张量（就像我们之前所做的那样）。</p>
+<p>相反，机器学习模型通常从大量的随机数张量开始，并在处理数据时调整这些随机数，以便更好地表示数据。</p>
+<p>本质上是：</p>
+<p><code>从随机数开始 -&gt; 查看数据 -&gt; 更新随机数 -&gt; 查看数据 -&gt; 更新随机数...</code></p>
+<p>作为数据科学家，你可以定义机器学习模型如何开始（初始化）、查看数据（表示）以及更新（优化）其随机数。</p>
+<p>我们稍后将亲身实践这些步骤。</p>
+<p>现在，让我们看看如何创建一个随机数张量。</p>
+<p>我们可以使用 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.rand.html"><code>torch.rand()</code></a> 并传入 <code>size</code> 参数来实现。</p>
+<pre><code class="Python">random_tensor = torch.rand(size=(3, 4))
+print(random_tensor)
+print(random_tensor.dtype)
+</code></pre>
+<p><code>torch.rand()</code> 的灵活性在于我们可以调整 <code>size</code> 参数为任何我们想要的值。</p>
+<p>例如，假设你想要一个常见图像形状的随机张量 <code>[224, 224, 3]</code>（<code>[高度，宽度，颜色通道]</code>）。</p>
+<pre><code class="Python">random_image_size_tensor = torch.rand(size=(224, 224, 3))
+print(random_image_size_tensor.shape)
+print(random_image_size_tensor.ndim)
+</code></pre>
+<h2 id="3-5-零一张量"><a href="#3-5-零一张量" class="headerlink" title="3.5 零一张量"></a>3.5 零一张量</h2><p>有时候你可能只想用零或一来填充张量。</p>
+<p>这种情况在掩码操作中很常见（比如用零掩码一个张量中的一些值，以让模型知道不要学习这些值）。</p>
+<p>让我们使用 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.zeros.html"><code>torch.zeros()</code></a> 创建一个全零的张量。</p>
+<p>同样，<code>size</code> 参数在这里起作用。</p>
+<pre><code class="Python">zeros = torch.zeros(size=(3, 4))
+print(zeros)
+print(zeros.dtype)
+</code></pre>
+<p>我们可以做同样的事情来创建一个全一的张量，只是使用 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.ones.html"><code>torch.ones()</code></a> 代替。</p>
+<p>使用 <code>torch.ones()</code> 函数时，你可以通过指定 <code>size</code> 参数来创建一个指定形状的张量，其中所有元素都是1。</p>
+<pre><code class="Python">ones = torch.ones(size=(3, 4))
+print(ones)
+print(ones.dtype)
+</code></pre>
+<h2 id="3-6-创建一个范围和类似的张量"><a href="#3-6-创建一个范围和类似的张量" class="headerlink" title="3.6 创建一个范围和类似的张量"></a>3.6 创建一个范围和类似的张量</h2><p>有时候你可能想要一系列数字，比如从1到10或者从0到100。</p>
+<p>你可以使用 <code>torch.arange(start, end, step)</code> 来实现这一点。</p>
+<p>其中：</p>
+<ul>
+<li><code>start</code> &#x3D; 范围的开始（例如 0）</li>
+<li><code>end</code> &#x3D; 范围的结束（例如 10）</li>
+<li><code>step</code> &#x3D; 每个值之间的步长（例如 1）</li>
+</ul>
+<blockquote>
+<p><strong>注意：</strong> 在Python中，你可以使用 <code>range()</code> 来创建一个范围。然而在PyTorch中，<code>torch.range()</code> 已经被弃用，可能会显示错误。</p>
+</blockquote>
+<pre><code class="Python"># 下面这一行代码可能会报错
+zero_to_ten_deprecated = torch.range(0, 10)
+
+# 建议用下面这一行
+zero_to_ten = torch.arange(start=0, end=10, step=1)
+print(zero_to_ten)
+</code></pre>
+<p>有时候你可能想要一个与另一个张量形状相同的特定类型的张量。</p>
+<p>例如，一个与之前张量形状相同的全零张量。</p>
+<p>为此，你可以使用 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.zeros_like.html"><code>torch.zeros_like(input)</code></a> 或者 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/1.9.1/generated/torch.ones_like.html"><code>torch.ones_like(input)</code></a>，它们分别返回一个与 <code>input</code> 形状相同但填充了零或一的张量。</p>
+<p>使用 <code>torch.zeros_like(input)</code> 和 <code>torch.ones_like(input)</code> 函数时，你只需要提供一个已有的张量作为 <code>input</code> 参数，这两个函数就会返回一个新的张量，其形状与输入张量相同，但所有元素分别是0或1。</p>
+<pre><code class="Python">ten_zeros = torch.zeros_like(input=zero_to_ten)
+print(ten_zeors)
+</code></pre>
+<h2 id="3-7-张量数据类型"><a href="#3-7-张量数据类型" class="headerlink" title="3.7 张量数据类型"></a>3.7 张量数据类型</h2><p>在PyTorch中有许多不同的<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/tensors.html#data-types">张量数据类型</a>。</p>
+<p>有些是特定于CPU的，有些则更适合GPU。</p>
+<p>了解它们可能需要一些时间。</p>
+<p>通常，如果你在任何地方看到 <code>torch.cuda</code>，那么这个张量是用于GPU的（因为Nvidia GPU使用一个名为CUDA的计算工具包）。</p>
+<p>最常见的类型（通常也是默认类型）是<code>torch.float32</code>或<code>torch.float</code>。</p>
+<p>这被称为“32位浮点数”。</p>
+<p>但也有16位浮点数（<code>torch.float16</code> 或 <code>torch.half</code>）和64位浮点数（<code>torch.float64</code> 或 <code>torch.double</code>）。</p>
+<p>还有8位、16位、32位和64位整数。</p>
+<p>还有更多！</p>
+<blockquote>
+<p><strong>注意：</strong> 整数是一个平坦的圆形数字，如 <code>7</code>，而浮点数有一个小数 <code>7.0</code>。</p>
+</blockquote>
+<p>所有这些的原因与<strong>计算中的精度</strong>有关。</p>
+<p>精度是用来描述一个数字的细节量。</p>
+<p>精度值越高（8、16、32），用来表达一个数字的细节和数据就越多。</p>
+<p>这在深度学习和数值计算中很重要，因为你正在进行如此多的操作，你拥有的细节越多，你就需要使用更多的计算资源。</p>
+<p>因此，低精度数据类型通常计算速度更快，但在评估指标如准确性上会牺牲一些性能（计算速度更快但准确性较低）。</p>
+<blockquote>
+<p><strong>资源：</strong></p>
+</blockquote>
+<ul>
+<li>请参阅<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/tensors.html#data-types">PyTorch文档</a>，了解所有可用张量数据类型的列表。</li>
+<li>阅读<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Precision_(computer_science)">维基百科页面</a>，了解计算中精度的概述。</li>
+</ul>
+<p>让我们看看如何创建具有特定数据类型的张量。我们可以使用<code>dtype</code>参数来实现。</p>
 
     </div>
     
