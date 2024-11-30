@@ -349,3 +349,451 @@ print(ten_zeors)
 
 让我们看看如何创建具有特定数据类型的张量。我们可以使用`dtype`参数来实现。
 
+```Python
+float_32_tensor = torch.tensor([3.0, 6.0, 9.0],
+                               dtype=None, 
+                               device=None, 
+                               requires_grad=False)
+print(float_32_tensor.shape)
+print(float_32_tensor.dtype)
+print(float_32_tensor.device)
+```
+除了形状问题（张量形状不匹配）之外，你在PyTorch中遇到的另外两个最常见的问题就是数据类型和设备问题。
+
+例如，一个张量是`torch.float32`，而另一个是`torch.float16`（PyTorch通常希望张量是相同的格式）。
+
+或者你的一个张量在CPU上，而另一个在GPU上（PyTorch希望张量之间的计算在同一设备上进行）。
+
+我们稍后会更多地讨论设备问题。
+
+现在，让我们创建一个`dtype=torch.float16`的数据类型的张量。
+
+``` Python
+float_16_tensor = torch.tensor([3.0, 6.0, 9.0],
+                               dtype=torch.float16)
+
+float_16_tensor.dtype
+```
+## 3.8 从张量中获取信息
+一旦你创建了张量（或者别人为你创建了张量，或者PyTorch模块为你创建了它们），你可能想要从它们那里获取一些信息。
+
+我们已经见过这些，但是关于张量，你最想了解的三个最常见的属性是：
+* `shape` - 张量的形状是什么？（一些操作需要特定的形状规则）
+* `dtype` - 张量内部的元素存储的数据类型是什么？
+* `device` - 张量存储在哪个设备上？（通常是GPU或CPU）
+
+让我们创建一个随机张量，并找出有关它的详细信息。
+
+```Python
+# Create a tensor
+some_tensor = torch.rand(3, 4)
+
+# Find out details about it
+print(some_tensor)
+print(f"张量的 shape : {some_tensor.shape}")
+print(f"张量的类型 : {some_tensor.dtype}")
+print(f"张量存储的位置 : {some_tensor.device}")
+```
+> **注意：** 当你在PyTorch中遇到问题时，这通常与上述三个属性中的一个有关。
+
+## 3.9 张量运算
+在深度学习中，数据（图像、文本、视频、音频、蛋白质结构等）被表示为张量。
+
+模型通过研究这些张量并在张量上执行一系列操作（可能是100万次以上）来创建输入数据中模式的表示。
+
+这些操作通常是在以下几项之间进行的：
+* 加法
+* 减法
+* 乘法（逐元素）
+* 除法
+* 矩阵乘法
+
+仅此而已。当然，这里和那里还有一些其他的操作，但这些是神经网络的基本构建块。
+
+以正确的方式堆叠这些构建块，你可以创建最复杂的神经网络（就像乐高积木一样！）。
+
+### 3.9.1 基本操作
+
+让我们从几个基本操作开始，加法（`+`）、减法（`-`）、乘法（`*`）。
+
+它们的工作方式正如你所想象的那样。
+```Python
+tensor = torch.tensor([1, 2, 3])
+print(tensor + 10)
+print(tensor * 10)
+```
+
+注意到上面的张量值最终并没有变成 `tensor([110, 120, 130])`，这是因为张量内部的值除非被重新赋值，否则不会改变。
+
+```Python
+print(tensor)
+```
+好的，让我们从一个数字中减去，并这次我们将重新赋值给 tensor 变量。
+```Python
+tensor = tensor - 10
+print(tensor)
+```
+```Python
+tensor = tensor + 10
+print(tensor)
+```
+
+PyTorch还提供了许多内置函数，比如 [`torch.mul()`](https://pytorch.org/docs/stable/generated/torch.mul.html#torch.mul)（乘法的简称）和 [`torch.add()`](https://pytorch.org/docs/stable/generated/torch.add.html)，用于执行基本操作。
+
+这些内置函数提供了一种不使用Python运算符（如 `*` 和 `+` ）而是使用PyTorch函数的方式来执行张量运算，这在某些情况下非常有用，比如当需要明确指定操作的维度或者当需要保持操作的梯度信息时。
+
+```Python
+print(torch.multiply(tensor, 10))
+
+print(tensor)
+```
+
+然而，更常见的是使用操作符符号，如 `*`，而不是 `torch.mul()`。
+
+```Python
+print(tensor, "*", tensor)
+print("Equals:", tensor * tensor)
+```
+### 3.9.2 矩阵乘法
+
+在机器学习和深度学习算法（如神经网络）中最常用的操作之一是[矩阵乘法](https://www.mathsisfun.com/algebra/matrix-multiplying.html)。
+
+PyTorch在[`torch.matmul()`](https://pytorch.org/docs/stable/generated/torch.matmul.html)方法中实现了矩阵乘法功能。
+
+需要记住的矩阵乘法的两个主要规则是：
+
+1. **内维度**必须匹配：
+  * `(3, 2) @ (3, 2)` 不可行
+  * `(2, 3) @ (3, 2)` 可行
+  * `(3, 2) @ (2, 3)` 可行
+2. 结果矩阵的形状是**外维度**的形状：
+ * `(2, 3) @ (3, 2)` -> `(2, 2)`
+ * `(3, 2) @ (2, 3)` -> `(3, 3)`
+
+> **注意：** 在Python中，"`@`"是矩阵乘法的符号。
+
+> **资源：** 你可以在[PyTorch文档](https://pytorch.org/docs/stable/generated/torch.matmul.html)中查看使用`torch.matmul()`进行矩阵乘法的所有规则。
+
+让我们创建一个张量，并在其上执行逐元素乘法和矩阵乘法。
+
+```Python
+import torch
+tensor = torch.tensor([1, 2, 3])
+print(tensor.shape)
+```
+逐元素乘法和矩阵乘法之间的差异在于值的相加方式。
+
+对于我们的 `tensor` 变量，其值为 `[1, 2, 3]`：
+
+| 操作 | 计算 | 代码 |
+| ----- | ----- | ----- |
+| **逐元素乘法** | `[1*1, 2*2, 3*3]` = `[1, 4, 9]` | `tensor * tensor` |
+| **矩阵乘法** | `[1*1 + 2*2 + 3*3]` = `[14]` | `tensor.matmul(tensor)` |
+
+```Python
+print(tensor * tensor)
+
+print(torch.matmul(tensor, tensor))
+
+print(tensor @ tensor)
+```
+
+你可以手工进行矩阵乘法，但不建议这样做。
+
+内置的 `torch.matmul()` 方法更快。
+
+```Python
+%%time
+# 手动计算 be like：
+value = 0
+for i in range(len(tensor)):
+  value += tensor[i] * tensor[i]
+print(value)
+```
+```Python
+%%time
+# 用函数计算 be like：
+torch.matmul(tensor, tensor)
+```
+### 3.9.3 深度学习中最常见错误之一（形状错误）
+
+由于深度学习的大部分内容涉及矩阵的乘法和操作，而矩阵对于形状和大小的组合有严格的规则，因此你在深度学习中最常见的错误之一就是形状不匹配。
+```Python
+# 下面这个代码会报错
+tensor_A = torch.tensor([[1, 2],
+                         [3, 4],
+                         [5, 6]], dtype=torch.float32)
+
+tensor_B = torch.tensor([[7, 10],
+                         [8, 11], 
+                         [9, 12]], dtype=torch.float32)
+
+torch.matmul(tensor_A, tensor_B) # (this will error)
+```
+我们可以通过使 `tensor_A` 和 `tensor_B` 的内维度匹配来实现它们之间的矩阵乘法。
+
+实现这一点的方法之一是使用**转置**（交换给定张量的维度）。
+
+你可以使用以下任一方法在PyTorch中执行转置：
+* `torch.transpose(input, dim0, dim1)` - 其中 `input` 是要转置的张量，`dim0` 和 `dim1` 是要交换的维度。
+* `tensor.T` - 其中 `tensor` 是要转置的张量。
+
+我们来尝试后者。
+```Python
+print(tensor_A)
+print(tensor_B)
+```
+```Python
+print(tensor_A)
+print(tensor_B.T)
+```
+```Python
+print(f"Original shapes: tensor_A = {tensor_A.shape}, tensor_B = {tensor_B.shape}\n")
+print(f"New shapes: tensor_A = {tensor_A.shape} (same as above), tensor_B.T = {tensor_B.T.shape}\n")
+print(f"Multiplying: {tensor_A.shape} * {tensor_B.T.shape} <- inner dimensions match\n")
+print("Output:\n")
+output = torch.matmul(tensor_A, tensor_B.T)
+print(output) 
+print(f"\nOutput shape: {output.shape}")
+```
+
+您也可以使用 [`torch.mm()`](https://pytorch.org/docs/stable/generated/torch.mm.html)，它是 `torch.matmul()` 的简称。
+
+`torch.mm()` 是一个用于矩阵乘法的便捷函数，它是 `torch.matmul()` 的别名，专门用于矩阵乘法操作。这个函数适用于两个二维张量的乘法，其中第一个张量的列数必须与第二个张量的行数相匹配。结果张量将具有与第一个张量相同的行数和与第二个张量相同的列数。
+```Python
+print(torch.mm(tensor_A, tensor_B.T))
+```
+### 3.9.4 神经网络中的矩阵运算
+神经网络中充满了矩阵乘法和点积。
+
+[`torch.nn.Linear()`](https://pytorch.org/docs/1.9.1/generated/torch.nn.Linear.html) 模块（我们稍后将实际看到它的应用），也称为前馈层或全连接层，实现了输入 `x` 和权重矩阵 `A` 之间的矩阵乘法。
+
+$$
+y = x \cdot A^T + b
+$$
+
+其中：
+* `x` 是该层的输入（深度学习是像 `torch.nn.Linear()` 这样的层堆叠在一起）。
+* `A` 是由该层创建的权重矩阵，这最初是随机数，随着神经网络学习以更好地表示数据中的模式而进行调整（注意 "`T`"，这是因为权重矩阵需要转置）。
+  * **注意：** 你可能还会经常看到 `W` 或其他字母如 `X` 用来表示权重矩阵。
+* `b` 是偏置项，用于轻微偏移权重和输入。
+* `y` 是输出（对输入的操纵，希望发现其中的模式）。
+
+这是一个线性函数（你可能在高中或其他场合见过类似 $y = mx + b$ 的东西），可以用来画一条直线！
+
+让我们来玩转一下线性层。
+
+尝试改变下面的 `in_features` 和 `out_features` 的值，看看会发生什么。
+
+你有没有注意到与形状有关的任何事情？
+```Python
+# Since the linear layer starts with a random weights matrix, let's make it reproducible (more on this later)
+print(torch.manual_seed(42))
+# This uses matrix multiplication
+linear = torch.nn.Linear(in_features=2, # in_features = matches inner dimension of input 
+                         out_features=6) # out_features = describes outer value 
+print(x = tensor_A)
+output = linear(x)
+print(f"Input shape: {x.shape}\n")
+print(f"Output:\n{output}\n\nOutput shape: {output.shape}")
+```
+> **问题：** 如果你将上面的 `in_features` 从 2 改为 3 会发生什么？会出现错误吗？你如何改变输入（`x`）的形状以适应这个错误？提示：我们之前对 `tensor_B` 做了什么？
+
+### 3.9.5 寻找最小值、最大值、平均值、总和等（聚合）
+
+现在我们已经看到了一些操作张量的方法，让我们来了解一些聚合它们的方法（从多个值变为较少的值）。
+
+首先，我们将创建一个张量，然后找到它的最大值、最小值、平均值和总和。
+```Python
+x = torch.arange(0, 100, 10)
+print(x)
+
+print(f"Minimum: {x.min()}")
+print(f"Maximum: {x.max()}")
+# print(f"Mean: {x.mean()}") # this will error
+print(f"Mean: {x.type(torch.float32).mean()}") # won't work without float datatype
+print(f"Sum: {x.sum()}")
+```
+
+> **注意：** 你可能会发现一些方法，比如 `torch.mean()`，要求张量必须是 `torch.float32`（最常见的）或另一种特定的数据类型，否则操作将失败。
+
+你也可以使用 `torch` 方法来执行上述相同的操作。
+### 3.9.6 位置最小值/最大值
+
+你还可以分别使用 [`torch.argmax()`](https://pytorch.org/docs/stable/generated/torch.argmax.html) 和 [`torch.argmin()`](https://pytorch.org/docs/stable/generated/torch.argmin.html) 来找到张量中最大值或最小值出现的位置索引。
+
+这在你只想要最高（或最低）值的位置而不是实际值本身时非常有用（我们将在稍后使用[softmax激活函数](https://pytorch.org/docs/stable/generated/torch.nn.Softmax.html)的章节中看到这一点）。
+
+```Python
+# Create a tensor
+tensor = torch.arange(10, 100, 10)
+print(f"Tensor: {tensor}")
+
+# Returns index of max and min values
+print(f"Index where max value occurs: {tensor.argmax()}")
+print(f"Index where min value occurs: {tensor.argmin()}")
+```
+
+### 3.9.7 改变张量数据类型
+
+正如前面提到的，深度学习操作中一个常见的问题是张量的数据类型不同。
+
+如果一个张量是 `torch.float64` 而另一个是 `torch.float32`，你可能会碰到一些错误。
+
+但是有一个解决办法。
+
+你可以使用 [`torch.Tensor.type(dtype=None)`](https://pytorch.org/docs/stable/generated/torch.Tensor.type.html) 来改变张量的数据类型，其中 `dtype` 参数是你想要使用的数据类型。
+
+首先，我们将创建一个张量并检查其数据类型（默认是 `torch.float32`）。
+```Python
+# Create a tensor and check its datatype
+tensor = torch.arange(10., 100., 10.)
+print(tensor.dtype)
+```
+现在我们将创建一个与之前相同的张量，但是将其数据类型更改为 `torch.float16`。
+```Python
+tensor_float16 = tensor.type(torch.float16)
+print(tensor_float16)
+```
+我们也可以进行类似的操作来创建一个 `torch.int8` 类型的张量。
+```Python
+tensor_int8 = tensor.type(torch.int8)
+print(tensor_int8)
+```
+> **注意：** 不同的数据类型一开始可能会让人感到困惑。但可以这样理解，数字越小（例如32、16、8），计算机存储该值的精度就越低。存储量越少，通常意味着更快的计算速度和更小的模型总体大小。基于移动设备的神经网络通常使用8位整数进行操作，它们比float32的对应物更小、运行更快，但准确度较低。想要了解更多，可以阅读关于[计算中的精度](https://en.wikipedia.org/wiki/Precision_(computer_science))的内容。
+
+> **练习：** 到目前为止，我们已经介绍了一些张量方法，但在 [`torch.Tensor` 文档](https://pytorch.org/docs/stable/tensors.html) 中还有更多。我建议你花10分钟浏览一下，看看有没有引起你注意的方法。点击它们，然后在代码中自己尝试编写这些方法，看看会发生什么。
+
+### 3.9.8 重塑、堆叠、压缩和取消压缩
+
+很多时候，你可能想要重塑或改变你的张量的维度，而实际上并不改变它们内部的值。
+
+为此，一些常用的方法如下：
+
+| 方法 | 一句话描述 |
+| ----- | ----- |
+| [`torch.reshape(input, shape)`](https://pytorch.org/docs/stable/generated/torch.reshape.html#torch.reshape) | 将 `input` 重塑为 `shape`（如果兼容），也可以使用 `torch.Tensor.reshape()`。 |
+| [`Tensor.view(shape)`](https://pytorch.org/docs/stable/generated/torch.Tensor.view.html) | 返回原始张量的一个视图，其形状不同 `shape`，但与原始张量共享相同的数据。 |
+| [`torch.stack(tensors, dim=0)`](https://pytorch.org/docs/1.9.1/generated/torch.stack.html) | 沿着一个新的维度（`dim`）连接一系列 `tensors`，所有的 `tensors` 必须大小相同。 |
+| [`torch.squeeze(input)`](https://pytorch.org/docs/stable/generated/torch.squeeze.html) | 压缩 `input` 以移除所有值为 `1` 的维度。 |
+| [`torch.unsqueeze(input, dim)`](https://pytorch.org/docs/1.9.1/generated/torch.unsqueeze.html) | 返回 `input`，并在 `dim` 处添加一个值为 `1` 的维度。 |
+| [`torch.permute(input, dims)`](https://pytorch.org/docs/stable/generated/torch.permute.html) | 返回原始 `input` 的一个视图，其维度被置换（重新排列）为 `dims`。 |
+
+为什么要使用这些方法？
+
+因为深度学习模型（神经网络）都是以某种方式操作张量。由于矩阵乘法的规则，如果你有形状不匹配的问题，你会遇到错误。这些方法帮助你确保你的张量的正确的元素与其他张量的正确的元素混合。
+
+让我们来尝试一下它们。
+
+首先，我们将创建一个张量。
+
+```Python
+import torch
+x = torch.arange(1., 8.)
+print(x)
+print(x.shape)
+```
+
+```Python
+# Add an extra dimension
+x_reshaped = x.reshape(1, 7)
+print(x_reshaped)
+print(x_reshaped.shape)
+```
+
+```Python
+# Change view (keeps same data as original but changes view)
+# See more: https://stackoverflow.com/a/54507446/7900723
+z = x.view(1, 7)
+print(z)
+print(z.shape)
+```
+
+请记住，使用 `torch.view()` 改变张量的视图实际上只创建了同一个张量的*新视图*。
+
+所以改变视图也会改变原始张量。
+
+```Python
+z[:, 0] = 5
+print(z)
+print(x)
+```
+
+```Python
+# Stack tensors on top of each other
+x_stacked = torch.stack([x, x, x, x], dim=0) # try changing dim to dim=1 and see what happens
+print(x_stacked)
+```
+
+那么，如何从张量中移除所有单一维度呢？
+
+为此，你可以使用 `torch.squeeze()`（我记作*挤压*张量，使其只有大于1的维度）。
+
+```Python
+print(f"Previous tensor: {x_reshaped}")
+print(f"Previous shape: {x_reshaped.shape}")
+
+# Remove extra dimension from x_reshaped
+x_squeezed = x_reshaped.squeeze()
+print(f"\nNew tensor: {x_squeezed}")
+print(f"New shape: {x_squeezed.shape}")
+```
+
+要执行 `torch.squeeze()` 的反向操作，你可以使用 `torch.unsqueeze()` 在特定索引处添加一个值为1的维度。
+
+```Python
+print(f"Previous tensor: {x_squeezed}")
+print(f"Previous shape: {x_squeezed.shape}")
+
+## Add an extra dimension with unsqueeze
+x_unsqueezed = x_squeezed.unsqueeze(dim=0)
+print(f"\nNew tensor: {x_unsqueezed}")
+print(f"New shape: {x_unsqueezed.shape}")
+```
+
+你还可以使用 `torch.permute(input, dims)` 重新排列轴的顺序，其中 `input` 被转换成具有新 `dims` 的*视图*。
+
+```Python
+# Create tensor with specific shape
+x_original = torch.rand(size=(224, 224, 3))
+
+# Permute the original tensor to rearrange the axis order
+x_permuted = x_original.permute(2, 0, 1) # shifts axis 0->1, 1->2, 2->0
+
+print(f"Previous shape: {x_original.shape}")
+print(f"New shape: {x_permuted.shape}")
+```
+
+> **注意**：因为置换返回的是一个*视图*（与原始数据共享相同的数据），所以置换后的张量中的值将与原始张量的值相同，如果你在视图中改变值，原始张量的值也会改变。
+
+## 3.10 索引（从张量中选择数据）
+
+有时你想要从张量中选择特定的数据（例如，仅第一列或第二行）。
+
+为此，你可以使用索引。
+
+如果你曾经在Python列表或NumPy数组上进行过索引，那么在PyTorch中对张量进行索引是非常相似的。
+
+```Python
+import torch
+x = torch.arange(1, 10).reshape(1, 3, 3)
+x, x.shape
+```
+索引值从外维度到内维度（检查一下方括号）。
+```Python
+print(f"First square bracket:\n{x[0]}") 
+print(f"Second square bracket: {x[0][0]}") 
+print(f"Third square bracket: {x[0][0][0]}")
+```
+
+你还可以使用 `:` 来指定“这个维度的所有值”，然后使用逗号（`,`）来添加另一个维度。
+
+```Python
+print(x[:, 0])
+print(x[:, :, 1])
+print(x[:, 1, 1])
+print(x[0, 0, :])
+```
+
+索引一开始可能会相当令人困惑，特别是对于较大的张量（我仍然需要尝试多次索引才能正确）。但通过一些练习，并遵循数据探索者的座右铭（***可视化，可视化，再可视化***），你将开始掌握它。
+
