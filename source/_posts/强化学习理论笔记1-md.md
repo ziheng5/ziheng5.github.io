@@ -569,7 +569,7 @@ print(torch.mm(tensor_A, tensor_B.T))
 [`torch.nn.Linear()`](https://pytorch.org/docs/1.9.1/generated/torch.nn.Linear.html) 模块（我们稍后将实际看到它的应用），也称为前馈层或全连接层，实现了输入 `x` 和权重矩阵 `A` 之间的矩阵乘法。
 
 $$
-y = x \cdot A^T + b
+y = x \\cdot A^T + b
 $$
 
 其中：
