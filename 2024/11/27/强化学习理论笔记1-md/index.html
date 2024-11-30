@@ -189,14 +189,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/PyTorch/" style="color: #00bcd4">
+                <a href="/tags/PyTorch/" style="color: #03a9f4">
                     PyTorch
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
                     深度学习
                 </a>
             </span>
@@ -668,7 +668,7 @@ print(f&quot;\nOutput shape: &#123;output.shape&#125;&quot;)
 </code></pre>
 <h3 id="3-9-4-神经网络中的矩阵运算"><a href="#3-9-4-神经网络中的矩阵运算" class="headerlink" title="3.9.4 神经网络中的矩阵运算"></a>3.9.4 神经网络中的矩阵运算</h3><p>神经网络中充满了矩阵乘法和点积。</p>
 <p><a target="_blank" rel="noopener" href="https://pytorch.org/docs/1.9.1/generated/torch.nn.Linear.html"><code>torch.nn.Linear()</code></a> 模块（我们稍后将实际看到它的应用），也称为前馈层或全连接层，实现了输入 <code>x</code> 和权重矩阵 <code>A</code> 之间的矩阵乘法。</p>
-<p>$$<br>y &#x3D; x \cdot A^T + b<br>$$</p>
+<p>$$<br>y &#x3D; xA^T + b<br>$$</p>
 <p>其中：</p>
 <ul>
 <li><code>x</code> 是该层的输入（深度学习是像 <code>torch.nn.Linear()</code> 这样的层堆叠在一起）。</li>
