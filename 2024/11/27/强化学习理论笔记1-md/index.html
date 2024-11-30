@@ -189,14 +189,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/PyTorch/" style="color: #00a596">
+                <a href="/tags/PyTorch/" style="color: #00bcd4">
                     PyTorch
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
                     深度学习
                 </a>
             </span>
@@ -210,7 +210,7 @@
 <p>本文是我为了授课而编写的一篇文档，可以作为一门引导课程供尚未了解深度学习的新人学习<br>考虑到时间问题，本文档内容较为简略，只适用于了解深度学习与 PyTorch，正常学习请参考视频网站📽或网络教程💻与书籍📖</p>
 </blockquote>
 <h1 id="1-深度学习部分"><a href="#1-深度学习部分" class="headerlink" title="1. 深度学习部分"></a>1. 深度学习部分</h1><h2 id="1-1-深度学习是什么？"><a href="#1-1-深度学习是什么？" class="headerlink" title="1.1 深度学习是什么？"></a>1.1 深度学习是什么？</h2><p><img src="/./images/class/deep-learning.png" alt="deep-learning"></p>
-<p>深度学习是机器学习下的一个基于深度神经网络的子领域。</p>
+<p>深度学习是机器学习下的一个基于深度神经网络的机器学习方法，能够从海量数据和知识中学习，从而一定程度上具备了人的能力。</p>
 <p><img src="/./images/class/nn.png" alt="nn"></p>
 <p>深度学习是一种结构启发的机器学习，人脑在深度学习方面的结构，被称为人工神经网络</p>
 <h1 id="2-PyTorch-简介"><a href="#2-PyTorch-简介" class="headerlink" title="2. PyTorch 简介"></a>2. PyTorch 简介</h1><h2 id="2-1-什么是-PyTorch❓"><a href="#2-1-什么是-PyTorch❓" class="headerlink" title="2.1 什么是 PyTorch❓"></a>2.1 什么是 PyTorch❓</h2><p>PyTorch 是当下最热门的开源机器学习与深度学习框架。</p>
@@ -862,7 +862,53 @@ print(x[:, :, 1])
 print(x[:, 1, 1])
 print(x[0, 0, :])
 </code></pre>
-<p>索引一开始可能会相当令人困惑，特别是对于较大的张量（我仍然需要尝试多次索引才能正确）。但通过一些练习，并遵循数据探索者的座右铭（<em><strong>可视化，可视化，再可视化</strong></em>），你将开始掌握它。</p>
+<p>索引一开始可能会相当令人困惑，特别是对于较大的张量（我仍然需要尝试多次索引才能正确）。但通过一些练习，并不断尝试对数据进行可视化，你将开始掌握它。</p>
+<h2 id="3-11-PyTorch-张量与-Numpy-数组"><a href="#3-11-PyTorch-张量与-Numpy-数组" class="headerlink" title="3.11 PyTorch 张量与 Numpy 数组"></a>3.11 PyTorch 张量与 Numpy 数组</h2><p>由于 NumPy 是一个流行的 Python 数值计算库，因此 PyTorch 具有与其良好交互的功能。</p>
+<p>你需要用于 NumPy 到 PyTorch（以及返回）的两种主要方法是：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.from_numpy.html"><code>torch.from_numpy(ndarray)</code></a> - NumPy 数组 -&gt; PyTorch 张量。</li>
+<li><a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.Tensor.numpy.html"><code>torch.Tensor.numpy()</code></a> - PyTorch 张量 -&gt; NumPy 数组。</li>
+</ul>
+<p>让我们尝试一下。</p>
+<pre><code class="Python"># NumPy array to tensor
+import torch
+import numpy as np
+array = np.arange(1.0, 8.0)
+tensor = torch.from_numpy(array)
+print(array)
+print(tensor)
+</code></pre>
+<blockquote>
+<p><strong>注意</strong>：默认情况下，NumPy 数组是使用数据类型 <code>float64</code> 创建的，如果将其转换为 PyTorch 张量，它将保留相同的数据类型（如上所示）。</p>
+<p>但是，许多 PyTorch 计算默认使用 <code>float32</code>。</p>
+<p>因此，如果要将 NumPy 数组 (float64) -&gt; PyTorch 张量 (float64) -&gt; PyTorch 张量 (float32)，可以使用 <code>tensor = torch.from_numpy(array).type(torch.float32)</code>。</p>
+</blockquote>
+<p>因为我们在上面重新分配了 <code>tensor</code>，所以如果更改张量，数组将保持不变。</p>
+<pre><code class="Python"># Change the array, keep the tensor
+array = array + 1
+array, tensor
+</code></pre>
+<p>如果你想从 PyTorch 张量转换为 NumPy 数组，你可以调用 <code>tensor.numpy()</code>。</p>
+<pre><code class="Python"># Tensor to NumPy array
+tensor = torch.ones(7) # create a tensor of ones with dtype=float32
+numpy_tensor = tensor.numpy() # will be dtype=float32 unless changed
+tensor, numpy_tensor
+</code></pre>
+<p>与上述相同的规则适用，如果你改变原始的“张量”，新的 <code>numpy_tensor</code> 保持不变。</p>
+<pre><code class="Python"># Change the tensor, keep the array the same
+tensor = tensor + 1
+tensor, numpy_tensor
+</code></pre>
+<h1 id="4-尾声"><a href="#4-尾声" class="headerlink" title="4. 尾声"></a>4. 尾声</h1><blockquote>
+<p>⚠️下面内容为个人推荐，具体情况视自身而定</p>
+</blockquote>
+<h2 id="4-1-理论课程推荐"><a href="#4-1-理论课程推荐" class="headerlink" title="4.1 理论课程推荐"></a>4.1 理论课程推荐</h2><p>吴恩达深度学习课程： BV1FT4y1E74V（BV号）</p>
+<h2 id="4-2-PyTorch-教程推荐"><a href="#4-2-PyTorch-教程推荐" class="headerlink" title="4.2 PyTorch 教程推荐"></a>4.2 PyTorch 教程推荐</h2><p>土堆：B站up主“我是土堆”</p>
+<h2 id="4-3-深度学习实践网站推荐"><a href="#4-3-深度学习实践网站推荐" class="headerlink" title="4.3 深度学习实践网站推荐"></a>4.3 深度学习实践网站推荐</h2><ol>
+<li>GitHub（多读读别人的开源项目）</li>
+<li>Kaggle（对于不同的问题，可以多参考不同人的思路与代码，能够大大提高利用深度学习理论知识、PyTorch框架来解决实际问题的能力）</li>
+</ol>
+<h2 id="4-4-杂谈"><a href="#4-4-杂谈" class="headerlink" title="4.4 杂谈"></a>4.4 杂谈</h2><p>（略）</p>
 
     </div>
     
