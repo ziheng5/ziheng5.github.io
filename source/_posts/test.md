@@ -6,7 +6,8 @@ tags:
 categories:
     - 杂谈
 description: |
-    个人简介 
+    个人简介——我是谁喵？
+pinned: 100
 ---
 ## 1. 出生点
 一名来自江苏宿迁的年轻人🧒

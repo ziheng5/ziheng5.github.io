@@ -141,7 +141,7 @@ print(scalar.item())
 vector = torch.tensor([7, 7])
 print(vector)
 ```
-太好了，`vector` 现在包含了两个7。
+毫德，`vector` 现在包含了两个7。
 
 你认为它将有多少个维度？
 
@@ -161,7 +161,7 @@ print(vector.ndim)
 让我们来检查一下 `vector` 的形状。
 
 ```Python
-print(vector,shape)
+print(vector.shape)
 ```
 
 上述返回 `torch.Size([2])` ，这意味着我们的向量的形状是 `[2]` 。这是因为我们把两个元素放在了方括号内部（`[7, 7]`）。
