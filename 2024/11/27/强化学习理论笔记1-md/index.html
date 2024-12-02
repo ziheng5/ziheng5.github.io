@@ -189,14 +189,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/PyTorch/" style="color: #00bcd4">
+                <a href="/tags/PyTorch/" style="color: #ffa2c4">
                     PyTorch
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
                     深度学习
                 </a>
             </span>
@@ -323,7 +323,7 @@ print(scalar)
 vector = torch.tensor([7, 7])
 print(vector)
 </code></pre>
-<p>太好了，<code>vector</code> 现在包含了两个7。</p>
+<p>毫德，<code>vector</code> 现在包含了两个7。</p>
 <p>你认为它将有多少个维度？</p>
 <pre><code class="Python">print(vector.ndim)
 </code></pre>
@@ -333,7 +333,7 @@ print(vector)
 <p><code>vector</code> 有多少个方括号？</p>
 <p>另一个对张量来说重要的概念是它们的 <code>shape</code> 属性。<code>shape</code> 告诉你它们内部的元素是如何排列的。</p>
 <p>让我们来检查一下 <code>vector</code> 的形状。</p>
-<pre><code class="Python">print(vector,shape)
+<pre><code class="Python">print(vector.shape)
 </code></pre>
 <p>上述返回 <code>torch.Size([2])</code> ，这意味着我们的向量的形状是 <code>[2]</code> 。这是因为我们把两个元素放在了方括号内部（<code>[7, 7]</code>）。</p>
 <h3 id="3-3-3-矩阵"><a href="#3-3-3-矩阵" class="headerlink" title="3.3.3 矩阵"></a>3.3.3 矩阵</h3><p>现在我们来看一个<strong>矩阵</strong>。</p>
