@@ -14,7 +14,7 @@ description: |
 > 
 > 使用前请先安装 torchrl：
 >
-> ```Bash
+> ```Terminal
 > pip install torchrl
 > ```
 
