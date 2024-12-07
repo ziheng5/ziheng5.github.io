@@ -196,14 +196,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/PyTorch/" style="color: #ff7d73">
+                <a href="/tags/PyTorch/" style="color: #00a596">
                     PyTorch
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/TorchRL/" style="color: #ffa2c4">
+                <a href="/tags/TorchRL/" style="color: #03a9f4">
                     TorchRL
                 </a>
             </span>
@@ -216,7 +216,7 @@
         <blockquote>
 <p>TorchRL 是 PyTorch 下的一个用于强化学习的包</p>
 <p>使用前请先安装 torchrl：</p>
-<pre><code class="Bash">pip install torchrl
+<pre><code class="Terminal">pip install torchrl
 </code></pre>
 </blockquote>
 <h1 id="强化学习中的环境"><a href="#强化学习中的环境" class="headerlink" title="强化学习中的环境"></a>强化学习中的环境</h1><h2 id="1-创建环境"><a href="#1-创建环境" class="headerlink" title="1. 创建环境"></a>1. 创建环境</h2><p>实际上，TorchRL 并不直接提供环境，而是为封装模拟器的其他库提供包装器，该 <code>envs</code> 模块可以被视为通用环境 API 的提供者，以及 <a target="_blank" rel="noopener" href="https://gymnasium.farama.org/">gym</a> ( <code>GymEnv</code> )、 Brax ( <code>BraxEnv</code> ) 或 DeepMind Control Suite ( <code>DMControlEnv</code> ) 等模拟后端的中央枢纽。</p>
