@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>TorchRL 入门1 | Cold Rain&#39;s Blog</title>
+    <title>TorchRL 入门 1 | Cold Rain&#39;s Blog</title>
     <meta name="author" content="冷雨" />
     <meta name="description" content="希望能成为一个厉害的人" />
     <meta name="keywords" content="" />
@@ -161,7 +161,7 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>TorchRL 入门1</h1>
+        <h1>TorchRL 入门 1</h1>
     </div>
     <div class="info">
         <span class="date">
@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/RL%EF%BC%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%89/" style="color: #00a596">
+                <a href="/tags/RL%EF%BC%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%89/" style="color: #ffa2c4">
                     RL（强化学习）
                 </a>
             </span>
@@ -203,7 +203,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/TorchRL/" style="color: #03a9f4">
+                <a href="/tags/TorchRL/" style="color: #ffa2c4">
                     TorchRL
                 </a>
             </span>
@@ -213,7 +213,13 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="强化学习中的环境"><a href="#强化学习中的环境" class="headerlink" title="强化学习中的环境"></a>强化学习中的环境</h1><h2 id="1-创建环境"><a href="#1-创建环境" class="headerlink" title="1. 创建环境"></a>1. 创建环境</h2><p>实际上，TorchRL 并不直接提供环境，而是为封装模拟器的其他库提供包装器，该 <code>envs</code> 模块可以被视为通用环境 API 的提供者，以及 <a target="_blank" rel="noopener" href="https://gymnasium.farama.org/">gym</a> ( <code>GymEnv</code> )、 Brax ( <code>BraxEnv</code> ) 或 DeepMind Control Suite ( <code>DMControlEnv</code> ) 等模拟后端的中央枢纽。</p>
+        <blockquote>
+<p>TorchRL 是 PyTorch 下的一个用于强化学习的包</p>
+<p>使用前请先安装 torchrl：</p>
+<pre><code class="Bash">pip install torchrl
+</code></pre>
+</blockquote>
+<h1 id="强化学习中的环境"><a href="#强化学习中的环境" class="headerlink" title="强化学习中的环境"></a>强化学习中的环境</h1><h2 id="1-创建环境"><a href="#1-创建环境" class="headerlink" title="1. 创建环境"></a>1. 创建环境</h2><p>实际上，TorchRL 并不直接提供环境，而是为封装模拟器的其他库提供包装器，该 <code>envs</code> 模块可以被视为通用环境 API 的提供者，以及 <a target="_blank" rel="noopener" href="https://gymnasium.farama.org/">gym</a> ( <code>GymEnv</code> )、 Brax ( <code>BraxEnv</code> ) 或 DeepMind Control Suite ( <code>DMControlEnv</code> ) 等模拟后端的中央枢纽。</p>
 <p>创建环境通常与底层后端 API 允许的一样简单。下面是使用 gym 的示例：</p>
 <pre><code class="Python">from torchrl.envs import GymEnv
 
