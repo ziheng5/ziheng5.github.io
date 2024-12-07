@@ -1,5 +1,5 @@
 ---
-title: TorchRL 入门1
+title: TorchRL 入门 1
 date: 2024-12-07 20:00:00
 tags: 
     - RL（强化学习）
@@ -10,6 +10,14 @@ categories:
 description: |
     Environment, TED 和 transforms
 ---
+> TorchRL 是 PyTorch 下的一个用于强化学习的包
+> 
+> 使用前请先安装 torchrl：
+>
+> ```Bash
+> pip install torchrl
+> ```
+
 # 强化学习中的环境
 ## 1. 创建环境
 实际上，TorchRL 并不直接提供环境，而是为封装模拟器的其他库提供包装器，该 `envs` 模块可以被视为通用环境 API 的提供者，以及 [gym](https://gymnasium.farama.org/) ( `GymEnv` )、 Brax ( `BraxEnv` ) 或 DeepMind Control Suite ( `DMControlEnv` ) 等模拟后端的中央枢纽。
