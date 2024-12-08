@@ -196,7 +196,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/PyTorch/" style="color: #00a596">
+                <a href="/tags/PyTorch/" style="color: #ff7d73">
                     PyTorch
                 </a>
             </span>
@@ -213,7 +213,7 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="开始使用-TorchRL-的模块"><a href="#开始使用-TorchRL-的模块" class="headerlink" title="开始使用 TorchRL 的模块"></a>开始使用 TorchRL 的模块</h1><h2 id="1-TensorDict-模块"><a href="#1-TensorDict-模块" class="headerlink" title="1. TensorDict 模块"></a>1. TensorDict 模块</h2><p>与环境与实例交互的方式类似 <code>TensorDict</code>，用于表示策略和值函数的模块也执行相同的操作。核心思想很简单：将标准 <code>Module</code> （或任何其他函数）封装在一个类中，该类知道需要读取哪些条目并将其传递给模块，然后使用分配的条目记录结果。为了说明这一点，我们将使用最简单的策略：从观察空间到动作空间的确定性映射。为了获得最大的通用性，我们将使用一个带有 <code>LazyLinear</code> 的我们在上一个教程中实例化的 <code>Pendulum</code> 环境的模块。</p>
+        <h1 id="开始使用-TorchRL-的模块"><a href="#开始使用-TorchRL-的模块" class="headerlink" title="开始使用 TorchRL 的模块"></a>开始使用 TorchRL 的模块</h1><h2 id="1-TensorDict-模块"><a href="#1-TensorDict-模块" class="headerlink" title="1. TensorDict 模块"></a>1. TensorDict 模块</h2><p>与环境与实例交互的方式类似 <code>TensorDict</code>，用于表示策略和值函数的模块也执行相同的操作。核心思想很简单：将标准 <code>Module</code> （或任何其他函数）封装在一个类中，该类知道需要读取哪些条目并将其传递给模块，然后使用分配的条目记录结果。为了说明这一点，我们将使用最简单的策略：<strong>从观察空间到动作空间的确定性映射</strong>。为了获得最大的通用性，我们将使用一个带有 <code>LazyLinear</code> 的我们在上一个教程中实例化的 <code>Pendulum</code> 环境的模块。</p>
 <pre><code class="Python">import torch
 
 from torchrl.envs import GymEnv
@@ -226,6 +226,180 @@ policy = TensorDictModule(
     in_keys=[&quot;observation&quot;],
     out_keys=[&quot;action&quot;],
 )
+</code></pre>
+<p>这就是执行我们的策略所需的全部内容！使用惰性模块可以让我们绕过获取观察空间形状的需要，因为模块会自动确定它。此策略现已准备好在环境中运行：</p>
+<pre><code class="Python">rollout = env.rollout(max_steps=10, policy=policy)
+print(rollout)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>TensorDict(<br>    fields&#x3D;{<br>        action: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>        done: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False),<br>        next: TensorDict(<br>            fields&#x3D;{<br>                done: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False),<br>                observation: Tensor(shape&#x3D;torch.Size([10, 3]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>                reward: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>                terminated: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False),<br>                truncated: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False)},<br>            batch_size&#x3D;torch.Size([10]),<br>            device&#x3D;None,<br>            is_shared&#x3D;False),<br>        observation: Tensor(shape&#x3D;torch.Size([10, 3]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>        terminated: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False),<br>        truncated: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False)},<br>    batch_size&#x3D;torch.Size([10]),<br>    device&#x3D;None,<br>    is_shared&#x3D;False)</p>
+</blockquote>
+<h2 id="2-专用的-wrappers"><a href="#2-专用的-wrappers" class="headerlink" title="2. 专用的 wrappers"></a>2. 专用的 wrappers</h2><p>为了简化 <code>Actor</code> 的创建，我们可以使用 <code>ProbabilisticActor</code>、<code>ActorValueOperator</code> 或者 <code>ActorCriticOperator</code>。例如，<code>Actor</code> 为 <code>in_keys</code> 和 <code>out_keys</code> 提供默认值，从而可以直接与许多常见环境集成：</p>
+<pre><code class="Python">from torchrl.modules import Actor
+
+policy = Actor(module)
+rollout = env.rollout(max_steps=10, policy=policy)
+print(rollout)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>TensorDict(<br>    fields&#x3D;{<br>        action: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>        done: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False),<br>        next: TensorDict(<br>            fields&#x3D;{<br>                done: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False),<br>                observation: Tensor(shape&#x3D;torch.Size([10, 3]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>                reward: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>                terminated: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False),<br>                truncated: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False)},<br>            batch_size&#x3D;torch.Size([10]),<br>            device&#x3D;None,<br>            is_shared&#x3D;False),<br>        observation: Tensor(shape&#x3D;torch.Size([10, 3]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>        terminated: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False),<br>        truncated: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False)},<br>    batch_size&#x3D;torch.Size([10]),<br>    device&#x3D;None,<br>    is_shared&#x3D;False)</p>
+</blockquote>
+<p>具体的调用参数可以在 <a target="_blank" rel="noopener" href="https://pytorch.org/rl/stable/reference/modules.html#tdmodules">API文档</a> 中找到。</p>
+<h2 id="3-Network"><a href="#3-Network" class="headerlink" title="3. Network"></a>3. Network</h2><p>TorchRL 还提供了常规模块，无需重复使用 <code>tensordict</code> 特征即可使用。您将遇到的两个最常见的网络是 <code>CNN</code> 和 <code>MLP</code> 模块。我们可以用以下之一替换我们的策略模块：</p>
+<pre><code class="Python">from torchrl.modules import MLP
+
+module = MLP(
+    out_features=env.action_spec.shape[-1],
+    num_cells=[32, 64],
+    activation_class=torch.nn.Tanh,
+)
+policy = Actor(module)
+rollout = env.rollout(max_steps=10, policy=policy)
+</code></pre>
+<p>这里我们创建了一个简单的 <code>MLP</code> 网络结构，下面我们来具体看一看它的结构：</p>
+<pre><code class="Python">print(module)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>MLP(</p>
+<p> (0): Linear(in_features&#x3D;3, out_features&#x3D;32, bias&#x3D;True)</p>
+<p> (1): Tanh()</p>
+<p> (2): Linear(in_features&#x3D;32, out_features&#x3D;64, bias&#x3D;True)</p>
+<p> (3): Tanh()</p>
+<p> (4): Linear(in_features&#x3D;64, out_features&#x3D;1, bias&#x3D;True)</p>
+<p>)</p>
+</blockquote>
+<p>可以看到我们的网络一共有<strong>三层</strong>，<code>num_cells=[32, 64]</code> 代表的是：第一层输出有32个神经元，第二层输出有64个神经元。</p>
+<h2 id="4-概率策略"><a href="#4-概率策略" class="headerlink" title="4. 概率策略"></a>4. 概率策略</h2><p>策略优化算法（如 <code>PPO</code>）要求策略具有随机性：与上述示例不同，模块现在编码了从观察空间到参数空间的映射，该映射对可能的操作的分布进行了编码。TorchRL 通过将各种操作（例如从参数构建分布、从该分布中采样以及检索对数概率）归入单个类来促进此类模块的设计。在这里，我们将使用三个组件构建一个依赖于常规正态分布的 actor：</p>
+<ul>
+<li><p>一个<code>MLP</code>主干读取大小为3的观测值并输出大小为2的单个张量；</p>
+</li>
+<li><p>NormalParamExtractor将此输出分成两块的模块，即大小为的平均值和标准差[1]；</p>
+</li>
+<li><p>它将ProbabilisticActor读取这些参数in_keys，用它们创建一个分布，并用样本和对数概率填充我们的张量字典。</p>
+</li>
+</ul>
+<pre><code class="Python">from tensordict.nn.distributions import NormalParamExtractor
+from torch.distributions import Normal
+from torchrl.modules import ProbabilisticActor
+
+backbone = MLP(in_features=3, out_features=2)   # 默认有4层网络，除了最后一层，每层输出都是32个神经元
+extractor = NormalParamExtractor()
+module = torch.nn.Sequential(backbone, extractor)
+td_module = TensorDictModule(module, in_keys=[&quot;observation&quot;], out_keys=[&quot;loc&quot;, &quot;scale&quot;])
+policy = ProbabilisticActor(
+    td_module,
+    in_keys=[&quot;loc&quot;, &quot;scale&quot;],
+    out_keys=[&quot;action&quot;],
+    distribution_class=Normal,
+    return_log_prob=True,
+)
+
+rollout = env.rollout(max_steps=10, policy=policy)
+print(rollout)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>TensorDict(<br>    fields&#x3D;{<br>        action: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>        done: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False),<br>        loc: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>        next: TensorDict(<br>            fields&#x3D;{<br>                done: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False),<br>                observation: Tensor(shape&#x3D;torch.Size([10, 3]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>                reward: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>                terminated: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False),<br>                truncated: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False)},<br>            batch_size&#x3D;torch.Size([10]),<br>            device&#x3D;None,<br>            is_shared&#x3D;False),<br>        observation: Tensor(shape&#x3D;torch.Size([10, 3]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>        sample_log_prob: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>        scale: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>        terminated: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False),<br>        truncated: Tensor(shape&#x3D;torch.Size([10, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False)},<br>    batch_size&#x3D;torch.Size([10]),<br>    device&#x3D;None,<br>    is_shared&#x3D;False)</p>
+</blockquote>
+<p>这里我们可以查看一下具体参数：</p>
+<pre><code class="Python">print(module)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>Sequential(</p>
+<p> (0): MLP(</p>
+<p>   (0): Linear(in_features&#x3D;3, out_features&#x3D;32, bias&#x3D;True)</p>
+<p>   (1): Tanh()</p>
+<p>   (2): Linear(in_features&#x3D;32, out_features&#x3D;32, bias&#x3D;True)</p>
+<p>   (3): Tanh()</p>
+<p>   (4): Linear(in_features&#x3D;32, out_features&#x3D;32, bias&#x3D;True)</p>
+<p>   (5): Tanh()</p>
+<p>   (6): Linear(in_features&#x3D;32, out_features&#x3D;2, bias&#x3D;True)</p>
+<p> )</p>
+<p> (1): NormalParamExtractor(</p>
+<p>   (scale_mapping): biased_softplus()</p>
+<p> )</p>
+<p>)</p>
+</blockquote>
+<p>这里还有几点需要注意：</p>
+<ul>
+<li><p>由于我们在构建 actor 时就要求这样做，因此还会写入当时分布下<strong>动作的对数概率</strong>。这对于 PPO 之类的算法来说是必要的。</p>
+</li>
+<li><p>分布的参数也在”<code>loc</code>“和”<code>scale</code>“条目下的输出张量字典中返回。</p>
+</li>
+</ul>
+<p>如果应用程序需要，您可以控制操作的采样以使用预期值或分布的其他属性，而不是使用随机样本。这可以通过以下 <code>set_exploration_type()</code> 函数进行控制：</p>
+<pre><code class="Python">from torchrl.envs.utils import ExplorationType, set_exploration_type
+
+with set_exploration_type(ExplorationType.DETERMINISTIC):
+    # takes the mean as action
+    rollout = env.rollout(max_steps=10, policy=policy)
+with set_exploration_type(ExplorationType.RANDOM):
+    # Samples actions according to the dist
+    rollout = env.rollout(max_steps=10, policy=policy)
+</code></pre>
+<h2 id="5-exploration"><a href="#5-exploration" class="headerlink" title="5. exploration"></a>5. exploration</h2><p>像这样的随机策略在某种程度上自然地在探索和利用之间进行权衡，但确定性策略则不会。幸运的是，TorchRL 还可以通过其探索模块来缓解这种情况。我们将以探索 <code>EGreedyModule</code> 模块为例。要查看此模块的实际操作，让我们恢复到确定性策略：</p>
+<pre><code class="Python">from tensordict.nn import TensorDictSequential
+from torchrl.modules import EGreedyModule
+
+policy = Actor(MLP(3, 1, num_cells=[32, 64]))
+</code></pre>
+<p>在使用 $\varepsilon$-greedy exploration 模块时，我们需要定义一些退火方法和一个初始值 $\varepsilon$ 参数。值为 $\varepsilon&#x3D;1$ 的策略意味着采取的每一个行动都是随机的；而值为 $\varepsilon&#x3D;0$ 的策略意味着根本没有探索，每一个步骤都是固定的。如果需要退火探索因子，<code>step()</code> 需要调用：</p>
+<pre><code class="Python">exploration_module = EGreedyModule(
+    spec=env.action_spec, annealing_num_steps=1000, eos_init=0.5
+)
+</code></pre>
+<p>为了构建我们的探索性策略，我们只需要将确定性策略模块与 TensorDictSequential模块内的探索模块连接起来（这类似于Sequential张量字典领域）。</p>
+<pre><code class="Python">exploration_policy = TensorDictSequential(policy, exploration_module)
+
+with set_exploration_type(ExplorationType.DETERMINISTIC):
+    # 不探索
+    rollout = env.rollout(max_steps=10, policy=exploration_policy)
+with set_exploration_type(ExplorationType.RANDOM):
+    # 探索
+    rollout = env.rollout(max_steps=10, policy=exploration_policy)
+</code></pre>
+<p>因为它必须能够在动作空间中对随机动作进行采样，所以 <code>EGreedyModule</code> 必须配备来自环境的 <code>action_space</code> 才能知道使用什么策略来随机采样动作。</p>
+<h2 id="6-Q-Value-actors"><a href="#6-Q-Value-actors" class="headerlink" title="6. Q-Value actors"></a>6. Q-Value actors</h2><p>在某些情况下，策略不是独立模块，而是构建在另一个模块之上。Q值参与者就是这种情况。简而言之，这些参与者需要估计动作值（大多数时候是离散的），并会贪婪地选择具有最高值的动作。在某些情况下（有限离散动作空间和有限离散状态空间），人们可以只存储一个 2D 状态动作对表并选择具有最高值的动作。DQN 带来的创新 是利用神经网络对值图进行编码，将其扩展到连续状态空间 。为了更清楚地理解，让我们考虑另一个具有离散动作空间的环境：Q(s, a)</p>
+<pre><code class="Python">env = GymEnv(&quot;CartPole-v1&quot;)
+print(env.action_spec)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>OneHot(<br>    shape&#x3D;torch.Size([2]),<br>    space&#x3D;CategoricalBox(n&#x3D;2),<br>    device&#x3D;cpu,<br>    dtype&#x3D;torch.int64,<br>    domain&#x3D;discrete)</p>
+</blockquote>
+<p>我们构建一个价值网络，当它从环境中读取状态时，每个动作都会产生一个价值：</p>
+<pre><code class="Python">num_actions = 2
+value_net = TensorDictModule(
+    MLP(out_features=num_actions, num_cells=[32, 32]),
+    in_keys=[&quot;observation&quot;],
+    out_keys=[&quot;action_value&quot;],
+)
+</code></pre>
+<p><code>QValueModule</code> 我们可以通过在价值网络后添加以下内容来轻松构建我们的 Q-Value actor ：</p>
+<pre><code class="Python">from torchrl.modules import QValueModule
+
+policy = TensorDictSequential(
+    value_net,
+    QValueModule(spec=env.action_spec),
+)
+</code></pre>
+<p>让我们检查一下。我们运行该策略几个步骤并查看输出。我们应该在获得的 rollout 中找到一个”action_value”以及一个 条目：”chosen_action_value”</p>
+<pre><code class="Python">rollout = env.rollout(max_steps=3, policy=policy)
+print(rollout)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>TensorDict(<br>    fields&#x3D;{<br>        action: Tensor(shape&#x3D;torch.Size([3, 2]), device&#x3D;cpu, dtype&#x3D;torch.int64, is_shared&#x3D;False),<br>        action_value: Tensor(shape&#x3D;torch.Size([3, 2]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>        chosen_action_value: Tensor(shape&#x3D;torch.Size([3, 1]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>        done: Tensor(shape&#x3D;torch.Size([3, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False),<br>        next: TensorDict(<br>            fields&#x3D;{<br>                done: Tensor(shape&#x3D;torch.Size([3, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False),<br>                observation: Tensor(shape&#x3D;torch.Size([3, 4]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>                reward: Tensor(shape&#x3D;torch.Size([3, 1]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>                terminated: Tensor(shape&#x3D;torch.Size([3, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False),<br>                truncated: Tensor(shape&#x3D;torch.Size([3, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False)},<br>            batch_size&#x3D;torch.Size([3]),<br>            device&#x3D;None,<br>            is_shared&#x3D;False),<br>        observation: Tensor(shape&#x3D;torch.Size([3, 4]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>        terminated: Tensor(shape&#x3D;torch.Size([3, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False),<br>        truncated: Tensor(shape&#x3D;torch.Size([3, 1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False)},<br>    batch_size&#x3D;torch.Size([3]),<br>    device&#x3D;None,<br>    is_shared&#x3D;False)</p>
+</blockquote>
+<p>由于它依赖于 <code>argmax</code> 操作，因此该策略是确定性的。在数据收集期间，我们需要探索环境。为此，我们EGreedyModule 再次使用：</p>
+<pre><code class="Python">policy_exploration = TensorDictSequential(policy, EGreedyModule(env.action_spec))
+
+with set_exploration_type(ExplorationType.RANDOM):
+    rollout_explore = env.rollout(max_steps=3, policy=policy_explore)
 </code></pre>
 
     </div>
