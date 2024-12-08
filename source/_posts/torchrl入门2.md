@@ -1,5 +1,5 @@
 ---
-title: torchrl 入门 2
+title: TorchRL 入门 2
 date: 2024-12-07 22:03:37
 tags: 
     - RL（强化学习）
