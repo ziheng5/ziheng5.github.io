@@ -189,14 +189,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/RL%EF%BC%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%89/" style="color: #00a596">
+                <a href="/tags/RL%EF%BC%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%89/" style="color: #ffa2c4">
                     RL（强化学习）
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ffa2c4">
+                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00a596">
                     笔记
                 </a>
             </span>
@@ -229,7 +229,7 @@
 <p>在这个策略下，我们已经计算出 action value 了：<br>$$ q_{\pi}(s_1,a_1)&#x3D;6.2 $$<br>$$ q_{\pi}(s_1,a_2)&#x3D;8 $$<br>$$ q_{\pi}(s_1,a_3)&#x3D;9 $$<br>$$ q_{\pi}(s_1,a_4)&#x3D;6.2 $$<br>$$ q_{\pi}(s_1,a_5)&#x3D;7.2 $$</p>
 <p>通过观察可以发现 $a_3$ 对应的 action value 是最大的，那么我们能否选择 $a_3$ 作为一个新的策略呢？我们可以先将新的策略表示成下面这个式子：</p>
 <p>$$ {\pi}_{new} (a|s_1)&#x3D; \left \{ \begin{matrix}    1 \quad a&#x3D;a^* \\    0 \quad a\neq a^* \end{matrix}\right. $$</p>
-<p>在这个新策略下，智能体一定会选择动作 $a^*$ ，而 $a^*$ 就对应了当前状态下 action value 最大的那个 action。在我们上面的例子里，$a^*&#x3D;{argmax}<em>a q</em>{\pi}(s_1,a)&#x3D;a_3$。</p>
+<p>在这个新策略下，智能体一定会选择动作 $a^*$ ，而 $a^*$ 就对应了当前状态下 action value 最大的那个 action。在我们上面的例子里，$a^*&#x3D;argmax_a q_{\pi} (s_1,a)&#x3D;a_3$。</p>
 <p>所以，为什么我们选择 action value 最大的那个 action 就能得到一个比较好的策略呢？从直观上来说，就是因为这个 action value 本身就代表了动作 action 的价值，选择一个较大的 action value 便代表我们可以收获更多的 reward。但是在数学上其实并不是很容易理解，比如如果出现来<strong>全局最优</strong>与<strong>局部最优</strong>问题的时候就很难考虑。</p>
 <p>事实上，从机器学习的角度上来看，只要我们一遍一遍反复迭代，最后一定能得到一个最优的策略。</p>
 <p>这里我们可以先不考虑这些问题，等介绍完所有理论部分的内容后，你或许会有更深入的见解。</p>
@@ -261,7 +261,7 @@
 <p>考虑：$\pi(s)$ 是否已知？</p>
 <p>注意：对于<strong>贝尔曼公式</strong>来说，策略 $\pi$ 一定是给定的，而对<strong>贝尔曼最优公式</strong>来说，$\pi$ 没有给定，我们必须要去求解这个 $\pi$</p>
 </blockquote>
-<p>下面我们给出贝尔曼最优公式的矩阵形式：<br>$$ v&#x3D;{max}<em>{ \pi } (r</em>{\pi} + \gamma P_{\pi}v) $$</p>
+<p>下面我们给出贝尔曼最优公式的矩阵形式：<br>$$ v&#x3D;max_{ \pi } (r_{\pi} + \gamma P_{\pi}v) $$</p>
 <blockquote>
 <p>这里我们可能要考虑到很多问题：</p>
 <ul>
@@ -275,7 +275,7 @@
 <h2 id="3-2-基本性质分析"><a href="#3-2-基本性质分析" class="headerlink" title="3.2 基本性质分析"></a>3.2 基本性质分析</h2><p><strong>BOE (Elementwise form)：</strong></p>
 <p>$$v(s)&#x3D; max_{\pi} \sum_{a}{\pi}(a|s)(\sum_r p(r|s,a)r + \gamma \sum_{s’}p(s’|s,a)v(s’)),\quad \forall s \in S$$</p>
 <p><strong>BOE (matrix-vector form)：</strong></p>
-<p>$$v&#x3D;{max}<em>{\pi}(r</em>{\pi} + \gamma P_{\pi}v)$$</p>
+<p>$$v&#x3D;max_{\pi} (r_{\pi} + \gamma P_{\pi}v)$$</p>
 <p>在矩阵形式的数学表达式中，$v$ 和策略 $\pi$ 均为未知量，相当于我们只有一个式子但需要求解两个未知量。那么我们如何求解这样的问题呢？</p>
 <p>我们先来看一个例子：</p>
 <blockquote>
@@ -302,7 +302,7 @@
 <p>由上面这个例子，我们现在考虑 $\sum_a \pi (a|s)&#x3D;1$，这时我们有：<br>$$ max_{\pi} \sum_a \pi (a|s)q(s,a) &#x3D; max_{a\in A(s)} q(s,a) $$</p>
 <p>其中，当<br>$$ {\pi}(a|s)&#x3D; \left\{ \begin{matrix}    1 \quad a&#x3D;a^* \\    0 \quad a\neq a^* \end{matrix}\right. $$<br>时取得最优值，其中 $a^*&#x3D;argmax_a q(s,a)$</p>
 <p>到这里，我们已经介绍来如何去处理右边的 $max_\pi$ ，实际上我们可以把它写成一个函数 $f(v)$，如下所示：<br>$$ f(v)&#x3D;max_{\pi}(r_{\pi}+\gamma P_{\pi}v)$$<br>然后，贝尔曼最优公式就可以写成<br>$$ v&#x3D; f(v)$$</p>
-<p>$$ [f(v)]<em>s&#x3D;max</em>{\pi} \sum _a \pi(a|s)q(s,a),\quad s \in S$$</p>
+<p>$$[f(v)]<em>s &#x3D; max</em>{\pi} \sum _a {\pi} (a|s) q(s,a),\quad s \in S$$</p>
 <p>那么接下来，我们该如何求解这个等式呢？</p>
 <p>在我们求解这个式子之前，我们先介绍一个好东西：压缩映射定理。在后面我们会用到。</p>
 <h2 id="3-3-压缩映射定理"><a href="#3-3-压缩映射定理" class="headerlink" title="3.3 压缩映射定理"></a>3.3 压缩映射定理</h2><p>在介绍压缩映射定理之前，我们首先需要引入两个概念。</p>
