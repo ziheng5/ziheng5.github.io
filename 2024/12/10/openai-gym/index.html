@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>Tags: 杂谈 | Cold Rain&#39;s Blog</title>
+    <title>OpenAI Gym 的使用 | Cold Rain&#39;s Blog</title>
     <meta name="author" content="冷雨" />
     <meta name="description" content="希望能成为一个厉害的人" />
     <meta name="keywords" content="" />
@@ -42,6 +42,10 @@
 
 
 <script src="/js/lib/preview.js"></script>
+
+
+
+
 
 
 
@@ -155,218 +159,148 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="archives">
-    
-    <div class="categories-tags">
+            <div class="article">
+    <div>
+        <h1>OpenAI Gym 的使用</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/12/10
+        </span>
         
-        
-        
-        <span>
-            <a href="/tags/RL%EF%BC%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%89/" style="background: #ff7d73">
+        <span class="category">
+            <a href="/categories/RL%EF%BC%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%89%E5%AE%9E%E6%88%98%E7%AC%94%E8%AE%B0/">
                 <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
-                RL（强化学习）
+                RL（强化学习）实战笔记
             </a>
         </span>
         
         
-        
-        <span>
-            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="background: #03a9f4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                笔记
-            </a>
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/RL%EF%BC%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%89/" style="color: #03a9f4">
+                    RL（强化学习）
+                </a>
+            </span>
+            
         </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E5%AE%9E%E8%B7%B5/" style="background: #ffa2c4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                实践
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/PyTorch/" style="background: #00a596">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                PyTorch
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E6%9D%82%E8%B0%88/" style="background: linear-gradient(120deg, #9abbf7 0%, #ffbbf4 100%)">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                杂谈
-            </a>
-        </span>
-        
-        
-        
-        
-        
-        <span>
-            <a href="/tags/TorchRL/" style="background: #00a596">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                TorchRL
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E5%AE%9E%E6%88%98/" style="background: #00bcd4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                实战
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E7%BA%AF%E7%90%86%E8%AE%BA/" style="background: #03a9f4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                纯理论
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="background: #ff7d73">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                深度学习
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E7%AB%9E%E8%B5%9B/" style="background: #03a9f4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                竞赛
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="background: #ff7d73">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                数学建模
-            </a>
-        </span>
-        
         
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2024/11/29</div>
-            <a href="/2024/11/29/%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0Leaky-ReLu%E4%B8%8EReLu/">
-                <h3>激活函数 Leaky ReLu 与 ReLu 的区别</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        深度学习
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E6%9D%82%E8%B0%88/" style="color: #ffa2c4">
-                            杂谈
-                        </a>
-                    </span>
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
-                            深度学习
-                        </a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
+    <div class="content" v-pre>
+        <blockquote>
+<p>OpenAI Gym 是一个能够提供智能体统一 API 以及很多 RL 环境的库。有了它，我们就不需要写大把大把的样板代码了</p>
+<p>在这篇文章中，我们会学习如何写下第一个有随机行为的智能体，并借此来进一步熟悉 RL 中的各种概念。在这篇文章结束时，你可能会理解以下内容：</p>
+<ul>
+<li>将智能体插入 RL 框架所需的高层次要求</li>
+<li>基本、纯 Python 实现的随机 RL 智能体</li>
+<li>OpenAI Gym</li>
+</ul>
+</blockquote>
+<h2 id="1-剖析智能体"><a href="#1-剖析智能体" class="headerlink" title="1. 剖析智能体"></a>1. 剖析智能体</h2><p>RL 世界中包含许多实体：</p>
+<ul>
+<li><strong>智能体</strong>：主动行动的人或物。实际上，智能体只是实现了某些策略的代码片段而已。这个策略根据观察决定每个时间点执行什么动作。</li>
+<li><strong>环境</strong>：某些世界的模型，它在智能体外部，负责提供观察并给予奖励。而且环境会根据智能体的动作改变自己的状态。</li>
+</ul>
+<p>接下来，我们来探究如何实现它们。我们先从环境入手，先定义一个环境，限定交互步数，并且不管智能体执行任何动作，它都能给智能体返回随机奖励（先写一个简单的示例）：</p>
+<pre><code class="Python">import random
+from typing import List
+
+class Environment:
+    def __init__(self):
+        # 环境初始化的内部状态
+        self.step_left = 10
+    
+    def get_observation(self) -&gt; List[float]:
+        # 该方法用于给智能体返回当前环境的观察
+        # 这里输出的观察向向量都是0,是因为我们没有给环境任何内部状态
+        return [0.0, 0.0, 0.0]
+
+    def get_actions(self) -&gt; List[int]:
+        # 该方法允许智能体查询自己能执行的动作集
+        # 某些条件下，当环境变化的时候，智能体能执行的动作集也会发生改变
+        return [0, 1]
+
+    def is_done(self) -&gt; bool:
+        # 给予智能体片段结束的信号
+        return self.steps_left == 0
+
+    def action(self, action: int) -&gt; float:
+        # 环境的核心功能
+        # 它用于处理智能体的动作、返回该动作的奖励、更新已经执行的步数、拒绝执行已执行的片段
+        if self.is_done():
+            raise Exception(&quot;Game is over!&quot;)
+        self.steps_left -= 1
+        return random.random()
+</code></pre>
+<p>接下来我们来看看智能体部分，它更简单，只包含了两个部分：构造函数以及在环境中执行一步的方法：</p>
+<pre><code class="Python">class Agent:
+    def __init__(self):
+        # 初始化计数器，用来保存片段中智能体积累的总奖励
+        self.total_reward = 0.0
+
+    def step(self, env: Environment):
+        current_oba = env.get_observation()
+        actions = env.get_actions()
+        reward = env.action(random.choice(actions))
+        self.total_reward += reward
+</code></pre>
+<p>在上面这段代码中，<code>step()</code> 函数接受环境实例作为参数，并允许智能体执行以下操作：</p>
+<ul>
+<li>观察环境</li>
+<li>基于观察决定动作</li>
+<li>向环境提交动作</li>
+<li>获取当前步骤的奖励</li>
+</ul>
+<p>对于我们这个例子，智能体比较笨，它在决定执行什么动作的时候会忽略得到的观察。取而代之的是，随机选择动作。下面还有一段胶水代码，它创建两个类并执行一次片段：</p>
+<pre><code class="Python">if __name__ == &quot;__main__&quot;:
+    env = Environment()
+    agent = Agent()
+
+while not env.is_done():
+    agent.step(env)
+
+print(&quot;Total reward got: %.4f&quot; % agent.total_reward)
+</code></pre>
+<p>前面这些简单的代码展示了 RL 模型的重要的基本概念。环境可以是极其复杂的物理模型，智能体也可以轻易地变成一个实现了最新 RL 算法的大型神经网络（NN），但是基本思想还是一致的——每一步，智能体都会从环境中得到观察，进行一番计算，最后选择要执行的动作。这个动作的结果就是奖励和新的观察。</p>
+<p>你可能会问，如果基本思想是一样的，为什么还要从头开始实现呢？是否有人已经将其实现为一个通用库了呢？答案是肯定的，这样的框架已经存在了，但是在花时间讨论它们之前，先把你的开发环境准备好吧！</p>
+<p>requirements如下所示（⚠️：其中gym版本尽量一致，或者不要用高版本；其他库可用最新版本）：</p>
+<pre><code class="Terminal">atari-py==0.2.6
+gym==0.15.3
+numpy==1.17.2
+opencv-python==4.1.1.26
+tensorboard==2.0.1
+torch==1.3.0
+torchvision==0.4.1
+pytorch-ignite==0.2.1
+tensorboardX==1.9
+tensorflow==2.0.0
+ptan==0.6
+</code></pre>
+<h2 id="2-OpenAI-Gym-API"><a href="#2-OpenAI-Gym-API" class="headerlink" title="2. OpenAI Gym API"></a>2. OpenAI Gym API</h2><h3 id="2-1-动作空间"><a href="#2-1-动作空间" class="headerlink" title="2.1 动作空间"></a>2.1 动作空间</h3><h3 id="2-2-观察空间"><a href="#2-2-观察空间" class="headerlink" title="2.2 观察空间"></a>2.2 观察空间</h3><h3 id="2-3-环境"><a href="#2-3-环境" class="headerlink" title="2.3 环境"></a>2.3 环境</h3><h3 id="2-4-创建环境"><a href="#2-4-创建环境" class="headerlink" title="2.4 创建环境"></a>2.4 创建环境</h3><h3 id="2-5-车摆控制"><a href="#2-5-车摆控制" class="headerlink" title="2.5 车摆控制"></a>2.5 车摆控制</h3><p>我们来应用学到的知识探索 Gym 提供的最简单的 RL 环境：</p>
+<pre><code class="Python">import gym
+
+e = gym.make(&quot;CartPole-v0&quot;)
+</code></pre>
+
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2024/11/26</div>
-            <a href="/2024/11/26/test/">
-                <h3>个人简介</h3>
-            </a>
-            <div class="info">
-                
-                <span class="category">
-                    <a href="/categories/%E6%9D%82%E8%B0%88/">
-                        <span class="icon">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </span>
-                        杂谈
-                    </a>
-                </span>
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E6%9D%82%E8%B0%88/" style="color: #00a596">
-                            杂谈
-                        </a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
+    
+    
+    
+    
+    
     
 </div>
 
@@ -398,6 +332,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>
