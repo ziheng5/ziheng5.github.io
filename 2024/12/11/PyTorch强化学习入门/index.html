@@ -171,11 +171,119 @@
             2024/12/11
         </span>
         
+        <span class="category">
+            <a href="/categories/RL%EF%BC%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%89%E5%AE%9E%E6%88%98%E7%AC%94%E8%AE%B0/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                RL（强化学习）实战笔记
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/RL%EF%BC%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%89/" style="color: #00bcd4">
+                    RL（强化学习）
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/PyTorch/" style="color: #00a596">
+                    PyTorch
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
+                    深度学习
+                </a>
+            </span>
+            
+        </span>
         
     </div>
     
     <div class="content" v-pre>
-        
+        <h2 id="1-张量"><a href="#1-张量" class="headerlink" title="1. 张量"></a>1. 张量</h2><p>张量是所有DL工具包的基本组成部分。名字听起来很神秘，但本质上张量就是一个多维数组。用数学知识来类比，单个数字就像点，是零维的，向量就像线段，是一维的，矩阵则是二维的对象。三维数字的集合可以用平行六面体表示，但它们不像矩阵一样有特定的名称。我们可以用“张量”来表示高维集合。</p>
+<p>需要注意的是，在DL中所使用的张量和在张量演算或张量代数中所用的张量相比，只在部分层面上相关。在DL中，张量是任意多维的数组，但在数学中，张量是向量空间之间的映射，在某些情况下可以表示为多维数组，但背后具有更多的语义信息。数学家通常会对任何使用公认数学术语来命名不同事物的人皱眉，因此要当心！</p>
+<h3 id="1-1-创建张量"><a href="#1-1-创建张量" class="headerlink" title="1.1 创建张量"></a>1.1 创建张量</h3><p>如果你熟悉 NumPy 库，那你应该知道其主要目的是以通用的方式处理多维数组。在 NumPy 中，这样的数组没被称为张量，但事实上，它们就是张量。张量在科学计算中被广泛用作数据的通用存储方式。例如，彩图会被编码成具有宽度、高度和色值的三维张量。</p>
+<p>除了维度之外，元素类型也是张量的特征之一。PyTorch支持八种类型，包括三种浮点类型（16位、32位和64位）和五种整数类型（有符号8位、无符号8位、16位、32位和64位）。不同类型的张量用不同的类表示，其中最常用的是 <code>torch.FloatTensor</code>（对应32位浮点类型）、<code>torch.ByteTensor</code>（无符号8位整数）、<code>torch.LongTensor</code>（有符号64位整数）。其余的可以在PyTorch的文档中查到。</p>
+<p>有三种方法可以在 PyTorch 中创建张量：</p>
+<ul>
+<li>通过调用所需类型的构造函数。</li>
+<li>通过将 NumPy 数组或 Python 列表转换为张量。在这种情况下，类型将从数组的类型中获取。</li>
+<li>通过要求 PyTorch 创建带有特定数据的张量。例如，可以使用 <code>torch.zeros()</code> 函数创建一个全为零的张量。</li>
+</ul>
+<p>下面是上述方法的实现方式：</p>
+<pre><code class="Python">&gt;&gt;&gt; import torch
+&gt;&gt;&gt; import numpy as np
+&gt;&gt;&gt; a = torch.FloatTensor(3, 2)
+&gt;&gt;&gt; a
+tensor([[0.0000e+00, 2.9468e-24],
+        [7.1179e-23, 9.5008e-43],
+        [9.5709e-43, 0.0000e+00]])
+</code></pre>
+<p>在这里，我们导入了 PyTorch 和 NumPy，并创建未初始化的3×2的张量。默认情况下， PyTorch 会为张量分配内存，但不进行初始化。要清除张量的内容，需要使用以下操作：</p>
+<pre><code class="Python">&gt;&gt;&gt; a.zero_()
+tensor([[0., 0.],
+        [0., 0.],
+        [0., 0.]])
+</code></pre>
+<p>张量有两种类型的操作：<strong>inplace</strong> 和 <strong>functional</strong>。inplace 操作需在函数名称后<strong>附加一个下划线，作用于张量的内容。然后，会返回对象本身</strong>。functional操作是创建一个张量的副本，对其副本进行修改，而原始张量保持不变。从性能和内存角度来看、inplace 方式通常更为高效。</p>
+<p>通过其构造函数创建张量的另一种方法是提供Python可迭代对象（例如列表或元组），它将被用作新创建张量的内容：</p>
+<pre><code class="Python">&gt;&gt;&gt; torch.FloatTensor([[1, 2, 3], [3, 2, 1]])
+tensor([[1., 2., 3.],
+        [3., 2., 1.]])
+</code></pre>
+<p>下面的代码用 NumPy 创建了一个全零张量：</p>
+<pre><code class="Python">&gt;&gt;&gt; n = np.zeros(shape=(3, 2))
+&gt;&gt;&gt; n
+array([[0., 0.],
+       [0., 0.],
+       [0., 0.]])
+&gt;&gt;&gt; b = torch.tensor(n)
+&gt;&gt;&gt; b
+tensor([[0., 0.],
+        [0., 0.],
+        [0., 0.]], dtype=torch.float64)
+</code></pre>
+<p><code>torch.tensor</code> 方法接受 NumPy 数组作为参数，并创建一个适当形状的张量。在前面的示例中，我们创建了一个由零初始化的 NumPy 数组，默认情况下，该数组创建一个 double（64位浮点数）数组。因此，生成的张量具有 <code>DoubleTensor</code> 类型（在前面的示例中使用 <code>dtype</code> 值显示）。在 DL 中，通常不需要双精度，因为使用双精度会增加内存和性能开销。通常的做法是使用 32 位浮点类型，甚至使用 16 位浮点类型，这已经能够满足需求了。要创建这样的张量，需要明确指定 NumPy 数组的类型：</p>
+<pre><code class="Python">&gt;&gt;&gt; n = np.zeros(shape=(3, 2), dtype=np.float32)
+&gt;&gt;&gt; torch.tensor(n)
+tensor([[0., 0.],
+        [0., 0.],
+        [0., 0.]])
+</code></pre>
+<p>作为可选项，可以在 <code>dtype</code> 参数中将所需张量的类型提供给 <code>torch.tensor</code> 函数。但是，请小心，因为此参数期望传入 PyTorch 类型规范，而不是 NumPy 类型规范。PyTorch 类型保存在 <code>torch</code> 包中，例如 <code>torch.float32</code> 和 <code>torch.uint8</code>。</p>
+<pre><code class="Python">&gt;&gt;&gt; n = np.zeros(shape=(3, 2))
+&gt;&gt;&gt; torch.tensor(n, dtype=torch.float32)
+tensor([[0., 0.],
+        [0., 0.],
+        [0., 0.]])
+</code></pre>
+<h3 id="1-2-零维张量"><a href="#1-2-零维张量" class="headerlink" title="1.2 零维张量"></a>1.2 零维张量</h3><p>从 0.4.0 版本开始，PyTorch 已经支持了与标量相对应的零维张量。这种张量可能是某些操作（例如对张量中的所有值求和）的结果。这种情况以前是通过创建维度为 1 的张量（向量）来处理的。</p>
+<p>该解决方案是有效的，但它并不简单，因为需要额外的索引才能访问值。现在，已经支持零维张量并由合适的函数返回，并且可以通过 <code>torch.tensor()</code> 函数创建。为了访问这种张量的实际 Python值，可以使用特殊的 <code>item()</code> 方法：</p>
+<pre><code class="Python">&gt;&gt;&gt; a = torch.tensor([1, 2, 3])
+&gt;&gt;&gt; a
+tensor([3, 2, 1])
+&gt;&gt;&gt; s = a.sum()
+&gt;&gt;&gt; s
+tensor(6)
+&gt;&gt;&gt; s.item()
+6
+&gt;&gt;&gt; torch.tensor(1)
+tensor(1)
+</code></pre>
+<h3 id="1-3-张量操作"><a href="#1-3-张量操作" class="headerlink" title="1.3 张量操作"></a>1.3 张量操作</h3>
     </div>
     
     
