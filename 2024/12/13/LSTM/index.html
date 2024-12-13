@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>强化学习理论笔记2——贝尔曼公式 | Cold Rain&#39;s Blog</title>
+    <title>LSTM 原理及其 PyTorch 实现 | Cold Rain&#39;s Blog</title>
     <meta name="author" content="冷雨" />
     <meta name="description" content="希望能成为一个厉害的人" />
     <meta name="keywords" content="" />
@@ -161,22 +161,22 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>强化学习理论笔记2——贝尔曼公式</h1>
+        <h1>LSTM 原理及其 PyTorch 实现</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2024/12/2
+            2024/12/13
         </span>
         
         <span class="category">
-            <a href="/categories/RL%EF%BC%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%89%E7%90%86%E8%AE%BA%E7%AC%94%E8%AE%B0/">
+            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
-                RL（强化学习）理论笔记
+                深度学习
             </a>
         </span>
         
@@ -189,22 +189,15 @@
             
             <span class="tag">
                 
-                <a href="/tags/RL%EF%BC%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%89/" style="color: #00a596">
-                    RL（强化学习）
+                <a href="/tags/PyTorch/" style="color: #ff7d73">
+                    PyTorch
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00bcd4">
-                    笔记
-                </a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/tags/%E7%BA%AF%E7%90%86%E8%AE%BA/" style="color: #00a596">
-                    纯理论
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                    深度学习
                 </a>
             </span>
             
@@ -213,7 +206,78 @@
     </div>
     
     <div class="content" v-pre>
-        
+        <blockquote>
+<p>PyTorch 其实内置了 LSTM 模型，直接调用即可，不需要费劲去手搓了</p>
+<p>（某个人复现到一半才反应过来 😭）</p>
+<p>✨通俗易懂的 LSTM 原理讲解（力推）：<br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=YCzL96nL7j0&t=1s">https://www.youtube.com/watch?v=YCzL96nL7j0&amp;t=1s</a></p>
+</blockquote>
+<h3 id="1-导入必要的库"><a href="#1-导入必要的库" class="headerlink" title="1. 导入必要的库"></a>1. 导入必要的库</h3><pre><code class="Python">import torch
+import torch.nn as nn
+import torch.optim as optim
+</code></pre>
+<h3 id="2-定义-LSTM-模型"><a href="#2-定义-LSTM-模型" class="headerlink" title="2. 定义 LSTM 模型"></a>2. 定义 LSTM 模型</h3><pre><code class="Python">class LSTMModel(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size, num_layers=1):
+        super(LSTMModel, self).__init__()
+        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True)
+        self.fc = nn.Linear(hidden_size, output_size)
+    
+    def forward(self, x):
+        lstm_out, _ = self.lstm(x)
+        out = self.fc(lstm_out[:, -1, :])  # 只取最后一个时间步的输出
+        return out
+</code></pre>
+<p>PyTorch 提供的 <code>nn.LSTM</code> 含有四个参数：<code>input_size</code>、<code>hidden_size</code>、<code>num_layers</code>、<code>batch_first</code>。</p>
+<p>其中，<code>batch_first</code> 用于指定输入张量的维度顺序，控制输入和输出张量的形状解释方式：</p>
+<ul>
+<li>默认值：<code>batch_first=True</code><ul>
+<li>输入张量形状：<code>(seq_len, batch_size, input_size)</code></li>
+<li>输出张量形状：<code>(seq_len, batch_size, hidden_size)</code></li>
+</ul>
+</li>
+<li>设置为 <code>batch_first=True</code>：<ul>
+<li>输入张量形状：<code>(batch_size, seq_len, input_size)</code></li>
+<li>输出张量形状：<code>(batch_size, seq_len, hidden_size)</code></li>
+</ul>
+</li>
+</ul>
+<p>这里为什么我们要用 <code>batch_first=True</code> 呢？</p>
+<ul>
+<li>设置 <code>batch_first=True</code> 更符合大多数深度学习库的常用张量形式，使代码更直观。</li>
+</ul>
+<h3 id="3-初始化模型和超参数"><a href="#3-初始化模型和超参数" class="headerlink" title="3. 初始化模型和超参数"></a>3. 初始化模型和超参数</h3><pre><code class="Python">input_size = 10    # 输入特征数
+hidden_size = 50   # 隐藏层大小
+output_size = 1    # 输出特征数
+num_layers = 2     # LSTM 层数
+
+model = LSTMModel(input_size, hidden_size, output_size, num_layers)
+criterion = nn.MSELoss()  # 损失函数
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+</code></pre>
+<h3 id="4-创建数据示例"><a href="#4-创建数据示例" class="headerlink" title="4. 创建数据示例"></a>4. 创建数据示例</h3><pre><code class="Python"># 生成随机输入和标签
+x_train = torch.randn(100, 5, input_size)  # (批次大小, 时间步, 输入大小)
+y_train = torch.randn(100, output_size)
+</code></pre>
+<h3 id="5-训练模型"><a href="#5-训练模型" class="headerlink" title="5. 训练模型"></a>5. 训练模型</h3><pre><code class="Python">num_epochs = 100
+
+for epoch in range(num_epochs):
+    model.train()
+    outputs = model(x_train)
+    loss = criterion(outputs, y_train)
+    
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+
+    if (epoch+1) % 10 == 0:
+        print(f&#39;Epoch [&#123;epoch+1&#125;/&#123;num_epochs&#125;], Loss: &#123;loss.item():.4f&#125;&#39;)
+</code></pre>
+<h3 id="6-评估模型"><a href="#6-评估模型" class="headerlink" title="6. 评估模型"></a>6. 评估模型</h3><pre><code class="Python">model.eval()
+with torch.no_grad():
+    test_input = torch.randn(1, 5, input_size)
+    prediction = model(test_input)
+    print(f&#39;Prediction: &#123;prediction&#125;&#39;)
+</code></pre>
+
     </div>
     
     
