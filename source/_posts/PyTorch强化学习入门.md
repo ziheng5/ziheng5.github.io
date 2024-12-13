@@ -449,3 +449,68 @@ if __name__ == "__main__":
     writer.close()
 ```
 首先导入所需的包，创建数据编写器，并定义需要可视化的函数。默认情况下，`SummaryWriter` 每次启动都会在 runs 目录下创建一个唯一目录，以便能够比较不同的训练。新目录的名称包括当前日期和时间以及主机名。可以通过将 `log_dir` 参数传递给 `SummaryWriter` 来覆盖它。还可以传入注释选项，在目录名称中添加后缀，一般是为了捕获不同实验的语义，如 `dropout=0.3` 或`strong_regularisation`。
+
+此代码遍历以度为单位的角度范围，将其转换为弧度，然后计算函数的值。使用 `add_scalar` 函数将每个值添加到编写器，`add_scalar` 函数有三个参数：**参数名称**、**值**和**当前迭代**（必须为整数）。
+
+循环之后，需要做的最后一件事是关闭编写器。请注意，编写器会定期进行刷新（默认情况下，每两分钟刷新一次），因此即使在优化过程很漫长的情况下，仍可看到值。
+
+运行此命令的结果不会在控制台输出，但是会在runs目录中创建一个只有一个文件的新目录。要查看结果，需要启动 TensorBoard。
+
+在 Terminal 中：
+```Terminal
+tensorboard --logdir runs
+```
+
+在 Notebook 中：
+
+```Python
+!tensorboard --logdir runs
+```
+
+如果在远程服务器上运行 TensorBoard，则需要添加`--bind_all` 命令行选项以使其可以从外部访问。现在，在浏览器中打开http://localhost:6006，就可以查看内容了：
+
+![tensorboard](./images/pytorch_enter_drl/image.png)
+
+该图是交互式的，可以将鼠标悬停在图形上查看实际值并选择区域放大来查看详细信息。在图形内部双击可以缩小图片。如果多次运行了程序，那么在左侧的Runs列表中会有多项，可以任意启用和禁用这些项目，从而比较不同优化的动态数据。TensorBoard 不仅可以分析标量值，还可以分析图像、音频、文本数据和嵌入数据，甚至可以显示网络的结构。有关所有这些功能，请参考 tensorboardX 和 tensorboard 的文档。
+
+现在，是时候结合在本章所学的内容用 PyTorch 实现真实的 NN 优化问题了。
+
+## 7. 示例：将 GAN 应用于 Atari 图像
+几乎每本有关 DL 的书都使用 MNIST 数据集来展示 DL 功能，多年来，该数据集都变得无聊了，就像遗传研究人员的果蝇一样。为了打破这一传统，并添加更多乐趣，我尝试避免沿用以前的方法，而使用其他方法说明 PyTorch。本示例中将训练 GAN 生成各种 Atari 游戏的屏幕截图，它们是由伊恩·古德费洛（Ian Goodfellow ）发明和推广的。
+
+最简单的 GAN 架构有两个网络，第一个网络充当“欺骗者”（也称为生成器），另一个网络充当“侦探”（另一个名称是判别器）。两个网络相互竞争，生成器试图生成伪造的数据，这些数据使判别器也难以将它与原数据集区分开，判别器试图检测生成的数据样本。随着时间的流逝，两个网络都提高了技能，生成器生成越来越多的真实数据样本，而判别器发明了更复杂的方法来区分伪造的数据。
+
+GAN 的实际应用包括改善图像质量、逼真图像生成和特征学习。在本示例中，实用性几乎为零，但这将是一个很好的示例，可以说明对于相当复杂的模型而言，PyTorch 代码可以很简洁。
+
+```Python
+class InputWrapper(gym.ObservationWrapper):
+    def __init__(self, *args):
+        super(InputWrapper, self).__init__(*args)
+        assert isinstance(self.observation_space, gym.space.Box)
+        old_space = self.observation
+        self.observation_space = gym.space.Box(
+            self.observation(old_space.low),
+            self.observation(old_space.high),
+            dtype=np.float32
+        )
+    
+    def observation(self, observation):
+        new_obs = cv2.resize(
+            observation, (IMAGE_SIZE, IMAGE_SIZE)
+        )
+        # transform (210, 160, 3) -> (3, 210, 160)
+        new_obs = np.moveaxis(new_obs, 2, 0)
+        return new_obs.astype(np.float32)
+```
+
+此类是 Gym 游戏的包装器，其中包括以下几种转换：
+
+- 将输入图像的尺寸从 210×160（标准 Atari 分辨率）调整为正方形尺寸 64×64 。
+- 将图像的颜色平面从最后一个位置移到第一个位置，以满足 PyTorch 卷积层的约定，该卷积层输入包含形状为通道、高度和宽度的张量。
+- 将图像从 bytes 转换为 float 。
+
+然后，定义两个 `nn.Module` 类：Discriminator 和 Generator 。第一种将经过缩放的彩色图像作为输入，并通过应用五层卷积，再使用 `Sigmoid` 进行非线性变换将数据转换为数字。`Sigmoid` 的输出被解释为：判别器认为输入图像来自真实数据集的概率。
+
+Generator 将随机数向量（隐向量）作为输入，并使用“转置卷积”操作（也称为 deconvolution ）将该向量转换为原始分辨率的彩色图像。
+
+（施工中🚧）
