@@ -43,17 +43,11 @@ $$ f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f) $$
 - **功能：** 决定哪些新信息需要 **存储**。
 - **公式：**
   - 候选信息生成：  
-    $$
-    \tilde{C}_t = \tanh(W_C \cdot [h_{t-1}, x_t] + b_C)
-    $$
+    $$\tilde{C}_t = \tanh(W_C \cdot [h_{t-1}, x_t] + b_C)$$
   - 输入门激活：  
-    $$
-    i_t = \sigma(W_i \cdot [h_{t-1}, x_t] + b_i)
-    $$
+    $$i_t = \sigma(W_i \cdot [h_{t-1}, x_t] + b_i)$$
   - 更新单元状态：  
-    $$
-    C_t = f_t \cdot C_{t-1} + i_t \cdot \tilde{C}_t
-    $$
+    $$C_t = f_t \cdot C_{t-1} + i_t \cdot \tilde{C}_t$$
 - **解释：**
   - 候选信息 $\tilde{C}_t$：当前时间步的新信息。
   - 输入门 $i_t$：控制候选信息的存储程度。  
@@ -62,13 +56,9 @@ $$ f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f) $$
 - **功能：** 决定单元状态中的信息 **公开输出**。
 - **公式：**
   - 输出门激活：  
-    $$
-    o_t = \sigma(W_o \cdot [h_{t-1}, x_t] + b_o)
-    $$
+    $$o_t = \sigma(W_o \cdot [h_{t-1}, x_t] + b_o)$$
   - 最终隐藏状态：  
-    $$
-    h_t = o_t \cdot \tanh(C_t)
-    $$
+    $$h_t = o_t \cdot \tanh(C_t)$$
 - **解释：**
   - 输出门决定当前时间步的隐藏状态 $h_t$，该状态将作为下一个时间步的输入。
 
