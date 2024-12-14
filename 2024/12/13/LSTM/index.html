@@ -196,7 +196,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
                     深度学习
                 </a>
             </span>
@@ -214,9 +214,14 @@
 </blockquote>
 <h2 id="1-❓-什么是-LSTM"><a href="#1-❓-什么是-LSTM" class="headerlink" title="1. ❓ 什么是 LSTM"></a>1. ❓ 什么是 LSTM</h2><p>长短期记忆网络（LSTM，Long-Short-Term Memory）是传统 RNN 网络的 Plus 版本。</p>
 <h3 id="1-1-发明背景"><a href="#1-1-发明背景" class="headerlink" title="1.1 发明背景"></a>1.1 发明背景</h3><p>传统的 RNN 网络在训练的时候，当遇到长序列数据时，很容易出现 <strong>梯度爆炸</strong> 与 <strong>梯度消失</strong> 的情况，导致训练效果不太好。</p>
-<p>（👀 什么？你不知道什么是 <strong>梯度爆炸</strong> 和 <strong>梯度消失</strong>？！快来看看这个视频：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=AsNTP8Kwu80%EF%BC%89">https://www.youtube.com/watch?v=AsNTP8Kwu80）</a></p>
+<blockquote>
+<p>👀 什么？你不知道什么是 <strong>梯度爆炸</strong> 和 <strong>梯度消失</strong>？！快来看看这个视频：</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=AsNTP8Kwu80">https://www.youtube.com/watch?v=AsNTP8Kwu80</a></p>
+</blockquote>
 <p>为了解决这一问题，LSTM 在传统 RNN 的基础上，加入了 <strong>门控机制（Gate）</strong> 来控制信息流动，从而记住长期依赖信息。</p>
-<h3 id="1-2-原理详解"><a href="#1-2-原理详解" class="headerlink" title="1.2 原理详解"></a>1.2 原理详解</h3><p>先看视频：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=YCzL96nL7j0&t=1s">https://www.youtube.com/watch?v=YCzL96nL7j0&amp;t=1s</a></p>
+<h3 id="1-2-原理详解"><a href="#1-2-原理详解" class="headerlink" title="1.2 原理详解"></a>1.2 原理详解</h3><blockquote>
+<p>先看视频：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=YCzL96nL7j0&t=1s">https://www.youtube.com/watch?v=YCzL96nL7j0&amp;t=1s</a></p>
+</blockquote>
 <p>LSTM 由多个 <strong>LSTM 单元（Cell）</strong> 组成，每个单元包含以下三个门和一个单元状态：  </p>
 <h4 id="遗忘门（Forget-Gate）"><a href="#遗忘门（Forget-Gate）" class="headerlink" title="遗忘门（Forget Gate）"></a><strong>遗忘门（Forget Gate）</strong></h4><ul>
 <li><strong>功能：</strong> 决定哪些信息需要 <strong>遗忘</strong>。</li>
@@ -273,71 +278,200 @@
 <li><strong>灵活性高：</strong> 支持多层堆叠，能够学习高度复杂的数据模式。</li>
 </ul>
 <hr>
-<h2 id="2-PyTorch-实现-LSTM"><a href="#2-PyTorch-实现-LSTM" class="headerlink" title="2. PyTorch 实现 LSTM"></a>2. PyTorch 实现 LSTM</h2><h3 id="2-1-导入必要的库"><a href="#2-1-导入必要的库" class="headerlink" title="2.1 导入必要的库"></a>2.1 导入必要的库</h3><pre><code class="Python">import torch
+<h2 id="2-PyTorch-手动复现-LSTM（灵活度高）"><a href="#2-PyTorch-手动复现-LSTM（灵活度高）" class="headerlink" title="2. PyTorch 手动复现 LSTM（灵活度高）"></a>2. PyTorch 手动复现 LSTM（灵活度高）</h2><blockquote>
+<p>参考教程：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=RHGiXPuo_pI">https://www.youtube.com/watch?v=RHGiXPuo_pI</a></p>
+</blockquote>
+<h3 id="2-1-📦导入包"><a href="#2-1-📦导入包" class="headerlink" title="2.1 📦导入包"></a>2.1 📦导入包</h3><pre><code class="Python">import torch
 import torch.nn as nn
-import torch.optim as optim
+import torch.nn.functional as F
+from torch.optim import Adam
+
+import lightning as L
+from torch.utils.data import TensorDataset, DataLoader
 </code></pre>
-<h3 id="2-2-定义-LSTM-模型"><a href="#2-2-定义-LSTM-模型" class="headerlink" title="2.2 定义 LSTM 模型"></a>2.2 定义 LSTM 模型</h3><pre><code class="Python">class LSTMModel(nn.Module):
-    def __init__(self, input_size, hidden_size, output_size, num_layers=1):
-        super(LSTMModel, self).__init__()
-        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True)
-        self.fc = nn.Linear(hidden_size, output_size)
+<p>⚠️注意：这里有个叫 <code>lightning</code> 的包。</p>
+<blockquote>
+<p>什么？你不知道这个包是用来干什么的？！PyTorch Lightning 是一个基于 PyTorch 的深度学习框架，其功能相当强大，可以一键实现很多功能！</p>
+<p>官方文档：<a target="_blank" rel="noopener" href="https://lightning.ai/docs/pytorch/stable/">https://lightning.ai/docs/pytorch/stable/</a></p>
+<p>下载方式:</p>
+<ol>
+<li>pip 用户：</li>
+</ol>
+<pre><code class="Terminal">pip install lightning
+</code></pre>
+<ol start="2">
+<li>conda 用户：</li>
+</ol>
+<pre><code class="Terminal">conda install lightning
+</code></pre>
+</blockquote>
+<h3 id="2-2-✋手搓-LSTM-网络"><a href="#2-2-✋手搓-LSTM-网络" class="headerlink" title="2.2 ✋手搓 LSTM 网络"></a>2.2 ✋手搓 LSTM 网络</h3><pre><code class="Python">class LSTMbyHand(L.LightningModule):
+    def __init__(self):
+        # create and initialize weight and bias tensors
+        super().__init__()
+        mean = torch.tensor(0.0)
+        std = torch.tensor(1.0)
+
+        ## 1. 遗忘门 
+        self.wlr1 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.wlr2 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.blr1 = nn.Parameter(torch.tensor(0.), requires_grad=True)
+
+        ## 2. 输入门
+        self.wpr1 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.wpr2 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.bpr1 = nn.Parameter(torch.tensor(0.), requires_grad=True)
+
+        self.wp1 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.wp2 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.bp1 = nn.Parameter(torch.tensor(0.), requires_grad=True)
+
+        ## 3. 输出门
+        self.wo1 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.wo2 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.bo1 = nn.Parameter(torch.tensor(0.), requires_grad=True)
+
+
+    def lstm_unit(self, input_value, long_memory, short_memory):
+        # do the lstm math
+        ## 1. 遗忘门
+        long_remember_percent = torch.sigmoid((short_memory * self.wlr1) +
+                                              (input_value * self.wlr2) +
+                                              self.blr1)
+        
+        ## 2. 输入门
+        potential_remember_percent = torch.sigmoid((short_memory * self.wpr1) +
+                                                   (input_value * self.wpr2) +
+                                                   self.bpr1)
+        
+        potential_memory = torch.tanh((short_memory * self.wp1) +
+                                      (input_value * self.wp2) +
+                                      self.bp1)
+        
+        updated_long_memory = ((long_memory * long_remember_percent) +
+                              (potential_memory * potential_remember_percent))
+        
+        ## 3. 输出门
+        output_percent = torch.sigmoid((short_memory * self.wo1) +
+                                       (input_value * self.wo2) +
+                                       self.bo1)
+        
+        updated_short_memory = torch.tanh(updated_long_memory) * output_percent
+
+        ## 4. 输出
+        return ([updated_long_memory, updated_short_memory])
+
+
+    def forward(self, input):
+        # make a forward pass through unrolled lstm
+        long_memory = 0
+        short_memory = 0
+        day1 = input[0]
+        day2 = input[1]
+        day3 = input[2]
+        day4 = input[3]
+
+        long_memory, short_memory = self.lstm_unit(day1, long_memory, short_memory)
+        long_memory, short_memory = self.lstm_unit(day2, long_memory, short_memory)
+        long_memory, short_memory = self.lstm_unit(day3, long_memory, short_memory)
+        long_memory, short_memory = self.lstm_unit(day4, long_memory, short_memory)
+
+        return short_memory
+
+
+    def configure_optimizers(self):
+        # configure adam optimizer
+        return Adam(self.parameters())
     
-    def forward(self, x):
-        lstm_out, _ = self.lstm(x)
-        out = self.fc(lstm_out[:, -1, :])  # 只取最后一个时间步的输出
-        return out
-</code></pre>
-<p>PyTorch 提供的 <code>nn.LSTM</code> 含有四个参数：<code>input_size</code>、<code>hidden_size</code>、<code>num_layers</code>、<code>batch_first</code>。</p>
-<p>其中，<code>batch_first</code> 用于指定输入张量的维度顺序，控制输入和输出张量的形状解释方式：</p>
-<ul>
-<li>默认值：<code>batch_first=True</code><ul>
-<li>输入张量形状：<code>(seq_len, batch_size, input_size)</code></li>
-<li>输出张量形状：<code>(seq_len, batch_size, hidden_size)</code></li>
-</ul>
-</li>
-<li>设置为 <code>batch_first=True</code>：<ul>
-<li>输入张量形状：<code>(batch_size, seq_len, input_size)</code></li>
-<li>输出张量形状：<code>(batch_size, seq_len, hidden_size)</code></li>
-</ul>
-</li>
-</ul>
-<p>这里为什么我们要用 <code>batch_first=True</code> 呢？</p>
-<ul>
-<li>设置 <code>batch_first=True</code> 更符合大多数深度学习库的常用张量形式，使代码更直观。</li>
-</ul>
-<h3 id="2-3-初始化模型和超参数"><a href="#2-3-初始化模型和超参数" class="headerlink" title="2.3 初始化模型和超参数"></a>2.3 初始化模型和超参数</h3><pre><code class="Python">input_size = 10    # 输入特征数
-hidden_size = 50   # 隐藏层大小
-output_size = 1    # 输出特征数
-num_layers = 2     # LSTM 层数
 
-model = LSTMModel(input_size, hidden_size, output_size, num_layers)
-criterion = nn.MSELoss()  # 损失函数
-optimizer = optim.Adam(model.parameters(), lr=0.001)
-</code></pre>
-<h3 id="2-4-创建数据示例"><a href="#2-4-创建数据示例" class="headerlink" title="2.4 创建数据示例"></a>2.4 创建数据示例</h3><pre><code class="Python"># 生成随机输入和标签
-x_train = torch.randn(100, 5, input_size)  # (批次大小, 时间步, 输入大小)
-y_train = torch.randn(100, output_size)
-</code></pre>
-<h3 id="2-5-训练模型"><a href="#2-5-训练模型" class="headerlink" title="2.5 训练模型"></a>2.5 训练模型</h3><pre><code class="Python">num_epochs = 100
+    def training_step(self, batch, batch_idx):
+        # calculate loss and log training progress
+        input_i, label_i = batch
+        output_i = self.forward(input_i[0])
+        loss = (output_i - label_i) ** 2
 
-for epoch in range(num_epochs):
-    model.train()
-    outputs = model(x_train)
-    loss = criterion(outputs, y_train)
+        self.log(&quot;train_loss&quot;, loss)
+        
+        if (label_i == 0):
+            self.log(&quot;out_0&quot;, output_i)
+        else:
+            self.log(&quot;out_1&quot;, output_i)
+
+        return loss
+</code></pre>
+<h3 id="2-3-🔍检查网络是否正确搭建"><a href="#2-3-🔍检查网络是否正确搭建" class="headerlink" title="2.3 🔍检查网络是否正确搭建"></a>2.3 🔍检查网络是否正确搭建</h3><pre><code class="Python">model = LSTMbyHand()
+
+print(&quot;\nNow let&#39;s compare the observed and predicted values...&quot;)
+print(&quot;Company A: Observed = 0, Predicted = &quot;, model(torch.tensor([0., 0.5, 0.25, 1.])).detach())
+
+print(&quot;Company B: Observed = 1, Predicted = &quot;, model(torch.tensor([1., 0.5, 0.25, 1.])).detach())
+</code></pre>
+<h3 id="2-4-💪开始训练"><a href="#2-4-💪开始训练" class="headerlink" title="2.4 💪开始训练"></a>2.4 💪开始训练</h3><pre><code class="Python">inputs = torch.tensor([[0., 0.5, 0.25, 1.], [1., 0.5, 0.25, 1.]])
+labels = torch.tensor([0., 1.])
+
+dataset = TensorDataset(inputs, labels)
+dataloader = DataLoader(dataset)
+
+trainer = L.Trainer(max_epochs=2000)
+trainer.fit(model, train_dataloaders=dataloader)
+</code></pre>
+<h3 id="2-5-🔎检查训练效果"><a href="#2-5-🔎检查训练效果" class="headerlink" title="2.5 🔎检查训练效果"></a>2.5 🔎检查训练效果</h3><pre><code class="Terminal">tensorboard --logdir=lightning_logs/
+</code></pre>
+<p><img src="/./images/lstm/tensorboard1.png" alt="result"></p>
+<p>发现效果一般😢</p>
+<h3 id="2-6-💪迁移学习"><a href="#2-6-💪迁移学习" class="headerlink" title="2.6 💪迁移学习"></a>2.6 💪迁移学习</h3><pre><code class="Python">path_to_best_checkpoint = trainer.checkpoint_callback.best_model_path
+
+trainer = L.Trainer(max_epochs=5000)
+trainer.fit(model, train_dataloaders=dataloader, ckpt_path=path_to_best_checkpoint)
+</code></pre>
+<p>再次查看效果：</p>
+<p><img src="/./images/lstm/tensorboard3.png" alt="result2"></p>
+<p>效果巨好👌</p>
+<h2 id="3-PyTorch-内置-LSTM-的使用"><a href="#3-PyTorch-内置-LSTM-的使用" class="headerlink" title="3. PyTorch 内置 LSTM 的使用"></a>3. PyTorch 内置 LSTM 的使用</h2><h3 id="3-1-📦导入包"><a href="#3-1-📦导入包" class="headerlink" title="3.1 📦导入包"></a>3.1 📦导入包</h3><pre><code class="Python">import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch.optim import Adam
+
+import lightning as L
+from torch.utils.data import TensorDataset, DataLoader
+</code></pre>
+<h3 id="3-2-🧱搭建网络"><a href="#3-2-🧱搭建网络" class="headerlink" title="3.2 🧱搭建网络"></a>3.2 🧱搭建网络</h3><pre><code class="Python">class LightningLSTM(L.LightningModule):
+    def __init__(self):
+        super().__init__()
+        self.lstm = nn.LSTM(input_size=1, hidden_size=1)
+
     
-    optimizer.zero_grad()
-    loss.backward()
-    optimizer.step()
+    def forward(self, input):
+        input_trans = input.view(len(input), 1)
 
-    if (epoch+1) % 10 == 0:
-        print(f&#39;Epoch [&#123;epoch+1&#125;/&#123;num_epochs&#125;], Loss: &#123;loss.item():.4f&#125;&#39;)
+        lstm_out, temp = self.lstm(input_trans)
+
+        prediction = lstm_out[-1]
+        return prediction
+    
+
+    def configure_optimizers(self):
+        return Adam(self.parameters(), lr=0.1)
+    
+
+    def training_step(self, batch, batch_idx):
+        input_i, label_i = batch
+        output_i = self.forward(input_i[0])
+        loss = (output_i - label_i) ** 2
+
+        self.log(&quot;train_loss&quot;, loss)
+
+        if (label_i==0):
+            self.log(&quot;out_0&quot;, output_i)
+        else:
+            self.log(&quot;out_1&quot;, output_i)
+
+        return loss
 </code></pre>
-<h3 id="2-6-评估模型"><a href="#2-6-评估模型" class="headerlink" title="2.6 评估模型"></a>2.6 评估模型</h3><pre><code class="Python">model.eval()
-with torch.no_grad():
-    test_input = torch.randn(1, 5, input_size)
-    prediction = model(test_input)
-    print(f&#39;Prediction: &#123;prediction&#125;&#39;)
+<h3 id="3-3-💪开始训练"><a href="#3-3-💪开始训练" class="headerlink" title="3.3 💪开始训练"></a>3.3 💪开始训练</h3><pre><code class="Python">model = LightningLSTM()
+
+trainer = L.Trainer(max_epochs=300, log_every_n_steps=2)
+trainer.fit(model, train_dataloaders=dataloader)
 </code></pre>
 
     </div>
