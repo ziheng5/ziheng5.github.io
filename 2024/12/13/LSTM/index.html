@@ -189,14 +189,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/PyTorch/" style="color: #00a596">
+                <a href="/tags/PyTorch/" style="color: #03a9f4">
                     PyTorch
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
                     深度学习
                 </a>
             </span>
@@ -214,6 +214,7 @@
 </blockquote>
 <h2 id="1-❓-什么是-LSTM"><a href="#1-❓-什么是-LSTM" class="headerlink" title="1. ❓ 什么是 LSTM"></a>1. ❓ 什么是 LSTM</h2><p>长短期记忆网络（LSTM，Long-Short-Term Memory）是传统 RNN 网络的 Plus 版本。</p>
 <h3 id="1-1-发明背景"><a href="#1-1-发明背景" class="headerlink" title="1.1 发明背景"></a>1.1 发明背景</h3><p>传统的 RNN 网络在训练的时候，当遇到长序列数据时，很容易出现 <strong>梯度爆炸</strong> 与 <strong>梯度消失</strong> 的情况，导致训练效果不太好。</p>
+<p>（👀 什么？你不知道什么是 <strong>梯度爆炸</strong> 和 <strong>梯度消失</strong>？！快来看看这个视频：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=AsNTP8Kwu80%EF%BC%89">https://www.youtube.com/watch?v=AsNTP8Kwu80）</a></p>
 <p>为了解决这一问题，LSTM 在传统 RNN 的基础上，加入了 <strong>门控机制（Gate）</strong> 来控制信息流动，从而记住长期依赖信息。</p>
 <h3 id="1-2-原理详解"><a href="#1-2-原理详解" class="headerlink" title="1.2 原理详解"></a>1.2 原理详解</h3><p>先看视频：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=YCzL96nL7j0&t=1s">https://www.youtube.com/watch?v=YCzL96nL7j0&amp;t=1s</a></p>
 <p>LSTM 由多个 <strong>LSTM 单元（Cell）</strong> 组成，每个单元包含以下三个门和一个单元状态：  </p>
