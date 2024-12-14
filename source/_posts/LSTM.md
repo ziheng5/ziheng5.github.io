@@ -24,10 +24,14 @@ description: |
 ### 1.1 发明背景
 传统的 RNN 网络在训练的时候，当遇到长序列数据时，很容易出现 **梯度爆炸** 与 **梯度消失** 的情况，导致训练效果不太好。
 
+> 👀 什么？你不知道什么是 **梯度爆炸** 和 **梯度消失**？！快来看看这个视频：
+> 
+> https://www.youtube.com/watch?v=AsNTP8Kwu80
+
 为了解决这一问题，LSTM 在传统 RNN 的基础上，加入了 **门控机制（Gate）** 来控制信息流动，从而记住长期依赖信息。
 
 ### 1.2 原理详解
-先看视频：https://www.youtube.com/watch?v=YCzL96nL7j0&t=1s
+> 先看视频：https://www.youtube.com/watch?v=YCzL96nL7j0&t=1s
 
 LSTM 由多个 **LSTM 单元（Cell）** 组成，每个单元包含以下三个门和一个单元状态：  
 
@@ -81,89 +85,228 @@ $$ f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f) $$
 
 ---
 
-## 2. PyTorch 实现 LSTM
-### 2.1 导入必要的库
+## 2. PyTorch 手动复现 LSTM（灵活度高）
+> 参考教程：https://www.youtube.com/watch?v=RHGiXPuo_pI
+### 2.1 📦导入包
 ```Python
 import torch
 import torch.nn as nn
-import torch.optim as optim
+import torch.nn.functional as F
+from torch.optim import Adam
+
+import lightning as L
+from torch.utils.data import TensorDataset, DataLoader
 ```
 
-### 2.2 定义 LSTM 模型
+⚠️注意：这里有个叫 `lightning` 的包。
 
+> 什么？你不知道这个包是用来干什么的？！PyTorch Lightning 是一个基于 PyTorch 的深度学习框架，其功能相当强大，可以一键实现很多功能！
+>
+> 官方文档：https://lightning.ai/docs/pytorch/stable/
+>
+> 下载方式:
+>
+> 1. pip 用户：
+> ```Terminal
+> pip install lightning
+> ```
+> 2. conda 用户：
+> ```Terminal
+> conda install lightning
+> ```
+
+### 2.2 ✋手搓 LSTM 网络
 ```Python
-class LSTMModel(nn.Module):
-    def __init__(self, input_size, hidden_size, output_size, num_layers=1):
-        super(LSTMModel, self).__init__()
-        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True)
-        self.fc = nn.Linear(hidden_size, output_size)
+class LSTMbyHand(L.LightningModule):
+    def __init__(self):
+        # create and initialize weight and bias tensors
+        super().__init__()
+        mean = torch.tensor(0.0)
+        std = torch.tensor(1.0)
+
+        ## 1. 遗忘门 
+        self.wlr1 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.wlr2 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.blr1 = nn.Parameter(torch.tensor(0.), requires_grad=True)
+
+        ## 2. 输入门
+        self.wpr1 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.wpr2 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.bpr1 = nn.Parameter(torch.tensor(0.), requires_grad=True)
+
+        self.wp1 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.wp2 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.bp1 = nn.Parameter(torch.tensor(0.), requires_grad=True)
+
+        ## 3. 输出门
+        self.wo1 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.wo2 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.bo1 = nn.Parameter(torch.tensor(0.), requires_grad=True)
+
+
+    def lstm_unit(self, input_value, long_memory, short_memory):
+        # do the lstm math
+        ## 1. 遗忘门
+        long_remember_percent = torch.sigmoid((short_memory * self.wlr1) +
+                                              (input_value * self.wlr2) +
+                                              self.blr1)
+        
+        ## 2. 输入门
+        potential_remember_percent = torch.sigmoid((short_memory * self.wpr1) +
+                                                   (input_value * self.wpr2) +
+                                                   self.bpr1)
+        
+        potential_memory = torch.tanh((short_memory * self.wp1) +
+                                      (input_value * self.wp2) +
+                                      self.bp1)
+        
+        updated_long_memory = ((long_memory * long_remember_percent) +
+                              (potential_memory * potential_remember_percent))
+        
+        ## 3. 输出门
+        output_percent = torch.sigmoid((short_memory * self.wo1) +
+                                       (input_value * self.wo2) +
+                                       self.bo1)
+        
+        updated_short_memory = torch.tanh(updated_long_memory) * output_percent
+
+        ## 4. 输出
+        return ([updated_long_memory, updated_short_memory])
+
+
+    def forward(self, input):
+        # make a forward pass through unrolled lstm
+        long_memory = 0
+        short_memory = 0
+        day1 = input[0]
+        day2 = input[1]
+        day3 = input[2]
+        day4 = input[3]
+
+        long_memory, short_memory = self.lstm_unit(day1, long_memory, short_memory)
+        long_memory, short_memory = self.lstm_unit(day2, long_memory, short_memory)
+        long_memory, short_memory = self.lstm_unit(day3, long_memory, short_memory)
+        long_memory, short_memory = self.lstm_unit(day4, long_memory, short_memory)
+
+        return short_memory
+
+
+    def configure_optimizers(self):
+        # configure adam optimizer
+        return Adam(self.parameters())
     
-    def forward(self, x):
-        lstm_out, _ = self.lstm(x)
-        out = self.fc(lstm_out[:, -1, :])  # 只取最后一个时间步的输出
-        return out
+
+    def training_step(self, batch, batch_idx):
+        # calculate loss and log training progress
+        input_i, label_i = batch
+        output_i = self.forward(input_i[0])
+        loss = (output_i - label_i) ** 2
+
+        self.log("train_loss", loss)
+        
+        if (label_i == 0):
+            self.log("out_0", output_i)
+        else:
+            self.log("out_1", output_i)
+
+        return loss
 ```
 
-PyTorch 提供的 `nn.LSTM` 含有四个参数：`input_size`、`hidden_size`、`num_layers`、`batch_first`。
-
-其中，`batch_first` 用于指定输入张量的维度顺序，控制输入和输出张量的形状解释方式：
-
-- 默认值：`batch_first=True`
-  - 输入张量形状：`(seq_len, batch_size, input_size)`
-  - 输出张量形状：`(seq_len, batch_size, hidden_size)`
-- 设置为 `batch_first=True`：
-  - 输入张量形状：`(batch_size, seq_len, input_size)`
-  - 输出张量形状：`(batch_size, seq_len, hidden_size)`
-
-这里为什么我们要用 `batch_first=True` 呢？
-- 设置 `batch_first=True` 更符合大多数深度学习库的常用张量形式，使代码更直观。
-
-
-### 2.3 初始化模型和超参数
-
+### 2.3 🔍检查网络是否正确搭建
 ```Python
-input_size = 10    # 输入特征数
-hidden_size = 50   # 隐藏层大小
-output_size = 1    # 输出特征数
-num_layers = 2     # LSTM 层数
+model = LSTMbyHand()
 
-model = LSTMModel(input_size, hidden_size, output_size, num_layers)
-criterion = nn.MSELoss()  # 损失函数
-optimizer = optim.Adam(model.parameters(), lr=0.001)
+print("\nNow let's compare the observed and predicted values...")
+print("Company A: Observed = 0, Predicted = ", model(torch.tensor([0., 0.5, 0.25, 1.])).detach())
+
+print("Company B: Observed = 1, Predicted = ", model(torch.tensor([1., 0.5, 0.25, 1.])).detach())
 ```
 
-### 2.4 创建数据示例
-
+### 2.4 💪开始训练
 ```Python
-# 生成随机输入和标签
-x_train = torch.randn(100, 5, input_size)  # (批次大小, 时间步, 输入大小)
-y_train = torch.randn(100, output_size)
+inputs = torch.tensor([[0., 0.5, 0.25, 1.], [1., 0.5, 0.25, 1.]])
+labels = torch.tensor([0., 1.])
+
+dataset = TensorDataset(inputs, labels)
+dataloader = DataLoader(dataset)
+
+trainer = L.Trainer(max_epochs=2000)
+trainer.fit(model, train_dataloaders=dataloader)
 ```
 
-### 2.5 训练模型
+### 2.5 🔎检查训练效果
+```Terminal
+tensorboard --logdir=lightning_logs/
+```
+![result](./images/lstm/tensorboard1.png)
 
+发现效果一般😢
+
+### 2.6 💪迁移学习
 ```Python
-num_epochs = 100
+path_to_best_checkpoint = trainer.checkpoint_callback.best_model_path
 
-for epoch in range(num_epochs):
-    model.train()
-    outputs = model(x_train)
-    loss = criterion(outputs, y_train)
+trainer = L.Trainer(max_epochs=5000)
+trainer.fit(model, train_dataloaders=dataloader, ckpt_path=path_to_best_checkpoint)
+```
+再次查看效果：
+
+![result2](./images/lstm/tensorboard3.png)
+
+效果巨好👌
+
+## 3. PyTorch 内置 LSTM 的使用
+### 3.1 📦导入包
+```Python
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch.optim import Adam
+
+import lightning as L
+from torch.utils.data import TensorDataset, DataLoader
+```
+
+### 3.2 🧱搭建网络
+```Python
+class LightningLSTM(L.LightningModule):
+    def __init__(self):
+        super().__init__()
+        self.lstm = nn.LSTM(input_size=1, hidden_size=1)
+
     
-    optimizer.zero_grad()
-    loss.backward()
-    optimizer.step()
+    def forward(self, input):
+        input_trans = input.view(len(input), 1)
 
-    if (epoch+1) % 10 == 0:
-        print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}')
+        lstm_out, temp = self.lstm(input_trans)
+
+        prediction = lstm_out[-1]
+        return prediction
+    
+
+    def configure_optimizers(self):
+        return Adam(self.parameters(), lr=0.1)
+    
+
+    def training_step(self, batch, batch_idx):
+        input_i, label_i = batch
+        output_i = self.forward(input_i[0])
+        loss = (output_i - label_i) ** 2
+
+        self.log("train_loss", loss)
+
+        if (label_i==0):
+            self.log("out_0", output_i)
+        else:
+            self.log("out_1", output_i)
+
+        return loss
 ```
 
-### 2.6 评估模型
-
+### 3.3 💪开始训练
 ```Python
-model.eval()
-with torch.no_grad():
-    test_input = torch.randn(1, 5, input_size)
-    prediction = model(test_input)
-    print(f'Prediction: {prediction}')
+model = LightningLSTM()
+
+trainer = L.Trainer(max_epochs=300, log_every_n_steps=2)
+trainer.fit(model, train_dataloaders=dataloader)
 ```
