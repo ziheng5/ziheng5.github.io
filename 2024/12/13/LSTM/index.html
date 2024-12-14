@@ -189,14 +189,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/PyTorch/" style="color: #03a9f4">
+                <a href="/tags/PyTorch/" style="color: #00a596">
                     PyTorch
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
                     深度学习
                 </a>
             </span>
@@ -229,9 +229,9 @@
 <h4 id="输入门（Input-Gate）"><a href="#输入门（Input-Gate）" class="headerlink" title="输入门（Input Gate）"></a><strong>输入门（Input Gate）</strong></h4><ul>
 <li><strong>功能：</strong> 决定哪些新信息需要 <strong>存储</strong>。</li>
 <li><strong>公式：</strong><ul>
-<li>候选信息生成：<br>$$<br>\tilde{C}<em>t &#x3D; \tanh(W_C \cdot [h</em>{t-1}, x_t] + b_C)<br>$$</li>
-<li>输入门激活：<br>$$<br>i_t &#x3D; \sigma(W_i \cdot [h_{t-1}, x_t] + b_i)<br>$$</li>
-<li>更新单元状态：<br>$$<br>C_t &#x3D; f_t \cdot C_{t-1} + i_t \cdot \tilde{C}_t<br>$$</li>
+<li>候选信息生成：<br>$$\tilde{C}<em>t &#x3D; \tanh(W_C \cdot [h</em>{t-1}, x_t] + b_C)$$</li>
+<li>输入门激活：<br>$$i_t &#x3D; \sigma(W_i \cdot [h_{t-1}, x_t] + b_i)$$</li>
+<li>更新单元状态：<br>$$C_t &#x3D; f_t \cdot C_{t-1} + i_t \cdot \tilde{C}_t$$</li>
 </ul>
 </li>
 <li><strong>解释：</strong><ul>
@@ -243,8 +243,8 @@
 <h4 id="输出门（Output-Gate）"><a href="#输出门（Output-Gate）" class="headerlink" title="输出门（Output Gate）"></a><strong>输出门（Output Gate）</strong></h4><ul>
 <li><strong>功能：</strong> 决定单元状态中的信息 <strong>公开输出</strong>。</li>
 <li><strong>公式：</strong><ul>
-<li>输出门激活：<br>$$<br>o_t &#x3D; \sigma(W_o \cdot [h_{t-1}, x_t] + b_o)<br>$$</li>
-<li>最终隐藏状态：<br>$$<br>h_t &#x3D; o_t \cdot \tanh(C_t)<br>$$</li>
+<li>输出门激活：<br>$$o_t &#x3D; \sigma(W_o \cdot [h_{t-1}, x_t] + b_o)$$</li>
+<li>最终隐藏状态：<br>$$h_t &#x3D; o_t \cdot \tanh(C_t)$$</li>
 </ul>
 </li>
 <li><strong>解释：</strong><ul>
