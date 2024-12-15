@@ -47,7 +47,7 @@ $$ f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f) $$
 - **功能：** 决定哪些新信息需要 **存储**。
 - **公式：**
   - 候选信息生成：  
-    $$\tilde{C}_t = \tanh(W_C \cdot [h_{t-1}, x_t] + b_C)$$
+    $$ \tilde{C}_t = \tanh(W_C \cdot [h_{t-1}, x_t] + b_C)$$
   - 输入门激活：  
     $$i_t = \sigma(W_i \cdot [h_{t-1}, x_t] + b_i)$$
   - 更新单元状态：  
