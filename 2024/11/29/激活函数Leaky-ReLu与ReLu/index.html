@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>激活函数 Leaky ReLu 与 ReLu 的区别 | Cold Rain&#39;s Blog</title>
+    <title>激活函数 Leaky ReLU 与 ReLU 的区别 | Cold Rain&#39;s Blog</title>
     <meta name="author" content="冷雨" />
     <meta name="description" content="希望能成为一个厉害的人" />
     <meta name="keywords" content="" />
@@ -161,7 +161,7 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>激活函数 Leaky ReLu 与 ReLu 的区别</h1>
+        <h1>激活函数 Leaky ReLU 与 ReLU 的区别</h1>
     </div>
     <div class="info">
         <span class="date">
@@ -189,14 +189,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
                     深度学习
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%9D%82%E8%B0%88/" style="color: #00a596">
+                <a href="/tags/%E6%9D%82%E8%B0%88/" style="color: #03a9f4">
                     杂谈
                 </a>
             </span>
@@ -206,22 +206,25 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="1-ReLu（线性修正单元）"><a href="#1-ReLu（线性修正单元）" class="headerlink" title="1. ReLu（线性修正单元）"></a>1. ReLu（线性修正单元）</h1><p>ReLu 函数对于正数部分直接输出，对于负数部分输出为零</p>
+        <h1 id="1-ReLU（线性修正单元）"><a href="#1-ReLU（线性修正单元）" class="headerlink" title="1. ReLU（线性修正单元）"></a>1. ReLU（线性修正单元）</h1><p>ReLU 函数对于正数部分直接输出，对于负数部分输出为零</p>
+<blockquote>
+<p>如果你学过模电的话，这玩意儿是不是很像<strong>二极管</strong>？ ReLU 函数的发明其实正是参考了二极管的功能特性。</p>
+</blockquote>
 <p>$$ f(x)&#x3D;max(0,x) $$</p>
-<blockquote>
-<p>优点：非常简单，计算速度快。在很多情况下表现良好</p>
-</blockquote>
-<blockquote>
-<p>缺点：可能存在<strong>神经元死亡</strong>的问题，即某些神经元在训练过程中可能永远不会被激活，导致权重无法更新。</p>
-</blockquote>
-<h1 id="2-Leaky-ReLu"><a href="#2-Leaky-ReLu" class="headerlink" title="2. Leaky ReLu"></a>2. Leaky ReLu</h1><p>Leaky ReLu 对于负数部分不再输出零，而是输出一个很小的负数，通常用一个小斜率 $\alpha$ 乘以输入。</p>
+<ul>
+<li><p>优点：非常简单，计算速度快。在很多情况下表现良好</p>
+</li>
+<li><p>缺点：可能存在<strong>神经元死亡</strong>的问题，即某些神经元在训练过程中可能永远不会被激活，导致权重无法更新。</p>
+</li>
+</ul>
+<h1 id="2-Leaky-ReLU"><a href="#2-Leaky-ReLU" class="headerlink" title="2. Leaky ReLU"></a>2. Leaky ReLU</h1><p>Leaky ReLU 对于负数部分不再输出零，而是输出一个很小的负数，通常用一个小斜率 $\alpha$ 乘以输入。</p>
 <p>$$ f(x)&#x3D;\left\{\begin{matrix} x, {if} {x&gt;0} \\ \alpha x, if x\le0 \end{matrix}\right. $$</p>
-<blockquote>
-<p>优点：解决零 ReLU 的神经元死亡问题，因为负数有一个小的梯度。</p>
-</blockquote>
-<blockquote>
-<p>缺点：对于 $\alpha$ 的选择比较敏感，需要调参。 </p>
-</blockquote>
+<ul>
+<li><p>优点：解决零 ReLU 的神经元死亡问题，因为负数有一个小的梯度。</p>
+</li>
+<li><p>缺点：对于 $\alpha$ 的选择比较敏感，需要调参。</p>
+</li>
+</ul>
 
     </div>
     
