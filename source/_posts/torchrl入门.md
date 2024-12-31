@@ -2,11 +2,11 @@
 title: TorchRL 入门 1
 date: 2024-12-07 20:00:00
 tags: 
-    - RL（强化学习）
+    - 强化学习
     - PyTorch
     - TorchRL
 categories: 
-    - TorchRL
+    - 强化学习
 description: |
     Environment, TED 和 transforms
 ---

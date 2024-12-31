@@ -2,9 +2,9 @@
 title: OpenAI Gym 的使用
 date: 2024-12-10 13:49:33
 tags: 
-    - RL（强化学习）
+    - 强化学习
 categories: 
-    - RL（强化学习）实战笔记
+    - 强化学习
 description: |
     如何使用 OpenAI Gym
 ---

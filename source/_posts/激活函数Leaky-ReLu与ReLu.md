@@ -3,10 +3,8 @@ title: 激活函数 Leaky ReLU 与 ReLU 的区别
 date: 2024-11-29 17:04:48
 tags:
     - 深度学习
-    - 杂谈
 categories: 
     - 深度学习
-    - 杂谈
 description: |
     简单解释 Leaky ReLU 与 ReLU 之间的区别
 ---

@@ -4,9 +4,9 @@ date: 2024-12-13 13:00:36
 tags: 
     - PyTorch
     - 深度学习
+    - RNN
 categories:
     - 深度学习
-    - RNN 族算法
 description: |
     📖 使用 PyTorch 实现 LSTM
 ---

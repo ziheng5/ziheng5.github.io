@@ -5,7 +5,7 @@ tags:
     - PyTorch
     - 深度学习
 categories:
-    - 杂谈
+    - 深度学习
 description: |
     简单介绍深度学习，并简单讲解PyTorch的基本语法
 ---

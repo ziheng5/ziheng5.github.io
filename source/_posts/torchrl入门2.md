@@ -2,11 +2,11 @@
 title: TorchRL 入门 2
 date: 2024-12-07 22:03:37
 tags: 
-    - RL（强化学习）
+    - 强化学习
     - PyTorch
     - TorchRL
 categories: 
-    - TorchRL
+    - 强化学习
 description: |
     如何使用 TorchRL 的模块
 ---

@@ -2,11 +2,11 @@
 title: PyTorch 深度学习、强化学习入门
 date: 2024-12-11 13:02:25
 tags: 
-    - RL（强化学习）
+    - 强化学习
     - PyTorch
     - 深度学习
 categories: 
-    - RL（强化学习）实战笔记
+    - 深度学习
 description: |
     📖 如何使用 PyTorch 进行深度学习与强化学习的实践
 ---
