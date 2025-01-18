@@ -189,14 +189,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="color: #00a596">
+                <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="color: #ff7d73">
                     树莓派
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E7%A1%AC%E4%BB%B6/" style="color: #ff7d73">
+                <a href="/tags/%E7%A1%AC%E4%BB%B6/" style="color: #00bcd4">
                     硬件
                 </a>
             </span>
@@ -211,7 +211,7 @@
 <p>由于之前除了 ESP8266 的板子以及 MicroPython 这个工具外，其他硬件相关的东西基本上没接触过。</p>
 <p>于是小生买了一块似乎比较好上手的树莓派 4b，准备熬过期末周之后好好折腾一番。</p>
 </blockquote>
-<h1 id="1-烧录系统"><a href="#1-烧录系统" class="headerlink" title="1. 烧录系统"></a>1. 烧录系统</h1><h2 id="1-1-准备-SD-卡和读卡器"><a href="#1-1-准备-SD-卡和读卡器" class="headerlink" title="1.1 准备 SD 卡和读卡器"></a>1.1 准备 SD 卡和读卡器</h2><p>不同于普通计算机，树莓派采用 SD 卡来存储系统及其内部信息</p>
+<h1 id="1-🔥-烧录系统"><a href="#1-🔥-烧录系统" class="headerlink" title="1. 🔥 烧录系统"></a>1. 🔥 烧录系统</h1><h2 id="1-1-准备-SD-卡和读卡器"><a href="#1-1-准备-SD-卡和读卡器" class="headerlink" title="1.1 准备 SD 卡和读卡器"></a>1.1 准备 SD 卡和读卡器</h2><p>不同于普通计算机，树莓派采用 SD 卡来存储系统及其内部信息</p>
 <p>所以，想要在树莓派上运行操作系统，首先需要在一张 SD 卡中烧入系统。</p>
 <p>将 SD 卡插入读卡器，再将读卡器插入电脑的 USB 接口，便可以在电脑上对 SD 卡进行操作</p>
 <p>（这里缺图）</p>
@@ -235,7 +235,7 @@
 </ol>
 </blockquote>
 <p>接下来点击 “NEXT”，等待系统安装完毕即可。</p>
-<h1 id="2-配置系统"><a href="#2-配置系统" class="headerlink" title="2. 配置系统"></a>2. 配置系统</h1><h2 id="2-1-接入外设"><a href="#2-1-接入外设" class="headerlink" title="2.1 接入外设"></a>2.1 接入外设</h2><p>经过上面的操作，小生的 SD 卡中已经有了一个 Ubuntu Desktop 24.04.1 操作系统，接下来需要将 SD 卡插入到树莓派上的卡槽中，并在树莓派上配置操作系统。</p>
+<h1 id="2-💻-配置系统"><a href="#2-💻-配置系统" class="headerlink" title="2. 💻 配置系统"></a>2. 💻 配置系统</h1><h2 id="2-1-接入外设"><a href="#2-1-接入外设" class="headerlink" title="2.1 接入外设"></a>2.1 接入外设</h2><p>经过上面的操作，小生的 SD 卡中已经有了一个 Ubuntu Desktop 24.04.1 操作系统，接下来需要将 SD 卡插入到树莓派上的卡槽中，并在树莓派上配置操作系统。</p>
 <p>配置操作系统需要给树莓派外接显示器、键盘和鼠标。</p>
 <p>树莓派上连接显示器的接口采用 <strong>Micro HDMI</strong>，即小号的 HDMI，所以我们需要准备一根 <strong>HDMI-Micro HDMI 转接线</strong>。</p>
 <p>键盘和鼠标直接通过树莓派上的 USB 接口连接即可。</p>
@@ -299,6 +299,37 @@ sudo apt-get install vim
 <pre><code class="Terminal">sudo ./Miniconda3-latest-Linux-aarch64.sh
 </code></pre>
 <p>接下来按照提示完成安装操作即可。</p>
+<h1 id="3-🚢-文件传输"><a href="#3-🚢-文件传输" class="headerlink" title="3. 🚢 文件传输"></a>3. 🚢 文件传输</h1><h2 id="3-1-SCP-上传文件"><a href="#3-1-SCP-上传文件" class="headerlink" title="3.1 SCP 上传文件"></a>3.1 SCP 上传文件</h2><p>SCP，即 Security Copy，通过 SCP 命令可以在本地主机和远程主机之间安全且便捷地复制文件和目录</p>
+<p>具体实现方法采用下面的命令格式：</p>
+<pre><code class="Terminal">scp local_file_location remote_username@remote_ip:remot_file_location
+</code></pre>
+<p>举个例子：</p>
+<p>比如说，现在我们本地计算机的用户名为 lengyu,我们在 Desktop 文件夹下建立一个 <code>local_file.txt</code> 文件。</p>
+<p>远程服务器用户名为 coldrain,现在小生想要把 <code>local_file.txt</code> 从本地计算机传输到远程服务器上，那么这个时候小生需要在本地计算机上运行如下指令：</p>
+<pre><code class="Terminal">scp /home/lengyu/Desktop/local_file.txt coldrain@xxx.xxx.xxx.xxx:/home/coldrain/Desktop
+</code></pre>
+<p>运行结果如下：</p>
+<pre><code class="Terminal">scp /home/lengyu/Documents/local_file.txt coldrain@192.168.37.122:/home/coldrain/Desktop
+coldrain@192.168.37.122&#39;s password:
+local_file.txt                                             100%    0     0.0KB/s   00:00
+</code></pre>
+<p>然后我们就可以在远程服务器上的 <code>/home/coldrain/Desktop</code> 目录下发现 <code>local_file.txt</code> 文件了</p>
+<p>如果需要上传文件夹，记得在 <code>scp</code> 后面加上 <code>-r</code>，即：</p>
+<pre><code class="Termminal">scp -r local_folder_location remote_username@remote_ip:remot_file_location
+</code></pre>
+<h2 id="3-2-SCP-下载文件"><a href="#3-2-SCP-下载文件" class="headerlink" title="3.2 SCP 下载文件"></a>3.2 SCP 下载文件</h2><p>网上查到的具体实现方法采用下面的命令格式：</p>
+<pre><code class="Terminal">scp remote_name@remote_ip:remote_file_location local_file_location
+</code></pre>
+<p>然而实际操作的时候，小生这里<strong>报了一个错</strong> 😨：</p>
+<pre><code class="Terminal">scp: open local &quot;/usr/test.txt&quot;: Permission denied
+</code></pre>
+<p>查找了一会儿资料，发现是没有权限在本地计算机的文件夹上写入文件。于是小生更改了本地计算机目标文件夹的写入权限：</p>
+<pre><code class="Terminal">chmod 777 /home/local_name/Documents
+</code></pre>
+<blockquote>
+<p>注：<code>chmod 777</code> 命令可以更改文件夹权限为可写入</p>
+</blockquote>
+<p>运行上述代码后，再次尝试下载文件，下载成功 ✌️</p>
 
     </div>
     
