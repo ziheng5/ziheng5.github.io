@@ -16,7 +16,7 @@ description: |
 >
 > 于是小生买了一块似乎比较好上手的树莓派 4b，准备熬过期末周之后好好折腾一番。
 
-# 1. 烧录系统
+# 1. 🔥 烧录系统
 ## 1.1 准备 SD 卡和读卡器
 不同于普通计算机，树莓派采用 SD 卡来存储系统及其内部信息
 
@@ -49,7 +49,7 @@ description: |
 
 接下来点击 "NEXT"，等待系统安装完毕即可。
 
-# 2. 配置系统
+# 2. 💻 配置系统
 ## 2.1 接入外设
 经过上面的操作，小生的 SD 卡中已经有了一个 Ubuntu Desktop 24.04.1 操作系统，接下来需要将 SD 卡插入到树莓派上的卡槽中，并在树莓派上配置操作系统。
 
@@ -168,3 +168,62 @@ sudo ./Miniconda3-latest-Linux-aarch64.sh
 ```
 
 接下来按照提示完成安装操作即可。
+
+# 3. 🚢 文件传输
+## 3.1 SCP 上传文件
+SCP，即 Security Copy，通过 SCP 命令可以在本地主机和远程主机之间安全且便捷地复制文件和目录
+
+具体实现方法采用下面的命令格式：
+
+```Terminal
+scp local_file_location remote_username@remote_ip:remot_file_location
+```
+
+举个例子：
+
+比如说，现在我们本地计算机的用户名为 lengyu,我们在 Desktop 文件夹下建立一个 `local_file.txt` 文件。
+
+远程服务器用户名为 coldrain,现在小生想要把 `local_file.txt` 从本地计算机传输到远程服务器上，那么这个时候小生需要在本地计算机上运行如下指令：
+
+```Terminal
+scp /home/lengyu/Desktop/local_file.txt coldrain@xxx.xxx.xxx.xxx:/home/coldrain/Desktop
+```
+
+运行结果如下：
+
+```Terminal
+scp /home/lengyu/Documents/local_file.txt coldrain@192.168.37.122:/home/coldrain/Desktop
+coldrain@192.168.37.122's password:
+local_file.txt                                             100%    0     0.0KB/s   00:00
+```
+
+然后我们就可以在远程服务器上的 `/home/coldrain/Desktop` 目录下发现 `local_file.txt` 文件了
+
+如果需要上传文件夹，记得在 `scp` 后面加上 `-r`，即：
+
+```Termminal
+scp -r local_folder_location remote_username@remote_ip:remot_file_location
+```
+
+## 3.2 SCP 下载文件
+网上查到的具体实现方法采用下面的命令格式：
+
+```Terminal
+scp remote_name@remote_ip:remote_file_location local_file_location
+```
+
+然而实际操作的时候，小生这里**报了一个错** 😨：
+
+```Terminal
+scp: open local "/usr/test.txt": Permission denied
+```
+
+查找了一会儿资料，发现是没有权限在本地计算机的文件夹上写入文件。于是小生更改了本地计算机目标文件夹的写入权限：
+
+```Terminal
+chmod 777 /home/local_name/Documents
+```
+> 注：`chmod 777` 命令可以更改文件夹权限为可写入
+
+运行上述代码后，再次尝试下载文件，下载成功 ✌️
+
