@@ -7,7 +7,7 @@ tags:
 categories: 
     - 树莓派
 description: |
-    树莓派折腾记——其一
+    树莓派折腾记其一 —— 操作系统与相关配置
 ---
 
 > 大二上半学期期末周的时候突然心血来潮，想要做一些硬件开发（人脸识别锁、指纹锁和无人机啥的）
@@ -32,6 +32,8 @@ description: |
 然而，树莓派官方提供了更为便捷的途径：通过树莓派官方提供的 [Raspberry Pi Imager](https://www.raspberrypi.com/software/) 将适配的操作系统直接安装到 SD 卡上。Raspberry Pi Imager 提供了树莓派官方操作系统以及各种其他 Linux 发行版的镜像，安装也十分迅速便捷。
 
 于是小生采用 Raspberry Pi Imager 在我的第一张 SD 卡上装一个 **Ubuntu Desktop 24.04.1** 系统。
+
+> ⚠️：不建议装 Ubuntu 24 版本，后面做各种兼容太麻烦了，这里小生建议装老版本，比如 Ubuntu 22
 
 将 Raspberry Pi Imager 下载下来之后，点击运行，出现以下界面：
 
