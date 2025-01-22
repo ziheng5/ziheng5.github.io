@@ -19,6 +19,8 @@ description: |
 >
 > （本文里的代码是小生重新手打的，未复制粘贴，可能存在拼写错误，望见谅）
 
+![pic1](../images/rl_practice/pic1)
+
 # 1. 📦 导入必要的包
 ```Python
 import torch
@@ -212,7 +214,7 @@ class PPO:
 def main():
     # 创建环境
     env_name = "LunarLander-V2"
-    env = gym.make(env_name)
+    env = gym.make(env_name, render_name="human")
 
     #############################################################################
     # 初始化参数
