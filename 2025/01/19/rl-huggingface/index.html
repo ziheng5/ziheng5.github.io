@@ -196,7 +196,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
+                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
                     强化学习
                 </a>
             </span>
@@ -213,6 +213,7 @@
 <p>上一次运行成功时间：<strong>2025-01-20</strong></p>
 <p>（本文里的代码是小生重新手打的，未复制粘贴，可能存在拼写错误，望见谅）</p>
 </blockquote>
+<p><img src="/../images/rl_practice/pic1" alt="pic1"></p>
 <h1 id="1-📦-导入必要的包"><a href="#1-📦-导入必要的包" class="headerlink" title="1. 📦 导入必要的包"></a>1. 📦 导入必要的包</h1><pre><code class="Python">import torch
 import torch.nn as nn
 from torch.distributions.categorical import Categorical
@@ -387,7 +388,7 @@ device = torch.device(“cuda:0” if torch.cuda.is_available() else &quot;cpu&q
 <h1 id="5-🀄-主函数"><a href="#5-🀄-主函数" class="headerlink" title="5. 🀄 主函数"></a>5. 🀄 主函数</h1><pre><code class="Python">def main():
     # 创建环境
     env_name = &quot;LunarLander-V2&quot;
-    env = gym.make(env_name)
+    env = gym.make(env_name, render_name=&quot;human&quot;)
 
     #############################################################################
     # 初始化参数
