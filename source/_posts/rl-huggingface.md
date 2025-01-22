@@ -286,4 +286,59 @@ def main():
             avg_length = 0
 ```
 
-> (如有报错且问题难以解决，可以 QQ 私信小生 🥺)
+# 6. 🚗 加载模型文件展示效果：
+> 这里要新建一个 `ppo_show.py` 文件
+```Python
+from ppo import PPO, Memory, ActorCritic
+import gym
+import torch
+import numpy as np
+
+env_name = "LunarLander-v2"
+env = gym.make(env_name, render_mode="human")
+state_dim = env.observation_space.shape[0]
+action_dim = 4
+render = True
+max_timesteps = 300
+n_latent_var = 64
+lr = 0.0007
+betas = (0.9, 0.999)
+gamma = 0.99
+K_epochs = 4
+eps_clip = 0.2
+n_episodes = 3
+filename = "PPO_LunarLander-v2.pth"
+directory = "./"
+
+memory = Memory()
+ppo = PPO(state_dim, action_dim, n_latent_var, lr, betas, gamma, K_epochs, eps_clip=eps_clip)
+ppo.policy.load_state_dict(torch.load(filename))
+ppo.policy_old.load_state_dict(torch.load(filename))
+
+# logging variables
+running_reward = 0
+avg_length = 0
+timestep = 0
+
+# training loop
+for i_episode in range(1, 20):
+    state = env.reset()
+    state = np.array(state[0])
+    for t in range(max_timesteps):
+        timestep += 1
+
+        action = ppo.policy_old.act(state, memory)
+        state, reward, done, _, _ = env.step(action)
+
+        memory.rewards.append(reward)
+        memory.is_terminals.append(done)
+
+        running_reward += reward
+        if render:
+            env.render()
+        if done:
+            break
+
+    avg_length += t
+```
+> **如有报错且找不到报错原因的，可以私信小生** 🥺
