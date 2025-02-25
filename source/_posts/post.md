@@ -10,3 +10,5 @@ description: |
     小生大一时做的陈年老项目啦，拿过来简单唠唠，顺便回忆一下 requests 和 PyQt
     （我也不清楚应该放在哪个分类里，又懒得把程序分成两篇博客讲，干脆放到“爬虫”里吧 💦）
 ---
+
+（待更新：https://github.com/ziheng5/-bilibili-video-get-）
