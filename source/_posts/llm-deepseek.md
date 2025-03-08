@@ -9,6 +9,7 @@ categories:
 description: |
     🔍 记录自己第一次本地部署大模型的过程
 ---
+（待更新）
 
 # 1. 安装 Ollama
 可以直接在官网上下载 LM Studio 的安装包：https://lmstudio.ai/
@@ -20,3 +21,4 @@ paru -S ollama
 ```
 
 接下来跟随指引安装。
+

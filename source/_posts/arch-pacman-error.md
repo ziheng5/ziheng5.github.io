@@ -98,6 +98,7 @@ error: GPGME error: No data
 ```Terminal
 # 删除所有仓库数据库缓存（解决核心问题）
 sudo rm -rf /var/lib/pacman/sync/*.db
+sudo rm -rf /var/lib/pacman/sync/*.sig
 
 # 强制重新下载数据库（-Syy 表示强制刷新）
 pacman -Syyu

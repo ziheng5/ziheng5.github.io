@@ -9,271 +9,90 @@ description: |
     基于强化学习的多无人及协同围捕算法——MADDPG 的理论与仿真代码解读。
 ---
 
-# 1. 仿真环境创建（基于 gymnasium）
-```Python
-import numpy as np
-import itertools
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-import matplotlib.transforms as transforms
-import matplotlib.image as mping
-from gymnasium import spaces
-from math_tool import *
-import matplotlib.backends.backend_agg as agg
-from PIL import Image
-import random
-import copy
+MADDPG（Multi-Agent Deep Deterministic Policy Gradient）是一种针对多智能体强化学习环境的算法，扩展自DDPG（Deep Deterministic Policy Gradient）。其核心思想是**集中式训练、分散式执行**，通过利用全局信息优化策略，同时保持智能体在执行时的独立性。
 
-class UAVEnv:
-    def __init__(self, length=2, num_obstacle=3, num_agents=4):
-        self.length = length    # 边界长度
-        self.num_obstacle = num_obstacle    # 障碍物数量
-        self.num_agents = num_agents    # 智能体数量
-        self.time_step = 0.5    # 每隔 0.5 步对参数进行一次更新
-        self.v_max = 0.1    # agents 最大速度
-        self.v_max_e = 0.12 # target 最大速度
-        self.a_max = 0.04
-        self.a_max_e = 0.05
-        self.L_sensor = 0.2
-        self.num_lasers = 16    # 激光数量
-        self.multi_current_lasers = [[self.L_sensor for _ in range(self.num_lasers)] for _ in range(self.num_agents)]
-        self.agents = ['agent_0', 'agent_1', 'agent_2', 'target']
-        self.info = np.random.get_state()   # get seed
-        self.obstacles = [obstacle() for _ in range(self.num_obstacle)]
-        self.history_positions = [[] for _ in range(num_agents)]
+---
 
-        self.action_space = {
-            'agent_0': spaces.Box(low=-np.inf, high=np.inf, shape=(2,)),
-            'agent_1': spaces.Box(low=-np.inf, high=np.inf, shape=(2,)),
-            'agent_2': spaces.Box(low=-np.inf, high=np.inf, shape=(2,)),
-            'target': spaces.Box(low=-np.inf, high=np.inf, shape=(2,)),
-        }
+### **核心思想**
+1. **非平稳环境问题**：多智能体环境中，每个智能体的策略变化会导致其他智能体的环境动态不稳定，传统单智能体算法难以适应。
+2. **集中训练，分散执行**：
+   - **训练阶段**：每个智能体的Critic网络能访问所有智能体的状态和动作信息，从而更准确估计Q值。
+   - **执行阶段**：每个智能体的Actor仅依赖局部观测生成动作，无需全局信息。
 
-        self.observation_space = {
-            'agent_0': spaces.Box(low=-np.inf, high=np.inf, shape=(26,)),
-            'agent_1': spaces.Box(low=-np.inf, high=np.inf, shape=(26,)),
-            'agent_2': spaces.Box(low=-np.inf, high=np.inf, shape=(26,)),
-            'target': spaces.Box(low=-np.inf, high=np.inf, shape=(23,)),
-        }
+---
 
-    def reset(self):
-        SEED = random.randint(1, 1000)
-        random.seed(SEED)
-        self.multi_current_pos = []
-        self.multi_current_vel = []
-        self.history_positions = [[] for _ in range(self.num_agents)]
-        for i in range(self.num_agents):
-            if i != self.num_agents - 1:
-                # for agents
-                self.multi_current_pos.append(np.random.uniform(low=0.1, high=0.4, size=(2,)))
-            else:
-                # for targets
-                self.multi_current_pos.append(np.array([0.5, 1.75]))
-            self.multi_current_vel.append(np.zeros(2))  # 初始化速度
+### **算法结构**
+1. **网络组成**：
+   - **每个智能体包含四个网络**：
+     - **Actor网络（μ）**：基于局部观测生成动作。
+     - **Critic网络（Q）**：输入所有智能体的状态和动作，输出Q值。
+     - **目标Actor网络（μ'）和Critic网络（Q'）**：用于稳定训练，参数通过软更新同步。
 
-        # update lasers
-        self.update_lasers_isCollied_wrapper()
-        ## multi_obs is list of agent_obs, state is multi_obs after flattenned
-        multi_obs = self.get_multi_obs()
-        
-        return multi_obs
+2. **输入输出**：
+   - **Actor**：输入局部观测（s_i），输出动作（a_i）。
+   - **Critic**：输入全局状态（s_1, s_2, ..., s_N）和所有动作（a_1, a_2, ..., a_N），输出Q值。
 
-    def step(self, actions):
-        last_d2target = []
-        for i in range(self.num_agents):
-            pos = self.multi_current_pos[i]
-            if i != self.num_agents - 1:
-                # for agents
-                pos_taget = self.multi_current_pos[-1]
-                last_d2target.append(np.linalg.norm(pos-pos_taget))
+---
 
-            self.multi_current_vel[i][0] += actions[i][0] * self.time_step
-            self.multi_current_vel[i][1] += actions[i][1] * self.time_step
-            vel_magnitude = np.linalg.norm(self.multi_current_vel)
-            if i != self.num_agents - 1:
-                if vel_magnitude >= self.v_max:
-                    self.multi_current_vel[i] = self.multi_current_vel[i] / vel_magnitude * self.v_max
-            else:
-                if vel_magnitude >= self.v_max_e:
-                    self.multi_current_vel[i] = self.multi_current_vel[i] / vel_magnitude * self.v_max_e
+### **训练流程**
+1. **经验回放池**：
+   - 存储所有智能体的经验元组（s, a, r, s'），其中s和a为全局信息。
+   
+2. **采样与更新**：
+   - 从回放池中采样一批经验。
+   - 对每个智能体i：
+     - **计算目标Q值**
 
-            # 第 i 个 agent 坐标更新
-            self.multi_current_pos[i][0] += self.multi_current_vel[i][0] * self.time_step
-            self.multi_current_pos[i][1] += self.multi_current_vel[i][1] * self.time_step
+     - **更新Critic**：最小化TD误差的均方损失
 
-        # 更新障碍物坐标
-        for obs in self.obstacles:
-            obs.position += obs.velocity * self.time_step
-            # 检查是否碰撞到边界，并调整速度
-            for dim in [0, 1]:
-                if obs.position[dim] - obs.radius < 0:
-                    obs.position[dim] = obs.radius
-                    obs.velocity[dim] *= -1
-                elif obs.position[dim] + obs.radius > self.length:
-                    obs.position[dim] = self.length - obs.radius
-                    obs.velocity[dim] *= -1
+     - **更新Actor**：通过梯度上升最大化Q值
 
-        Collided = self.update_lasers_isCollied_wrapper()
-        rewards, dones = self.cal_rewards_dones(Collided, last_d2target)
-        multi_next_obs = self.get_multi_obs()
+     - **软更新目标网络**
 
-        return multi_next_obs, rewards, dones
 
-    def test_multi_obs(self):
-        total_obs = []
-        for i in range(self.num_agents):
-            pos = self.multi_current_pos[i]
-            vel = self.multi_current_vel[i]
-            S_uavi = [
-                pos[0]/self.length,
-                pos[1]/self.length,
-                vel[0]/self.v_max,
-                vel[1]/self.v_max
-            ]
-            total_obs.append(S_uavi)
-        return total_obs
+---
 
-    def get_multi_obs(self):
-        total_obs = []
-        single_obs = []
-        S_evade_d = []  # dim 3 only for target
+### **关键优势**
+1. **解决非平稳性**：Critic使用全局信息，使Q值估计更稳定。
+2. **适用性广泛**：支持合作、竞争或混合任务，智能体可独立优化自身目标。
+3. **扩展性**：适用于连续动作空间，智能体数量可变（需适当调整Critic输入维度）。
 
-        for i in range(self.num_agents):
-            pos = self.multi_current_pos[i]
-            vel = self.multi_current_vel[i]
-            S_uavi = [
-                pos[0]/self.length,
-                pos[1]/self.length,
-                vel[0]/self.v_max,
-                vel[1]/self.v_max
-            ]   # dim 4
-            S_team = [] # dim 3 for 2 agents 1 target
-            S_target = []   # dim 2
-            for j in range(self.num_agents):
-                if j != i and j != self.num_agents - 1:
-                    # other agents
-                    pos_other = self.multi_current_pos[j]
-                    S_team.extend([pos_other[0]/self.length, pos_other[1]/self.length])
-                elif j == self.num_agents - 1:
-                    # target
-                    pos_target = self.multi_current_pos[j]
-                    d = np.linalg.norm(pos - pos_target)    # 到 target 的距离
-                    theta = np.arctan2(pos_target[1]-pos[1], pos_target[0]-pos[0])
-                    S_target.extend([d/np.linalg.norm(2*self.length), theta])
-                    if i != self.num_agents - 1:
-                        # for current agent
-                        S_evade_d.append(d/np.linalg.norm(2*self.length))
-            
-            S_obser = self.multi_current_lasers[i]  # dim 16
+---
 
-            if i != self.num_agents - 1:
-                # for agents
-                single_obs = [S_uavi, S_team, S_obser, S_target]
-            else:
-                # for target
-                single_obs = [S_uavi, S_obser, S_evade_d]
+### **挑战与改进**
+1. **输入维度爆炸**：智能体数量增加时，Critic输入维度可能过高。解决方案包括参数共享或注意力机制。
+2. **异构智能体**：若智能体动作/状态空间不同，需设计统一输入表示（如拼接或编码）。
+3. **策略过拟合**：引入策略集成（Policy Ensembles）或对手建模，提升对其他智能体策略变化的鲁棒性。
 
-            _single_obs = list(itertools.chain(*))
-            total_obs.append(_single_obs)
-        
-        return total_obs
+---
 
-    def cal_rewards_dones(self, IsCollied, last_d):
-        dones = [False] * self.num_agents   # dim 4
-        rewards = np.zeros(self.num_agents) # dim 4
-        mu1 = 0.7   # r_near
-        mu2 = 0.4   # r_safe
-        mu3 = 0.01  # r_multi_stage
-        mu4 = 5 # r_finish
-        d_capture = 0.3
-        d_limit = 0.75
-        ## 1 reward for single rounding-up-UAVs:
-        for i in range(3):
-            pos = self.multi_current_pos[i]
-            vel = self.multi_current_vel[i]
-            pos_target - self.multi_current_pos[-1]
-            v_i = np.linalg.norm(vel)
-            dire_vec = pos_target - pos
-            d = np.linalg.norm(dire_vec)
+### **应用场景**
+- **合作任务**：如多机器人协作搬运、群体围捕。
+- **竞争任务**：如博弈对抗（足球游戏、格斗游戏）。
+- **混合任务**：部分合作、部分竞争的环境（如市场竞争与联盟形成）。
 
-            cos_v_d = np.dot(vel, dire_vec) / (v_i * d + 1e-3)
-            r_near = abs(2 * v_i / self.v_max) * cos_v_d
+---
 
-            rewards[i] += mu1 * r_near  # TODO: if not get nearer then receive negative reward
+### **总结**
+MADDPG通过集中式Critic网络解决了多智能体环境中的非平稳性问题，同时保持执行阶段的分布式特性。其核心在于利用全局信息优化局部策略，适用于复杂多智能体场景，是MARL（Multi-Agent Reinforcement Learning）领域的里程碑算法。
 
-        ## 2 collision reward for all UAVs:
-        for i in range(self.num_agents):
-            if IsCollied[i]:
-                r_safe = -10
-            else:
-                lasers = self.multi_current_lasers[i]
-                r_safe = (min(lasers) - self.L_sensor - 0.1) / self.L_sensor
-            rewards[i] += mu2 * r_safe
+## 奖励函数
+### 1. 撞墙惩罚：
+1. 靠近墙体： **-1 * 0.3**
+2. 撞到墙体： **-500 * 0.3**
 
-        ## 3 multi-stage's reward for rounding-up-UAVs
-        p0 = self.multi_current_pos[0]
-        p1 = self.multi_current_pos[1]
-        p2 = self.multi_current_pos[2]
-        pe = self.multi_current_pos[-1]
-        S1 = cal_triangle_S(p0, p1, pe)
-        S1 = cal_triangle_S(p1, p2, pe)
-        S1 = cal_triangle_S(p2, p0, pe)
-        S1 = cal_triangle_S(p0, p1, p2)
-        d1 = np.linalg.norm(p0 - pe)
-        d2 = np.linalg.norm(p1 - pe)
-        d3 = np.linalg.norm(p2 - pe)
-        Sum_S = S1 + S2 + S3
-        Sum_d = d1 + d2 + d3
-        Sum_last_d = sum(last_d)
-        # 3.1 reward for target UAV
-        rewards[-1] += np.clip(10 * (Sum_d - Sum_last_d), -2, 2)
+### 2. 避障惩罚：
+1. 靠近障碍物： **-1 * 0.3**
+2. 撞到障碍物： **-500 * 0.3**
 
-        # 3.2 stage-1 track
-        if Sum_s > S4 and Sum_d >= d_limit and all(d >= d_capture for d in [d1, d2, d3]):
-            r_track = - Sum_d / max([d1, d2, d3])
-            rewards[0:2] += mu3 * r_track
-        # 3.3 stage-2 track
-        elif Sum_S > S4 and (Sum_d < d_limit or any(d >= d_capture for d in [d1, d2, d3])):
-            r_encircle = -1/3*np.log(Sum_S - S4 + 1)
-            rewards[0:2] += mu3 * r_encircle
-        # 3.4 stage-3 track
-        elif Sum_s == S4 and any(Sum_d < d_limit or any(d >= d_capture for d in [d1, d2, d3])):
-            r_capture = np.exp((Sum_last_d - Sum_d)/(3 * self.v_max))
-            rewards[0:2] += mu3 * r_capture
+### 3. 捕捉奖励：
+1. 捉到 target： **1000 * 5**
+2. 否则： **-2 * d * 5** (0<d<2)
 
-        ## 4. finish rewards
-        if Sum_S == S4 and all (d <= d_capture for d in [d1, d2, d3]):
-            rewards[0:2] += mu4 *10
-            dones = [True] * self.num_agents
-        
-        return rewards, dones
+### 4. 编队奖励：
+1. follower 超出范围： follower **- 10 * d * 0.8**
 
-    def update_lasers_isCollied_wrapper(self):
-        self.multi_current_lasers = []
-        dones = []
-        for i in raneg(self.num_agents):
-            pos = self.multi_current_pos[i]
-            current_lasers = [self.L_sensor] * self.num_lasers
-            done_obs = []
-            for obs in self.obstacles:
-                obs_pos = obs.position
-                r = obs.radius
-                _current_lasers, done = update_lasers(pos, obs_pos, r, self.L_sensor, self.num_lasers, self.length)
-                current_lasers = [min(l, cl) for l, cl in zip(_current_lasers, current_lasers)]
-                done_obs.append(done)
-            done = any(done_obs)
-            if done:
-                self.multi_current_vel[i] = np.zeros(2)
-            self.multi_current_lasers.append(current_lasers)
-            dones.append(done)
-        return dones
-    
-    def render(self):
-        plt.clf()
-
-        # load UAV icon
-        uav_icon = mping.imread('UAV.png')
-
-        # plot round-up-UAVs
-        for i in range(self.num_agents - 1):
-
+### 5. 速度协同奖励：
+速度协同：
+1. leader + **1*0.1**
+2. follower + **1*0.8**
