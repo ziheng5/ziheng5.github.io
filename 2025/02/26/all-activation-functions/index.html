@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>激活函数 Leaky ReLU 与 ReLU 的区别 | Cold Rain&#39;s Blog</title>
+    <title>在深度神经网络中常用的激活函数及其性质 | Cold Rain&#39;s Blog</title>
     <meta name="author" content="冷雨" />
     <meta name="description" content="希望能成为一个厉害的人" />
     <meta name="keywords" content="" />
@@ -161,14 +161,14 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>激活函数 Leaky ReLU 与 ReLU 的区别</h1>
+        <h1>在深度神经网络中常用的激活函数及其性质</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2024/11/29
+            2025/2/26
         </span>
         
         <span class="category">
@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
                     深度学习
                 </a>
             </span>
@@ -199,25 +199,168 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="1-ReLU（线性修正单元）"><a href="#1-ReLU（线性修正单元）" class="headerlink" title="1. ReLU（线性修正单元）"></a>1. ReLU（线性修正单元）</h1><p>ReLU 函数对于正数部分直接输出，对于负数部分输出为零</p>
+        <h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h2><p>在神经网络中，激活函数（Activation Function）是决定神经元输出信号的关键组件。它通过引入非线性特性，使神经网络能够学习和模拟复杂的模式。</p>
 <blockquote>
-<p>如果你学过模电的话，这玩意儿是不是很像<strong>二极管</strong>？ ReLU 函数的发明其实正是参考了二极管的功能特性。</p>
+<p>激活函数的作用:</p>
+<ol>
+<li><p><strong>引入非线性</strong>：神经网络的作用便是用于拟合难以描述的函数关系，如果没有激活函数，多层神经网络等价于单层现性变换，无法解决非线性问题，即无法拟合出非线性函数关系。</p>
+</li>
+<li><p><strong>控制输出范围</strong>：比如 Sigmoid 将输出压缩到 (0, 1)，适合概率输出</p>
+</li>
+<li><p><strong>梯度传播</strong>：激活函数的导数影响反向传播的梯度，避免梯度消失或爆炸。</p>
+</li>
+</ol>
 </blockquote>
-<p>$$ f(x)&#x3D;max(0,x) $$</p>
-<ul>
-<li><p>优点：非常简单，计算速度快。在很多情况下表现良好</p>
+<h2 id="2-Sigmoid（Logistic-函数）"><a href="#2-Sigmoid（Logistic-函数）" class="headerlink" title="2. Sigmoid（Logistic 函数）"></a>2. Sigmoid（Logistic 函数）</h2><ul>
+<li><p><strong>公式</strong>：<br>$$ \sigma(x) &#x3D; \frac{1}{1 + e^{-x}} $$</p>
 </li>
-<li><p>缺点：可能存在<strong>神经元死亡</strong>的问题，即某些神经元在训练过程中可能永远不会被激活，导致权重无法更新。</p>
-</li>
-</ul>
-<h1 id="2-Leaky-ReLU"><a href="#2-Leaky-ReLU" class="headerlink" title="2. Leaky ReLU"></a>2. Leaky ReLU</h1><p>Leaky ReLU 对于负数部分不再输出零，而是输出一个很小的负数，通常用一个小斜率 $\alpha$ 乘以输入。</p>
-<p>$$ f(x)&#x3D;\left\{\begin{matrix} x, {if} {x&gt;0} \\ \alpha x, if x\le0 \end{matrix}\right. $$</p>
-<ul>
-<li><p>优点：解决零 ReLU 的神经元死亡问题，因为负数有一个小的梯度。</p>
-</li>
-<li><p>缺点：对于 $\alpha$ 的选择比较敏感，需要调参。</p>
+<li><p><strong>图像</strong>：S 型曲线，输出范围为 (0, 1)。（如下所示）</p>
 </li>
 </ul>
+<p><img src="/../images/activation_functions/sigmoid.png" alt="sigmoid"></p>
+<ul>
+<li><p><strong>优点</strong>：</p>
+<ul>
+<li>输出可解释为概率。</li>
+<li>平滑梯度，适合<strong>浅层</strong>网络。（深层网络不太适用）</li>
+</ul>
+</li>
+<li><p><strong>缺点</strong>：</p>
+<ul>
+<li>梯度消失：当输入绝对值较大时，导数接近 0 。</li>
+<li>非零中心化：输出均值不为 0，影响梯度更新效率。</li>
+</ul>
+</li>
+<li><p><strong>适用场景</strong>：二分类输出层、早期简单神经网络</p>
+</li>
+</ul>
+<h2 id="3-Tanh（双曲正切函数）"><a href="#3-Tanh（双曲正切函数）" class="headerlink" title="3. Tanh（双曲正切函数）"></a>3. Tanh（双曲正切函数）</h2><ul>
+<li><p><strong>公式</strong>：<br>$$ tanh(x) &#x3D; \frac{e^x - e^{-x}}{e^x + e^{-x}} $$</p>
+</li>
+<li><p><strong>图像</strong>：S 型曲线，输出范围 (-1, 1)。（如下所示）</p>
+</li>
+</ul>
+<p><img src="/../images/activation_functions/tanh.png" alt="tanh"></p>
+<ul>
+<li><strong>优点</strong>：<ul>
+<li>零中心化：输出均值为 0, 梯度更新更高效。</li>
+<li>比 Sigmoid 更陡峭的梯度。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：<ul>
+<li>仍存在梯度消失问题。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：隐藏层，尤其是 RNN、LSTM 等。</li>
+</ul>
+<h2 id="4-ReLU（Rectified-Linear-Unit-非线性激活单元）"><a href="#4-ReLU（Rectified-Linear-Unit-非线性激活单元）" class="headerlink" title="4. ReLU（Rectified Linear Unit 非线性激活单元）"></a>4. ReLU（Rectified Linear Unit 非线性激活单元）</h2><ul>
+<li><strong>公式</strong>：<br>$$ ReLU(x) &#x3D; max(0, x)$$</li>
+<li><strong>图像</strong>：左半轴恒为 0，右半轴恒为线性。（如下所示）</li>
+</ul>
+<p><img src="/../images/activation_functions/relu.png" alt="relu"></p>
+<ul>
+<li><strong>优点</strong>：<ul>
+<li>计算高效：无指数运算。</li>
+<li>缓解梯度消失：正区间导数为 1 。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：<ul>
+<li>Dead ReLU 问题：输入为负时梯度为 0，神经元”死亡“。</li>
+<li>输出非零中心化：</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：大多数前馈神经网络的隐藏层（默认选择）。</li>
+</ul>
+<blockquote>
+<p>前馈神经网络（Feedforward Neural Network, FNN）是人工神经网络中最基础、最广泛使用的类型之一，其核心是数据单向流动（从输入层到输出层），没有循环或反馈连接。</p>
+</blockquote>
+<h2 id="5-Leaky-ReLU"><a href="#5-Leaky-ReLU" class="headerlink" title="5. Leaky ReLU"></a>5. Leaky ReLU</h2><blockquote>
+<p>ReLU 的升级版</p>
+</blockquote>
+<ul>
+<li><p><strong>公式</strong>：<br>$$LeakyReLU(x) &#x3D; \left{\begin{matrix} x \text{ if x&gt;0} \ \alpha x \text{ otherwise} \end{matrix}\right.$$<br>（通常 $\alpha &#x3D; 0.01$）</p>
+</li>
+<li><p><strong>图像</strong>：（如下所示）</p>
+</li>
+</ul>
+<p><img src="/../images/activation_functions/leaky_relu.png" alt="leaky_relu"></p>
+<ul>
+<li><strong>改进</strong>：负区间引入小斜率 $\alpha$，缓解 Dead ReLU。</li>
+<li><strong>优点</strong>：<ul>
+<li>保留 ReLU 优点，减少神经元死亡。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：<ul>
+<li>$\alpha$ 需手动设定或学习。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：需解决 Dead ReLU 问题的深层网络。</li>
+</ul>
+<h2 id="6-Parametric-ReLU（PReLU）"><a href="#6-Parametric-ReLU（PReLU）" class="headerlink" title="6. Parametric ReLU（PReLU）"></a>6. Parametric ReLU（PReLU）</h2><blockquote>
+<p>Leaky ReLU 的升级版</p>
+</blockquote>
+<ul>
+<li><strong>公式</strong>：类似于 Leaky ReLU，但 $\alpha$ 是可学习参数</li>
+<li><strong>优点</strong>：自适应调整负区间斜率。</li>
+<li><strong>缺点</strong>：增加参数量，可能过拟合。</li>
+<li><strong>适用场景</strong>：大型网路（如 ResNet）</li>
+</ul>
+<h2 id="7-ELU（Exponential-Linear-Unit）"><a href="#7-ELU（Exponential-Linear-Unit）" class="headerlink" title="7. ELU（Exponential Linear Unit）"></a>7. ELU（Exponential Linear Unit）</h2><blockquote>
+<p>ReLU 的另一个升级版</p>
+</blockquote>
+<ul>
+<li><p><strong>公式</strong>：<br>$$ELU(x) &#x3D; \left{\begin{matrix} x \text{ if x&gt;0} \ \alpha(e^x - 1) \text{otherwise} \end{matrix}\right.$$</p>
+</li>
+<li><p><strong>图像</strong>：（如下所示）</p>
+</li>
+</ul>
+<p><img src="/../images/activation_functions/elu.png" alt="elu"></p>
+<p>（通常 $\alpha &#x3D; 1$）</p>
+<ul>
+<li><strong>优点</strong>：<ul>
+<li>负区间平滑过渡，接近零均值输出。</li>
+<li>缓解 Dead ReLU 问题。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：<ul>
+<li>指数计算增加复杂度。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：深层网络，对噪声敏感的任务</li>
+</ul>
+<h2 id="8-Softmax"><a href="#8-Softmax" class="headerlink" title="8. Softmax"></a>8. Softmax</h2><ul>
+<li><p><strong>公式</strong>：<br>$$Softmax(x_i) &#x3D; \frac{e^{x_i}}{\Sigma^n_{j&#x3D;1} e^{x_j}}$$</p>
+</li>
+<li><p><strong>特点</strong>：将输出压缩为概率分布（总和为 1）。</p>
+</li>
+<li><p><strong>适用场景</strong>：多分类输出层。</p>
+</li>
+</ul>
+<h2 id="9-Swish"><a href="#9-Swish" class="headerlink" title="9. Swish"></a>9. Swish</h2><ul>
+<li><strong>公式</strong>：<br>$$Swish(x) &#x3D; x \cdot \sigma(\beta x) $$<br>($\sigma$ 为 Sigmoid，$\beta$ 常设为 1 或可学习)</li>
+</ul>
+<p><img src="/../images/activation_functions/swish.png" alt="swish"></p>
+<ul>
+<li><strong>优点</strong>：<ul>
+<li>平滑且非单调，实验显示优于 ReLU。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：计算量略大。</li>
+<li><strong>适用场景</strong>：替代 ReLU 的隐藏层。</li>
+</ul>
+<h2 id="10-Mish"><a href="#10-Mish" class="headerlink" title="10. Mish"></a>10. Mish</h2><ul>
+<li><strong>公式</strong>：<br>$$Mish(x) &#x3D; x \cdot \tanh(\ln(1+e^x))$$</li>
+</ul>
+<p><img src="/../images/activation_functions/mish.png" alt="mish"></p>
+<ul>
+<li><strong>优点</strong>：<ul>
+<li>更平滑的梯度，缓解 Dead ReLU。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：计算成本高。</li>
+<li><strong>适用场景</strong>：计算机视觉任务。</li>
+</ul>
+<h2 id="11-Softsign"><a href="#11-Softsign" class="headerlink" title="11. Softsign"></a>11. Softsign</h2><p>（待更新）</p>
 
     </div>
     
