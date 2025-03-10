@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="color: #ff7d73">
+                <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="color: #00bcd4">
                     树莓派
                 </a>
             </span>
@@ -201,35 +201,60 @@
                 </a>
             </span>
             
+            <span class="tag">
+                
+                <a href="/tags/Ubuntu/" style="color: #ffa2c4">
+                    Ubuntu
+                </a>
+            </span>
+            
         </span>
         
     </div>
     
     <div class="content" v-pre>
         <p>继上一次小生在树莓派上安装完操作系统并进行了相关配置后，小生开始准备折腾树莓派上的 GPIO 了。</p>
-<h1 id="1-📦-前置准备"><a href="#1-📦-前置准备" class="headerlink" title="1. 📦 前置准备"></a>1. 📦 前置准备</h1><h2 id="1-1-WiringPi"><a href="#1-1-WiringPi" class="headerlink" title="1.1 WiringPi"></a>1.1 WiringPi</h2><p>在树莓派上写 C 语言代码，最重要的就是安装 WiringPi 这个库</p>
+<h1 id="1-📦-前置准备"><a href="#1-📦-前置准备" class="headerlink" title="1. 📦 前置准备"></a>1. 📦 前置准备</h1><h2 id="1-1-WiringPi"><a href="#1-1-WiringPi" class="headerlink" title="1.1 WiringPi"></a>1.1 WiringPi</h2><h3 id="方法一（B站教程，其实不推荐）"><a href="#方法一（B站教程，其实不推荐）" class="headerlink" title="方法一（B站教程，其实不推荐）"></a>方法一（B站教程，其实不推荐）</h3><p>在树莓派上写 C 语言代码，最重要的就是安装 WiringPi 这个库</p>
 <p>安装指令如下：</p>
-<pre><code class="Terminal">sudo apt install wiringpi
+<pre><code class="bash">sudo apt install wiringpi
 </code></pre>
 <p>然而，对于高版本的树莓派（比如 4B），按照上面指令下载到的 wiringpi，运行 <code>gpio readall</code> 指令会报错，原因是作者已经很久没有更新这个库了</p>
 <p>那么我们需要另寻他法。解决方案如下。</p>
 <p><code>cd</code> 想要下载安装包的位置，然后运行下面的命令：</p>
-<pre><code class="Terminal">wget https://gitee.com/LJYSCIENTIST/raspberry-pi-software-storage/raw/master/wiringpi-2.60-1_arm64.deb
+<pre><code class="bash">wget https://gitee.com/LJYSCIENTIST/raspberry-pi-software-storage/raw/master/wiringpi-2.60-1_arm64.deb
 </code></pre>
 <p>接着安装上面下载到的安装包：</p>
-<pre><code class="Terminal">sudo apt-get install  ./wiringpi-2.60-1_arm64.deb
+<pre><code class="bash">sudo apt-get install  ./wiringpi-2.60-1_arm64.deb
 </code></pre>
 <p>安装完成后，可以运行 <code>gpio -v</code> 和 <code>gpio readall</code> 来检查是否正确安装</p>
 <blockquote>
 <p>⚠️ 注意：Ubuntu 24 版本过新，上述方法均无法正确安装，小生也没有找到合适的安装包。这里建议大家 Ubuntu 安装为旧版本，比如 22 系列的。</p>
 </blockquote>
+<h3 id="方法二（用-git，推荐）"><a href="#方法二（用-git，推荐）" class="headerlink" title="方法二（用 git，推荐）"></a>方法二（用 git，推荐）</h3><blockquote>
+<p>如果没有事先安装好 git 的话，可以执行以下命令安装 git</p>
+<pre><code class="bash">sudo apt install git
+</code></pre>
+<p>等待安装完成即可</p>
+</blockquote>
+<p>首先克隆仓库：</p>
+<pre><code class="bash">git clone https://github.com/WiringPi/WiringPi
+cd WiringPi
+</code></pre>
+<p>然后编译并安装：</p>
+<pre><code class="bash">./build
+</code></pre>
+<p>安装完成后，执行下面的命令验证安装：</p>
+<pre><code class="bash">gpio -v
+gpio readall
+</code></pre>
+<p>若正常输出，则安装成功</p>
 <h2 id="1-2-python——RPi-GPIO"><a href="#1-2-python——RPi-GPIO" class="headerlink" title="1.2 python——RPi.GPIO"></a>1.2 python——RPi.GPIO</h2><p>先给树莓派上的 python 配置硬件操作相关的包</p>
 <blockquote>
 <p>这里不需要激活 conda 环境，直接使用系统内置的 python3 即可</p>
 <p>（你问为什么？其实小生用 conda 无论如何都没法把 <code>RPi.GPIO</code> 配置下来，各位巨佬有兴趣的话可以去折腾折腾 💦）</p>
 </blockquote>
 <p>我们直接在终端运行下面的指令：</p>
-<pre><code class="Terminal">sudo apt-get -y install python3-rpi.gpio
+<pre><code class="bash">sudo apt-get -y install python3-rpi.gpio
 </code></pre>
 <p>等待下载完成即可在 python3 中使用 <code>RPi.GPIO</code></p>
 <h1 id="2-关于树莓派的-GPIO"><a href="#2-关于树莓派的-GPIO" class="headerlink" title="2. 关于树莓派的 GPIO"></a>2. 关于树莓派的 GPIO</h1><p>树莓派的 GPIO 有三种编码方式，分别是板载编码、BCM 编码、Wiringpi 编码</p>
@@ -253,7 +278,7 @@ GPIO.cleanup()
 </code></pre>
 <p>利用 vim 编辑器创建 led.py 文件后，将上述代码输入其中，保存退出。</p>
 <p>运行 <code>sudo su</code> 进入管理员模式，然后直接运行 led.py：</p>
-<pre><code class="Terminal">python3 led.py
+<pre><code class="bash">python3 led.py
 </code></pre>
 <p>运行命令后，Led 灯开始闪烁，点灯成功 ✌</p>
 
