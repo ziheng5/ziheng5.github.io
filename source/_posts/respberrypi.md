@@ -4,6 +4,7 @@ date: 2025-01-17 18:38:51
 tags: 
     - 树莓派
     - 硬件
+    - Ubuntu
 categories: 
     - 树莓派
 description: |

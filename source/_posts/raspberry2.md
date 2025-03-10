@@ -4,6 +4,7 @@ date: 2025-01-18 21:01:04
 tags: 
     - 树莓派
     - 硬件
+    - Ubuntu
 categories: 
     - 树莓派
 description: |
@@ -13,11 +14,12 @@ description: |
 
 # 1. 📦 前置准备
 ## 1.1 WiringPi
+### 方法一（B站教程，其实不推荐）
 在树莓派上写 C 语言代码，最重要的就是安装 WiringPi 这个库
 
 安装指令如下：
 
-```Terminal
+```bash
 sudo apt install wiringpi
 ```
 
@@ -27,19 +29,50 @@ sudo apt install wiringpi
 
 `cd` 想要下载安装包的位置，然后运行下面的命令：
 
-```Terminal
+```bash
 wget https://gitee.com/LJYSCIENTIST/raspberry-pi-software-storage/raw/master/wiringpi-2.60-1_arm64.deb
 ```
 
 接着安装上面下载到的安装包：
 
-```Terminal
+```bash
 sudo apt-get install  ./wiringpi-2.60-1_arm64.deb
 ```
 
 安装完成后，可以运行 `gpio -v` 和 `gpio readall` 来检查是否正确安装
 
 > ⚠️ 注意：Ubuntu 24 版本过新，上述方法均无法正确安装，小生也没有找到合适的安装包。这里建议大家 Ubuntu 安装为旧版本，比如 22 系列的。
+
+### 方法二（用 git，推荐）
+> 如果没有事先安装好 git 的话，可以执行以下命令安装 git
+>
+> ```bash
+> sudo apt install git
+> ```
+>
+> 等待安装完成即可
+
+首先克隆仓库：
+
+```bash
+git clone https://github.com/WiringPi/WiringPi
+cd WiringPi
+```
+
+然后编译并安装：
+
+```bash
+./build
+```
+
+安装完成后，执行下面的命令验证安装：
+
+```bash
+gpio -v
+gpio readall
+```
+
+若正常输出，则安装成功
 
 ## 1.2 python——RPi.GPIO
 先给树莓派上的 python 配置硬件操作相关的包
@@ -50,7 +83,7 @@ sudo apt-get install  ./wiringpi-2.60-1_arm64.deb
 
 我们直接在终端运行下面的指令：
 
-```Terminal
+```bash
 sudo apt-get -y install python3-rpi.gpio
 ```
 
@@ -89,7 +122,7 @@ GPIO.cleanup()
 
 运行 `sudo su` 进入管理员模式，然后直接运行 led.py：
 
-```Terminal
+```bash
 python3 led.py
 ```
 

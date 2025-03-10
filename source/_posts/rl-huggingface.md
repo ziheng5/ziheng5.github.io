@@ -7,7 +7,7 @@ tags:
 categories: 
     - 强化学习
 description: |
-    ❓ 如何用 PyTorch 复现 PPO(Proximal Policy Optimization) 算法
+    ❓ 如何用 PyTorch 复现 PPO(Proximal Policy Optimization，近端策略优化) 算法
 ---
 > 🤞 这段时间在师姐的推荐下，学习了网上关于强化学习的 PyTorch 实战视频，小生自己也是跟着视频复现了一遍 PPO 算法，于是准备写一篇 Blog 来记录学习心得
 >
@@ -146,7 +146,7 @@ class PPO:
         self.policy = ActorCritic(state_dim, action_dim, n_latent_var).to(device)
         self.optimizer = torch.optim.Adam(self.policy.parameters(), lr=lr, betas=betas)
 
-        # 这里给使用 off policy 思想，给我们的 policy 召唤一个分身
+        # 这里使用 off policy 思想，给我们的 policy 召唤一个分身
         self.policy_old = ActorCritic(state_dim, action_dim, n_latent_var).to(device)
         self.policy_old.load_state_dict(self.policy.state_dict)
 
@@ -164,7 +164,7 @@ class PPO:
             rewards.insert(0, discounted_reward)
 
         # 归一化 rewards
-        rewards = torch.tensor(rewards. dtype=torch.float32).to(device)
+        rewards = torch.tensor(rewards, dtype=torch.float32).to(device)
         rewards = (rewards - rewards.mean()) / (rewards.std() + 1e-5)
 
         # 把 list 全部转换为 tensor
@@ -188,11 +188,11 @@ class PPO:
 
             # 更新权重
             self.optimizer.zero_grad()
-            loss.mean(),backward()
+            loss.mean().backward()
             self.optimizer.step()
 
         
-        # 将新的权重复制给我们的 policy
+        # 将新的权重赋给我们的 old_policy
         self.policy_old.load_state_dict(self.policy.state_dict())
 ```
 
@@ -257,7 +257,7 @@ def main():
             # 注意：新版的 gym 在 env.step 时会返回 5 个值，具体请查阅官方文档或源码注释
 
             memory.rewards.append(reward)
-            memroy.is_terminals.append(done)
+            memory.is_terminals.append(done)
 
             if timestep % update_timestep == 0:
                 ppo.update(memory)
