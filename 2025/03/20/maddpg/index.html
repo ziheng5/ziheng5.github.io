@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>基于强化学习的多无人机协同围捕算法——MADDPG Multi-UAV Roundup | Cold Rain&#39;s Blog</title>
+    <title>关于 MADRL（Multi-Agent Deep Reinforcement Learning）的实验思考 | Cold Rain&#39;s Blog</title>
     <meta name="author" content="冷雨" />
     <meta name="description" content="希望能成为一个厉害的人" />
     <meta name="keywords" content="" />
@@ -161,14 +161,14 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>基于强化学习的多无人机协同围捕算法——MADDPG Multi-UAV Roundup</h1>
+        <h1>关于 MADRL（Multi-Agent Deep Reinforcement Learning）的实验思考</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2025/2/4
+            2025/3/20
         </span>
         
         <span class="category">
@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
+                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
                     强化学习
                 </a>
             </span>
@@ -199,100 +199,13 @@
     </div>
     
     <div class="content" v-pre>
-        <p>MADDPG（Multi-Agent Deep Deterministic Policy Gradient）是一种针对多智能体强化学习环境的算法，扩展自DDPG（Deep Deterministic Policy Gradient）。其核心思想是<strong>集中式训练、分散式执行</strong>，通过利用全局信息优化策略，同时保持智能体在执行时的独立性。</p>
-<hr>
-<h3 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a><strong>核心思想</strong></h3><ol>
-<li><strong>非平稳环境问题</strong>：多智能体环境中，每个智能体的策略变化会导致其他智能体的环境动态不稳定，传统单智能体算法难以适应。</li>
-<li><strong>集中训练，分散执行</strong>：<ul>
-<li><strong>训练阶段</strong>：每个智能体的Critic网络能访问所有智能体的状态和动作信息，从而更准确估计Q值。</li>
-<li><strong>执行阶段</strong>：每个智能体的Actor仅依赖局部观测生成动作，无需全局信息。</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3 id="算法结构"><a href="#算法结构" class="headerlink" title="算法结构"></a><strong>算法结构</strong></h3><ol>
-<li><p><strong>网络组成</strong>：</p>
-<ul>
-<li><strong>每个智能体包含四个网络</strong>：<ul>
-<li><strong>Actor网络（μ）</strong>：基于局部观测生成动作。</li>
-<li><strong>Critic网络（Q）</strong>：输入所有智能体的状态和动作，输出Q值。</li>
-<li><strong>目标Actor网络（μ’）和Critic网络（Q’）</strong>：用于稳定训练，参数通过软更新同步。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><strong>输入输出</strong>：</p>
-<ul>
-<li><strong>Actor</strong>：输入局部观测（s_i），输出动作（a_i）。</li>
-<li><strong>Critic</strong>：输入全局状态（s_1, s_2, …, s_N）和所有动作（a_1, a_2, …, a_N），输出Q值。</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3 id="训练流程"><a href="#训练流程" class="headerlink" title="训练流程"></a><strong>训练流程</strong></h3><ol>
-<li><p><strong>经验回放池</strong>：</p>
-<ul>
-<li>存储所有智能体的经验元组（s, a, r, s’），其中s和a为全局信息。</li>
-</ul>
-</li>
-<li><p><strong>采样与更新</strong>：</p>
-<ul>
-<li>从回放池中采样一批经验。</li>
-<li>对每个智能体i：<ul>
-<li><p><strong>计算目标Q值</strong></p>
-</li>
-<li><p><strong>更新Critic</strong>：最小化TD误差的均方损失</p>
-</li>
-<li><p><strong>更新Actor</strong>：通过梯度上升最大化Q值</p>
-</li>
-<li><p><strong>软更新目标网络</strong></p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3 id="关键优势"><a href="#关键优势" class="headerlink" title="关键优势"></a><strong>关键优势</strong></h3><ol>
-<li><strong>解决非平稳性</strong>：Critic使用全局信息，使Q值估计更稳定。</li>
-<li><strong>适用性广泛</strong>：支持合作、竞争或混合任务，智能体可独立优化自身目标。</li>
-<li><strong>扩展性</strong>：适用于连续动作空间，智能体数量可变（需适当调整Critic输入维度）。</li>
-</ol>
-<hr>
-<h3 id="挑战与改进"><a href="#挑战与改进" class="headerlink" title="挑战与改进"></a><strong>挑战与改进</strong></h3><ol>
-<li><strong>输入维度爆炸</strong>：智能体数量增加时，Critic输入维度可能过高。解决方案包括参数共享或注意力机制。</li>
-<li><strong>异构智能体</strong>：若智能体动作&#x2F;状态空间不同，需设计统一输入表示（如拼接或编码）。</li>
-<li><strong>策略过拟合</strong>：引入策略集成（Policy Ensembles）或对手建模，提升对其他智能体策略变化的鲁棒性。</li>
-</ol>
-<hr>
-<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a><strong>应用场景</strong></h3><ul>
-<li><strong>合作任务</strong>：如多机器人协作搬运、群体围捕。</li>
-<li><strong>竞争任务</strong>：如博弈对抗（足球游戏、格斗游戏）。</li>
-<li><strong>混合任务</strong>：部分合作、部分竞争的环境（如市场竞争与联盟形成）。</li>
-</ul>
-<hr>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3><p>MADDPG通过集中式Critic网络解决了多智能体环境中的非平稳性问题，同时保持执行阶段的分布式特性。其核心在于利用全局信息优化局部策略，适用于复杂多智能体场景，是MARL（Multi-Agent Reinforcement Learning）领域的里程碑算法。</p>
-<h2 id="奖励函数"><a href="#奖励函数" class="headerlink" title="奖励函数"></a>奖励函数</h2><h3 id="1-撞墙惩罚："><a href="#1-撞墙惩罚：" class="headerlink" title="1. 撞墙惩罚："></a>1. 撞墙惩罚：</h3><ol>
-<li>靠近墙体： <strong>-1 * 0.3</strong></li>
-<li>撞到墙体： <strong>-500 * 0.3</strong></li>
-</ol>
-<h3 id="2-避障惩罚："><a href="#2-避障惩罚：" class="headerlink" title="2. 避障惩罚："></a>2. 避障惩罚：</h3><ol>
-<li>靠近障碍物： <strong>-1 * 0.3</strong></li>
-<li>撞到障碍物： <strong>-500 * 0.3</strong></li>
-</ol>
-<h3 id="3-捕捉奖励："><a href="#3-捕捉奖励：" class="headerlink" title="3. 捕捉奖励："></a>3. 捕捉奖励：</h3><ol>
-<li>捉到 target： <strong>1000 * 5</strong></li>
-<li>否则： <strong>-2 * d * 5</strong> (0&lt;d&lt;2)</li>
-</ol>
-<h3 id="4-编队奖励："><a href="#4-编队奖励：" class="headerlink" title="4. 编队奖励："></a>4. 编队奖励：</h3><ol>
-<li>follower 超出范围： follower <strong>- 10 * d * 0.8</strong></li>
-</ol>
-<h3 id="5-速度协同奖励："><a href="#5-速度协同奖励：" class="headerlink" title="5. 速度协同奖励："></a>5. 速度协同奖励：</h3><p>速度协同：</p>
-<ol>
-<li>leader + <strong>1*0.1</strong></li>
-<li>follower + <strong>1*0.8</strong></li>
-</ol>
-
+        <h2 id="0-前言"><a href="#0-前言" class="headerlink" title="0. 前言"></a>0. 前言</h2><blockquote>
+<p>在这个学期，Coldrain 一直忙着学习 RL （Reinforcement Learning）及其相关实验。</p>
+<p>在学习 MADRL（Multi-Agent Deep Reinforcement Learning）的时候，Coldrain 发现多智能体强化学习并不仅仅是单智能体在智能体数量方面的单维线性叠加，其各个方面都与单智能体强化学习有着不小的差异。</p>
+</blockquote>
+<p>接下来主要分 3 个部分来细数多智能体强化学习与单智能体强化学习的差异以及常见的问题——<strong>环境信息、奖励函数、网络结构</strong>。</p>
+<h2 id="1-环境信息"><a href="#1-环境信息" class="headerlink" title="1. 环境信息"></a>1. 环境信息</h2><p>对于单智能体强化学习，我们的环境中只存在一个智能体，</p>
+<h2 id="2-奖励函数"><a href="#2-奖励函数" class="headerlink" title="2. 奖励函数"></a>2. 奖励函数</h2><h2 id="3-网络结构"><a href="#3-网络结构" class="headerlink" title="3. 网络结构"></a>3. 网络结构</h2>
     </div>
     
     
