@@ -302,6 +302,10 @@ class LightningLSTM(L.LightningModule):
 
         return loss
 ```
+这里需要注意的是，在 PyTorch 中，LSTM 的输入格式为 `(batch_size, sequence_length, input_size)`，即**样本数量、时间步长、特征数量**。
+
+如果实际中的数据格式与此不同，需要手动处理成对应的格式。
+
 
 ### 3.3 💪开始训练
 ```Python
