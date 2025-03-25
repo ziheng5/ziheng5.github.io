@@ -189,21 +189,21 @@
             
             <span class="tag">
                 
-                <a href="/tags/PyTorch/" style="color: #ff7d73">
+                <a href="/tags/PyTorch/" style="color: #03a9f4">
                     PyTorch
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
                     深度学习
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/RNN/" style="color: #03a9f4">
+                <a href="/tags/RNN/" style="color: #ff7d73">
                     RNN
                 </a>
             </span>
@@ -475,6 +475,8 @@ from torch.utils.data import TensorDataset, DataLoader
 
         return loss
 </code></pre>
+<p>这里需要注意的是，在 PyTorch 中，LSTM 的输入格式为 <code>(batch_size, sequence_length, input_size)</code>，即<strong>样本数量、时间步长、特征数量</strong>。</p>
+<p>如果实际中的数据格式与此不同，需要手动处理成对应的格式。</p>
 <h3 id="3-3-💪开始训练"><a href="#3-3-💪开始训练" class="headerlink" title="3.3 💪开始训练"></a>3.3 💪开始训练</h3><pre><code class="Python">model = LightningLSTM()
 
 trainer = L.Trainer(max_epochs=300, log_every_n_steps=2)
