@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>小帮手——基于 requests 和 PySide6 的B站视频爬取软件 | Cold Rain&#39;s Blog</title>
+    <title>在树莓派上玩 I2C 接口 oled 显示屏 | Cold Rain&#39;s Blog</title>
     <meta name="author" content="ColdRain" />
     <meta name="description" content="希望成为自己喜欢的模样" />
     <meta name="keywords" content="" />
@@ -161,22 +161,22 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>小帮手——基于 requests 和 PySide6 的B站视频爬取软件</h1>
+        <h1>在树莓派上玩 I2C 接口 oled 显示屏</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2025/1/21
+            2025/4/12
         </span>
         
         <span class="category">
-            <a href="/categories/%E7%88%AC%E8%99%AB/">
+            <a href="/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
-                爬虫
+                树莓派
             </a>
         </span>
         
@@ -189,15 +189,8 @@
             
             <span class="tag">
                 
-                <a href="/tags/requests/" style="color: #03a9f4">
-                    requests
-                </a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/tags/PyQt/" style="color: #00bcd4">
-                    PyQt
+                <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="color: #ff7d73">
+                    树莓派
                 </a>
             </span>
             
@@ -206,7 +199,121 @@
     </div>
     
     <div class="content" v-pre>
-        <p>（待更新：<a target="_blank" rel="noopener" href="https://github.com/ziheng5/-bilibili-video-get-%EF%BC%89">https://github.com/ziheng5/-bilibili-video-get-）</a></p>
+        <blockquote>
+<p>本文使用 <code>luma.oled</code> 库来对 I2C 接口 oled 显示器进行编辑</p>
+<p><code>luma.oled</code> 支持 <strong>SSD1306 &#x2F; SSD1309 &#x2F; SSD1322 &#x2F; SSD1325 &#x2F; SSD1327 &#x2F; SSD1331 &#x2F; SSD1351 &#x2F; SSD1362 &#x2F; SH1106 &#x2F; WS0010</strong></p>
+<p>安装 <code>luma.oled</code> 只需要在 python 虚拟环境中使用 pip 安装即可：</p>
+<pre><code class="bash">pip install luma.oled
+</code></pre>
+<p><strong>PS:</strong> 小生记得这里需要一些基本配置，否则 build 过程会引发报错，按照报错提示来配置即可</p>
+</blockquote>
+<h2 id="1-硬件连接"><a href="#1-硬件连接" class="headerlink" title="1. 硬件连接"></a>1. 硬件连接</h2><p>首先贴出树莓派的引脚图：</p>
+<p><img src="/../images/raspberrypi/gpio_readall.png" alt="gpio_readall"></p>
+<blockquote>
+<p>可以直接执行以下命令查看 gpio 引脚情况：</p>
+<pre><code class="bash">gpio readall
+</code></pre>
+</blockquote>
+<p>在图中找到 <code>3.3v</code>、<code>SDA.1</code>、<code>SCL.1</code>、<code>GND</code> 这四个引脚，分别对应 <strong>1、3、5、6</strong> 号引脚</p>
+<p>接着在 I2C 接口的 oled 显示器上找到四个引脚：</p>
+<ul>
+<li><strong>GND</strong>：电源地线</li>
+<li><strong>VCC</strong>：电源正极，大部分 oled 模块 3.3v 即可驱动</li>
+<li><strong>SCL</strong>：I2C 时钟线</li>
+<li><strong>SDA</strong>：I2C 数据线</li>
+</ul>
+<p>接着用双母头杜邦线连接四对引脚：<code>3.3v-VCC</code>、<code>GND-GND</code>、<code>SDA.1-SDA</code>、<code>SCL.1-SCL</code></p>
+<blockquote>
+<p>⚠️ 注意电源正负极不要接反了，容易把板子烧掉。</p>
+</blockquote>
+<p>根据上文的步骤连接好 oled 模块，查找 oled 的 I2C 地址。每一个 oled 模块的 I2C 地址不一定都相同，需要先查找获取地址，同时也检查以下 oled 模块是否连接正常</p>
+<p>输入以下指令：</p>
+<pre><code class="bash">sudo i2cdetect -y 1
+</code></pre>
+<p>输出以下界面：</p>
+<p><img src="/../images/raspberrypi/i2cdetect.png" alt="i2cdetect"></p>
+<p>上图中，3c 代表的就是 oled 模块的 I2C 地址。</p>
+<hr>
+<h2 id="2-代码调试"><a href="#2-代码调试" class="headerlink" title="2. 代码调试"></a>2. 代码调试</h2><blockquote>
+<p>这部分要注意自己的硬件信息，不要盲目 copy</p>
+</blockquote>
+<p>将下面的这段代码复制到 .py 文件中，尝试运行调试：</p>
+<pre><code class="Python">from luma.core.interface.serial import i2c, spi
+from luma.core.render import canvas
+from luma.oled.device import ssd1306, ssd1325, ssd1331, sh1106
+from time import sleep
+import random
+
+__version__ = 1.0
+# 初始化端口
+serial = i2c(port=1, address=0x3c)
+# 初始化设备，这里改 ssd1306, ssd1325, ssd1331, sh1106
+device = sh1106(serial)
+
+with canvas(device) as draw:
+    draw.ellipse((44, 32, 84, 60), outline=&quot;white&quot;, fill=&quot;white&quot;)
+    draw.rectangle((44, 32, 84, 46), outline=&quot;black&quot;, fill=&quot;black&quot;)
+    draw.line((54, 46, 54, 60), fill=&quot;black&quot;)
+    draw.line((64, 46, 64, 60), fill=&quot;black&quot;)
+    draw.line((74, 46, 64, 60), fill=&quot;black&quot;)
+    draw.ellipse((24, 12, 44, 32), outline=&quot;white&quot;, fill=&quot;white&quot;)
+    draw.ellipse((84, 12, 104, 32), outline=&quot;white&quot;, fill=&quot;white&quot;)
+
+sleep(10)   # oled 显示器显示 10 秒
+</code></pre>
+<p>如果不出意外的话，oled 显示器上会出现下面这个笑脸 😁：</p>
+<p><img src="/../images/raspberrypi/happy_face.png" alt="happy_face"></p>
+<p>下面来具体讲一讲上面这段代码：</p>
+<pre><code class="Python"># 初始化设备，这里改 ssd1306, ssd1325, ssd1331, sh1106
+device = sh1106(serial)
+</code></pre>
+<p>这段代码主要作用是初始化设备</p>
+<ul>
+<li>如果 oled 的驱动芯片不是 sh1106，需要更换对应的函数名</li>
+<li>如果 oled 尺寸不同，则需要传不同的参数，例如如果是 0.91 寸的 128*64 的 oled 则代码应修改为 <code>device = ssd1306(serial, width=128, height=64)</code></li>
+</ul>
+<pre><code class="python">with canvas(device) as draw:
+    draw.ellipse((44, 32, 84, 60), outline=&quot;white&quot;, fill=&quot;white&quot;)
+    draw.rectangle((44, 32, 84, 46), outline=&quot;black&quot;, fill=&quot;black&quot;)
+</code></pre>
+<ul>
+<li><code>canvas</code> 英文单词含义为画布，意思是可以在这里输入各种需要显示的内容。</li>
+<li>这段代码使用了 <code>with...as...:</code> 语法，关于 with 的详细用法可以暂且不论，这里可以简单地理解为先执行 <code>canvas</code> 函数，然后返回对象赋值给 <code>draw</code> 变量，用此语法创建的对象，会在使用结束后自动释放资源，常用于打开某个文件夹，之后自动关闭文件夹。</li>
+<li><code>draw.ellipse()</code> 为画椭圆的函数。</li>
+<li><code>draw.rectangle()</code> 为画矩形的函数，类似的还有画直线、三角形等。</li>
+</ul>
+<h2 id="3-显示汉字"><a href="#3-显示汉字" class="headerlink" title="3. 显示汉字"></a>3. 显示汉字</h2><p>代码如下：</p>
+<pre><code class="python">from luma.core.interface.serial import i2c, spi
+from luma.core.render import canvas
+from luma.oled.device import ssd1306, ssd1325, ssd1331, sh1106
+from time import sleep
+from PIL import ImageFont
+
+# 初始化端口
+serial = i2c(port=1, address=0x3c)
+# 初始化设备
+device = sh1106(serial)
+# 调用显示函数
+font = ImageFont.truetype(&#39;../source/msyh/msyh.ttf&#39;)
+
+with canvas(device) as draw:
+    draw.rectangle(device.bounding_box, outline=&quot;white&quot;, fill=&quot;black&quot;)
+    draw.text((5, 10), &quot;精灵们今天非常开心！他们&quot;, fill=&quot;white&quot;, font=font)
+    draw.text((5, 24), &quot;会尽可能给所有人带来好运&quot;, fill=&quot;white&quot;, font=font)
+    draw.text((5, 38), &quot;的。&quot;, fill=&quot;white&quot;, font=font)
+
+# 显示 5s
+sleep(5)
+</code></pre>
+<p>显示效果如下：</p>
+<p><img src="/../images/raspberrypi/oled_text.png" alt="oled_text"></p>
+<p>代码解析：</p>
+<ul>
+<li><code>from PIL import ImageFont</code> 这个是强大的 <code>PIL</code> 库中的字体类，显示汉字，默认字体就不行了，所以需要新增字体文件</li>
+<li><code>font = ImageFont.truetype(&quot;../source/msyh/msyh.ttf&quot;)</code> 这段代码的含义是调用当前目录下的字体文件 <code>msyh.ttf</code> 创建一个字体类，<code>msyh.ttf</code> 是微软雅黑字体，可以上网自行下载，也可以下载安装其他字体。</li>
+<li><code>draw.text((5, 10), &quot;精灵们今天非常开心！他们&quot;, fill=&quot;white&quot;, font=font)</code> 的含义是在 (5, 10) 位置显示汉字</li>
+</ul>
+<h2 id="4-其他-API"><a href="#4-其他-API" class="headerlink" title="4. 其他 API"></a>4. 其他 API</h2><p>具体参考<a target="_blank" rel="noopener" href="https://luma-oled.readthedocs.io/en/latest/">官方文档</a></p>
 
     </div>
     
