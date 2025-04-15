@@ -1,0 +1,334 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>Airsim 笔记：Python API 总结 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="希望成为自己喜欢的模样" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>Airsim 笔记：Python API 总结</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/4/13
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                强化学习
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                    强化学习
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E4%BB%BF%E7%9C%9F%E7%8E%AF%E5%A2%83/" style="color: #03a9f4">
+                    仿真环境
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h2 id="0-AirSim-APIs-简介"><a href="#0-AirSim-APIs-简介" class="headerlink" title="0. AirSim APIs 简介"></a>0. AirSim APIs 简介</h2><p>AirSim 封装了一些 API 接口，使用这些 API 接口，可以用程序跟仿真进行交互。例如可以使用 API 来获取图片、无人机状态、控制无人机&#x2F;车辆的运动等。</p>
+<p>AirSim 的 API 非常丰富，有很多可以调用的功能，可以将这些功能分成以下几类：</p>
+<ul>
+<li><strong>图像类 API</strong>：获取各种类型的图像、控制云台等；</li>
+<li><strong>控制仿真运行</strong>：可以控制仿真暂停或继续；</li>
+<li><strong>碰撞 API</strong>：获取碰撞信息，包括碰撞次数、位置、表面信息、渗透深度等；</li>
+<li><strong>环境时间 API</strong>：主要是控制太阳在天空中的位置；</li>
+<li><strong>环境天气 API</strong>：控制环境中的天气：下雨、雪、灰尘、雾气、道路湿滑程度等；</li>
+<li><strong>环境风 API</strong>：控制环境中的风速和风向等；</li>
+<li><strong>雷达 API</strong>：添加和控制环境中的雷达传感器；</li>
+<li><strong>无人机或车辆的 API</strong>：控制运动、获取状态等</li>
+</ul>
+<p>AirSim 的 API 有 python 和 C++ 两种使用方式，可以根据自己的习惯任意选择，这里主要记录 python 的使用方式。</p>
+<p>在虚拟环境中安装 <code>msgpack-rpc-python</code> 和 <code>airsim</code> 两个库即可使用</p>
+<pre><code class="bash">pip install msgpack-rpc-python
+pip install airsim
+</code></pre>
+<h2 id="1-控制无人机的起飞和降落"><a href="#1-控制无人机的起飞和降落" class="headerlink" title="1. 控制无人机的起飞和降落"></a>1. 控制无人机的起飞和降落</h2><p>先看下面这段代码：</p>
+<pre><code class="python">import airsim
+
+# connect to the AirSim simulator
+client = airsim.MultirotorClient()
+client.confirmConnection()
+
+# get control
+client.enableApiControl(True)
+
+# unlock
+client.armDisarm(True)
+
+# Async methods returns Future. Call join() to wait for task to complete.
+client.takeoffAsync().join()
+client.landAsync().join()
+
+# lock
+client.armDisarm(False)
+
+# release control
+client.enableApiControl(False)
+</code></pre>
+<blockquote>
+<p>在运行上面这段代码之前，需要先将 AirSim 运行起来。</p>
+<p>先将 <code>C:\Users\[用户名]\Documents\AirSim</code> 路径下的 <code>settings.json</code> 文件中的仿真模式改为多旋翼，如下所示</p>
+<pre><code class="json">&#123;
+    &quot;SettingsVersion&quot;: 1.2,
+    &quot;SimMode&quot;: &quot;Multirotor&quot;
+&#125;
+</code></pre>
+<p>修改完成后，打开之前安装好的 <code>LandscapeMountains</code> 环境目录下的 <code>LandscapeMountains.sln</code> 文件；Visual Studio 中，选择编辑模式为 <code>Debug Game Editor</code> 和 <code>win64</code>，确保 <code>LandscapeMountains</code> 为启动项目。</p>
+<p>然后点击 <code>本地Windows调试器</code>，这时就会打开 Unreal Editor；在 Unreal Editor 中点击 <code>播放(Play)</code> 按钮，仿真开始运行。</p>
+<p>无人机初始位置设置的是在空中，所以刚一点击<code>播放</code>按钮时，无人机会向下落，最后触地，同时机翼也一直旋转。因为有两个物体的碰撞，所以画面中给出了一个碰撞警告。（初始位置是可以自己调的）</p>
+<p>注意，在 <code>LandscapeMountain</code> 这个环境中，水面就是一个物体，它跟石头、树木等有相同的物理特性，所以无人机不会落到水中，而是在睡眠，就像在平地上着陆一样。所以在这个环境中的仿真，就可以把水面当做平地来看待。</p>
+</blockquote>
+<p>代码详解：</p>
+<pre><code class="python">client = airsim.MultirotorClient()
+</code></pre>
+<p>与 AirSim 建立连接，并且返回句柄（client），后面的每次操作需要使用这个句柄。</p>
+<p>如果是汽车仿真，代码是：<code>client = airsim.CarClient()</code>；</p>
+<pre><code class="python">client.confirmConnection()
+</code></pre>
+<p>检查通信是否建立成功，并且会在命令行中打印连接情况，这样就可以判断程序是否和 AirSim 连接正常，如果连接正常会在命令行中打印如下：</p>
+<pre><code class="Terminal">Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+</code></pre>
+<pre><code class="python">client.enableApiControl(True)   # get control
+client.enableApiControl(False)  # release control
+</code></pre>
+<p>因为安全问题， API 控制默认是不开启的，遥控器有全部的控制权限。所以必须要在程序中使用这个函数来获取控制权。遥控器的操作会抢夺 API 的控制权，同时让 API 获取的控制权失效。使用 <code>isApiControlEnabled</code> 可检查 API 是否具有控制权。</p>
+<p>可能会有人问为什么最后结束的时候要释放控制权，反正都是仿真，结束仿真就好了。但是实际上 AirSim 的开发人员希望在仿真中的代码可以直接移到现实中使用，所以对于现实中的安全问题，还是开发了获取控制权和释放控制权、解锁和上锁等一系列安全操作。</p>
+<pre><code class="python">client.takeoffAsync().join()    # 起飞
+client.landAsync().join()   # 降落
+</code></pre>
+<p>这两个函数可以让无人机起飞和降落。</p>
+<p>很多无人机或者汽车控制的函数都有 <code>Async</code> 作为后缀，这些函数在执行的时候会立即返回，这样的话，虽然任务还没有执行完，但是程序可以继续执行下去，而不用等待这个函数的任务在仿真中有没有执行完。</p>
+<p>如果你想让程序在这里等待任务执行完，则只需要在后面加上 <code>.join()</code>。本例子就是让程序在这里等待无人机起飞任务完成，然后再执行降落任务。</p>
+<p>新的任务会打断上一个没有执行完的任务，所以如果 <code>takeoff</code> 函数没有加 <code>.join()</code>，则最后的表现是无人机还没有起飞就降落了，无人机是不会起飞的。</p>
+<h2 id="2-Python-与-AirSim-的通信机制"><a href="#2-Python-与-AirSim-的通信机制" class="headerlink" title="2. Python 与 AirSim 的通信机制"></a>2. Python 与 AirSim 的通信机制</h2><p>AirSim API 使用的是 <code>TCP/IP</code> 中的 <code>msgpack-rpc</code> 协议，这是一种网络协议，所以如果设置正确，其实可以用两台不同的电脑来做仿真，一台跑 AirSim 和 Unreal，另一台跑 python 程序。</p>
+<p>当 AirSim 开始仿真的时候，会打开 41451 端口，并监听这个端口的需求。python 程序使用 <code>msgpack serialization</code> 格式向这个端口发送 RPC 包，就可以与 AirSim 进行通信了。</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
