@@ -15,6 +15,7 @@ description: |
 > 另：本文内容均在 Windows 操作系统下进行（Ubuntu 下的仿真环境折腾起来比较麻烦 💦）
 
 ## 0. AirSim APIs 简介
+---
 AirSim 封装了一些 API 接口，使用这些 API 接口，可以用程序跟仿真进行交互。例如可以使用 API 来获取图片、无人机状态、控制无人机/车辆的运动等。
 
 AirSim 的 API 非常丰富，有很多可以调用的功能，可以将这些功能分成以下几类：
@@ -38,6 +39,7 @@ pip install airsim
 ```
 
 ## 1. 控制无人机的起飞和降落
+---
 先看下面这段代码：
 
 ```python
@@ -133,6 +135,7 @@ client.landAsync().join()   # 降落
 >当 AirSim 开始仿真的时候，会打开 41451 端口，并监听这个端口的需求。python 程序使用 `msgpack serialization` 格式向这个端口发送 RPC 包，就可以与 AirSim 进行通信了。
 
 ## 2. 控制四旋翼的飞行（core API）
+---
 ### 2.1 控制样例
 示例代码：
 

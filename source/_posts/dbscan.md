@@ -9,6 +9,7 @@ description: |
     📚 记录了小生最近学的新聚类算法
 ---
 ## 1. DBSCAN 算法简介
+---
 DBSCAN 是一种基于密度的聚类算法，旨在发现任意形状的**簇**，并且对**噪声点**（**outliers**）具有鲁棒性。
 
 DBSCAN 通过在数据空间中找到高密度区域，将这些区域作为簇，同时把孤立点（密度低的点）归为**噪声**。
@@ -23,6 +24,7 @@ DBSCAN 的基本思想是：
 ![dbscan_example](../images/machine_learning/dbscan1.png)
 
 ## 2. DBSCAN 的基本概念
+---
 - $\epsilon$-邻域（Epsilon-neighborhood）
     对于某个点 $P$，以半径 $\epsilon$ 为边界的区域内所有的点称为该点的 $\epsilon$ 邻域。
 - **核心点**（**Core Point**）
@@ -39,6 +41,7 @@ DBSCAN 的基本思想是：
     如果存在一个点 $O$，使得 $P$ 和 $Q$ 都从 $O$ 密度可达，则称 $P$ 和 $Q$ 是密度相连的。
 
 ## 3. DBSCAN 算法步骤
+---
 - **初始化**
     从数据集中任意选择一个点 $P$，判断它是否为核心点（即 $\epsilon$ 邻域内是否包含至少 minPts 个点）。
 - **扩展簇**
@@ -49,6 +52,7 @@ DBSCAN 的基本思想是：
     继续检查所有未访问的点，直到所有点都被访问为止。
 
 ## 4. DBSCAN 伪代码
+---
 ```python
 DBSCAN(D, epsilon, minPts):
     C = 0   # 初始化簇标签
@@ -74,10 +78,12 @@ expandCluster(P, Neighbors, C, epsilon, minPts):
 ```
 
 ## 5. DBSCAN 的时间复杂度分析
+---
 - **邻域查询**：在每次扩展时，需要查找一个点的 $\epsilon$ 邻域。如果使用 KD-Tree 或 Ball-Tree 等空间索引结构，这个操作的复杂度为 $O(\log n)$。
 - **总体复杂度**：如果对每个点进行邻域查询，算法的时间复杂度为 $O(n·\log n)$。如果不使用索引结构，最坏情况下是 $O(n^2)$。
 
 ## 6. DBSCAN 的 Python 实现
+---
 
 ### 方法一：使用 scikit-learn
 ![cluster](../images/machine_learning/scatter_plot.png)
@@ -204,6 +210,7 @@ if __name__ == "__main__":
 ```
 
 ## 7. DBSCAN 的优缺点
+---
 - 优点：
   - 可以发现任意形状的簇。
   - 不需要预先指定簇的数量。
