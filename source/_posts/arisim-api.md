@@ -5,7 +5,7 @@ tags:
     - 强化学习
     - 仿真环境
 categories:
-    - 强化学习
+    - 食用指南
 description: |
     ✈️ 比较热门的无人机强化学习仿真平台之一
 ---
@@ -302,3 +302,118 @@ client.moveToPositionAsync(x, y, z, velocity, drivetrain=drivetrain, yaw_mode=ya
 > **全局坐标系**是固连到大地的，x, y, z 三个坐标轴的指向分别是北、东、地，也就是朝北是 x 轴的正方向，朝南是 x 轴的负方向。全局坐标系的原点位置是大地的某一点（可以在 settings 文件中设置）。
 >
 > **机体坐标系**是固连到四旋翼机身的，x, y, z 三个坐标轴的指向分别是前、右、下，也就是飞机的前方是 x 轴的正方向，飞机后方是 x 轴的负方向。机体坐标系的原点位置是机体的重心位置。
+
+## 3. 速度控制
+---
+
+### 3.1 控制样例
+老样子，先上示例：
+
+```python
+import airsim
+import time
+
+client = airsim.MultirotorClient()  # connect to the AirSim simulator
+client.enableApiControl(True)       # 获得控制权
+client.armDisarm(True)              # 解锁
+client.takeoffAsync().join()        # 第一阶段：起飞
+
+client.moveToZAsync(-2, 1).join()   # 第二阶段：上升到 2m 高度
+
+# 飞正方形
+client.moveByVelocityZAsync(1, 0, -2, 8).join() # 第三阶段：以 1m/s 速度向前飞 8 秒钟
+client.moveByVelocityZAsync(0, 1, -2, 8).join() # 第三阶段：以 1m/s 速度向右飞 8 秒钟
+client.moveByVelocityZAsync(-1, 0, -2, 8).join() # 第三阶段：以 1m/s 速度向后飞 8 秒钟
+client.moveByVelocityZAsync(0, -1, -2, 8).join() # 第三阶段：以 1m/s 速度向左飞 8 秒钟
+
+# 悬停 2 秒钟
+client.hoverAsync().join()      # 第四阶段：悬停 6 秒
+time.sleep(6)
+
+client.landAsync().join()       # 第五阶段：降落
+client.armDisarm(False)         # 上锁
+client.enableApiControl(False)  # 释放控制权
+```
+
+> 在视频演示的时候，可以设置固定视角来观察四旋翼运动的轨迹，方法如下。
+>
+> 点击 `运行/Play` 按钮后，中间的视角默认是跟随视角，视角的设置决定了摄像机如何跟随四旋翼，对于四旋翼来说，默认是 `跟随/Flywithme` 模式，对于汽车来说，默认是 `SpringArmChase` 模式。下面列出这些模式：
+>
+> - `跟随/FlyWithMe`：以 6 自由度跟随四旋翼
+> - `FPV`：机载摄像头视角
+> - `地面观察者/GroundObserver`：在地面上以 XY 平面自由度跟随四旋翼
+> - `手动/Manual`：手动设置摄像机的位置
+> - `弹性机臂跟随/SpringArmChase`：摄像机固定在一个隐形的与汽车连在一起的弹性机臂上，跟随汽车，所以会有一些时延。
+> - `NoDisplay`：不显示画面，这可以提高渲染性能，而且不影响 APIs
+>
+> 把鼠标移动到中间的视野中随便一个位置，点一下鼠标左键，这时鼠标就消失了。这时可以设置视角模式：
+> - `F` 按键：FPV
+> - `B` 按键：跟随/FlyWithMe
+> - `\` 按键：地面观察者/GroundObserver
+> - `/` 按键：弹性机臂跟随/SpringArmChase
+> - `M` 按键：手动/Manual
+>
+> 按 `M` 按键进入手动设置模式，可以设置摄像机的位置：
+>
+> - 方向键：前进、后退、向左、向右移动
+> - page up/down：上下移动
+> - W，S 按键：俯仰转动
+> - A，D 按键：偏航转动
+
+### 3.2 代码详解
+
+```python
+client.moveByVelocityZAsync(vx, vy, z, duration).join()
+```
+速度控制函数，让四旋翼在 `z` 的高度，以 `vx`，`vy` 的速度，飞行 `duration` 秒。
+
+```python
+client.hoverAsync().join()
+```
+
+这句指令的功能是让四旋翼在当前位置悬停。
+
+### 3.3 速度控制方法 API
+```python
+def moveByVelocityZAsync(
+    self,
+    vx,
+    vy,
+    z,
+    duration,
+    drivetrain=DrivetrainType.MaxDegreeOfFreedom,
+    yaw_mode=YawMode(),
+    vehicle_name="",
+)
+```
+
+### 3.4 速度控制误差
+四旋翼是一个非线性系统，给一个速度指令，它是不可能瞬时到达的，而且这个速度指令与当前的速度之差越大，达到这个速度指令的调节时间就越长。所以在上面的程序中，最后的四旋翼并没有回到起点位置。
+
+为了做对比，可以把速度增大一些，下面的代码是四旋翼以 8m/s 的速度飞行 2 秒钟，分别向前右后左四个方向各飞行一次，最后离起点位置偏差更大：
+
+```python
+import airsim
+ import time
+ ​
+ client = airsim.MultirotorClient()  # connect to the AirSim simulator
+ client.enableApiControl(True)       # 获取控制权
+ client.armDisarm(True)              # 解锁
+ client.takeoffAsync().join()        # 第一阶段：起飞
+ ​
+ client.moveToZAsync(-2, 1).join()   # 第二阶段：上升到2米高度
+ ​
+ # 飞正方形
+ client.moveByVelocityZAsync(8, 0, -2, 2).join()     # 第三阶段：以8m/s速度向前飞2秒钟
+ client.moveByVelocityZAsync(0, 8, -2, 2).join()     # 第三阶段：以8m/s速度向右飞2秒钟
+ client.moveByVelocityZAsync(-8, 0, -2, 2).join()    # 第三阶段：以8m/s速度向后飞2秒钟
+ client.moveByVelocityZAsync(0, -8, -2, 2).join()    # 第三阶段：以8m/s速度向左飞2秒钟
+ ​
+ # 悬停 2 秒钟
+ client.hoverAsync().join()          # 第四阶段：悬停6秒钟
+ time.sleep(6)
+ ​
+ client.landAsync().join()           # 第五阶段：降落
+ client.armDisarm(False)             # 上锁
+ client.enableApiControl(False)      # 释放控制权
+```
