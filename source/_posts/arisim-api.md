@@ -417,3 +417,86 @@ import airsim
  client.armDisarm(False)             # 上锁
  client.enableApiControl(False)      # 释放控制权
 ```
+
+## 4. 四旋翼飞圆形及画图 API
+---
+四旋翼飞圆形和之前将的飞正方形有本质的不同，为了能够飞一个完美的圆形，只靠飞点是不够的，需要获取无人机当前的位置状态来计算速度指令。接下来介绍以速度指令的方式，让四旋翼飞一个圆形。
+
+完整代码如下：
+
+```python
+import airsim
+import numpy as np
+import math
+import time
+
+client = airsim.MultirotorClient()
+client.enableApiControl(True)
+client.armDisarm(True)
+client.takeoffAsync().join()
+client.moveToZAsync(-3, 1).join()
+
+center = np.array([[0], [5]])   # 圆心设置
+speed = 2                       # 速度设置
+radius = 5                      # 半径设置
+clock_wise = True               # 顺时针或逆时针设置
+
+pos_reserve = np.array([[0.], [0.], [-3.]])
+
+# 速度控制
+for i in range(2000):
+    # 获取无人机当前的位置
+    state = client.simGetGroundTruthKinematics()
+    pos = np.array([[state.position.x_val], [state.position.y_val], [state.position.z_val]])
+
+    # 计算径向速度的方向向量
+    dp = pos[0:2] - center
+    if np.linalg.norm(dp) - radius > 0.1:
+        vel_dir_1 = -dp
+    elif np.linalg.norm(dp) - radius < 0.1:
+        vel_dir_1 = dp
+
+    # 计算切向速度的方向向量
+    theta = math.atan2(dp[1, 0], dp[0, 0])
+    if clock_wise:
+        # 如果是顺时针
+        theta += math.pi/2
+    else:
+        # 如果是逆时针
+        theta -= math.pi/2
+    v_dir_2 = np.array([[math.cos(theta)], [math.sin(theta)]])
+
+    # 计算最终速度的方向向量
+    v_dir = 0.08 * vel_dir_1 + v_dir_2
+
+    # 计算最终速度指令
+    v_cmd = speed * v_dir/np.linalg.norm(v_dir)
+
+    # 速度控制
+    client.moveByVelocityZAsync(v_cmd[0, 0], v_cmd[1, 0], -3, 1)
+
+    # 画图
+    point_reserve = [airsim.Vector3r(pos_reserve[0, 0], pos_reserve[1, 0], pos_reserve[2, 0])]
+    point = [airsim.Vector3r(pos[0, 0], pos[1, 0], pos[2, 0])]
+    point_end = pos + np.vstack((v_cmd, np.array([[0]])))
+    point_end = [airsim.Vector3r(point_end[0, 0], point_end[1, 0], point_end[2, 0])]
+    client.simPlotArrows(point, point_end, arrow_size=8.0, color_rgba=[0.0, 0.0, 1.0, 1.0])
+    client.simPlotLineList(point_reserve+point, color_rgba=[1.0, 0.0, 0.0, 1.0], is_persistent=True)
+
+    # 循环
+    pos_reserve = pos
+    time.sleep(0.02)
+```
+
+- **第一步**：计算径向速度向量方向
+    计算向量的方向，也就是不用管大小是多少，只要向量方向正确即可。
+
+    因为无人机很可能并没有在圆周上，所以要给它径向的指令，来限制它在圆周上运动，不能偏离太远。
+- **第二步**：计算切向速度向量方向
+    切向速度向量计算我是先求的当前方位角（相对于圆心的），然后加（或减）90 度，得到的向量。
+
+- **第三步**：两个向量加权相加并单位化，得到最终单位速度方向向量
+    两个向量加权平均，k 值是需要调节的，这样曲线才圆润。
+
+- **第四步**：单位向量乘速度，就是最终速度指令
+

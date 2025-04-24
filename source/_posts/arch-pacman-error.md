@@ -4,7 +4,6 @@ date: 2025-02-25 08:30:03
 tags:
     - Archlinux
     - 校园网
-    - Pacman
 categories:
     - Archlinux
 description: |
