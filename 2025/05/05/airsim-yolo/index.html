@@ -1,0 +1,528 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>基于 AirSim 仿真平台与 YOLOv8s 的无人机目标检测仿真样例 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="希望成为自己喜欢的模样" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/links">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/links">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>基于 AirSim 仿真平台与 YOLOv8s 的无人机目标检测仿真样例</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/5
+        </span>
+        
+        <span class="category">
+            <a href="/categories/CV/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                CV
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
+                    深度学习
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E4%BB%BF%E7%9C%9F/" style="color: #ff7d73">
+                    仿真
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/CV/" style="color: #00bcd4">
+                    CV
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <blockquote>
+<p>经过一段时间的筹备，Coldrain 花了 <strong>1.2k</strong> 把电脑的内存从 16G 扩充到了 <strong>64G</strong>，于是终于有了在电脑上同时进行实时渲染调试和模型运算的信心 💪（这个月要开始吃土了 🪨）</p>
+<p>于是趁着五一假期，Coldrain 写了一个小程序，实现了在 AirSim 插件中使用键盘控制无人机自由飞行，同时利用 <strong>YOLOv8s</strong> 模型实现无人机的实时目标检测</p>
+<p>PS：你问为什么不用厉害点的模型？买不起 <strong>Jetson Nano</strong> 这种档次的设备，就算仿真有效，硬件条件也不支持迁移啊 😭（而且目前 Coldrain 也没有正式学过<strong>边缘计算</strong>）</p>
+</blockquote>
+<p>先放实机演示：</p>
+<p><video src="../images/airsim/airsim.mp4" position= "absolute" width="100%" height="100%" controls="controls"></video></p>
+<pre><code class="python">import sys
+import pygame
+import airsim
+import time
+import cv2
+import numpy as np
+from matplotlib.pyplot import annotate
+from ultralytics import YOLO
+
+
+def keyboard_control(AirSim_client):
+    # pygame settings
+    pygame.init()
+    screen = pygame.display.set_mode((400, 300))
+    pygame.display.set_caption(&quot;Keyboard Control&quot;)
+    screen.fill((0, 0, 0))
+
+    # airsim settings
+    # 这里改为你要控制的无人机名称
+    vehicle_name = &quot;Drone1&quot;
+    AirSim_client.takeoffAsync(vehicle_name=vehicle_name).join()
+
+    # 基础的控制速度(m/s)
+    vehicle_velocity = 2.0
+    # 设置临时加速度比例
+    speedup_ratio = 10.0
+    # 用来设置临时加速
+    speedup_flag = False
+
+    # 基础的偏航速率
+    vehicle_yaw_rate = 5.0
+
+    # 设置摄像头名称
+    camera_name = &quot;front_center&quot;
+
+    # 设置图像类型（可以是Scene, Depth, Segmentation等）
+    image_type = airsim.ImageType.Scene
+
+    # 设置显示窗口
+    cv2.namedWindow(&quot;Drone FPV View&quot;, cv2.WINDOW_NORMAL)
+    cv2.resizeWindow(&quot;Drone FPV View&quot;, 400, 240)
+
+
+    while True:
+
+        yaw_rate = 0.0
+        velocity_x = 0.0
+        velocity_y = 0.0
+        velocity_z = 0.0
+
+        time.sleep(0.02)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+
+        scan_wrapper = pygame.key.get_pressed()
+
+        # 按下空格键加速 10 倍
+        if scan_wrapper[pygame.K_SPACE]:
+            scale_ratio = speedup_ratio
+        else:
+            scale_ratio = 1.0
+
+        # 根据 &quot;A&quot; 和 &quot;D&quot; 按键来设置偏航速率变量
+        if scan_wrapper[pygame.K_a] or scan_wrapper[pygame.K_d]:
+            yaw_rate = (scan_wrapper[pygame.K_d] - scan_wrapper[pygame.K_a]) * scale_ratio * vehicle_yaw_rate
+
+        # 根据 &quot;UP&quot; 和 &quot;DOWN&quot; 按键来设置 pitch 轴速度变量（NED 坐标系，x 为机头向前）
+        if scan_wrapper[pygame.K_UP] or scan_wrapper[pygame.K_DOWN]:
+            velocity_x = (scan_wrapper[pygame.K_UP] - scan_wrapper[pygame.K_DOWN]) * scale_ratio
+
+        # 根据 &quot;LEFT&quot; 和 &quot;RIGHT&quot; 按键来设置 roll 轴速度变量（NED 坐标系，y 为正右方）
+        if scan_wrapper[pygame.K_LEFT] or scan_wrapper[pygame.K_RIGHT]:
+            velocity_y = (scan_wrapper[pygame.K_RIGHT] - scan_wrapper[pygame.K_LEFT]) * scale_ratio
+
+        # 根据 &quot;W&quot; 和 &quot;S&quot; 按键来设置 z 轴速度变量（NED 坐标系，z 轴向上为负）
+        if scan_wrapper[pygame.K_w] or scan_wrapper[pygame.K_s]:
+            velocity_z = (scan_wrapper[pygame.K_s] - scan_wrapper[pygame.K_w]) * scale_ratio
+
+        # 设置速度控制以及设置偏航控制
+        AirSim_client.moveByVelocityBodyFrameAsync(vx=velocity_x, vy=velocity_y, vz=velocity_z, duration=0.02,
+                                                   yaw_mode=airsim.YawMode(True, yaw_or_rate=yaw_rate), vehicle_name=vehicle_name)
+
+
+        # 获取前端摄像头图像
+        responses = AirSim_client.simGetImages([
+            # 不返回浮点数，不压缩
+            airsim.ImageRequest(camera_name=camera_name, image_type=image_type,
+                                pixels_as_float=False, compress=False)
+        ])
+
+        response = responses[0]
+
+        # 将图像数据转为 numpy 数组
+        img1d = np.frombuffer(response.image_data_uint8, dtype=np.uint8)
+
+        # 重塑数组为 3 通道图像
+        img_rgb = img1d.reshape(response.height, response.width, 3)
+
+        # 显示图像
+        cv2.imshow(&quot;Drone FPV View&quot;, img_rgb)
+
+        # press &quot;Esc&quot; to quit
+        if scan_wrapper[pygame.K_ESCAPE]:
+            pygame.quit()
+            cv2.destroyAllWindows()
+            sys.exit()
+
+
+def keyboard_control_with_yolo(AirSim_client):
+    # 初始化 YOLOv8 模型
+    model = YOLO(&#39;yolov8s.pt&#39;)
+
+    # pygame settings
+    pygame.init()
+    screen = pygame.display.set_mode((400, 300))
+    pygame.display.set_caption(&quot;Keyboard Control&quot;)
+    screen.fill((0, 0, 0))
+
+    # airsim settings
+    # 这里改为你要控制的无人机名称
+    vehicle_name = &quot;Drone1&quot;
+    AirSim_client.takeoffAsync(vehicle_name=vehicle_name).join()
+
+    # 基础的控制速度(m/s)
+    vehicle_velocity = 2.0
+    # 设置临时加速度比例
+    speedup_ratio = 10.0
+    # 用来设置临时加速
+    speedup_flag = False
+
+    # 基础的偏航速率
+    vehicle_yaw_rate = 5.0
+
+    # 设置摄像头名称
+    camera_name = &quot;front_center&quot;
+
+    # 设置图像类型（可以是Scene, Depth, Segmentation等）
+    image_type = airsim.ImageType.Scene
+
+    # 设置显示窗口
+    cv2.namedWindow(&quot;Drone FPV View&quot;, cv2.WINDOW_NORMAL)
+    cv2.resizeWindow(&quot;Drone FPV View&quot;, 1000, 600)
+
+    # FPS 计算变量
+    frame_count = 0
+    start_time = time.time()
+
+    while True:
+
+        yaw_rate = 0.0
+        velocity_x = 0.0
+        velocity_y = 0.0
+        velocity_z = 0.0
+
+        time.sleep(0.02)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+
+        scan_wrapper = pygame.key.get_pressed()
+
+        # 按下空格键加速 10 倍
+        if scan_wrapper[pygame.K_SPACE]:
+            scale_ratio = speedup_ratio
+        else:
+            scale_ratio = 1.0
+
+        # 根据 &quot;A&quot; 和 &quot;D&quot; 按键来设置偏航速率变量
+        if scan_wrapper[pygame.K_a] or scan_wrapper[pygame.K_d]:
+            yaw_rate = (scan_wrapper[pygame.K_d] - scan_wrapper[pygame.K_a]) * scale_ratio * vehicle_yaw_rate
+
+        # 根据 &quot;UP&quot; 和 &quot;DOWN&quot; 按键来设置 pitch 轴速度变量（NED 坐标系，x 为机头向前）
+        if scan_wrapper[pygame.K_UP] or scan_wrapper[pygame.K_DOWN]:
+            velocity_x = (scan_wrapper[pygame.K_UP] - scan_wrapper[pygame.K_DOWN]) * scale_ratio
+
+        # 根据 &quot;LEFT&quot; 和 &quot;RIGHT&quot; 按键来设置 roll 轴速度变量（NED 坐标系，y 为正右方）
+        if scan_wrapper[pygame.K_LEFT] or scan_wrapper[pygame.K_RIGHT]:
+            velocity_y = (scan_wrapper[pygame.K_RIGHT] - scan_wrapper[pygame.K_LEFT]) * scale_ratio
+
+        # 根据 &quot;W&quot; 和 &quot;S&quot; 按键来设置 z 轴速度变量（NED 坐标系，z 轴向上为负）
+        if scan_wrapper[pygame.K_w] or scan_wrapper[pygame.K_s]:
+            velocity_z = (scan_wrapper[pygame.K_s] - scan_wrapper[pygame.K_w]) * scale_ratio
+
+        # 设置速度控制以及设置偏航控制
+        AirSim_client.moveByVelocityBodyFrameAsync(vx=velocity_x, vy=velocity_y, vz=velocity_z, duration=0.02,
+                                                   yaw_mode=airsim.YawMode(True, yaw_or_rate=yaw_rate),
+                                                   vehicle_name=vehicle_name)
+
+        # 获取前端摄像头图像
+        responses = AirSim_client.simGetImages([
+            # 不返回浮点数，不压缩
+            airsim.ImageRequest(camera_name=camera_name, image_type=image_type,
+                                pixels_as_float=False, compress=False)
+        ])
+
+        response = responses[0]
+
+        # 将图像数据转为 numpy 数组
+        img1d = np.frombuffer(response.image_data_uint8, dtype=np.uint8)
+
+        # 重塑数组为 3 通道图像
+        frame = img1d.reshape(response.height, response.width, 3)
+
+        results = model(frame, stream=True, verbose=False)
+
+        for result in results:
+            annotated_frame = result.plot()
+
+            # 计算并显示FPS
+            frame_count += 1
+            if frame_count &gt;= 30:  # 每30帧计算一次FPS
+                fps = frame_count / (time.time() - start_time)
+                cv2.putText(annotated_frame, f&quot;FPS: &#123;fps:.2f&#125;&quot;, (10, 30),
+                            cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                frame_count = 0
+                start_time = time.time()
+
+            # 显示图像
+            cv2.imshow(&quot;Drone FPV View&quot;, annotated_frame)
+
+        # press &quot;Esc&quot; to quit
+        if scan_wrapper[pygame.K_ESCAPE]:
+            pygame.quit()
+            cv2.destroyAllWindows()
+            sys.exit()
+
+
+
+if __name__ == &quot;__main__&quot;:
+    AirSim_client = airsim.MultirotorClient()
+    AirSim_client.confirmConnection()
+    AirSim_client.enableApiControl(True)
+    AirSim_client.armDisarm(True)
+
+
+    keyboard_control_with_yolo(AirSim_client)
+
+    AirSim_client.landAsync().join()
+    AirSim_client.armDisarm(False)
+    AirSim_client.enableApiControl(False)
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
