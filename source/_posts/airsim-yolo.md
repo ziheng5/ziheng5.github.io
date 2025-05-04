@@ -20,10 +20,10 @@ description: |
 
 先放实机演示：
 
-<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=114450778562285&bvid=BV1BSVNzhEy9&cid=25795433892&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="position: absolute; width: 100%; height: 100%; Left: 0; top: 0;"></iframe>
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=114450778562285&bvid=BV1BSVNzhEy9&cid=25795433892&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="1000" height="480"></iframe>
 
 
-（因为第一次给 blog 嵌入视频，折腾了一会儿，先把代码贴上 💦）
+（因为第一次给 blog 嵌入视频，折腾了一晚上，这里先把代码贴上，具体解释等到第二天再写 💦）
 
 ```python
 import sys
