@@ -2,8 +2,7 @@
 title: Airsim 笔记：Python API 总结
 date: 2025-04-13 18:08:04
 tags:
-    - 强化学习
-    - 仿真环境
+    - 仿真
 categories:
     - 食用指南
 description: |
@@ -500,3 +499,449 @@ for i in range(2000):
 
 - **第四步**：单位向量乘速度，就是最终速度指令
 
+
+## 5. 多无人机协同集群编队（分布式控制算法）
+---
+### 5.1 多无人机编队控制理论
+集群编队控制有集中式和分布式两种，集中式控制受限于中心计算资源的限制，无法做到大规模集群编队。而分布式控制，理论上可以做到无限规模的集群编队。这部分实现的集群控制算法就属于一种分布式的控制算法。
+
+分布式集群控制最早是由 Reynolds 在 1987 年提出的分布式协同的三定律：避碰、速度一致、中心聚集。只要每个无人机都满足这三个条件就能形成集群飞行的效果。后续的集群研究都是在三定律的基础上进行的，或者说后续的集群算法都基本满足这三个定律，只是满足的形式各有区别。
+
+这里参考论文中的集群算法，在 AirSim 中实现多无人机集群飞行的效果。论文中的集群控制算法是三个速度指令相加的：
+- 避碰：$v_i^{sep}=-\frac{k^{sep}}{||N_i||} \Sigma \frac{r_{ij}}{||r_{ij}||^2}$
+- 中心聚集：$v_i^{coh}=\frac{k^{coh}}{||N_i||} \Sigma r_{ij}$
+- 整体迁移（速度一致）：$v_i^{mig}=k^{mig} \frac{r_i^{mig}}{||r^{mig}_i||}$
+
+其中：
+
+- $k$ 是系数
+- $N_i = {agents \quad j:j \ne i \wedge ||r_{ij}|| < r^{max}}$
+  - $N_i$ 表示的是每个无人机的邻居是如何选择的，也就是说对于每个无人机来说，其周围半径范围内的其他无人机都是自己的邻居。
+  - 所以 $||N_i||$ 表示的是第 $i$ 个无人机周围的邻居个数。
+  - $r_{ij}=p_j-p_i$ 表示的是两架无人机之间的距离
+  - $r_i^{mig}=p^{mig}-p_i$ 表示的是第 $i$ 个无人机到目标点的距离。
+
+这个集群算法比较简单，避碰和中心聚集这两项的公式很好理解。论文将速度一致项变形为了整体迁移，因为论文想要实现的目标是让无人机集群到达全局的一个固定位置。
+
+添加速度限幅后，最终无人机的速度指令为：
+
+$v_i=\frac{\bar{v_i}}{||\bar{v_i}||} min(||\bar{v_i}||, v^{max})$
+
+其中：$\bar{v_i}=v_i^{sep} + v_i^{coh} + v_i^{mig}$
+
+其中的参数设置如下：
+
+- $r^{max}=20m$
+- $v^{max}=2m/s$
+- $k^{sep}=7$
+- $k^{coh}=1$
+- $k^{mig}=1$
+
+最后形成的集群效果应该是每两个相邻的无人机都保持同样的距离编队。
+
+### 5.2 AirSim 集群编队实现
+#### 修改 settings.json 文件
+首先需要修改 `settings.json` 文件，添加多个无人机。初始位置每个无人机的位置都是自己随便设置的。
+
+```json
+"Vehicles": {
+    "UAV1": {
+        "VehicleType": "SimpleFlight",
+        "X":0, "Y":0, "Z":0,
+        "Yaw": 0
+    },
+    "UAV2": {
+      "VehicleType": "SimpleFlight",
+      "X": 2, "Y": 0, "Z": 0,
+      "Yaw": 0
+    },
+    "UAV3": {
+      "VehicleType": "SimpleFlight",
+      "X": 4, "Y": 0, "Z": 0,
+      "Yaw": 0
+    },
+    "UAV4": {
+      "VehicleType": "SimpleFlight",
+      "X": 0, "Y": -3, "Z": 0,
+      "Yaw": 0
+    },
+    "UAV5": {
+      "VehicleType": "SimpleFlight",
+      "X": 2, "Y": -2, "Z": 0,
+      "Yaw": 0
+    },
+    "UAV6": {
+      "VehicleType": "SimpleFlight",
+      "X": 4, "Y": -3, "Z": 0,
+      "Yaw": 0
+    },
+    "UAV7": {
+      "VehicleType": "SimpleFlight",
+      "X": 0, "Y": 3, "Z": 0,
+      "Yaw": 0
+    },
+    "UAV8": {
+      "VehicleType": "SimpleFlight",
+      "X": 2, "Y": 2, "Z": 0,
+      "Yaw": 0
+    },
+    "UAV9": {
+      "VehicleType": "SimpleFlight",
+      "X": 4, "Y": 3, "Z": 0,
+      "Yaw": 0
+    }
+}
+```
+
+#### 编队算法代码
+
+```python
+import airsim
+import time
+import numpy as np
+
+origin_x = [0, 2, 4, 0, 2, 4, 0, 2, 4]       # 无人机初始位置
+origin_y = [0, 0, 0, -3, -2, -3, 3, 2, 3]
+
+def get_UAV_pos(client, vehicle_name="SimpleFlight"):
+    global origin_x
+    global origin_y
+    state = client.simGetGroundTruthKinematics(vehicle_name=vehicle_name)
+    x = state.position.x_val
+    y = state.position.y_val
+    i = int(vehicle_name[3])
+    x += origin_x[i - 1]
+    y += origin_y[i - 1]
+    pos = np.array([[x], [y]])
+    return pos
+
+
+client = airsim.MultirotorClient()  # connect to the AirSim simulator
+for i in range(9):
+    name = "UAV"+str(i+1)
+    client.enableApiControl(True, name)     # 获取控制权
+    client.armDisarm(True, name)            # 解锁（螺旋桨开始转动）
+    if i != 8:                              # 起飞
+        client.takeoffAsync(vehicle_name=name)
+    else:
+        client.takeoffAsync(vehicle_name=name).join()
+
+for i in range(9):                          # 全部都飞到同一高度层
+    name = "UAV" + str(i + 1)
+    if i != 8:
+        client.moveToZAsync(-3, 1, vehicle_name=name)
+    else:
+        client.moveToZAsync(-3, 1, vehicle_name=name).join()
+
+
+# 参数设置
+v_max = 2     # 无人机最大飞行速度
+r_max = 20    # 邻居选择的半径
+k_sep = 7     # 控制算法系数
+k_coh = 1
+k_mig = 1
+pos_mig = np.array([[25], [0]])   # 目标位置
+v_cmd = np.zeros([2, 9])
+
+for t in range(500):
+    for i in range(9):   # 计算每个无人机的速度指令
+        name_i = "UAV"+str(i+1)
+        pos_i = get_UAV_pos(client, vehicle_name=name_i)
+        r_mig = pos_mig - pos_i
+        v_mig = k_mig * r_mig / np.linalg.norm(r_mig)
+        v_sep = np.zeros([2, 1])
+        v_coh = np.zeros([2, 1])
+        N_i = 0
+        for j in range(9):
+            if j != i:
+                name_j = "UAV"+str(j+1)
+                pos_j = get_UAV_pos(client, vehicle_name=name_j)
+                if np.linalg.norm(pos_j - pos_i) < r_max:
+                    N_i += 1
+                    r_ij = pos_j - pos_i
+                    v_sep += -k_sep * r_ij / np.linalg.norm(r_ij)
+                    v_coh += k_coh * r_ij
+        v_sep = v_sep / N_i
+        v_coh = v_coh / N_i
+        v_cmd[:, i:i+1] = v_sep + v_coh + v_mig
+
+    for i in range(9):   # 每个无人机的速度指令执行
+        name_i = "UAV"+str(i+1)
+        client.moveByVelocityZAsync(v_cmd[0, i], v_cmd[1, i], -3, 0.1, vehicle_name=name_i)
+
+# 循环结束
+client.simPause(False)
+for i in range(9):
+    name = "UAV"+str(i+1)
+    if i != 8:                                              # 降落
+        client.landAsync(vehicle_name=name)
+    else:
+        client.landAsync(vehicle_name=name).join()
+for i in range(9):
+    name = "UAV" + str(i + 1)
+    client.armDisarm(False, vehicle_name=name)              # 上锁
+    client.enableApiControl(False, vehicle_name=name)       # 释放控制权
+```
+
+## 6. 状态读取 API & 多无人机位置读取函数封装
+---
+### 6.1 无人机真值状态读取 API
+无人机的真值状态读取接口可以得到无人机的真值状态（无误差），此接口同样适用于无人车，属于 vehicle 类的通用 API。接口的调用格式如下：
+
+```python
+kinematic_state_groundtruth = client.simGetGroundTruthKinematics(vehicle_name='')
+```
+
+其中返回值 `kinematic_state_groundtrutth` 包含 6 个属性：
+
+```python
+# state_groundtruth 的 6 个属性
+kinematic_state_groundtruth.position            # 位置信息
+kinematic_state_groundtruth.linear_velocity     # 速度信息
+kinematic_state_groundtruth.linear_acceleration # 加速度信息
+kinematic_state_groundtruth.orientation         # 姿态信息
+kinematic_state_groundtruth.angular_velocity    # 姿态角速度信息
+kinematic_state_groundtruth.angular_acceleration  # 姿态角加速度信息
+```
+
+以上 6 个属性中，除了 `orientation` 其他几个都包含了 `x_val`、`y_val` 和 `z_val` 三个属性，分别代表 x,y,z 3 个方向的值。例如位置真值的读取如下：
+
+```python
+# 无人机全局位置坐标真值
+x = kinematic_state_groundtruth.position.x_val  # 全局坐标系下，x 轴方向的坐标
+y = kinematic_state_groundtruth.position.y_val  # 全局坐标系下，y 轴方向的坐标
+z = kinematic_state_groundtruth.position.z_val  # 全局坐标系下，z 轴方向的坐标
+```
+
+同理，速度、加速度、姿态角速度、姿态角加速度真值的读取如下：
+
+```python
+# 无人机全局速度真值
+vx = kinematic_state_groundtruth.linear_velocity.x_val    # 无人机 x 轴方向（正北）
+vy = kinematic_state_groundtruth.linear_velocity.y_val    # 无人机 y 轴方向（正东）
+vz = kinematic_state_groundtruth.linear_velocity.z_val    # 无人机 z 轴方向（垂直）
+
+# 无人机全局加速度真值
+ax = kinematic_state_groundtruth.linear_acceleration.x_val
+ay = kinematic_state_groundtruth.linear_acceleration.y_val
+az = kinematic_state_groundtruth.linear_acceleration.z_val
+
+# 机体角速度
+kinematic_state_groundtruth.angular_velocity.x_val    # 机体俯仰角速率
+kinematic_state_groundtruth.angular_velocity.y_val    # 机体翻滚角速率
+kinematic_state_groundtruth.angular_velocity.z_val    # 机体偏航角速率
+
+# 机体角加速度
+kinematic_state_groundtruth.angular_acceleration.x_val
+kinematic_state_groundtruth.angular_acceleration.y_val
+kinematic_state_groundtruth.angular_acceleration.z_val
+```
+
+而对于姿态的读取，姿态信息是用四元数表示的，而 AirSim 同时也提供了四元数转换为欧拉角的接口：
+
+```python
+# 无人机姿态真值的四元数表示
+kinematic_state_groundtruth.orientation.x_val
+kinematic_state_groundtruth.orientation.y_val
+kinematic_state_groundtruth.orientation.z_val
+kinematic_state_groundtruth.orientation.w_val
+
+# 四元数转换为欧拉角，单位 rad
+(pitch, roll, yaw) = airsim.to_eularian_angles(kinematic_state_groundtruth.orientation)
+```
+
+### 6.2 无人机状态估计值读取 API
+在实际的无人机中，无法获取无人机的状态真值，状态的读取是无人机上传感器融合得到的估计值。AirSim APIs 还提供了获取无人机状态（估计值）的功能接口，其调用格式如下：
+
+```python
+state_multirotor = client.getMultirotorState(vehicle_name='')
+```
+
+这里的无人机状态 `state_multirotor` 包含：时间戳、运动状态信息（估计值）、碰撞信息、GPS 经纬度信息、遥控器信息、降落信息等。读取方式如下：
+
+```python
+state_multirotor.collision            # 碰撞信息
+state_multirotor.kinematics_estimated # 运动信息
+state_multirotor.gps_location         # GPS 经纬度信息
+state_multirotor.timestamp             # 时间戳
+state_multirotor.landed_state         # 降落信息
+state_multirotor.rc_data              # 遥控器信息
+```
+
+其中的降落信息 `state_multirotor.landed_state` 是整数类型，其值为 0 表示在地上，值为 1 表示在空中。其中的时间戳 `state_multirotor.timestamp` 是仿真开始后的时间，单位是**纳秒**。
+
+无人机状态中的运动信息 `state_multirotor.kinematics_estimated` 是由多个传感器测量值融合得到的，包含 6 种运动信息，读取方式相同：
+
+```python
+# 无人机运动信息的估计值有 6 个属性
+state_multirotor.kinematic_estimated.position             # 位置信息估计值
+state_multirotor.kinematic_estimated.linear_velocity      # 速度信息估计值
+state_multirotor.kinematic_estimated.linear_acceleration  # 加速度信息估计值
+state_multirotor.kinematic_estimated.orientation          # 姿态信息估计值
+state_multirotor.kinematic_estimated.angular_velocity     # 姿态角速率信息估计值
+state_multirotor.kinematic_estimated.angular_acceleration # 姿态角加速度信息估计值
+```
+
+但是遗憾的是，`SimpleFlight` 不支持模拟传感器，所以如果使用的是 `SimpleFlight`，则使用 `getMultirotorState()` 得到的运动状态与使用 `simGetGroundTruthKinematics()` 得到的运动状态真值是一模一样的。如果使用硬件在环仿真（如 PX4 等），则可以使用 `getMultirotorState()` 获得无人机的估计状态信息。
+
+这里我们暂时只介绍时间戳、降落信息和运动信息，对于碰撞信息和 GPS 经纬度信息在后面有具体的讲解。
+
+AirSim APIs 还提供了获取电机状态的功能接口，调用格式如下：
+
+```python
+state_rotor = client.getRotorStates(vehicle_nane='')
+```
+
+函数的返回值 `state_rotor` 包含时间戳和每个螺旋桨的转速、拉力、力矩信息。使用 `print()` 将其打印出来（无人机悬停状态下），可以得到如下信息：
+
+```python
+<RotorStates> {   'rotors': [   {   'speed': 516.8734130859375,
+                       'thrust': 2.4884119033813477,
+                       'torque_scaler': -0.03308132290840149},
+                   {   'speed': 516.8734130859375,
+                       'thrust': 2.4884119033813477,
+                       'torque_scaler': -0.03308132290840149},
+                   {   'speed': 516.8734130859375,
+                       'thrust': 2.4884119033813477,
+                       'torque_scaler': 0.03308132290840149},
+                   {   'speed': 516.8734130859375,
+                       'thrust': 2.4884119033813477,
+                       'torque_scaler': 0.03308132290840149}],
+     'timestamp': 1632472243084013312}
+```
+
+如果想要单独得到第 0 个螺旋桨的转速信息，可以用如下代码：
+
+```python
+state_rotors = client.getRotorStates(vehicle_name="")
+print(state_rotors.rotors[0]['speed'])
+```
+
+这样可以直接打印出电机的转速。使用电机转速控制可以实现对无人机运动控制精度较高的应用，如高精度轨迹跟踪。
+
+### 6.3 位置读取函数封装（重点）
+**无人机位置读取时使用的是全局坐标系，这里的全局坐标系定义是北东地，全局坐标系的原点是无人机的初始位置。**
+
+也就是说当有多个无人机时，而且每个无人机的初始位置不同时，此接口读取到的不同的无人机的状态是以其读的无人机的初始位置为原点的，所以在读取的时候需要加上其初始位置的补偿。
+
+基于此可以写出如下位置读取的函数封装：
+
+```python
+orig_pos = np.array([[0., 0., 0.,], 
+                     [3., 0., 0.]])
+def get_uav_pos(client, name):
+    uav_state = client.getMultirotorState(vehicle_name=name).kinematics_estimated
+    num = int(name[-1])
+    pos = np.array([[uav_state.position.x_val + orig_pos[num, 0]], 
+                    [uav_state.position.x_val + orig_pos[num, 1]], 
+                    [uav_state.position.x_val + orig_pos[num, 2]]])
+    return pos
+```
+
+其中 `orig_pos` 是每个无人机的初始位置，上面的代码中，有两个无人机，无人机 0 的初始位置是 [0, 0, 0]，无人机 1 的初始位置是 [3, 0, 0]。使用上面的方法添加补偿后，就可以将每个无人机的全局坐标系统一了。
+
+## 7. 航路点飞行 API & 多无人机位置控制函数封装
+---
+AirSim 提供的轨迹跟踪 API 是基于位置控制的，所以严格意义上并不能算是轨迹跟踪，而应该称之为连续航路点飞行。无人机会依次飞过多个航路点，形成特定的飞行轨迹，其调用格式如下：
+
+```python
+# 航路点轨迹飞行控制
+client.moveOnPathAsync(path, velocity, 
+                    drivetrain = DrivetrainType.MaxDegreeOfFreedom, 
+                    yaw_mode = YawMode(), 
+                    lookahead = -1, adaptive_lookahead = 1, 
+                    vehicle_name = '')
+```
+
+参数说明：
+
+- path(list[Vector3r]):多个航路点的 3 维坐标
+- velocity(float)：无人机的飞行速度大小；
+- lookahead，adaptive_lookahead：设置路径跟踪算法的参数
+
+参数 path 包含了多个航路点的全局位置坐标，也就是说无人机要飞过 path 中包含的每一个坐标点（也就是航路点）。将 path 中的航路点依次连接起来，就会组成一条路径，无人机依次飞过航路点，就像是沿着特定路径飞行一样，形成路径跟踪的效果。
+
+这里需要注意的是全局坐标系的原点是无人机的初始位置，所以当有多架无人机同时仿真的时候，每架无人机的原点是不同的，所以当使用统一的全局坐标系的时候，需要对不同的无人机添加位置补偿。
+
+`moveOnPathAsync` 中使用的算法是 **Carrot Chasing Algorithm**，这是一个非常经典的路径跟踪算法，其中需要设置 `lookahead` 参数，这个参数的意义是设置在路径上向前看的距离。`lookahead` 设置的越大，在路径拐弯的时候，无人机就越提前转弯；如果 `lookahead` 参数设置的过小，则可能出现超调，无人机会飞跃航路点，然后才拐弯。
+
+任何时候，`lookahead` 值的设置要大于位置控制允许的误差，并且小于整个路径的总长度。如果 `lookahead` 值小于位置控制允许的误差，则无人机会认为已经到达了第一个目标点，最终效果是无人机悬停在原地。如果 `lookahead` 值大于轨迹的总长度，则无人机会认为已经达到了最后一个航路点，最终效果还是无人机悬停在原地。
+
+当 `lookahead` 参数小于 0 时，`adaptive_lookahead` 设置为大于 0 的数值，这样可以让算法根据当前的无人机飞行速度自动设置 `lookahead` 的值，通常按照默认设置（`lookahead=1`，`adaptive_lookahead=-1`）就可以达到比较好的效果。
+
+如果航路点组成的轨迹是一条直线，不存在转弯的情况，那么`lookahead` 值的大小对最终轨迹的影响将减小很多，此时 `lookahead` 的值只要小于轨迹的总长度即可。例如 `moveToPositionAsync()` 接口函数内容就是调用的 `moveOnPathAsync` 接口，也就是只有一个航路点的轨迹，此时轨迹就是一条直线，只要 `lookahead` 值小于当前到唯一航路点的距离，最终的飞行轨迹都是一样的。
+
+## 8. 图像 APIs
+---
+### 8.1 拍摄图像前的基本知识
+
+#### 图像位置
+
+AirSim 平台中的无人机和无人车都默认放有 5 个相机，只是位置不同，这里主要介绍无人机上的相机。下表列出的是相机的位置和命名。旧版本的 AirSim 对相机的命名是使用的数字，目前 AirSim 兼容旧版本，所以使用数字也是可以的。
+
+| 相机位置 | ID | 旧版本 ID |
+|---|---|---|
+| 前向中间 | `front_center` | `0` |
+| 前向右边 | `front_right` | `1` |
+| 前向左边 | `front_left` | `2` |
+| 底部中间 | `bottom_center` | `3` |
+| 后向中间 | `back_center` | `4` |
+
+#### 图像种类
+AirSim 中默认可以获得 8 种不同类型的图片，下表总结了 10 种类型图片的名称、解释和调用方式。
+
+|图像类型|解释|调用方法|
+|---|---|---|
+|Scene|彩色图|airsim.ImageType.Scene|
+|DepthPlanar|深度图，像素值代表到相平面的距离|airsim.ImageType.DepthPlanar|
+|DepthPerspective|深度图，像素值代表透视投影下到相平面的距离|airsim.ImageType.DepthPerspective|
+|DepthVis|深度图，为了更好的展示距离的远近，100 米对应白色，0 米对应黑色|airsim.ImageType.DepthVis|
+|DisparityNormalized|深度视差图，每个像素值是浮点型|airsim.ImageType.DisparityNormalized|
+|Segmentation|分割图，不同 ID 号的物体用不同的颜色表示|airsim.ImageType.Segmentation|
+|SurfaceNormals|表面法线，包含了比较丰富的细节信息|airsim.ImageType.SurfaceNormals|
+|Infrared|红外图，与分割图类似，知识颜色变为 ID 号|airsim.ImageType.Infrared|
+
+#### 图像数据的格式
+AirSim 中获得的图像有 3 种格式：PNG 格式、Array 格式、浮点型格式。通过在程序中设置不同的参数即可得到不同格式的图像。
+
+PNG 格式的图片是一种无损压缩的图片格式，由于其具有连续读出和写入的特性，所以非常适合于网络传播。其文件结构中包括：文件署名域和数据块（关键数据块、辅助数据块）。文件署名域的 8 个固定字节用来识别该文件是不是 PNG 格式的文件。数据块中包含了图像的大小、色深、颜色类型、压缩方式等信息。PNG 格式的图像是用字节的形式保存的，可以用图片查看器等软件打开。
+
+Array 格式是最原始的图像格式，在图像处理时都需要将图片转换成此格式。Array 是以向量的形式存储，彩色图像的每个像素点都有 RGB（红绿蓝）三个通道，所以向量的维度为：height \times width\times 3；而灰度图像每个像素点仅有一个通道，向量维度为：height\times width。每个值的取值范围是 0 ~ 255，其中0代表亮度最低，255代表亮度最高。例如第i行第j列的像素是红色的，则有 `img_rgb[i, j, :]=[255, 0, 0]`。另外需要注意的是在使用 OpenCV 库时，其默认的通道顺序为 BGR（蓝绿红），所以当图像的第i行第j列像素是红色时，则有 `img_rgb[i, j, :]=[0, 0, 255]`。
+
+浮点型格式的图像同样以向量的形式保存，维度为：height\times width，每个像素点的值是浮点型，适合深度图的保存。例如 DepthPlanar 图像中每个像素点的值表示此像素点到相平面的距离。
+
+将这3种图片保存格式的特点总结如下表所示。
+
+|图像类型|存储形式|是否压缩|适合保存的图片类型|
+|---|---|---|---|
+|PNG 格式|bytes|无损压缩|彩色图、分割图、表面法线图、红外图|
+|Array 格式|bytes|无|彩色图、分割图、表面法线图、红外图|
+|浮点型格式|float|无|深度图|
+
+通过一个简单的例子来进一步说明，下面的代码实现的功能是：使用同一个相机分别读取 3 种类型的图片： PNG 格式彩色图、Array 格式彩色图、浮点型深度图，最后打印出图片的一些信息。
+
+```python
+response = client.simGetImages([
+    # png format
+    airsim.ImageRequest(0, airsim.ImageType.Scene, pixels_as_float=False, compress=True),
+    airsim.ImageRequest(0, airsim.ImageType.Scene, pixels_as_float=False, compress=False),
+    airsim.ImageRequets(0, airsim.ImageType.DepthPlanar, pixels_as_float=True)
+])
+
+print("PNG 格式彩色图的前 8 个字节：", np.frombuffer(response[0].image_date_uint8[0:8], np.uint8))
+print("PNG 格式彩色图的字节个数：", len(response[0].image_data_uint8))
+print("Array 格式彩色图的字节个数：", len(response[1].image_data_uint8))
+print("浮点型格式深度图任一像素的值：", response[2].image_data_float[random.randint(0, 10000)])
+```
+
+#### 图片文件的格式
+首先要区分图像数据与图片文件的不同。
+
+图像数据是保存在内存中的数据，大部分是在程序运行的时候通过 API 读取到的，可以从 AirSim APIs 获得，也可以直接从文件中获得，当程序运行结束，或者内存释放掉的时候，这些数据也就随之消失了。
+
+图片文件是保存在硬盘中的文件，有不同的后缀名格式的文件，可以用图像查看器等软件打开。常用的图片文件格式有：
+
+- `.jpg` 格式：不带透明通道的有损压缩格式，广泛应用于互联网和数码相机领域；
+- `.png` 格式：便携式网络图形，无损压缩的位图，有较高的压缩比；
+- `.tif` 格式：非失真的压缩格式，占用空间较大，通常用于书籍和海报等数专业的领域;
+- `.bmp` 格式:是 Windows 操作系统中的标准图像文件格式,通常不压缩,文件所占空间较大.
