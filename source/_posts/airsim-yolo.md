@@ -20,9 +20,10 @@ description: |
 
 先放实机演示：
 
-<video src="../images/airsim/airsim_yolov8.mp4" position= "absolute" width="100%" height="100%" controls="controls"></video>
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=114450778562285&bvid=BV1BSVNzhEy9&cid=25795433892&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="position: absolute; width: 100%; height: 100%; Left: 0; top: 0;"></iframe>
 
 
+（因为第一次给 blog 嵌入视频，折腾了一会儿，先把代码贴上 💦）
 
 ```python
 import sys
