@@ -20,7 +20,7 @@ description: |
 
 先放实机演示：
 
-<video src="../images/airsim/airsim.mp4" position= "absolute" width="100%" height="100%" controls="controls"></video>
+<video src="../images/airsim/airsim_yolov8.mp4" position= "absolute" width="100%" height="100%" controls="controls"></video>
 
 
 
