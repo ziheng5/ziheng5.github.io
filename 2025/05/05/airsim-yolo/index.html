@@ -210,14 +210,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E4%BB%BF%E7%9C%9F/" style="color: #ff7d73">
+                <a href="/tags/%E4%BB%BF%E7%9C%9F/" style="color: #03a9f4">
                     仿真
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/CV/" style="color: #03a9f4">
+                <a href="/tags/CV/" style="color: #00bcd4">
                     CV
                 </a>
             </span>
@@ -232,22 +232,59 @@
 <p>于是趁着五一假期，Coldrain 写了一个小程序，实现了在 AirSim 插件中使用键盘控制无人机自由飞行，同时利用 <strong>YOLOv8s</strong> 模型实现无人机的实时目标检测</p>
 <p>PS：你问为什么不用厉害点的模型？买不起 <strong>Jetson Nano</strong> 这种档次的设备，就算仿真有效，硬件条件也不支持迁移啊 😭（而且目前 Coldrain 也没有正式学过<strong>边缘计算</strong>）</p>
 </blockquote>
+<h2 id="1-实机演示"><a href="#1-实机演示" class="headerlink" title="1. 实机演示"></a>1. 实机演示</h2><hr>
 <p>先放实机演示：</p>
 <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=114450778562285&bvid=BV1BSVNzhEy9&cid=25795433892&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="1000" height="480"></iframe>
 
 
 <p>（因为第一次给 blog 嵌入视频，折腾了一晚上，这里先把代码贴上，具体解释等到第二天再写 💦）</p>
-<pre><code class="python">import sys
+<h2 id="2-代码详解"><a href="#2-代码详解" class="headerlink" title="2. 代码详解"></a>2. 代码详解</h2><hr>
+<h3 id="2-1-导入必要的包"><a href="#2-1-导入必要的包" class="headerlink" title="2.1 导入必要的包"></a>2.1 导入必要的包</h3><pre><code class="python">from matplotlib.pyplot import annotate
+from ultralytics import YOLO
+from multiprocessing import Process
+import numpy as np
+import sys
 import pygame
 import airsim
 import time
 import cv2
-import numpy as np
-from matplotlib.pyplot import annotate
-from ultralytics import YOLO
+</code></pre>
+<ul>
+<li><code>matplotlib</code> 用于处理无人机摄像头获取到的图像</li>
+<li><code>ultralytics</code> 用于调用 YOLO 模型</li>
+<li><code>multiprocessing</code> 用于处理多进程任务</li>
+<li><code>numpy</code> 用于数值计算</li>
+<li><code>sys</code> 用于进程控制</li>
+<li><code>pygame</code> 用于设计 AirSim 中无人机的键盘控制</li>
+<li><code>airsim</code> 用于调用 AirSim 的 API</li>
+<li><code>time</code> 用来控制无人机摄像头帧率</li>
+<li><code>cv2</code> 用于处理无人机摄像头获取到的图像</li>
+</ul>
+<h3 id="2-2-设计程序框架"><a href="#2-2-设计程序框架" class="headerlink" title="2.2 设计程序框架"></a>2.2 设计程序框架</h3><pre><code class="python">def keyboard_control():
+    # 用于实现键盘控制
+    vehicle_name = &quot;Drone1&quot; # 这里注意切换为自己的无人机名称
+    AirSim_client = airsim.MultirotorClient()
+    AirSim_client.confirmConnection()
+    AirSim_client.enableApiControl(True, vehicle_name=vehicle_name)
+    AirSim_client.armDisarm(True, vehicle_name=vehicle_name)
 
+def yolo_cv():
+    # 用于实现调用 YOLO 模型进行实时目标检测
+    vehicle_name = &quot;Drone1&quot; # 这里注意切换为自己的无人机名称
+    AirSim_client = airsim.MultirotorClient()
+    AirSim_client.confirmConnection()
+    AirSim_client.enableApiControl(True, vehicle_name=vehicle_name)
+    AirSim_client.armDisarm(True, vehicle_name=vehicle_name)
 
-def keyboard_control(AirSim_client):
+if __name__ == &quot;__main__&quot;:
+    # 多进程控制，避免两个任务互相干扰
+    process = [Process(target=keyboard_control, args=()),
+               Process(target=yolo_cv, args=())]
+
+    [p.start() for p in process]
+    [p.join() for p in process]
+</code></pre>
+<h3 id="2-3-无人机键盘控制设计"><a href="#2-3-无人机键盘控制设计" class="headerlink" title="2.3 无人机键盘控制设计"></a>2.3 无人机键盘控制设计</h3><pre><code class="python">def keyboard_control():
     # pygame settings
     pygame.init()
     screen = pygame.display.set_mode((400, 300))
@@ -257,6 +294,10 @@ def keyboard_control(AirSim_client):
     # airsim settings
     # 这里改为你要控制的无人机名称
     vehicle_name = &quot;Drone1&quot;
+    AirSim_client = airsim.MultirotorClient()
+    AirSim_client.confirmConnection()
+    AirSim_client.enableApiControl(True, vehicle_name=vehicle_name)
+    AirSim_client.armDisarm(True, vehicle_name=vehicle_name)
     AirSim_client.takeoffAsync(vehicle_name=vehicle_name).join()
 
     # 基础的控制速度(m/s)
@@ -268,17 +309,6 @@ def keyboard_control(AirSim_client):
 
     # 基础的偏航速率
     vehicle_yaw_rate = 5.0
-
-    # 设置摄像头名称
-    camera_name = &quot;front_center&quot;
-
-    # 设置图像类型（可以是Scene, Depth, Segmentation等）
-    image_type = airsim.ImageType.Scene
-
-    # 设置显示窗口
-    cv2.namedWindow(&quot;Drone FPV View&quot;, cv2.WINDOW_NORMAL)
-    cv2.resizeWindow(&quot;Drone FPV View&quot;, 400, 240)
-
 
     while True:
 
@@ -321,62 +351,27 @@ def keyboard_control(AirSim_client):
         AirSim_client.moveByVelocityBodyFrameAsync(vx=velocity_x, vy=velocity_y, vz=velocity_z, duration=0.02,
                                                    yaw_mode=airsim.YawMode(True, yaw_or_rate=yaw_rate), vehicle_name=vehicle_name)
 
-
-        # 获取前端摄像头图像
-        responses = AirSim_client.simGetImages([
-            # 不返回浮点数，不压缩
-            airsim.ImageRequest(camera_name=camera_name, image_type=image_type,
-                                pixels_as_float=False, compress=False)
-        ])
-
-        response = responses[0]
-
-        # 将图像数据转为 numpy 数组
-        img1d = np.frombuffer(response.image_data_uint8, dtype=np.uint8)
-
-        # 重塑数组为 3 通道图像
-        img_rgb = img1d.reshape(response.height, response.width, 3)
-
-        # 显示图像
-        cv2.imshow(&quot;Drone FPV View&quot;, img_rgb)
-
         # press &quot;Esc&quot; to quit
         if scan_wrapper[pygame.K_ESCAPE]:
+            AirSim_client.enableApiControl(False, vehicle_name=vehicle_name)
+            AirSim_client.armDisarm(False, vehicle_name=vehicle_name)
             pygame.quit()
-            cv2.destroyAllWindows()
             sys.exit()
-
-
-def keyboard_control_with_yolo(AirSim_client):
+</code></pre>
+<h3 id="2-4-目标实时检测设计"><a href="#2-4-目标实时检测设计" class="headerlink" title="2.4 目标实时检测设计"></a>2.4 目标实时检测设计</h3><pre><code class="python">def yolo_cv():
     # 初始化 YOLOv8 模型
     model = YOLO(&#39;yolov8s.pt&#39;)
 
-    # pygame settings
-    pygame.init()
-    screen = pygame.display.set_mode((400, 300))
-    pygame.display.set_caption(&quot;Keyboard Control&quot;)
-    screen.fill((0, 0, 0))
-
-    # airsim settings
-    # 这里改为你要控制的无人机名称
-    vehicle_name = &quot;Drone1&quot;
-    AirSim_client.takeoffAsync(vehicle_name=vehicle_name).join()
-
-    # 基础的控制速度(m/s)
-    vehicle_velocity = 2.0
-    # 设置临时加速度比例
-    speedup_ratio = 10.0
-    # 用来设置临时加速
-    speedup_flag = False
-
-    # 基础的偏航速率
-    vehicle_yaw_rate = 5.0
-
-    # 设置摄像头名称
-    camera_name = &quot;front_center&quot;
+    client = airsim.MultirotorClient()
+    client.confirmConnection()
+    client.enableApiControl(True)
+    client.armDisarm(True)
 
     # 设置图像类型（可以是Scene, Depth, Segmentation等）
     image_type = airsim.ImageType.Scene
+
+    # 设置摄像头名称
+    camera_name = &quot;front_center&quot;
 
     # 设置显示窗口
     cv2.namedWindow(&quot;Drone FPV View&quot;, cv2.WINDOW_NORMAL)
@@ -386,100 +381,47 @@ def keyboard_control_with_yolo(AirSim_client):
     frame_count = 0
     start_time = time.time()
 
-    while True:
+    try:
+        while True:
+            # 获取前端摄像头图像
+            responses = client.simGetImages([
+                # 不返回浮点数，不压缩
+                airsim.ImageRequest(camera_name=camera_name, image_type=image_type,
+                                    pixels_as_float=False, compress=False)
+            ])
 
-        yaw_rate = 0.0
-        velocity_x = 0.0
-        velocity_y = 0.0
-        velocity_z = 0.0
+            response = responses[0]
 
-        time.sleep(0.02)
+            # 将图像数据转为 numpy 数组
+            img1d = np.frombuffer(response.image_data_uint8, dtype=np.uint8)
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
+            # 重塑数组为 3 通道图像
+            frame = img1d.reshape(response.height, response.width, 3)
 
-        scan_wrapper = pygame.key.get_pressed()
+            results = model.predict(frame, classes=[2])
 
-        # 按下空格键加速 10 倍
-        if scan_wrapper[pygame.K_SPACE]:
-            scale_ratio = speedup_ratio
-        else:
-            scale_ratio = 1.0
+            for result in results:
+                annotated_frame = result.plot()
 
-        # 根据 &quot;A&quot; 和 &quot;D&quot; 按键来设置偏航速率变量
-        if scan_wrapper[pygame.K_a] or scan_wrapper[pygame.K_d]:
-            yaw_rate = (scan_wrapper[pygame.K_d] - scan_wrapper[pygame.K_a]) * scale_ratio * vehicle_yaw_rate
+                # 计算并显示FPS
+                frame_count += 1
+                if frame_count &gt;= 30:  # 每30帧计算一次FPS
+                    fps = frame_count / (time.time() - start_time)
+                    cv2.putText(annotated_frame, f&quot;FPS: &#123;fps:.2f&#125;&quot;, (10, 30),
+                                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                    frame_count = 0
+                    start_time = time.time()
 
-        # 根据 &quot;UP&quot; 和 &quot;DOWN&quot; 按键来设置 pitch 轴速度变量（NED 坐标系，x 为机头向前）
-        if scan_wrapper[pygame.K_UP] or scan_wrapper[pygame.K_DOWN]:
-            velocity_x = (scan_wrapper[pygame.K_UP] - scan_wrapper[pygame.K_DOWN]) * scale_ratio
+                # 显示图像
+                cv2.imshow(&quot;Drone FPV View&quot;, annotated_frame)
 
-        # 根据 &quot;LEFT&quot; 和 &quot;RIGHT&quot; 按键来设置 roll 轴速度变量（NED 坐标系，y 为正右方）
-        if scan_wrapper[pygame.K_LEFT] or scan_wrapper[pygame.K_RIGHT]:
-            velocity_y = (scan_wrapper[pygame.K_RIGHT] - scan_wrapper[pygame.K_LEFT]) * scale_ratio
+                if cv2.waitKey(1) &amp; 0xFF == ord(&#39;q&#39;):
+                    break
 
-        # 根据 &quot;W&quot; 和 &quot;S&quot; 按键来设置 z 轴速度变量（NED 坐标系，z 轴向上为负）
-        if scan_wrapper[pygame.K_w] or scan_wrapper[pygame.K_s]:
-            velocity_z = (scan_wrapper[pygame.K_s] - scan_wrapper[pygame.K_w]) * scale_ratio
-
-        # 设置速度控制以及设置偏航控制
-        AirSim_client.moveByVelocityBodyFrameAsync(vx=velocity_x, vy=velocity_y, vz=velocity_z, duration=0.02,
-                                                   yaw_mode=airsim.YawMode(True, yaw_or_rate=yaw_rate),
-                                                   vehicle_name=vehicle_name)
-
-        # 获取前端摄像头图像
-        responses = AirSim_client.simGetImages([
-            # 不返回浮点数，不压缩
-            airsim.ImageRequest(camera_name=camera_name, image_type=image_type,
-                                pixels_as_float=False, compress=False)
-        ])
-
-        response = responses[0]
-
-        # 将图像数据转为 numpy 数组
-        img1d = np.frombuffer(response.image_data_uint8, dtype=np.uint8)
-
-        # 重塑数组为 3 通道图像
-        frame = img1d.reshape(response.height, response.width, 3)
-
-        results = model(frame, stream=True, verbose=False)
-
-        for result in results:
-            annotated_frame = result.plot()
-
-            # 计算并显示FPS
-            frame_count += 1
-            if frame_count &gt;= 30:  # 每30帧计算一次FPS
-                fps = frame_count / (time.time() - start_time)
-                cv2.putText(annotated_frame, f&quot;FPS: &#123;fps:.2f&#125;&quot;, (10, 30),
-                            cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-                frame_count = 0
-                start_time = time.time()
-
-            # 显示图像
-            cv2.imshow(&quot;Drone FPV View&quot;, annotated_frame)
-
-        # press &quot;Esc&quot; to quit
-        if scan_wrapper[pygame.K_ESCAPE]:
-            pygame.quit()
-            cv2.destroyAllWindows()
-            sys.exit()
-
-
-
-if __name__ == &quot;__main__&quot;:
-    AirSim_client = airsim.MultirotorClient()
-    AirSim_client.confirmConnection()
-    AirSim_client.enableApiControl(True)
-    AirSim_client.armDisarm(True)
-
-
-    keyboard_control_with_yolo(AirSim_client)
-
-    AirSim_client.landAsync().join()
-    AirSim_client.armDisarm(False)
-    AirSim_client.enableApiControl(False)
+    finally:
+        client.armDisarm(False)
+        client.enableApiControl(False)
+        cv2.destroyAllWindows()
 </code></pre>
 
     </div>
