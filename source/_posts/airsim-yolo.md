@@ -13,7 +13,7 @@ description: |
 
 > 经过一段时间的筹备，Coldrain 花了 **1.2k** 把电脑的内存从 16G 扩充到了 **64G**，于是终于有了在电脑上同时进行实时渲染调试和模型运算的信心 💪（这个月要开始吃土了 🪨）
 >
-> 于是趁着五一假期，Coldrain 写了一个小程序，实现了在 AirSim 插件中使用键盘控制无人机自由飞行，同时利用 **YOLOv8s** 模型实现无人机的实时目标检测
+> 于是趁着五一假期，Coldrain 写了一个小程序，实现了在 **AirSim** 插件中使用键盘控制无人机自由飞行，同时利用 **YOLOv8s** 模型实现无人机的实时目标检测
 >
 > PS：你问为什么不用厉害点的模型？买不起 **Jetson Nano** 这种档次的设备，就算仿真有效，硬件条件也不支持迁移啊 😭（而且目前 Coldrain 也没有正式学过**边缘计算**）
 
@@ -27,7 +27,7 @@ description: |
 （因为第一次给 blog 嵌入视频，折腾了一晚上，这里先把代码贴上，具体解释等到第二天再写 💦）
 
 
-## 2. 代码详解
+## 2. 代码详解   
 ---
 ### 2.1 导入必要的包
 ```python
@@ -79,17 +79,20 @@ if __name__ == "__main__":
     [p.join() for p in process]
 ```
 
+- 在 `if __name__ == "__main__":` 后面，通过 `multiprocessing` 中的 `Process` 模块，实现不同的功能函数多进程同时进行，从而提高运行效率。
+- 每一个功能函数中(`keyboard_control()` 和 `yolo_cv()`) 开头都需要建立独立的 `client`，因为使用多线程的时候，无法在 `if __name__ == "__main__":` 下建立一个 `client` 并同时共享给多个进程使用。
+
 ### 2.3 无人机键盘控制设计
 ```python
 def keyboard_control():
     # pygame settings
-    pygame.init()
-    screen = pygame.display.set_mode((400, 300))
-    pygame.display.set_caption("Keyboard Control")
-    screen.fill((0, 0, 0))
+    pygame.init()   # pygame 初始化
+    screen = pygame.display.set_mode((400, 300))    # 设置控制窗口大小
+    pygame.display.set_caption("Keyboard Control")  # 设置控制窗口名称
+    screen.fill((0, 0, 0))  # 用黑色 (0, 0, 0) 来填充控制窗口的背景
 
     # airsim settings
-    # 这里改为你要控制的无人机名称
+    ## 这里改为你要控制的无人机名称
     vehicle_name = "Drone1"
     AirSim_client = airsim.MultirotorClient()
     AirSim_client.confirmConnection()
@@ -97,25 +100,25 @@ def keyboard_control():
     AirSim_client.armDisarm(True, vehicle_name=vehicle_name)
     AirSim_client.takeoffAsync(vehicle_name=vehicle_name).join()
 
-    # 基础的控制速度(m/s)
+    ## 基础的控制速度(m/s)
     vehicle_velocity = 2.0
-    # 设置临时加速度比例
+    ## 设置临时加速度比例
     speedup_ratio = 10.0
-    # 用来设置临时加速
+    ## 用来设置临时加速
     speedup_flag = False
-
-    # 基础的偏航速率
+    ## 基础的偏航速率
     vehicle_yaw_rate = 5.0
 
     while True:
-
+        # 主循环
         yaw_rate = 0.0
         velocity_x = 0.0
         velocity_y = 0.0
         velocity_z = 0.0
 
-        time.sleep(0.02)
+        time.sleep(0.02)    # 间隔 0.02 秒，用于减轻 CPU 负担
 
+        # 如果关闭窗口，则进程结束
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -162,6 +165,7 @@ def yolo_cv():
     # 初始化 YOLOv8 模型
     model = YOLO('yolov8s.pt')
 
+    # 初始化 client
     client = airsim.MultirotorClient()
     client.confirmConnection()
     client.enableApiControl(True)
@@ -198,9 +202,11 @@ def yolo_cv():
             # 重塑数组为 3 通道图像
             frame = img1d.reshape(response.height, response.width, 3)
 
+            # 使用 YOLOv8 模型来进行目标检测
             results = model.predict(frame, classes=[2])
 
             for result in results:
+                # 绘制目标检测的 bounding box
                 annotated_frame = result.plot()
 
                 # 计算并显示FPS
