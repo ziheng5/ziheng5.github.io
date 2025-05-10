@@ -203,21 +203,21 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
                     深度学习
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E4%BB%BF%E7%9C%9F/" style="color: #03a9f4">
+                <a href="/tags/%E4%BB%BF%E7%9C%9F/" style="color: #00bcd4">
                     仿真
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/CV/" style="color: #00bcd4">
+                <a href="/tags/CV/" style="color: #03a9f4">
                     CV
                 </a>
             </span>
@@ -229,7 +229,7 @@
     <div class="content" v-pre>
         <blockquote>
 <p>经过一段时间的筹备，Coldrain 花了 <strong>1.2k</strong> 把电脑的内存从 16G 扩充到了 <strong>64G</strong>，于是终于有了在电脑上同时进行实时渲染调试和模型运算的信心 💪（这个月要开始吃土了 🪨）</p>
-<p>于是趁着五一假期，Coldrain 写了一个小程序，实现了在 AirSim 插件中使用键盘控制无人机自由飞行，同时利用 <strong>YOLOv8s</strong> 模型实现无人机的实时目标检测</p>
+<p>于是趁着五一假期，Coldrain 写了一个小程序，实现了在 <strong>AirSim</strong> 插件中使用键盘控制无人机自由飞行，同时利用 <strong>YOLOv8s</strong> 模型实现无人机的实时目标检测</p>
 <p>PS：你问为什么不用厉害点的模型？买不起 <strong>Jetson Nano</strong> 这种档次的设备，就算仿真有效，硬件条件也不支持迁移啊 😭（而且目前 Coldrain 也没有正式学过<strong>边缘计算</strong>）</p>
 </blockquote>
 <h2 id="1-实机演示"><a href="#1-实机演示" class="headerlink" title="1. 实机演示"></a>1. 实机演示</h2><hr>
@@ -284,15 +284,19 @@ if __name__ == &quot;__main__&quot;:
     [p.start() for p in process]
     [p.join() for p in process]
 </code></pre>
+<ul>
+<li>在 <code>if __name__ == &quot;__main__&quot;:</code> 后面，通过 <code>multiprocessing</code> 中的 <code>Process</code> 模块，实现不同的功能函数多进程同时进行，从而提高运行效率。</li>
+<li>每一个功能函数中(<code>keyboard_control()</code> 和 <code>yolo_cv()</code>) 开头都需要建立独立的 <code>client</code>，因为使用多线程的时候，无法在 <code>if __name__ == &quot;__main__&quot;:</code> 下建立一个 <code>client</code> 并同时共享给多个进程使用。</li>
+</ul>
 <h3 id="2-3-无人机键盘控制设计"><a href="#2-3-无人机键盘控制设计" class="headerlink" title="2.3 无人机键盘控制设计"></a>2.3 无人机键盘控制设计</h3><pre><code class="python">def keyboard_control():
     # pygame settings
-    pygame.init()
-    screen = pygame.display.set_mode((400, 300))
-    pygame.display.set_caption(&quot;Keyboard Control&quot;)
-    screen.fill((0, 0, 0))
+    pygame.init()   # pygame 初始化
+    screen = pygame.display.set_mode((400, 300))    # 设置控制窗口大小
+    pygame.display.set_caption(&quot;Keyboard Control&quot;)  # 设置控制窗口名称
+    screen.fill((0, 0, 0))  # 用黑色 (0, 0, 0) 来填充控制窗口的背景
 
     # airsim settings
-    # 这里改为你要控制的无人机名称
+    ## 这里改为你要控制的无人机名称
     vehicle_name = &quot;Drone1&quot;
     AirSim_client = airsim.MultirotorClient()
     AirSim_client.confirmConnection()
@@ -300,25 +304,25 @@ if __name__ == &quot;__main__&quot;:
     AirSim_client.armDisarm(True, vehicle_name=vehicle_name)
     AirSim_client.takeoffAsync(vehicle_name=vehicle_name).join()
 
-    # 基础的控制速度(m/s)
+    ## 基础的控制速度(m/s)
     vehicle_velocity = 2.0
-    # 设置临时加速度比例
+    ## 设置临时加速度比例
     speedup_ratio = 10.0
-    # 用来设置临时加速
+    ## 用来设置临时加速
     speedup_flag = False
-
-    # 基础的偏航速率
+    ## 基础的偏航速率
     vehicle_yaw_rate = 5.0
 
     while True:
-
+        # 主循环
         yaw_rate = 0.0
         velocity_x = 0.0
         velocity_y = 0.0
         velocity_z = 0.0
 
-        time.sleep(0.02)
+        time.sleep(0.02)    # 间隔 0.02 秒，用于减轻 CPU 负担
 
+        # 如果关闭窗口，则进程结束
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -362,6 +366,7 @@ if __name__ == &quot;__main__&quot;:
     # 初始化 YOLOv8 模型
     model = YOLO(&#39;yolov8s.pt&#39;)
 
+    # 初始化 client
     client = airsim.MultirotorClient()
     client.confirmConnection()
     client.enableApiControl(True)
@@ -398,9 +403,11 @@ if __name__ == &quot;__main__&quot;:
             # 重塑数组为 3 通道图像
             frame = img1d.reshape(response.height, response.width, 3)
 
+            # 使用 YOLOv8 模型来进行目标检测
             results = model.predict(frame, classes=[2])
 
             for result in results:
+                # 绘制目标检测的 bounding box
                 annotated_frame = result.plot()
 
                 # 计算并显示FPS
