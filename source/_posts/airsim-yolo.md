@@ -27,6 +27,10 @@ description: |
 （因为第一次给 blog 嵌入视频，折腾了一晚上，这里先把代码贴上，具体解释等到第二天再写 💦）
 
 
+> 🔗 项目地址：https://github.com/ziheng5/Sharp-Eyes-target-tracking-algorithm
+>
+> **注**：项目持续更新中，后续会不断加入新功能
+
 ## 2. 代码详解   
 ---
 ### 2.1 导入必要的包
