@@ -30,7 +30,7 @@
 <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
 <link
     rel="stylesheet"
-    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
 />
 <script src="/js/lib/highlight.js"></script>
 
@@ -96,7 +96,7 @@
             <span>&ensp;Tags</span>
         </a>
         
-        <a href="/links">
+        <a href="/friends">
             <i class="fa-solid fa-link fa-fw"></i>
             <span>&ensp;Links</span>
         </a>
@@ -155,7 +155,7 @@
                     </div>
                 </a>
                 
-                <a href="/links">
+                <a href="/friends">
                     <div class="item">
                         <div style="min-width: 20px; max-width: 50px; width: 10%">
                             <i class="fa-solid fa-link fa-fw"></i>
@@ -177,6 +177,10 @@
     <div>
         <h1>强化学习实战1——交叉熵方法</h1>
     </div>
+
+    
+     
+    <!-- post 部分设计 -->
     <div class="info">
         <span class="date">
             <span class="icon">
@@ -203,21 +207,21 @@
             
             <span class="tag">
                 
-                <a href="/tags/PyTorch/" style="color: #00a596">
+                <a href="/tags/PyTorch/" style="color: #03a9f4">
                     PyTorch
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
+                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
                     强化学习
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ffa2c4">
+                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00bcd4">
                     笔记
                 </a>
             </span>
@@ -226,8 +230,17 @@
         
     </div>
     
+
+    <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
-        <h1 id="Chapter1-交叉熵方法"><a href="#Chapter1-交叉熵方法" class="headerlink" title="Chapter1 交叉熵方法"></a>Chapter1 交叉熵方法</h1><h2 id="1-1-RL方法的分类"><a href="#1-1-RL方法的分类" class="headerlink" title="1.1 RL方法的分类"></a>1.1 RL方法的分类</h2><p>交叉熵方法属于 <strong>无模型</strong> 和 <strong>基于策略</strong> 的方法类别。</p>
+        
+    <div id="toc">
+        <strong class="sidebar-title">目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">Chapter1 交叉熵方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.1 RL方法的分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.2 交叉熵方法的实践</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.3 交叉熵方法在 CartPole 中的应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.4 完整代码</span></a></li></ol></li></ol>
+    </div>
+
+
+            <h1><span id="chapter1-交叉熵方法">Chapter1 交叉熵方法</span></h1><h2><span id="11-rl方法的分类">1.1 RL方法的分类</span></h2><p>交叉熵方法属于 <strong>无模型</strong> 和 <strong>基于策略</strong> 的方法类别。</p>
 <p>所有的 RL 方法可以被分成以下几类：</p>
 <ol>
 <li>无模型 或 基于模型</li>
@@ -240,7 +253,7 @@
 <li>它计算智能体的策略</li>
 <li>它从环境中获取新数据</li>
 </ol>
-<h2 id="1-2-交叉熵方法的实践"><a href="#1-2-交叉熵方法的实践" class="headerlink" title="1.2 交叉熵方法的实践"></a>1.2 交叉熵方法的实践</h2><p>交叉熵方法是基于策略的，非线性函数（神经网络）生成策略，它针对每一个观察都告诉智能体应该执行什么动作</p>
+<h2><span id="12-交叉熵方法的实践">1.2 交叉熵方法的实践</span></h2><p>交叉熵方法是基于策略的，非线性函数（神经网络）生成策略，它针对每一个观察都告诉智能体应该执行什么动作</p>
 <p>实践中，策略通常表示为动作的概率分布，这和分类问题很像，策略的数量和要执行的动作数量相同</p>
 <p>这种抽象让智能体变得非常简单：</p>
 <p>将从环境中得到的观察传给NN，得到的动作的概率分布，使用概率分布来进行随机采样以获得要执行的动作。</p>
@@ -253,7 +266,7 @@
 <li>用观察值作为输入、智能体产生的动作作为目标输出，训练剩余的“精英”片段</li>
 <li>从第一步开始反复，知道得到满意的结果</li>
 </ol>
-<h2 id="1-3-交叉熵方法在-CartPole-中的应用"><a href="#1-3-交叉熵方法在-CartPole-中的应用" class="headerlink" title="1.3 交叉熵方法在 CartPole 中的应用"></a>1.3 交叉熵方法在 CartPole 中的应用</h2><p>模型的核心是有 1 个隐藏层的NN，带有整流线性函数（Rectified Linear Unit， ReLU）以及 128 个隐藏层神经元。</p>
+<h2><span id="13-交叉熵方法在-cartpole-中的应用">1.3 交叉熵方法在 CartPole 中的应用</span></h2><p>模型的核心是有 1 个隐藏层的NN，带有整流线性函数（Rectified Linear Unit， ReLU）以及 128 个隐藏层神经元。</p>
 <p>其他超参数基本是随机设置的，并没有调优过，因为这个方法本身鲁棒性很好，并且收敛得很快。</p>
 <pre><code class="python">HIDDEN_SIZE = 128
 BATCH_SIZE = 16
@@ -352,7 +365,7 @@ def iterate_batches(env, net, batch_size):
 <p>为了获得奖励边界，我们将使用 Numpy 的 <code>percentile</code> 函数，该函数根据给定的值列表和百分位计算百分位的值。</p>
 <p>然后再计算平均奖励用于监控</p>
 <p>然后过滤片段。针对批中的每个片段，检查其总奖励值是否高于边界，如果高于，则将其观察和动作添加到要训练的列表中。</p>
-<h2 id="1-4-完整代码"><a href="#1-4-完整代码" class="headerlink" title="1.4 完整代码"></a>1.4 完整代码</h2><pre><code class="python">#!/usr/bin/env python3
+<h2><span id="14-完整代码">1.4 完整代码</span></h2><pre><code class="python">#!/usr/bin/env python3
 import gym
 from collections import namedtuple
 import numpy as np
@@ -461,7 +474,8 @@ if __name__ == &quot;__main__&quot;:
     writer.close()
 </code></pre>
 
-    </div>
+        </div>
+
     
     
     
@@ -470,6 +484,9 @@ if __name__ == &quot;__main__&quot;:
     
     
 </div>
+
+
+    
 
             <footer id="footer">
     <div id="footer-wrap">

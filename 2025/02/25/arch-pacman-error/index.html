@@ -30,7 +30,7 @@
 <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
 <link
     rel="stylesheet"
-    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
 />
 <script src="/js/lib/highlight.js"></script>
 
@@ -96,7 +96,7 @@
             <span>&ensp;Tags</span>
         </a>
         
-        <a href="/links">
+        <a href="/friends">
             <i class="fa-solid fa-link fa-fw"></i>
             <span>&ensp;Links</span>
         </a>
@@ -155,7 +155,7 @@
                     </div>
                 </a>
                 
-                <a href="/links">
+                <a href="/friends">
                     <div class="item">
                         <div style="min-width: 20px; max-width: 50px; width: 10%">
                             <i class="fa-solid fa-link fa-fw"></i>
@@ -177,6 +177,10 @@
     <div>
         <h1>校园网未登录情况下 Pacman 滚包引发的问题与解决方案</h1>
     </div>
+
+    
+     
+    <!-- post 部分设计 -->
     <div class="info">
         <span class="date">
             <span class="icon">
@@ -203,14 +207,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/Archlinux/" style="color: #ff7d73">
+                <a href="/tags/Archlinux/" style="color: #03a9f4">
                     Archlinux
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%A0%A1%E5%9B%AD%E7%BD%91/" style="color: #03a9f4">
+                <a href="/tags/%E6%A0%A1%E5%9B%AD%E7%BD%91/" style="color: #00a596">
                     校园网
                 </a>
             </span>
@@ -219,8 +223,17 @@
         
     </div>
     
+
+    <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
-        <h1 id="1-🧱-问题背景"><a href="#1-🧱-问题背景" class="headerlink" title="1. 🧱 问题背景"></a>1. 🧱 问题背景</h1><blockquote>
+        
+    <div id="toc">
+        <strong class="sidebar-title">目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">1. 🧱 问题背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">2. 🔍 问题复现与分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Step1. 校园网未登录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Step2. Pacman 下载到错误文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Step3. Pacman GPG 验证签名出错</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Step4. Pacman 触发缓存特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Step5. 问题关键</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">3. 💊 解决方案</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">4. 🤔 扩展思考</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.1 Pacman 的设计哲学</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.2 为什么 Pacman 不会自动覆盖错误文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.3 类比理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.4 注意点</span></a></li></ol></li></ol>
+    </div>
+
+
+            <h1><span id="1-问题背景">1. 🧱 问题背景</span></h1><blockquote>
 <p>某天，Coldrain 像往常一样打开自己的电脑，然后像往常一样按下了 <code>Shift+Alt+T</code>，并像往常一样在终端输入 <code>paru -Syu</code> 来进行滚包。然而，他在进行滚包操作之前没有登陆校园网，于是引发了报错。Coldrain 意识到没有登陆校园网之后，火速登陆了校园网，重新进行滚包操作，结果引发了同样的报错…</p>
 </blockquote>
 <p>背景如上所示 ⬆️，我在没有登陆校园网的情况下进行了滚包操作，然后理所当然地引发了如下报错：</p>
@@ -230,24 +243,24 @@ error: GPGME error: No data
 error: failed to synchronize all databases (unexpected error)
 </code></pre>
 <p>问题在于：我在报错之后登陆了校园网，重新输入 <code>paru -Syu</code> 进行滚包操作，结果触发了相同的报错。</p>
-<h1 id="2-🔍-问题复现与分析"><a href="#2-🔍-问题复现与分析" class="headerlink" title="2. 🔍 问题复现与分析"></a>2. 🔍 问题复现与分析</h1><blockquote>
+<h1><span id="2-问题复现与分析">2. 🔍 问题复现与分析</span></h1><blockquote>
 <p>Coldrain 百思不得其解，于是向 Deepseek 大人求助，于是得知了问题产生的流程…</p>
 </blockquote>
-<h2 id="Step1-校园网未登录"><a href="#Step1-校园网未登录" class="headerlink" title="Step1. 校园网未登录"></a>Step1. 校园网未登录</h2><p>大部分校园网都需要登陆才可以正常使用。</p>
+<h2><span id="step1-校园网未登录">Step1. 校园网未登录</span></h2><p>大部分校园网都需要登陆才可以正常使用。</p>
 <p>在未登录校园网的情况下：</p>
 <ul>
 <li>任何 HTTP&#x2F;HTTPS 流量都会被劫持，返回 <code>302</code> 错误并重新定向到校园网认证界面。也就是说，此时你向任意一个 url 发送 GET 等请求，都会被校园网拦下来，并且将你拉到登陆界面。（DNS 污染）</li>
 </ul>
-<h2 id="Step2-Pacman-下载到错误文件"><a href="#Step2-Pacman-下载到错误文件" class="headerlink" title="Step2. Pacman 下载到错误文件"></a>Step2. Pacman 下载到错误文件</h2><p>如上所说，在未登录校园网情况下，任何请求都会被重新定向到校园网认证界面。</p>
+<h2><span id="step2-pacman-下载到错误文件">Step2. Pacman 下载到错误文件</span></h2><p>如上所说，在未登录校园网情况下，任何请求都会被重新定向到校园网认证界面。</p>
 <p><code>Pacman</code> 在滚包时，首先会先尝试下载仓库数据库（core.db 等）。</p>
 <p><strong>于是，在未登录校园网的情况下，pacman 下载到的文件，是校园网认证界面的 HTML 文件 😧</strong></p>
-<h2 id="Step3-Pacman-GPG-验证签名出错"><a href="#Step3-Pacman-GPG-验证签名出错" class="headerlink" title="Step3. Pacman GPG 验证签名出错"></a>Step3. Pacman GPG 验证签名出错</h2><p>在下载到校园网认证界面的 HTML 文件时，<code>Pacman</code> 并不知道自己下载到了错误的文件，于是 <code>Pacman</code> 像往常一样尝试用 GPG 验证该文件的签名…</p>
+<h2><span id="step3-pacman-gpg-验证签名出错">Step3. Pacman GPG 验证签名出错</span></h2><p>在下载到校园网认证界面的 HTML 文件时，<code>Pacman</code> 并不知道自己下载到了错误的文件，于是 <code>Pacman</code> 像往常一样尝试用 GPG 验证该文件的签名…</p>
 <p>由于 HTML 文件并没有有效的签名，所以 <code>Pacman</code> 意识到了下载到错误的文件，于是将自己发现的问题告诉用户：</p>
 <pre><code class="Terminal">error: GPGME error: No data
 </code></pre>
 <p>于是用户在这一提示下意识到自己没有登陆校园网，并登陆校园网重新进行滚包，<strong>结果触发  了相同的报错！？</strong></p>
 <p>那么，问题出在哪里呢？为什么此时还是无法正常滚包呢？</p>
-<h2 id="Step4-Pacman-触发缓存特性"><a href="#Step4-Pacman-触发缓存特性" class="headerlink" title="Step4. Pacman 触发缓存特性"></a>Step4. Pacman 触发缓存特性</h2><p>刚才我们讲过，<code>Pacman</code> 尝试下载了仓库数据库，结果下载到了校园网的 HTML 文件，而这个 HTML 文件成为了本地缓存文件（如 core.db 等）。</p>
+<h2><span id="step4-pacman-触发缓存特性">Step4. Pacman 触发缓存特性</span></h2><p>刚才我们讲过，<code>Pacman</code> 尝试下载了仓库数据库，结果下载到了校园网的 HTML 文件，而这个 HTML 文件成为了本地缓存文件（如 core.db 等）。</p>
 <blockquote>
 <p>（敲黑板）</p>
 <p>然而，<code>Pacman</code> 自身具有一个<strong>缓存策略</strong>：</p>
@@ -277,8 +290,8 @@ error: failed to synchronize all databases (unexpected error)
 5. Pacman 直接使用本地 core.db（实际是 HTML 文件）
 6. GPG 验证失败 → 报错
 </code></pre>
-<h2 id="Step5-问题关键"><a href="#Step5-问题关键" class="headerlink" title="Step5. 问题关键"></a>Step5. 问题关键</h2><p>由此可知，解决问题的关键在于<strong>强制清除缓存文件</strong>。</p>
-<h1 id="3-💊-解决方案"><a href="#3-💊-解决方案" class="headerlink" title="3. 💊 解决方案"></a>3. 💊 解决方案</h1><p>这里直接放命令了：</p>
+<h2><span id="step5-问题关键">Step5. 问题关键</span></h2><p>由此可知，解决问题的关键在于<strong>强制清除缓存文件</strong>。</p>
+<h1><span id="3-解决方案">3. 💊 解决方案</span></h1><p>这里直接放命令了：</p>
 <pre><code class="Terminal"># 删除所有仓库数据库缓存（解决核心问题）
 sudo rm -rf /var/lib/pacman/sync/*.db
 sudo rm -rf /var/lib/pacman/sync/*.sig
@@ -293,25 +306,26 @@ paru -Syyu
 <blockquote>
 <p>竟然无条件信任本地缓存，哈基 Pacman，你这家伙…</p>
 </blockquote>
-<h1 id="4-🤔-扩展思考"><a href="#4-🤔-扩展思考" class="headerlink" title="4. 🤔 扩展思考"></a>4. 🤔 扩展思考</h1><h2 id="4-1-Pacman-的设计哲学"><a href="#4-1-Pacman-的设计哲学" class="headerlink" title="4.1 Pacman 的设计哲学"></a>4.1 Pacman 的设计哲学</h2><ol>
+<h1><span id="4-扩展思考">4. 🤔 扩展思考</span></h1><h2><span id="41-pacman-的设计哲学">4.1 Pacman 的设计哲学</span></h2><ol>
 <li>保守性：<code>Pacman</code> 倾向于减少网络请求和磁盘写入，依赖用户明确指令（如 <code>-Syy</code>）执行高风险操作。</li>
 <li>安全性：GPG 验证是硬性要求，即使文件看似“存在”，也必须通过签名检查。</li>
 <li>透明性：错误信息直接反映根本原因（如 <code>GPGME error</code>），而非隐藏底层问题</li>
 </ol>
-<h2 id="4-2-为什么-Pacman-不会自动覆盖错误文件"><a href="#4-2-为什么-Pacman-不会自动覆盖错误文件" class="headerlink" title="4.2 为什么 Pacman 不会自动覆盖错误文件"></a>4.2 为什么 Pacman 不会自动覆盖错误文件</h2><p><code>Pacman</code> 的设计逻辑遵循以下原则：</p>
+<h2><span id="42-为什么-pacman-不会自动覆盖错误文件">4.2 为什么 Pacman 不会自动覆盖错误文件</span></h2><p><code>Pacman</code> 的设计逻辑遵循以下原则：</p>
 <ol>
 <li><strong>信任本地缓存</strong>：假设用户已通过 GPG 验证的文件是安全的，避免重复下载。</li>
 <li><strong>依赖时间戳和服务器响应</strong>：仅当服务器明确指示文件已更新时，才会替换本地缓存。</li>
 <li><strong>不主动清理用户数据</strong>：避免因误判导致数据丢失（例如用户手动修改了数据库文件）。</li>
 </ol>
-<h2 id="4-3-类比理解"><a href="#4-3-类比理解" class="headerlink" title="4.3 类比理解"></a>4.3 类比理解</h2><p>想象你从图书馆借了一本书（<code>core.db</code>），但拿回家发现书页被替换成了广告传单（HTML 认证页面）。第二天你再去图书馆：</p>
+<h2><span id="43-类比理解">4.3 类比理解</span></h2><p>想象你从图书馆借了一本书（<code>core.db</code>），但拿回家发现书页被替换成了广告传单（HTML 认证页面）。第二天你再去图书馆：</p>
 <ul>
 <li><strong>如果直接还书</strong>：图书管理员（Pacman）会检查书的封面和借阅记录（时间戳），认为这是同一本书，不会主动替换内容。</li>
 <li><strong>必须明确告知</strong>：“这本书被篡改了，请给我一本新的”（即删除旧文件并强制刷新）。</li>
 </ul>
-<h2 id="4-4-注意点"><a href="#4-4-注意点" class="headerlink" title="4.4 注意点"></a>4.4 注意点</h2><p>下次遇到类似问题时，记住 Pacman 的缓存目录（&#x2F;var&#x2F;lib&#x2F;pacman&#x2F;sync&#x2F; 和 &#x2F;var&#x2F;cache&#x2F;pacman&#x2F;pkg&#x2F;）是首要检查对象。</p>
+<h2><span id="44-注意点">4.4 注意点</span></h2><p>下次遇到类似问题时，记住 Pacman 的缓存目录（&#x2F;var&#x2F;lib&#x2F;pacman&#x2F;sync&#x2F; 和 &#x2F;var&#x2F;cache&#x2F;pacman&#x2F;pkg&#x2F;）是首要检查对象。</p>
 
-    </div>
+        </div>
+
     
     
     
@@ -320,6 +334,9 @@ paru -Syyu
     
     
 </div>
+
+
+    
 
             <footer id="footer">
     <div id="footer-wrap">

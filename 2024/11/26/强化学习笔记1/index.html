@@ -30,7 +30,7 @@
 <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
 <link
     rel="stylesheet"
-    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
 />
 <script src="/js/lib/highlight.js"></script>
 
@@ -96,7 +96,7 @@
             <span>&ensp;Tags</span>
         </a>
         
-        <a href="/links">
+        <a href="/friends">
             <i class="fa-solid fa-link fa-fw"></i>
             <span>&ensp;Links</span>
         </a>
@@ -155,7 +155,7 @@
                     </div>
                 </a>
                 
-                <a href="/links">
+                <a href="/friends">
                     <div class="item">
                         <div style="min-width: 20px; max-width: 50px; width: 10%">
                             <i class="fa-solid fa-link fa-fw"></i>
@@ -177,6 +177,10 @@
     <div>
         <h1>强化学习理论笔记1——基本概念</h1>
     </div>
+
+    
+     
+    <!-- post 部分设计 -->
     <div class="info">
         <span class="date">
             <span class="icon">
@@ -203,8 +207,15 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
                     强化学习
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BA%AF%E7%90%86%E8%AE%BA/" style="color: #03a9f4">
+                    纯理论
                 </a>
             </span>
             
@@ -215,19 +226,21 @@
                 </a>
             </span>
             
-            <span class="tag">
-                
-                <a href="/tags/%E7%BA%AF%E7%90%86%E8%AE%BA/" style="color: #ffa2c4">
-                    纯理论
-                </a>
-            </span>
-            
         </span>
         
     </div>
     
+
+    <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
-        <h1 id="1-强化学习基本概念"><a href="#1-强化学习基本概念" class="headerlink" title="1. 强化学习基本概念"></a>1. 强化学习基本概念</h1><h2 id="1-1-A-grid-world-example（网格世界）"><a href="#1-1-A-grid-world-example（网格世界）" class="headerlink" title="1.1 A grid-world example（网格世界）"></a>1.1 A grid-world example（网格世界）</h2><p><img src="/./images/rl_note1/pic1.png" alt="pic1.png"></p>
+        
+    <div id="toc">
+        <strong class="sidebar-title">目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">1. 强化学习基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.1 A grid-world example（网格世界）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.2 State（状态）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.3 State space（状态空间）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.4 Action（动作）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.5 Action space（动作空间）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.6 State transition（状态转移）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.6.1 什么是 state transition？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.6.2 考虑复杂情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.6.3 state transition 的表达方式（两种）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.7 Policy（策略）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.7.1 什么是 Policy？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.7.2 如何表示 Policy？（两种）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.8 Reward（奖励）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.8.1 什么是 Reward？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.8.2 如何设计 Reward？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.8.3 如何表示 Reward？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.9 Trajectory</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.9.1 什么是Trajectory？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.9.2 return</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.9.3 比较trajectory优劣</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.9.4 Discounted return</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.10 Episode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.11 MDP（Markov decision process 马尔科夫链）</span></a></li></ol></li></ol>
+    </div>
+
+
+            <h1><span id="1-强化学习基本概念">1. 强化学习基本概念</span></h1><h2><span id="11-a-grid-world-example网格世界">1.1 A grid-world example（网格世界）</span></h2><p><img src="/./images/rl_note1/pic1.png" alt="pic1.png"></p>
 <p>在本课程中，网格世界的例子将贯穿始终（如上图所示）</p>
 <p>在这个网格世界中，有一个机器人在行走。</p>
 <p>网格世界中的每一个小网格，它们有不同的类型，比如有的网格是accessible，即可以进入的，用白色来表示；有的网格是forbidden，即不可进入的，用黄色来表示；另外还有一个target area，即我们希望机器人进入的网格。</p>
@@ -237,27 +250,27 @@
 <p>那么，强化学习在这个例子中所要完成的任务是什么呢？强化学习需要再这个例子中找到一个比较好的路径以到达目标位置，即target area。</p>
 <p>在这里面，我们会遇到很多问题。比如我们该如何去定义一个路径它究竟是好是坏？这其实是一个非常核心的问题，我们在后面会详细讨论这个问题，即如何作出最好的决策。</p>
 <p>下面我们便用这个例子来解释强化学习中我们遇到的第一个概念</p>
-<h2 id="1-2-State（状态）"><a href="#1-2-State（状态）" class="headerlink" title="1.2 State（状态）"></a>1.2 State（状态）</h2><p>state描述的便是agent（智能体）相对于环境的状态</p>
+<h2><span id="12-state状态">1.2 State（状态）</span></h2><p>state描述的便是agent（智能体）相对于环境的状态</p>
 <p>那么在grid-world example中，state指的是什么？便是location。</p>
 <p><img src="/./images/rl_note1/pic2.png" alt="pic2.png"></p>
 <p>在上面这个网格中，一共有9个格子，即有9个location。我们便用$ s_1,s_2,…,s_9 $ 这几个字母来表示状态。这些字母本，比如$s_1$，实际上它是一个索引，它在这个网格中对应的真正的状态当然是代表二维平面的位置，即</p>
 <p>$$\mathbf {s_1} &#x3D; {\begin{bmatrix} x \ y \end{bmatrix}}$$</p>
 <p>如果是更加复杂的问题，那么我们除了位置之外，还需要考虑速度，而如果是机器人的话，还要对加速度等其他类型的状态信息加以考虑</p>
-<h2 id="1-3-State-space（状态空间）"><a href="#1-3-State-space（状态空间）" class="headerlink" title="1.3 State space（状态空间）"></a>1.3 State space（状态空间）</h2><p>在上面我们已经了解了状态的概念。</p>
+<h2><span id="13-state-space状态空间">1.3 State space（状态空间）</span></h2><p>在上面我们已经了解了状态的概念。</p>
 <p>如果我们把所有的状态放到一起，我们就得到了状态空间state space。</p>
 <p>状态空间的本质其实是一个集合set，什么意思呢？</p>
 <p>如果我们以$S$来表示状态空间，那么它就是把所有的状态$s_i$放到一起得到的一个集合，用数学表达式表达即为：</p>
 <p>$$ S&#x3D;^{9}_{i&#x3D;1}$$  </p>
-<h2 id="1-4-Action（动作）"><a href="#1-4-Action（动作）" class="headerlink" title="1.4 Action（动作）"></a>1.4 Action（动作）</h2><p>action（动作）代表的就是我们在每一个状态实际上是有一系列的可采取的行动，在grid-world example中，可采取的行动一共有五种，我们用$a_1,…,a_5$来表示：</p>
+<h2><span id="14-action动作">1.4 Action（动作）</span></h2><p>action（动作）代表的就是我们在每一个状态实际上是有一系列的可采取的行动，在grid-world example中，可采取的行动一共有五种，我们用$a_1,…,a_5$来表示：</p>
 <p><img src="/./images/rl_note1/pic3.png" alt="pic3.png"></p>
 <blockquote>
 <p>$a_1$：向上移动<br>$a_2$：向右移动<br>$a_3$：向下移动<br>$a_4$：向左移动<br>$a_5$：原地不动</p>
 </blockquote>
-<h2 id="1-5-Action-space（动作空间）"><a href="#1-5-Action-space（动作空间）" class="headerlink" title="1.5 Action space（动作空间）"></a>1.5 Action space（动作空间）</h2><p>当我们将所用的动作放在一起，我们就得到了action space（动作空间）</p>
+<h2><span id="15-action-space动作空间">1.5 Action space（动作空间）</span></h2><p>当我们将所用的动作放在一起，我们就得到了action space（动作空间）</p>
 <p>和状态空间一样，它也是一个集合：</p>
 <p>$$A(s_i)&#x3D;{a_i}^{5}_{i&#x3D;1}$$  </p>
 <p>这里值得指出的一点是：动作空间是依赖于状态的，也就是说在不同状态下，便会有不同的动作空间。这也就是为什么在上面这个式子中要用到“$(s_i)$”，这就表示动作空间A实际上是$s_i$的一个函数</p>
-<h2 id="1-6-State-transition（状态转移）"><a href="#1-6-State-transition（状态转移）" class="headerlink" title="1.6 State transition（状态转移）"></a>1.6 State transition（状态转移）</h2><h3 id="1-6-1-什么是-state-transition？"><a href="#1-6-1-什么是-state-transition？" class="headerlink" title="1.6.1 什么是 state transition？"></a>1.6.1 什么是 state transition？</h3><p>当我们采取了一个action（动作）后，我们在grid-world example中便从一个状态转移到另外一个状态，这样的过程就被称为state transition。</p>
+<h2><span id="16-state-transition状态转移">1.6 State transition（状态转移）</span></h2><h3><span id="161-什么是-state-transition">1.6.1 什么是 state transition？</span></h3><p>当我们采取了一个action（动作）后，我们在grid-world example中便从一个状态转移到另外一个状态，这样的过程就被称为state transition。</p>
 <p><img src="/./images/rl_note1/pic4.png" alt="pic4.png"></p>
 <blockquote>
 <p>举个例子，比如说在状态$s_1$，我们采取的动作是$a_2$（即向右移动），那么我们下一个状态就会跳到$s_2$。这样一个过程用式子表示出来即：</p>
@@ -269,7 +282,7 @@
 <p>$$s_{1} \xrightarrow{a_{1}} s_{1}$$  </p>
 <p>通过上面两个例子，我们知道state transition实际上是定义agent和环境的一种交互的行为，那我们在这里能否用其他的方式来定义这种交互的行为呢？首先，因为grid-world example是一种仿真，这是一个游戏，实际上我们可以任意去作定义，比如我们刚才在上面例子中是往上走的时候撞到边界了，我会被弹回到$s_1$，其实也有可能被弹到另一个地方，比如$s_4$，甚至可能会被弹到$s_7$。因为grid-world example是一个游戏，我们想怎么定义就怎么定义。</p>
 <p>而在实际当中并非如此，实际情况是不允许任意定义的。</p>
-<h3 id="1-6-2-考虑复杂情况"><a href="#1-6-2-考虑复杂情况" class="headerlink" title="1.6.2 考虑复杂情况"></a>1.6.2 考虑复杂情况</h3><p>下面我们再来关注一下forbidden area。比如说我们在 $s_5$ ，如果我们采取了动作 $a_2$，那么下一个状态是？</p>
+<h3><span id="162-考虑复杂情况">1.6.2 考虑复杂情况</span></h3><p>下面我们再来关注一下forbidden area。比如说我们在 $s_5$ ，如果我们采取了动作 $a_2$，那么下一个状态是？</p>
 <blockquote>
 <p>情况一：forbidden area 可以进入，但是会伴随着惩罚，那么<br>$$ s_{5} \xrightarrow{a_{2}} s_{6}$$  </p>
 </blockquote>
@@ -279,7 +292,7 @@
 <p>在这两种情况中，情况一其实更加一般化，但也更加困难。为什么呢？</p>
 <p>因为如果我们把一些状态给排除掉的话，状态空间就会变小，实际上我们做搜索的时候会更加容易。</p>
 <p>而如果我们认为 forbidden area 是可以进入的话，其实就会出现一些比较有意思的现象，比如说虽然进入 forbidden area 会得到惩罚，但也许进入之后，通往 target area 反而是最近的路径，所以 agent 可能会冒险进入到 forbidden area ，然后通过 forbidden area 再抵达 target area。之后我们会详细介绍这些。</p>
-<h3 id="1-6-3-state-transition-的表达方式（两种）"><a href="#1-6-3-state-transition-的表达方式（两种）" class="headerlink" title="1.6.3 state transition 的表达方式（两种）"></a>1.6.3 state transition 的表达方式（两种）</h3><p>state transition 可以用下面这种 tabular 的形式表现出来：</p>
+<h3><span id="163-state-transition-的表达方式两种">1.6.3 state transition 的表达方式（两种）</span></h3><p>state transition 可以用下面这种 tabular 的形式表现出来：</p>
 <table>
 <thead>
 <tr>
@@ -372,8 +385,8 @@
 <p><img src="/./images/rl_note1/pic5.png" alt="pic5.png"></p>
 <p>虽然在上面这个例子中我们描述为确定性的状态，但是条件概率是可以用来描述随机性状态的例子的。比如说有北风的时候，我们在 $s_1$ 状态下作出动作 $a_2$ 后，可能我们下一个状态是 $s_2$ 的概率是0.5、状态是 $s_5$ 的概率是0.5，那么我们用数学表达式表示即为：<br>$$ p({s_2}|s_1,a_2)&#x3D;0.5$$<br>$$ p({s_5}|s_1,a_2)&#x3D;0.5$$</p>
 <p>由此可见，写成概率的形式比写成表格的形式更加一般化。</p>
-<h2 id="1-7-Policy（策略）"><a href="#1-7-Policy（策略）" class="headerlink" title="1.7 Policy（策略）"></a>1.7 Policy（策略）</h2><h3 id="1-7-1-什么是-Policy？"><a href="#1-7-1-什么是-Policy？" class="headerlink" title="1.7.1 什么是 Policy？"></a>1.7.1 什么是 Policy？</h3><p>Policy 是强化学习当中独有的一个概念。什么是 Policy ？Policy会告诉 agent 在一个 state 状态下应该作出哪一个 action 动作。</p>
-<h3 id="1-7-2-如何表示-Policy？（两种）"><a href="#1-7-2-如何表示-Policy？（两种）" class="headerlink" title="1.7.2 如何表示 Policy？（两种）"></a>1.7.2 如何表示 Policy？（两种）</h3><p><img src="/./images/rl_note1/pic6.png" alt="pic6.png"></p>
+<h2><span id="17-policy策略">1.7 Policy（策略）</span></h2><h3><span id="171-什么是-policy">1.7.1 什么是 Policy？</span></h3><p>Policy 是强化学习当中独有的一个概念。什么是 Policy ？Policy会告诉 agent 在一个 state 状态下应该作出哪一个 action 动作。</p>
+<h3><span id="172-如何表示-policy两种">1.7.2 如何表示 Policy？（两种）</span></h3><p><img src="/./images/rl_note1/pic6.png" alt="pic6.png"></p>
 <p>若要直观上理解 Policy，我们是用箭头来表示的。</p>
 <p>我们可以看到上图中含有9个状态，而每一个状态都对应一个箭头（$s_9$处的圆圈代表的是原地不动~）。基于这些箭头表示的策略，我们可以得到一些 path 或者叫 trajectory（如下图所示，之后会详细介绍）</p>
 <p><img src="/./images/rl_note1/pic7.png" alt="pic7.png"></p>
@@ -469,7 +482,7 @@
 </tr>
 </tbody></table>
 <p>（但是这里我们还是不推荐使用表格，比较没法表示更一般的形式）</p>
-<h2 id="1-8-Reward（奖励）"><a href="#1-8-Reward（奖励）" class="headerlink" title="1.8 Reward（奖励）"></a>1.8 Reward（奖励）</h2><h3 id="1-8-1-什么是-Reward？"><a href="#1-8-1-什么是-Reward？" class="headerlink" title="1.8.1 什么是 Reward？"></a>1.8.1 什么是 Reward？</h3><p>Reward 是强化学习中特有的一个概念。</p>
+<h2><span id="18-reward奖励">1.8 Reward（奖励）</span></h2><h3><span id="181-什么是-reward">1.8.1 什么是 Reward？</span></h3><p>Reward 是强化学习中特有的一个概念。</p>
 <p>首先 Reward 是一个数，是一个实数、标量，它是在 agent 采取一定动作后得到的。</p>
 <p>这个数是有一定含义的：如果这个数是正数，则代表我们对这样的动作是鼓励的，而如果这个数是一个负数，代表我们不希望这样的行为发生，或者是对这个行为的一个惩罚。</p>
 <p>这里面我们会遇到两个问题：</p>
@@ -477,13 +490,13 @@
 <li>首先，如果我不设置 reward，或者将 reward 设置为0的话会代表什么呢？如果深究的话可能会有些复杂，笼统地说就是代表没有 punishment，而没有 punishment 在一定程度上就是鼓励。</li>
 <li>还有一个问题是，我们能否用一个正数来代表 punishment，用负数来代表鼓励？实际上是可以的，而这也是数学上的一种技巧，本质上来说得到的东西是一样的。</li>
 </ol>
-<h3 id="1-8-2-如何设计-Reward？"><a href="#1-8-2-如何设计-Reward？" class="headerlink" title="1.8.2 如何设计 Reward？"></a>1.8.2 如何设计 Reward？</h3><p><img src="/./images/rl_note1/pic9.png" alt="picr9.png"></p>
+<h3><span id="182-如何设计-reward">1.8.2 如何设计 Reward？</span></h3><p><img src="/./images/rl_note1/pic9.png" alt="picr9.png"></p>
 <p>这里我们还是举 grid-world example  的例子。</p>
 <blockquote>
 <p>如果 agent 想要逃出四周的边界，每次它有这样的动作的时候，就令 $r_{bound}&#x3D;-1$<br>如果 agent 想要进入 forbidden area ，那么每次它有这样的动作的时候，就令 $r_{forbid}&#x3D;-1$<br>如果 agent 到达了目标单元格，即 target cell，就令 $r_{target}&#x3D;+1$<br>其他所有的 agent 采取的动作，我们令 $r&#x3D;0$</p>
 </blockquote>
 <p>Reward 实际上可以被理解为一个 human-machine interface，即我们和机器进行交互的一种手段，因为 reward 设计还是相对比较直观的，所以我们可以借此引导 agent 应该怎样做、不应该怎样做。比如说在上面的例子中，通过设计奖励机制，便可以引导机器人不进入forbidden area 或是出界</p>
-<h3 id="1-8-3-如何表示-Reward？"><a href="#1-8-3-如何表示-Reward？" class="headerlink" title="1.8.3 如何表示 Reward？"></a>1.8.3 如何表示 Reward？</h3><p>当然我们也可以用一个表格来表示 reward，如下所示：</p>
+<h3><span id="183-如何表示-reward">1.8.3 如何表示 Reward？</span></h3><p>当然我们也可以用一个表格来表示 reward，如下所示：</p>
 <table>
 <thead>
 <tr>
@@ -577,30 +590,31 @@
 <blockquote>
 <p>在现实中还会存在 stochastic（随机）的奖励。比如说我们学习地非常努力，我们一定会得到一个奖励，但具体可以得到多少是具有一定随机性的<br>Reward 一定是依赖于当前的状态 state 和动作 action，而不是依赖于下一个状态</p>
 </blockquote>
-<h2 id="1-9-Trajectory"><a href="#1-9-Trajectory" class="headerlink" title="1.9 Trajectory"></a>1.9 Trajectory</h2><h3 id="1-9-1-什么是Trajectory？"><a href="#1-9-1-什么是Trajectory？" class="headerlink" title="1.9.1 什么是Trajectory？"></a>1.9.1 什么是Trajectory？</h3><p><img src="/./images/rl_note1/pic9.png" alt="pic9.png"></p>
+<h2><span id="19-trajectory">1.9 Trajectory</span></h2><h3><span id="191-什么是trajectory">1.9.1 什么是Trajectory？</span></h3><p><img src="/./images/rl_note1/pic9.png" alt="pic9.png"></p>
 <p>Trajectory 实际上是一个 state-action-reward 的链</p>
 <p>如上图所示的 trajectory 可以表示为：<br>$$ s_{1} \xrightarrow[r&#x3D;0]{a_{2}} s_{2} \xrightarrow[r&#x3D;0]{a_3} s_5 \xrightarrow[r&#x3D;0]{a_3} s_8 \xrightarrow[r&#x3D;1]{a_2} s_9$$  </p>
-<h3 id="1-9-2-return"><a href="#1-9-2-return" class="headerlink" title="1.9.2 return"></a>1.9.2 return</h3><p>这里我们还要介绍一个非常重要的概念——return。</p>
+<h3><span id="192-return">1.9.2 return</span></h3><p>这里我们还要介绍一个非常重要的概念——return。</p>
 <p>一条 trajectory 的 return 即是将这条 trajectory 中的所有奖励 reward 相加所得的和，如下所示：<br>$$ return &#x3D; 0+0+0+1&#x3D;1$$  </p>
-<h3 id="1-9-3-比较trajectory优劣"><a href="#1-9-3-比较trajectory优劣" class="headerlink" title="1.9.3 比较trajectory优劣"></a>1.9.3 比较trajectory优劣</h3><p>这里我们来看另外一条 trajectory，如下图所示：</p>
+<h3><span id="193-比较trajectory优劣">1.9.3 比较trajectory优劣</span></h3><p>这里我们来看另外一条 trajectory，如下图所示：</p>
 <p><img src="/./images/rl_note1/pic10.png" alt="pic10.png"></p>
 <p>将上图中的 trajectory 表示出来即为<br>$$ s_{1} \xrightarrow[r&#x3D;0]{a_{3}} s_{4} \xrightarrow[r&#x3D;-1]{a_3} s_7 \xrightarrow[r&#x3D;0]{a_2} s_8 \xrightarrow[r&#x3D;1]{a_2} s_9$$<br>这条 trajectory 的 return 为<br>$$return &#x3D; 0-1+0+1&#x3D;0$$  </p>
 <p>那么在这里，这条 trajectory 和上文1.9.1中所介绍的 trajectory 相比，究竟哪一个 policy 比较好呢？其实直观上来说，我们会觉得第一个 policy 更好，毕竟第一个 policy 没进入到 forbidden area。但实际上我们应该从数学上来思考这个问题：因为第一个 trajectory 的 reward 更高，故其更好。</p>
-<h3 id="1-9-4-Discounted-return"><a href="#1-9-4-Discounted-return" class="headerlink" title="1.9.4 Discounted return"></a>1.9.4 Discounted return</h3><p><img src="/./images/rl_note1/pic11.png" alt="pic11.png"></p>
+<h3><span id="194-discounted-return">1.9.4 Discounted return</span></h3><p><img src="/./images/rl_note1/pic11.png" alt="pic11.png"></p>
 <p>这里我们考虑一个特殊的情况，如上图所示。图中的 trajectory 表示出来即为：<br>$$s_{1} \xrightarrow[r&#x3D;0]{a_{2}} s_{2} \xrightarrow[r&#x3D;0]{a_3} s_5 \xrightarrow[r&#x3D;0]{a_3} s_8 \xrightarrow[r&#x3D;1]{a_2} s_9 \xrightarrow[r&#x3D;1]{a_5} s_9 \xrightarrow[r&#x3D;1]{a_5} s_9 …$$<br>这时，trajectory 的 reward为<br>$$ return&#x3D;0+0+0+1+1+1+…&#x3D;\infty$$<br>这里的 trajectory 是无限长的，其 return 沿着其无穷长的轨迹不断累加下去的话，return 会发散掉。那我们应该如何解决这个问题呢？</p>
 <p>这里我们需要引入 discount rate $\gamma \in [0,1)$。</p>
 <p>有了 discount rate，我们就可以得到 discount return，如下所示<br>$$discount return&#x3D;0+\gamma0+{\gamma}^{2}{0}+{\gamma}^{3}{1}+{\gamma}^{4}{1}+{\gamma}^{5}{1}+…&#x3D;{\gamma}^{3}(1+{\gamma}+{\gamma}^2+…)&#x3D;{\gamma}^{3}{\frac{1}{1-\gamma}}$$  </p>
 <p>这里我们引入 discount return 得到了什么？首先，之前我们将 reward 相加之后 return 会发散掉，而现在 return 变成了一个有限的值。其次，discount return 能够去平衡这种更远未来能够得到的 reward 和更近未来能够得到的 reward。</p>
 <p>同时，这里我们通过控制 $\gamma$ 的取值便能够控制 agent 所学到的策略。简单来说，当 $\gamma$ 较小的时候，agent会变得更加<br>近视，也就是说它会更加注重最近的一些 reward；而如果 $\gamma$ 比较大的时候它会变得更加远视。</p>
-<h2 id="1-10-Episode"><a href="#1-10-Episode" class="headerlink" title="1.10 Episode"></a>1.10 Episode</h2><p>类似于深度学习中的轮数，用于区分 terminal states 和 continuing tasks</p>
-<h2 id="1-11-MDP（Markov-decision-process-马尔科夫链）"><a href="#1-11-MDP（Markov-decision-process-马尔科夫链）" class="headerlink" title="1.11 MDP（Markov decision process 马尔科夫链）"></a>1.11 MDP（Markov decision process 马尔科夫链）</h2><p>到此为止，我们已经将强化学习中一些比较基本的概念，通过例子的形式介绍完了。接下来我们需要把这些概念放到 MDP 框架当中，用更加正式的方式来重新介绍一下这些概念。</p>
+<h2><span id="110-episode">1.10 Episode</span></h2><p>类似于深度学习中的轮数，用于区分 terminal states 和 continuing tasks</p>
+<h2><span id="111-mdpmarkov-decision-process-马尔科夫链">1.11 MDP（Markov decision process 马尔科夫链）</span></h2><p>到此为止，我们已经将强化学习中一些比较基本的概念，通过例子的形式介绍完了。接下来我们需要把这些概念放到 MDP 框架当中，用更加正式的方式来重新介绍一下这些概念。</p>
 <p>这里直接放图来解释（其实因为我太懒了…）：</p>
 <p><img src="/./images/rl_note1/pic12.png" alt="pic12.png"></p>
 <p><img src="/./images/rl_note1/pic13.png" alt="pic13.png"></p>
 <p>小结：</p>
 <p><img src="/./images/rl_note1/pic14.png" alt="pic14.png"></p>
 
-    </div>
+        </div>
+
     
     
     
@@ -609,6 +623,9 @@
     
     
 </div>
+
+
+    
 
             <footer id="footer">
     <div id="footer-wrap">

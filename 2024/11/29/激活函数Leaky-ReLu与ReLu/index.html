@@ -30,7 +30,7 @@
 <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
 <link
     rel="stylesheet"
-    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
 />
 <script src="/js/lib/highlight.js"></script>
 
@@ -96,7 +96,7 @@
             <span>&ensp;Tags</span>
         </a>
         
-        <a href="/links">
+        <a href="/friends">
             <i class="fa-solid fa-link fa-fw"></i>
             <span>&ensp;Links</span>
         </a>
@@ -155,7 +155,7 @@
                     </div>
                 </a>
                 
-                <a href="/links">
+                <a href="/friends">
                     <div class="item">
                         <div style="min-width: 20px; max-width: 50px; width: 10%">
                             <i class="fa-solid fa-link fa-fw"></i>
@@ -177,6 +177,10 @@
     <div>
         <h1>激活函数 Leaky ReLU 与 ReLU 的区别</h1>
     </div>
+
+    
+     
+    <!-- post 部分设计 -->
     <div class="info">
         <span class="date">
             <span class="icon">
@@ -203,7 +207,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
                     深度学习
                 </a>
             </span>
@@ -212,8 +216,17 @@
         
     </div>
     
+
+    <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
-        <h1 id="1-ReLU（线性修正单元）"><a href="#1-ReLU（线性修正单元）" class="headerlink" title="1. ReLU（线性修正单元）"></a>1. ReLU（线性修正单元）</h1><p>ReLU 函数对于正数部分直接输出，对于负数部分输出为零</p>
+        
+    <div id="toc">
+        <strong class="sidebar-title">目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">1. ReLU（线性修正单元）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">2. Leaky ReLU</span></a></li></ol>
+    </div>
+
+
+            <h1><span id="1-relu线性修正单元">1. ReLU（线性修正单元）</span></h1><p>ReLU 函数对于正数部分直接输出，对于负数部分输出为零</p>
 <blockquote>
 <p>如果你学过模电的话，这玩意儿是不是很像<strong>二极管</strong>？ ReLU 函数的发明其实正是参考了二极管的功能特性。</p>
 </blockquote>
@@ -224,7 +237,7 @@
 <li><p>缺点：可能存在<strong>神经元死亡</strong>的问题，即某些神经元在训练过程中可能永远不会被激活，导致权重无法更新。</p>
 </li>
 </ul>
-<h1 id="2-Leaky-ReLU"><a href="#2-Leaky-ReLU" class="headerlink" title="2. Leaky ReLU"></a>2. Leaky ReLU</h1><p>Leaky ReLU 对于负数部分不再输出零，而是输出一个很小的负数，通常用一个小斜率 $\alpha$ 乘以输入。</p>
+<h1><span id="2-leaky-relu">2. Leaky ReLU</span></h1><p>Leaky ReLU 对于负数部分不再输出零，而是输出一个很小的负数，通常用一个小斜率 $\alpha$ 乘以输入。</p>
 <p>$$ f(x)&#x3D;\left\{\begin{matrix} x, {if} {x&gt;0} \\ \alpha x, if x\le0 \end{matrix}\right. $$</p>
 <ul>
 <li><p>优点：解决零 ReLU 的神经元死亡问题，因为负数有一个小的梯度。</p>
@@ -233,7 +246,8 @@
 </li>
 </ul>
 
-    </div>
+        </div>
+
     
     
     
@@ -242,6 +256,9 @@
     
     
 </div>
+
+
+    
 
             <footer id="footer">
     <div id="footer-wrap">

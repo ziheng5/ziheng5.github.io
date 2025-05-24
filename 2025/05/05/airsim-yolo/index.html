@@ -30,7 +30,7 @@
 <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
 <link
     rel="stylesheet"
-    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
 />
 <script src="/js/lib/highlight.js"></script>
 
@@ -96,7 +96,7 @@
             <span>&ensp;Tags</span>
         </a>
         
-        <a href="/links">
+        <a href="/friends">
             <i class="fa-solid fa-link fa-fw"></i>
             <span>&ensp;Links</span>
         </a>
@@ -155,7 +155,7 @@
                     </div>
                 </a>
                 
-                <a href="/links">
+                <a href="/friends">
                     <div class="item">
                         <div style="min-width: 20px; max-width: 50px; width: 10%">
                             <i class="fa-solid fa-link fa-fw"></i>
@@ -177,6 +177,10 @@
     <div>
         <h1>基于 AirSim 仿真平台与 YOLOv8s 的无人机目标检测仿真样例</h1>
     </div>
+
+    
+     
+    <!-- post 部分设计 -->
     <div class="info">
         <span class="date">
             <span class="icon">
@@ -203,7 +207,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
                     深度学习
                 </a>
             </span>
@@ -217,7 +221,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/CV/" style="color: #00bcd4">
+                <a href="/tags/CV/" style="color: #ff7d73">
                     CV
                 </a>
             </span>
@@ -226,13 +230,22 @@
         
     </div>
     
+
+    <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
-        <blockquote>
+        
+    <div id="toc">
+        <strong class="sidebar-title">目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 实机演示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 代码详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.1 导入必要的包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.2 设计程序框架</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.3 无人机键盘控制设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.4 目标实时检测设计</span></a></li></ol></li></ol>
+    </div>
+
+
+            <blockquote>
 <p>经过一段时间的筹备，Coldrain 花了 <strong>1.2k</strong> 把电脑的内存从 16G 扩充到了 <strong>64G</strong>，于是终于有了在电脑上同时进行实时渲染调试和模型运算的信心 💪（这个月要开始吃土了 🪨）</p>
 <p>于是趁着五一假期，Coldrain 写了一个小程序，实现了在 <strong>AirSim</strong> 插件中使用键盘控制无人机自由飞行，同时利用 <strong>YOLOv8s</strong> 模型实现无人机的实时目标检测</p>
 <p>PS：你问为什么不用厉害点的模型？买不起 <strong>Jetson Nano</strong> 这种档次的设备，就算仿真有效，硬件条件也不支持迁移啊 😭（而且目前 Coldrain 也没有正式学过<strong>边缘计算</strong>）</p>
 </blockquote>
-<h2 id="1-实机演示"><a href="#1-实机演示" class="headerlink" title="1. 实机演示"></a>1. 实机演示</h2><hr>
+<h2><span id="1-实机演示">1. 实机演示</span></h2><hr>
 <p>先放实机演示：</p>
 <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=114450778562285&bvid=BV1BSVNzhEy9&cid=25795433892&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="1000" height="480"></iframe>
 
@@ -242,8 +255,8 @@
 <p>🔗 项目地址：<a target="_blank" rel="noopener" href="https://github.com/ziheng5/Sharp-Eyes-target-tracking-algorithm">https://github.com/ziheng5/Sharp-Eyes-target-tracking-algorithm</a></p>
 <p><strong>注</strong>：项目持续更新中，后续会不断加入新功能</p>
 </blockquote>
-<h2 id="2-代码详解"><a href="#2-代码详解" class="headerlink" title="2. 代码详解"></a>2. 代码详解</h2><hr>
-<h3 id="2-1-导入必要的包"><a href="#2-1-导入必要的包" class="headerlink" title="2.1 导入必要的包"></a>2.1 导入必要的包</h3><pre><code class="python">from matplotlib.pyplot import annotate
+<h2><span id="2-代码详解">2. 代码详解</span></h2><hr>
+<h3><span id="21-导入必要的包">2.1 导入必要的包</span></h3><pre><code class="python">from matplotlib.pyplot import annotate
 from ultralytics import YOLO
 from multiprocessing import Process
 import numpy as np
@@ -264,7 +277,7 @@ import cv2
 <li><code>time</code> 用来控制无人机摄像头帧率</li>
 <li><code>cv2</code> 用于处理无人机摄像头获取到的图像</li>
 </ul>
-<h3 id="2-2-设计程序框架"><a href="#2-2-设计程序框架" class="headerlink" title="2.2 设计程序框架"></a>2.2 设计程序框架</h3><pre><code class="python">def keyboard_control():
+<h3><span id="22-设计程序框架">2.2 设计程序框架</span></h3><pre><code class="python">def keyboard_control():
     # 用于实现键盘控制
     vehicle_name = &quot;Drone1&quot; # 这里注意切换为自己的无人机名称
     AirSim_client = airsim.MultirotorClient()
@@ -292,7 +305,7 @@ if __name__ == &quot;__main__&quot;:
 <li>在 <code>if __name__ == &quot;__main__&quot;:</code> 后面，通过 <code>multiprocessing</code> 中的 <code>Process</code> 模块，实现不同的功能函数多进程同时进行，从而提高运行效率。</li>
 <li>每一个功能函数中(<code>keyboard_control()</code> 和 <code>yolo_cv()</code>) 开头都需要建立独立的 <code>client</code>，因为使用多线程的时候，无法在 <code>if __name__ == &quot;__main__&quot;:</code> 下建立一个 <code>client</code> 并同时共享给多个进程使用。</li>
 </ul>
-<h3 id="2-3-无人机键盘控制设计"><a href="#2-3-无人机键盘控制设计" class="headerlink" title="2.3 无人机键盘控制设计"></a>2.3 无人机键盘控制设计</h3><pre><code class="python">def keyboard_control():
+<h3><span id="23-无人机键盘控制设计">2.3 无人机键盘控制设计</span></h3><pre><code class="python">def keyboard_control():
     # pygame settings
     pygame.init()   # pygame 初始化
     screen = pygame.display.set_mode((400, 300))    # 设置控制窗口大小
@@ -366,7 +379,7 @@ if __name__ == &quot;__main__&quot;:
             pygame.quit()
             sys.exit()
 </code></pre>
-<h3 id="2-4-目标实时检测设计"><a href="#2-4-目标实时检测设计" class="headerlink" title="2.4 目标实时检测设计"></a>2.4 目标实时检测设计</h3><pre><code class="python">def yolo_cv():
+<h3><span id="24-目标实时检测设计">2.4 目标实时检测设计</span></h3><pre><code class="python">def yolo_cv():
     # 初始化 YOLOv8 模型
     model = YOLO(&#39;yolov8s.pt&#39;)
 
@@ -435,7 +448,8 @@ if __name__ == &quot;__main__&quot;:
         cv2.destroyAllWindows()
 </code></pre>
 
-    </div>
+        </div>
+
     
     
     
@@ -444,6 +458,9 @@ if __name__ == &quot;__main__&quot;:
     
     
 </div>
+
+
+    
 
             <footer id="footer">
     <div id="footer-wrap">

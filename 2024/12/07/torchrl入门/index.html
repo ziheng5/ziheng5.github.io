@@ -30,7 +30,7 @@
 <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
 <link
     rel="stylesheet"
-    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
 />
 <script src="/js/lib/highlight.js"></script>
 
@@ -96,7 +96,7 @@
             <span>&ensp;Tags</span>
         </a>
         
-        <a href="/links">
+        <a href="/friends">
             <i class="fa-solid fa-link fa-fw"></i>
             <span>&ensp;Links</span>
         </a>
@@ -155,7 +155,7 @@
                     </div>
                 </a>
                 
-                <a href="/links">
+                <a href="/friends">
                     <div class="item">
                         <div style="min-width: 20px; max-width: 50px; width: 10%">
                             <i class="fa-solid fa-link fa-fw"></i>
@@ -177,6 +177,10 @@
     <div>
         <h1>TorchRL 入门 1</h1>
     </div>
+
+    
+     
+    <!-- post 部分设计 -->
     <div class="info">
         <span class="date">
             <span class="icon">
@@ -203,21 +207,21 @@
             
             <span class="tag">
                 
-                <a href="/tags/PyTorch/" style="color: #ffa2c4">
+                <a href="/tags/PyTorch/" style="color: #00bcd4">
                     PyTorch
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
+                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
                     强化学习
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/TorchRL/" style="color: #00a596">
+                <a href="/tags/TorchRL/" style="color: #ffa2c4">
                     TorchRL
                 </a>
             </span>
@@ -226,20 +230,29 @@
         
     </div>
     
+
+    <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
-        <blockquote>
+        
+    <div id="toc">
+        <strong class="sidebar-title">目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">强化学习中的环境</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 创建环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.  运行环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. 环境推出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. 改变环境</span></a></li></ol></li></ol>
+    </div>
+
+
+            <blockquote>
 <p><a target="_blank" rel="noopener" href="https://pytorch.org/rl/stable/index.html">TorchRL</a> 是 PyTorch 下的一个用于强化学习的包</p>
 <p>使用前请先安装 torchrl：</p>
 <pre><code class="Terminal">pip install torchrl
 </code></pre>
 </blockquote>
-<h1 id="强化学习中的环境"><a href="#强化学习中的环境" class="headerlink" title="强化学习中的环境"></a>强化学习中的环境</h1><h2 id="1-创建环境"><a href="#1-创建环境" class="headerlink" title="1. 创建环境"></a>1. 创建环境</h2><p>实际上，TorchRL 并不直接提供环境，而是为封装模拟器的其他库提供包装器，该 <code>envs</code> 模块可以被视为通用环境 API 的提供者，以及 <a target="_blank" rel="noopener" href="https://gymnasium.farama.org/">gym</a> ( <code>GymEnv</code> )、 Brax ( <code>BraxEnv</code> ) 或 DeepMind Control Suite ( <code>DMControlEnv</code> ) 等模拟后端的中央枢纽。</p>
+<h1><span id="强化学习中的环境">强化学习中的环境</span></h1><h2><span id="1-创建环境">1. 创建环境</span></h2><p>实际上，TorchRL 并不直接提供环境，而是为封装模拟器的其他库提供包装器，该 <code>envs</code> 模块可以被视为通用环境 API 的提供者，以及 <a target="_blank" rel="noopener" href="https://gymnasium.farama.org/">gym</a> ( <code>GymEnv</code> )、 Brax ( <code>BraxEnv</code> ) 或 DeepMind Control Suite ( <code>DMControlEnv</code> ) 等模拟后端的中央枢纽。</p>
 <p>创建环境通常与底层后端 API 允许的一样简单。下面是使用 gym 的示例：</p>
 <pre><code class="Python">from torchrl.envs import GymEnv
 
 env = GymEnv(&quot;Pendulum-v1&quot;)
 </code></pre>
-<h2 id="2-运行环境"><a href="#2-运行环境" class="headerlink" title="2.  运行环境"></a>2.  运行环境</h2><p>TorchRL 中的环境有两个关键方法： <code>reset()</code>，用于启动情节，以及 <code>step()</code>，用于执行参与者选择的动作。在 TorchRL 中，环境方法读取和写入 <code>TensorDict</code> 实例。本质上，<code>TensorDict</code> 是张量的基于密钥的通用数据载体。与普通张量相比，使用 TensorDict 的好处是：它使我们能够交替处理简单和复杂的数据结构，且它消除了适应不同数据格式的难题。</p>
+<h2><span id="2-运行环境">2.  运行环境</span></h2><p>TorchRL 中的环境有两个关键方法： <code>reset()</code>，用于启动情节，以及 <code>step()</code>，用于执行参与者选择的动作。在 TorchRL 中，环境方法读取和写入 <code>TensorDict</code> 实例。本质上，<code>TensorDict</code> 是张量的基于密钥的通用数据载体。与普通张量相比，使用 TensorDict 的好处是：它使我们能够交替处理简单和复杂的数据结构，且它消除了适应不同数据格式的难题。</p>
 <p>话不多说，我们来看看 <code>tensordict</code> 实例是什么样子的：</p>
 <pre><code class="Python">reset = env.reset()
 print(reset)
@@ -283,7 +296,7 @@ print(data)
 <blockquote>
 <p>TensorDict(<br>    fields&#x3D;{<br>        done: Tensor(shape&#x3D;torch.Size([1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False),<br>        observation: Tensor(shape&#x3D;torch.Size([3]), device&#x3D;cpu, dtype&#x3D;torch.float32, is_shared&#x3D;False),<br>        terminated: Tensor(shape&#x3D;torch.Size([1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False),<br>        truncated: Tensor(shape&#x3D;torch.Size([1]), device&#x3D;cpu, dtype&#x3D;torch.bool, is_shared&#x3D;False)},<br>    batch_size&#x3D;torch.Size([]),<br>    device&#x3D;None,<br>    is_shared&#x3D;False)</p>
 </blockquote>
-<h2 id="3-环境推出"><a href="#3-环境推出" class="headerlink" title="3. 环境推出"></a>3. 环境推出</h2><p>写下这三个步骤（计算动作、采取步骤、在 MDP 中移动）可能有点繁琐和重复。幸运的是，TorchRL 提供了一个很好的 <code>rollout()</code> 函数，允许你随意在闭环中运行它们：</p>
+<h2><span id="3-环境推出">3. 环境推出</span></h2><p>写下这三个步骤（计算动作、采取步骤、在 MDP 中移动）可能有点繁琐和重复。幸运的是，TorchRL 提供了一个很好的 <code>rollout()</code> 函数，允许你随意在闭环中运行它们：</p>
 <pre><code class="Python">rollout = env.rollout(max_steps=10)
 print(rollout)
 </code></pre>
@@ -303,7 +316,7 @@ print(transition)
 <p>按照这种方式执行（没有策略），该 <code>rollout</code> 方法可能看起来相当无用：它只是运行<strong>随机操作</strong>。如果有策略可用，则可以<strong>将其传递给该方法并用于收集数据</strong>。</p>
 <p>尽管如此，首先运行一个简单的、无策略的部署来检查对环境的期望是有用的。</p>
 <p>要了解 TorchRL API 的多功能性，请考虑这样一个事实：<code>rollout</code> 方法具有普遍适用性。它适用于所有用例，无论你使用的是像这样的单一环境、跨各种流程的多个副本、多代理环境，甚至是无状态版本！</p>
-<h2 id="4-改变环境"><a href="#4-改变环境" class="headerlink" title="4. 改变环境"></a>4. 改变环境</h2><p>大多数情况下，你需要修改环境的输出以更好地满足您的要求。</p>
+<h2><span id="4-改变环境">4. 改变环境</span></h2><p>大多数情况下，你需要修改环境的输出以更好地满足您的要求。</p>
 <p>例如，你可能想要监控自上次重置以来执行的步骤数、调整图像大小或将连续的观察结果堆叠在一起。</p>
 <p>在本节中，我们将研究一种简单的变换，即 <code>StepCounter</code> 变换。完整的变换列表可在<a target="_blank" rel="noopener" href="https://pytorch.org/rl/stable/reference/envs.html#id2">这里</a>找到。</p>
 <p>变换通过以下方式与环境集成 <code>TransformedEnv</code>：</p>
@@ -325,7 +338,8 @@ print(rollout)
 <p>tensor([[False],<br>       [False],<br>       [False],<br>       [False],<br>       [False],<br>       [False],<br>       [False],<br>       [False],<br>       [False],<br>       [ True]])</p>
 </blockquote>
 
-    </div>
+        </div>
+
     
     
     
@@ -334,6 +348,9 @@ print(rollout)
     
     
 </div>
+
+
+    
 
             <footer id="footer">
     <div id="footer-wrap">

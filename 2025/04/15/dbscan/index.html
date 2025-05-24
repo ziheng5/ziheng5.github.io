@@ -30,7 +30,7 @@
 <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
 <link
     rel="stylesheet"
-    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
 />
 <script src="/js/lib/highlight.js"></script>
 
@@ -96,7 +96,7 @@
             <span>&ensp;Tags</span>
         </a>
         
-        <a href="/links">
+        <a href="/friends">
             <i class="fa-solid fa-link fa-fw"></i>
             <span>&ensp;Links</span>
         </a>
@@ -155,7 +155,7 @@
                     </div>
                 </a>
                 
-                <a href="/links">
+                <a href="/friends">
                     <div class="item">
                         <div style="min-width: 20px; max-width: 50px; width: 10%">
                             <i class="fa-solid fa-link fa-fw"></i>
@@ -177,6 +177,10 @@
     <div>
         <h1>DBSCAN 密度聚类分析算法</h1>
     </div>
+
+    
+     
+    <!-- post 部分设计 -->
     <div class="info">
         <span class="date">
             <span class="icon">
@@ -212,8 +216,17 @@
         
     </div>
     
+
+    <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
-        <h2 id="1-DBSCAN-算法简介"><a href="#1-DBSCAN-算法简介" class="headerlink" title="1. DBSCAN 算法简介"></a>1. DBSCAN 算法简介</h2><hr>
+        
+    <div id="toc">
+        <strong class="sidebar-title">目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. DBSCAN 算法简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. DBSCAN 的基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. DBSCAN 算法步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. DBSCAN 伪代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5. DBSCAN 的时间复杂度分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6. DBSCAN 的 Python 实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">方法一：使用 scikit-learn</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">方法二：手动实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">7. DBSCAN 的优缺点</span></a></li></ol>
+    </div>
+
+
+            <h2><span id="1-dbscan-算法简介">1. DBSCAN 算法简介</span></h2><hr>
 <p>DBSCAN 是一种基于密度的聚类算法，旨在发现任意形状的<strong>簇</strong>，并且对<strong>噪声点</strong>（<strong>outliers</strong>）具有鲁棒性。</p>
 <p>DBSCAN 通过在数据空间中找到高密度区域，将这些区域作为簇，同时把孤立点（密度低的点）归为<strong>噪声</strong>。</p>
 <p>DBSCAN 的基本思想是：</p>
@@ -226,7 +239,7 @@
 <p>可以前往 <a target="_blank" rel="noopener" href="https://www.naftaliharris.com/blog/visualizing-dbscan-clustering/">DBSCAN 数据可视化网站</a>来了解执行的流程。</p>
 </blockquote>
 <p><img src="/../images/machine_learning/dbscan1.png" alt="dbscan_example"></p>
-<h2 id="2-DBSCAN-的基本概念"><a href="#2-DBSCAN-的基本概念" class="headerlink" title="2. DBSCAN 的基本概念"></a>2. DBSCAN 的基本概念</h2><hr>
+<h2><span id="2-dbscan-的基本概念">2. DBSCAN 的基本概念</span></h2><hr>
 <ul>
 <li>$\epsilon$-邻域（Epsilon-neighborhood）<br>  对于某个点 $P$，以半径 $\epsilon$ 为边界的区域内所有的点称为该点的 $\epsilon$ 邻域。</li>
 <li><strong>核心点</strong>（<strong>Core Point</strong>）<br>  如果一个点 $P$ 的 $\epsilon$ 邻域内至少有 <strong>minPts</strong> 个点（包括 $P$ 自己），那么它被称为核心点。</li>
@@ -236,14 +249,14 @@
 <li><strong>密度可达</strong>（<strong>Density-Reachable</strong>）<br>  如果存在一条核心点链表（$P_1 \rightarrow P_2 \rightarrow … \rightarrow P_n$），使得每个点从前一个点密度直达，且 $P_1&#x3D;P$，$P_n&#x3D;Q$，则 Q 是从 P 密度可达的。</li>
 <li><strong>密度相连</strong>（<strong>Density-Connected</strong>）<br>  如果存在一个点 $O$，使得 $P$ 和 $Q$ 都从 $O$ 密度可达，则称 $P$ 和 $Q$ 是密度相连的。</li>
 </ul>
-<h2 id="3-DBSCAN-算法步骤"><a href="#3-DBSCAN-算法步骤" class="headerlink" title="3. DBSCAN 算法步骤"></a>3. DBSCAN 算法步骤</h2><hr>
+<h2><span id="3-dbscan-算法步骤">3. DBSCAN 算法步骤</span></h2><hr>
 <ul>
 <li><strong>初始化</strong><br>  从数据集中任意选择一个点 $P$，判断它是否为核心点（即 $\epsilon$ 邻域内是否包含至少 minPts 个点）。</li>
 <li><strong>扩展簇</strong><br>  如果 $P$ 是核心点，则开始一个新簇，将 $P$ 及其邻域中的点加入簇中，并不断对新的核心点的邻域进行扩展。</li>
 <li><strong>处理噪声点</strong><br>  如果一个点既不在任何簇中，也不满足成为核心点的条件，则将其标记为噪声点。</li>
 <li><strong>重复处理</strong><br>  继续检查所有未访问的点，直到所有点都被访问为止。</li>
 </ul>
-<h2 id="4-DBSCAN-伪代码"><a href="#4-DBSCAN-伪代码" class="headerlink" title="4. DBSCAN 伪代码"></a>4. DBSCAN 伪代码</h2><hr>
+<h2><span id="4-dbscan-伪代码">4. DBSCAN 伪代码</span></h2><hr>
 <pre><code class="python">DBSCAN(D, epsilon, minPts):
     C = 0   # 初始化簇标签
     for each unvisited point P in dataset D:
@@ -266,13 +279,13 @@ expandCluster(P, Neighbors, C, epsilon, minPts):
         if Q is not yet assigned to any cluster:
             add Q to cluster C
 </code></pre>
-<h2 id="5-DBSCAN-的时间复杂度分析"><a href="#5-DBSCAN-的时间复杂度分析" class="headerlink" title="5. DBSCAN 的时间复杂度分析"></a>5. DBSCAN 的时间复杂度分析</h2><hr>
+<h2><span id="5-dbscan-的时间复杂度分析">5. DBSCAN 的时间复杂度分析</span></h2><hr>
 <ul>
 <li><strong>邻域查询</strong>：在每次扩展时，需要查找一个点的 $\epsilon$ 邻域。如果使用 KD-Tree 或 Ball-Tree 等空间索引结构，这个操作的复杂度为 $O(\log n)$。</li>
 <li><strong>总体复杂度</strong>：如果对每个点进行邻域查询，算法的时间复杂度为 $O(n·\log n)$。如果不使用索引结构，最坏情况下是 $O(n^2)$。</li>
 </ul>
-<h2 id="6-DBSCAN-的-Python-实现"><a href="#6-DBSCAN-的-Python-实现" class="headerlink" title="6. DBSCAN 的 Python 实现"></a>6. DBSCAN 的 Python 实现</h2><hr>
-<h3 id="方法一：使用-scikit-learn"><a href="#方法一：使用-scikit-learn" class="headerlink" title="方法一：使用 scikit-learn"></a>方法一：使用 scikit-learn</h3><p><img src="/../images/machine_learning/scatter_plot.png" alt="cluster"></p>
+<h2><span id="6-dbscan-的-python-实现">6. DBSCAN 的 Python 实现</span></h2><hr>
+<h3><span id="方法一使用-scikit-learn">方法一：使用 scikit-learn</span></h3><p><img src="/../images/machine_learning/scatter_plot.png" alt="cluster"></p>
 <p>聚类代码如下</p>
 <pre><code class="python">from sklearn.cluster import DBSCAN
 import numpy as np
@@ -296,7 +309,7 @@ print(&quot;Cluster labels:&quot;, labels)
 <li>标签为 <code>-1</code> 的点表示<strong>噪声点</strong></li>
 <li>其他标签表示该点属于的<strong>簇</strong></li>
 </ul>
-<h3 id="方法二：手动实现"><a href="#方法二：手动实现" class="headerlink" title="方法二：手动实现"></a>方法二：手动实现</h3><pre><code class="python">import numpy as np
+<h3><span id="方法二手动实现">方法二：手动实现</span></h3><pre><code class="python">import numpy as np
 from sklearn.metrics import pairwise_distances
 
 class DBSCAN:
@@ -386,7 +399,7 @@ if __name__ == &quot;__main__&quot;:
     plt.grid(True)
     plt.show()
 </code></pre>
-<h2 id="7-DBSCAN-的优缺点"><a href="#7-DBSCAN-的优缺点" class="headerlink" title="7. DBSCAN 的优缺点"></a>7. DBSCAN 的优缺点</h2><hr>
+<h2><span id="7-dbscan-的优缺点">7. DBSCAN 的优缺点</span></h2><hr>
 <ul>
 <li>优点：<ul>
 <li>可以发现任意形状的簇。</li>
@@ -402,7 +415,8 @@ if __name__ == &quot;__main__&quot;:
 </li>
 </ul>
 
-    </div>
+        </div>
+
     
     
     
@@ -411,6 +425,9 @@ if __name__ == &quot;__main__&quot;:
     
     
 </div>
+
+
+    
 
             <footer id="footer">
     <div id="footer-wrap">

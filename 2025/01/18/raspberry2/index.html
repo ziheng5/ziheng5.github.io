@@ -30,7 +30,7 @@
 <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
 <link
     rel="stylesheet"
-    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
 />
 <script src="/js/lib/highlight.js"></script>
 
@@ -96,7 +96,7 @@
             <span>&ensp;Tags</span>
         </a>
         
-        <a href="/links">
+        <a href="/friends">
             <i class="fa-solid fa-link fa-fw"></i>
             <span>&ensp;Links</span>
         </a>
@@ -155,7 +155,7 @@
                     </div>
                 </a>
                 
-                <a href="/links">
+                <a href="/friends">
                     <div class="item">
                         <div style="min-width: 20px; max-width: 50px; width: 10%">
                             <i class="fa-solid fa-link fa-fw"></i>
@@ -177,6 +177,10 @@
     <div>
         <h1>Raspberry Pi, start!</h1>
     </div>
+
+    
+     
+    <!-- post 部分设计 -->
     <div class="info">
         <span class="date">
             <span class="icon">
@@ -203,21 +207,21 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%A1%AC%E4%BB%B6/" style="color: #03a9f4">
+                <a href="/tags/%E7%A1%AC%E4%BB%B6/" style="color: #00bcd4">
                     硬件
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="color: #00a596">
+                <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="color: #03a9f4">
                     树莓派
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/Ubuntu/" style="color: #03a9f4">
+                <a href="/tags/Ubuntu/" style="color: #00a596">
                     Ubuntu
                 </a>
             </span>
@@ -226,9 +230,18 @@
         
     </div>
     
+
+    <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
-        <p>继上一次小生在树莓派上安装完操作系统并进行了相关配置后，小生开始准备折腾树莓派上的 GPIO 了。</p>
-<h1 id="1-📦-前置准备"><a href="#1-📦-前置准备" class="headerlink" title="1. 📦 前置准备"></a>1. 📦 前置准备</h1><h2 id="1-1-WiringPi"><a href="#1-1-WiringPi" class="headerlink" title="1.1 WiringPi"></a>1.1 WiringPi</h2><h3 id="方法一（B站教程，其实不推荐）"><a href="#方法一（B站教程，其实不推荐）" class="headerlink" title="方法一（B站教程，其实不推荐）"></a>方法一（B站教程，其实不推荐）</h3><p>在树莓派上写 C 语言代码，最重要的就是安装 WiringPi 这个库</p>
+        
+    <div id="toc">
+        <strong class="sidebar-title">目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">1. 📦 前置准备</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.1 WiringPi</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">方法一（B站教程，其实不推荐）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">方法二（用 git，推荐）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.2 python——RPi.GPIO</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">2. 关于树莓派的 GPIO</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">3. 树莓派 GPIO ——点灯</span></a></li></ol>
+    </div>
+
+
+            <p>继上一次小生在树莓派上安装完操作系统并进行了相关配置后，小生开始准备折腾树莓派上的 GPIO 了。</p>
+<h1><span id="1-前置准备">1. 📦 前置准备</span></h1><h2><span id="11-wiringpi">1.1 WiringPi</span></h2><h3><span id="方法一b站教程其实不推荐">方法一（B站教程，其实不推荐）</span></h3><p>在树莓派上写 C 语言代码，最重要的就是安装 WiringPi 这个库</p>
 <p>安装指令如下：</p>
 <pre><code class="bash">sudo apt install wiringpi
 </code></pre>
@@ -244,7 +257,7 @@
 <blockquote>
 <p>⚠️ 注意：Ubuntu 24 版本过新，上述方法均无法正确安装，小生也没有找到合适的安装包。这里建议大家 Ubuntu 安装为旧版本，比如 22 系列的。</p>
 </blockquote>
-<h3 id="方法二（用-git，推荐）"><a href="#方法二（用-git，推荐）" class="headerlink" title="方法二（用 git，推荐）"></a>方法二（用 git，推荐）</h3><blockquote>
+<h3><span id="方法二用-git推荐">方法二（用 git，推荐）</span></h3><blockquote>
 <p>如果没有事先安装好 git 的话，可以执行以下命令安装 git</p>
 <pre><code class="bash">sudo apt install git
 </code></pre>
@@ -262,7 +275,7 @@ cd WiringPi
 gpio readall
 </code></pre>
 <p>若正常输出，则安装成功</p>
-<h2 id="1-2-python——RPi-GPIO"><a href="#1-2-python——RPi-GPIO" class="headerlink" title="1.2 python——RPi.GPIO"></a>1.2 python——RPi.GPIO</h2><p>先给树莓派上的 python 配置硬件操作相关的包</p>
+<h2><span id="12-pythonrpigpio">1.2 python——RPi.GPIO</span></h2><p>先给树莓派上的 python 配置硬件操作相关的包</p>
 <blockquote>
 <p>这里不需要激活 conda 环境，直接使用系统内置的 python3 即可</p>
 <p>（你问为什么？其实小生用 conda 无论如何都没法把 <code>RPi.GPIO</code> 配置下来，各位巨佬有兴趣的话可以去折腾折腾 💦）</p>
@@ -271,11 +284,11 @@ gpio readall
 <pre><code class="bash">sudo apt-get -y install python3-rpi.gpio
 </code></pre>
 <p>等待下载完成即可在 python3 中使用 <code>RPi.GPIO</code></p>
-<h1 id="2-关于树莓派的-GPIO"><a href="#2-关于树莓派的-GPIO" class="headerlink" title="2. 关于树莓派的 GPIO"></a>2. 关于树莓派的 GPIO</h1><p>树莓派的 GPIO 有三种编码方式，分别是板载编码、BCM 编码、Wiringpi 编码</p>
+<h1><span id="2-关于树莓派的-gpio">2. 关于树莓派的 GPIO</span></h1><p>树莓派的 GPIO 有三种编码方式，分别是板载编码、BCM 编码、Wiringpi 编码</p>
 <p>这里直接附上一张图</p>
 <p><img src="/../images/raspberrypi/pic3.png" alt="gpio_encode"></p>
 <p>三种编码方式的不同主要体现在代码中。Python 采用的是 BCM 编码，而 C 采用的是 wiringpi 编码。今天小生主要讲讲如何用 Python 脚本控制 GPIO。</p>
-<h1 id="3-树莓派-GPIO-——点灯"><a href="#3-树莓派-GPIO-——点灯" class="headerlink" title="3. 树莓派 GPIO ——点灯"></a>3. 树莓派 GPIO ——点灯</h1><p>准备好面包板、杜邦线和发光二极管，完成接线后，小生便准备开始点灯了。</p>
+<h1><span id="3-树莓派-gpio-点灯">3. 树莓派 GPIO ——点灯</span></h1><p>准备好面包板、杜邦线和发光二极管，完成接线后，小生便准备开始点灯了。</p>
 <p>这里直接附上 Python 脚本代码：</p>
 <pre><code class="Python">import RPi.GPIO as GPIO
 from time import sleep
@@ -296,7 +309,8 @@ GPIO.cleanup()
 </code></pre>
 <p>运行命令后，Led 灯开始闪烁，点灯成功 ✌</p>
 
-    </div>
+        </div>
+
     
     
     
@@ -305,6 +319,9 @@ GPIO.cleanup()
     
     
 </div>
+
+
+    
 
             <footer id="footer">
     <div id="footer-wrap">

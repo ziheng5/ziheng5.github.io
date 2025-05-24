@@ -30,7 +30,7 @@
 <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
 <link
     rel="stylesheet"
-    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
 />
 <script src="/js/lib/highlight.js"></script>
 
@@ -96,7 +96,7 @@
             <span>&ensp;Tags</span>
         </a>
         
-        <a href="/links">
+        <a href="/friends">
             <i class="fa-solid fa-link fa-fw"></i>
             <span>&ensp;Links</span>
         </a>
@@ -155,7 +155,7 @@
                     </div>
                 </a>
                 
-                <a href="/links">
+                <a href="/friends">
                     <div class="item">
                         <div style="min-width: 20px; max-width: 50px; width: 10%">
                             <i class="fa-solid fa-link fa-fw"></i>
@@ -177,6 +177,10 @@
     <div>
         <h1>在深度神经网络中常用的激活函数及其性质</h1>
     </div>
+
+    
+     
+    <!-- post 部分设计 -->
     <div class="info">
         <span class="date">
             <span class="icon">
@@ -203,7 +207,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
                     深度学习
                 </a>
             </span>
@@ -212,8 +216,17 @@
         
     </div>
     
+
+    <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
-        <h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h2><p>在神经网络中，激活函数（Activation Function）是决定神经元输出信号的关键组件。它通过引入非线性特性，使神经网络能够学习和模拟复杂的模式。</p>
+        
+    <div id="toc">
+        <strong class="sidebar-title">目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. Sigmoid（Logistic 函数）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. Tanh（双曲正切函数）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. ReLU（Rectified Linear Unit 非线性激活单元）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5. Leaky ReLU</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6. Parametric ReLU（PReLU）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">7. ELU（Exponential Linear Unit）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">8. Softmax</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">9. Swish</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">10. Mish</span></a></li></ol>
+    </div>
+
+
+            <h2><span id="1-前言">1. 前言</span></h2><p>在神经网络中，激活函数（Activation Function）是决定神经元输出信号的关键组件。它通过引入非线性特性，使神经网络能够学习和模拟复杂的模式。</p>
 <blockquote>
 <p>激活函数的作用:</p>
 <ol>
@@ -225,7 +238,7 @@
 </li>
 </ol>
 </blockquote>
-<h2 id="2-Sigmoid（Logistic-函数）"><a href="#2-Sigmoid（Logistic-函数）" class="headerlink" title="2. Sigmoid（Logistic 函数）"></a>2. Sigmoid（Logistic 函数）</h2><ul>
+<h2><span id="2-sigmoidlogistic-函数">2. Sigmoid（Logistic 函数）</span></h2><ul>
 <li><p><strong>公式</strong>：<br>$$ \sigma(x) &#x3D; \frac{1}{1 + e^{-x}} $$</p>
 </li>
 <li><p><strong>图像</strong>：S 型曲线，输出范围为 (0, 1)。（如下所示）</p>
@@ -248,7 +261,7 @@
 <li><p><strong>适用场景</strong>：二分类输出层、早期简单神经网络</p>
 </li>
 </ul>
-<h2 id="3-Tanh（双曲正切函数）"><a href="#3-Tanh（双曲正切函数）" class="headerlink" title="3. Tanh（双曲正切函数）"></a>3. Tanh（双曲正切函数）</h2><ul>
+<h2><span id="3-tanh双曲正切函数">3. Tanh（双曲正切函数）</span></h2><ul>
 <li><p><strong>公式</strong>：<br>$$ tanh(x) &#x3D; \frac{e^x - e^{-x}}{e^x + e^{-x}} $$</p>
 </li>
 <li><p><strong>图像</strong>：S 型曲线，输出范围 (-1, 1)。（如下所示）</p>
@@ -267,7 +280,7 @@
 </li>
 <li><strong>适用场景</strong>：隐藏层，尤其是 RNN、LSTM 等。</li>
 </ul>
-<h2 id="4-ReLU（Rectified-Linear-Unit-非线性激活单元）"><a href="#4-ReLU（Rectified-Linear-Unit-非线性激活单元）" class="headerlink" title="4. ReLU（Rectified Linear Unit 非线性激活单元）"></a>4. ReLU（Rectified Linear Unit 非线性激活单元）</h2><ul>
+<h2><span id="4-relurectified-linear-unit-非线性激活单元">4. ReLU（Rectified Linear Unit 非线性激活单元）</span></h2><ul>
 <li><strong>公式</strong>：<br>$$ ReLU(x) &#x3D; max(0, x)$$</li>
 <li><strong>图像</strong>：左半轴恒为 0，右半轴恒为线性。（如下所示）</li>
 </ul>
@@ -288,7 +301,7 @@
 <blockquote>
 <p>前馈神经网络（Feedforward Neural Network, FNN）是人工神经网络中最基础、最广泛使用的类型之一，其核心是数据单向流动（从输入层到输出层），没有循环或反馈连接。</p>
 </blockquote>
-<h2 id="5-Leaky-ReLU"><a href="#5-Leaky-ReLU" class="headerlink" title="5. Leaky ReLU"></a>5. Leaky ReLU</h2><blockquote>
+<h2><span id="5-leaky-relu">5. Leaky ReLU</span></h2><blockquote>
 <p>ReLU 的升级版</p>
 </blockquote>
 <ul>
@@ -310,7 +323,7 @@
 </li>
 <li><strong>适用场景</strong>：需解决 Dead ReLU 问题的深层网络。</li>
 </ul>
-<h2 id="6-Parametric-ReLU（PReLU）"><a href="#6-Parametric-ReLU（PReLU）" class="headerlink" title="6. Parametric ReLU（PReLU）"></a>6. Parametric ReLU（PReLU）</h2><blockquote>
+<h2><span id="6-parametric-reluprelu">6. Parametric ReLU（PReLU）</span></h2><blockquote>
 <p>Leaky ReLU 的升级版</p>
 </blockquote>
 <ul>
@@ -319,7 +332,7 @@
 <li><strong>缺点</strong>：增加参数量，可能过拟合。</li>
 <li><strong>适用场景</strong>：大型网路（如 ResNet）</li>
 </ul>
-<h2 id="7-ELU（Exponential-Linear-Unit）"><a href="#7-ELU（Exponential-Linear-Unit）" class="headerlink" title="7. ELU（Exponential Linear Unit）"></a>7. ELU（Exponential Linear Unit）</h2><blockquote>
+<h2><span id="7-eluexponential-linear-unit">7. ELU（Exponential Linear Unit）</span></h2><blockquote>
 <p>ReLU 的另一个升级版</p>
 </blockquote>
 <ul>
@@ -342,7 +355,7 @@
 </li>
 <li><strong>适用场景</strong>：深层网络，对噪声敏感的任务</li>
 </ul>
-<h2 id="8-Softmax"><a href="#8-Softmax" class="headerlink" title="8. Softmax"></a>8. Softmax</h2><ul>
+<h2><span id="8-softmax">8. Softmax</span></h2><ul>
 <li><p><strong>公式</strong>：<br>$$Softmax(x_i) &#x3D; \frac{e^{x_i}}{\Sigma^n_{j&#x3D;1} e^{x_j}}$$</p>
 </li>
 <li><p><strong>特点</strong>：将输出压缩为概率分布（总和为 1）。</p>
@@ -350,7 +363,7 @@
 <li><p><strong>适用场景</strong>：多分类输出层。</p>
 </li>
 </ul>
-<h2 id="9-Swish"><a href="#9-Swish" class="headerlink" title="9. Swish"></a>9. Swish</h2><ul>
+<h2><span id="9-swish">9. Swish</span></h2><ul>
 <li><strong>公式</strong>：<br>$$Swish(x) &#x3D; x \cdot \sigma(\beta x) $$<br>($\sigma$ 为 Sigmoid，$\beta$ 常设为 1 或可学习)</li>
 </ul>
 <p><img src="/../images/activation_functions/swish.png" alt="swish"></p>
@@ -362,7 +375,7 @@
 <li><strong>缺点</strong>：计算量略大。</li>
 <li><strong>适用场景</strong>：替代 ReLU 的隐藏层。</li>
 </ul>
-<h2 id="10-Mish"><a href="#10-Mish" class="headerlink" title="10. Mish"></a>10. Mish</h2><ul>
+<h2><span id="10-mish">10. Mish</span></h2><ul>
 <li><strong>公式</strong>：<br>$$Mish(x) &#x3D; x \cdot \tanh(\ln(1+e^x))$$</li>
 </ul>
 <p><img src="/../images/activation_functions/mish.png" alt="mish"></p>
@@ -375,7 +388,8 @@
 <li><strong>适用场景</strong>：计算机视觉任务。</li>
 </ul>
 
-    </div>
+        </div>
+
     
     
     
@@ -384,6 +398,9 @@
     
     
 </div>
+
+
+    
 
             <footer id="footer">
     <div id="footer-wrap">

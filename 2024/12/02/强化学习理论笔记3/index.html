@@ -30,7 +30,7 @@
 <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
 <link
     rel="stylesheet"
-    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
 />
 <script src="/js/lib/highlight.js"></script>
 
@@ -96,7 +96,7 @@
             <span>&ensp;Tags</span>
         </a>
         
-        <a href="/links">
+        <a href="/friends">
             <i class="fa-solid fa-link fa-fw"></i>
             <span>&ensp;Links</span>
         </a>
@@ -155,7 +155,7 @@
                     </div>
                 </a>
                 
-                <a href="/links">
+                <a href="/friends">
                     <div class="item">
                         <div style="min-width: 20px; max-width: 50px; width: 10%">
                             <i class="fa-solid fa-link fa-fw"></i>
@@ -177,6 +177,10 @@
     <div>
         <h1>强化学习理论笔记3——贝尔曼最优公式</h1>
     </div>
+
+    
+     
+    <!-- post 部分设计 -->
     <div class="info">
         <span class="date">
             <span class="icon">
@@ -203,22 +207,22 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
+                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
                     强化学习
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00bcd4">
-                    笔记
+                <a href="/tags/%E7%BA%AF%E7%90%86%E8%AE%BA/" style="color: #00bcd4">
+                    纯理论
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E7%BA%AF%E7%90%86%E8%AE%BA/" style="color: #03a9f4">
-                    纯理论
+                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ffa2c4">
+                    笔记
                 </a>
             </span>
             
@@ -226,11 +230,20 @@
         
     </div>
     
+
+    <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
-        <blockquote>
+        
+    <div id="toc">
+        <strong class="sidebar-title">目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">1. 引子——抛砖引玉</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">2. 最优策略optimal policy</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">3. 贝尔曼最优公式 BOE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.1 Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.2 基本性质分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.3 压缩映射定理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.4 贝尔曼最优公式解的最优性</span></a></li></ol></li></ol>
+    </div>
+
+
+            <blockquote>
 <p>贝尔曼最优公式是贝尔曼公式的一个特殊情况，是一个很重要的式子<br>两个概念：<strong>最优状态值</strong>（optimal state value）、<strong>最优策略</strong>（optimal policy）<br>一个工具：<strong>贝尔曼最优公式</strong>（BOE,bellman optimal equation）</p>
 </blockquote>
-<h1 id="1-引子——抛砖引玉"><a href="#1-引子——抛砖引玉" class="headerlink" title="1. 引子——抛砖引玉"></a>1. 引子——抛砖引玉</h1><p><img src="/./images/rl_note3/pic1.png" alt="pic1.png"></p>
+<h1><span id="1-引子抛砖引玉">1. 引子——抛砖引玉</span></h1><p><img src="/./images/rl_note3/pic1.png" alt="pic1.png"></p>
 <p>上图中所示的例子我们已经很熟悉了，很容易理解。其中，绿色的箭头代表策略 $\pi$。</p>
 <p>接下来，我们需要去做两件事情。</p>
 <p>首先，我们需要求解贝尔曼最优公式得到 <code>state value</code>，进而得到 <code>action value</code> （在此基础上，我们在后面会进一步介绍一个很有意思的现象）</p>
@@ -248,7 +261,7 @@
 <p>事实上，从机器学习的角度上来看，只要我们一遍一遍反复迭代，最后一定能得到一个最优的策略。</p>
 <p>这里我们可以先不考虑这些问题，等介绍完所有理论部分的内容后，你或许会有更深入的见解。</p>
 <p>下面我们开始正式介绍贝尔曼最优公式的相关定义。</p>
-<h1 id="2-最优策略optimal-policy"><a href="#2-最优策略optimal-policy" class="headerlink" title="2. 最优策略optimal policy"></a>2. 最优策略optimal policy</h1><p>刚才我们反复强调了 <code>state value</code> 的重要性，是因为它能够来衡量一个策略究竟是好还是不好。那么接下来，我们来正式地定义这种说法。</p>
+<h1><span id="2-最优策略optimal-policy">2. 最优策略optimal policy</span></h1><p>刚才我们反复强调了 <code>state value</code> 的重要性，是因为它能够来衡量一个策略究竟是好还是不好。那么接下来，我们来正式地定义这种说法。</p>
 <p>如果我有两个策略分别为 ${\pi}_1$ 和 ${\pi}_2$，那它们在每一个状态都有自己的 <code>state value</code> ，如果对于所有的状态 $s$ ，${\pi}_1$ 得到的 state value 都是大于 ${\pi}_2$ 得到的 state value ，我们就称 ${\pi}_1$ 是比 ${\pi}_2$ 要好的。进一步，我们就可以来定义 <strong>最优</strong>。</p>
 <blockquote>
 <p>什么是最优呢？</p>
@@ -262,7 +275,7 @@
 <li>如何得到最优的策略？</li>
 </ul>
 <p>为了回答上述这些问题，我们需要研究贝尔曼最优公式。</p>
-<h1 id="3-贝尔曼最优公式-BOE"><a href="#3-贝尔曼最优公式-BOE" class="headerlink" title="3. 贝尔曼最优公式 BOE"></a>3. 贝尔曼最优公式 BOE</h1><h2 id="3-1-Introduction"><a href="#3-1-Introduction" class="headerlink" title="3.1 Introduction"></a>3.1 Introduction</h2><p>我们首先给出贝尔曼最优公式的数学表达式：</p>
+<h1><span id="3-贝尔曼最优公式-boe">3. 贝尔曼最优公式 BOE</span></h1><h2><span id="31-introduction">3.1 Introduction</span></h2><p>我们首先给出贝尔曼最优公式的数学表达式：</p>
 <p>$$ v(s)&#x3D; \sum_{a}{\pi}(a|s)(\sum_r p(r|s,a)r + \gamma \sum_{s’}p(s’|s,a)v(s’)),\quad \forall s \in S $$</p>
 <p>我们现在观察上面这个表达式，你会发现这个式子看起来很眼熟——它其实就是当策略 $\pi$ 给定的时候的贝尔曼公式。</p>
 <p>这里我们做一个小改动——在策略 $\pi$ 前加上一个 <code>max</code>：</p>
@@ -286,7 +299,7 @@
 </ul>
 <p>别担心，我们下面会一一解决这些问题。</p>
 </blockquote>
-<h2 id="3-2-基本性质分析"><a href="#3-2-基本性质分析" class="headerlink" title="3.2 基本性质分析"></a>3.2 基本性质分析</h2><p><strong>BOE (Elementwise form)：</strong></p>
+<h2><span id="32-基本性质分析">3.2 基本性质分析</span></h2><p><strong>BOE (Elementwise form)：</strong></p>
 <p>$$v(s)&#x3D; max_{\pi} \sum_{a}{\pi}(a|s)(\sum_r p(r|s,a)r + \gamma \sum_{s’}p(s’|s,a)v(s’)),\quad \forall s \in S$$</p>
 <p><strong>BOE (matrix-vector form)：</strong></p>
 <p>$$v&#x3D;max_{\pi} (r_{\pi} + \gamma P_{\pi}v)$$</p>
@@ -319,7 +332,7 @@
 <p>$$[f(v)]<em>s &#x3D; max</em>{\pi} \sum _a {\pi} (a|s) q(s,a),\quad s \in S$$</p>
 <p>那么接下来，我们该如何求解这个等式呢？</p>
 <p>在我们求解这个式子之前，我们先介绍一个好东西：压缩映射定理。在后面我们会用到。</p>
-<h2 id="3-3-压缩映射定理"><a href="#3-3-压缩映射定理" class="headerlink" title="3.3 压缩映射定理"></a>3.3 压缩映射定理</h2><p>在介绍压缩映射定理之前，我们首先需要引入两个概念。</p>
+<h2><span id="33-压缩映射定理">3.3 压缩映射定理</span></h2><p>在介绍压缩映射定理之前，我们首先需要引入两个概念。</p>
 <blockquote>
 <p><strong>不动点</strong></p>
 <p>如果</p>
@@ -358,14 +371,15 @@
 <li>这个解 $v^*$ 是唯一的。</li>
 <li>这个解可以通过迭代算法来求解出来</li>
 </ul>
-<h2 id="3-4-贝尔曼最优公式解的最优性"><a href="#3-4-贝尔曼最优公式解的最优性" class="headerlink" title="3.4 贝尔曼最优公式解的最优性"></a>3.4 贝尔曼最优公式解的最优性</h2><p>假设 $v^*$ 是贝尔曼最优公式的解，它满足<br>$$ v^*&#x3D;max_{\pi}(r_{\pi}+\gamma P_{\pi} v^*)$$<br>假设<br>$$ {\pi}^*&#x3D;argmax_{\pi}(r_{\pi}+\gamma P_{\pi} v^*)$$<br>于是<br>$$ v^*&#x3D;r_{\pi ^*} + \gamma P_{\pi ^*} v^*$$<br>因此，$\pi ^*$ 是一个策略且 $v^*&#x3D;v_{\pi ^*}$ 是对应的状态价值。</p>
+<h2><span id="34-贝尔曼最优公式解的最优性">3.4 贝尔曼最优公式解的最优性</span></h2><p>假设 $v^*$ 是贝尔曼最优公式的解，它满足<br>$$ v^*&#x3D;max_{\pi}(r_{\pi}+\gamma P_{\pi} v^*)$$<br>假设<br>$$ {\pi}^*&#x3D;argmax_{\pi}(r_{\pi}+\gamma P_{\pi} v^*)$$<br>于是<br>$$ v^*&#x3D;r_{\pi ^*} + \gamma P_{\pi ^*} v^*$$<br>因此，$\pi ^*$ 是一个策略且 $v^*&#x3D;v_{\pi ^*}$ 是对应的状态价值。</p>
 <p>那么这里的 $\pi ^*$ 长什么样子呢？如下所示：</p>
 <blockquote>
 <p>对于任意 $s \in S$，那么已确定的贪心策略<br>$$ {\pi ^*}(a|s)&#x3D; \left\{ \begin{matrix}    1 \quad a&#x3D;a^*(s) \\    0 \quad a\neq a^*(s)\end{matrix}\right. $$</p>
 <p>就是贝尔曼最优公式的最优策略。这里<br>$$a^*(s)&#x3D;argmax_a q^*(a,s)$$<br>其中<br>$$q^*(s,a)&#x3D;\sum_r p(r|s,a)r+\gamma \sum_{s’} p(s’|s,a)v^*(s’)$$</p>
 </blockquote>
 
-    </div>
+        </div>
+
     
     
     
@@ -374,6 +388,9 @@
     
     
 </div>
+
+
+    
 
             <footer id="footer">
     <div id="footer-wrap">

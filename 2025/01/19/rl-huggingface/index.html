@@ -30,7 +30,7 @@
 <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
 <link
     rel="stylesheet"
-    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
 />
 <script src="/js/lib/highlight.js"></script>
 
@@ -96,7 +96,7 @@
             <span>&ensp;Tags</span>
         </a>
         
-        <a href="/links">
+        <a href="/friends">
             <i class="fa-solid fa-link fa-fw"></i>
             <span>&ensp;Links</span>
         </a>
@@ -155,7 +155,7 @@
                     </div>
                 </a>
                 
-                <a href="/links">
+                <a href="/friends">
                     <div class="item">
                         <div style="min-width: 20px; max-width: 50px; width: 10%">
                             <i class="fa-solid fa-link fa-fw"></i>
@@ -177,6 +177,10 @@
     <div>
         <h1>基于 PyTorch 与 Gym 的 PPO 算法复现</h1>
     </div>
+
+    
+     
+    <!-- post 部分设计 -->
     <div class="info">
         <span class="date">
             <span class="icon">
@@ -210,7 +214,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
+                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
                     强化学习
                 </a>
             </span>
@@ -219,8 +223,17 @@
         
     </div>
     
+
+    <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
-        <blockquote>
+        
+    <div id="toc">
+        <strong class="sidebar-title">目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">1. 📦 导入必要的包</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">2. 🫙 构建缓存区</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">3. 🧱 构建 A2C 策略网络</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">4. 👷 构建 PPO 算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">5. 🀄 主函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">6. 🚗 加载模型文件展示效果：</span></a></li></ol>
+    </div>
+
+
+            <blockquote>
 <p>🤞 这段时间在师姐的推荐下，学习了网上关于强化学习的 PyTorch 实战视频，小生自己也是跟着视频复现了一遍 PPO 算法，于是准备写一篇 Blog 来记录学习心得</p>
 <p>框架：<strong>PyTorch</strong></p>
 <p>游戏：<strong>LunarLander-v2</strong></p>
@@ -228,7 +241,7 @@
 <p>（本文里的代码是小生重新手打的，未复制粘贴，可能存在拼写错误，望见谅）</p>
 </blockquote>
 <p><img src="/../images/rl_practice/pic1" alt="pic1"></p>
-<h1 id="1-📦-导入必要的包"><a href="#1-📦-导入必要的包" class="headerlink" title="1. 📦 导入必要的包"></a>1. 📦 导入必要的包</h1><pre><code class="Python">import torch
+<h1><span id="1-导入必要的包">1. 📦 导入必要的包</span></h1><pre><code class="Python">import torch
 import torch.nn as nn
 from torch.distributions.categorical import Categorical
 import gym
@@ -248,7 +261,7 @@ device = torch.device(“cuda:0” if torch.cuda.is_available() else &quot;cpu&q
 <li><strong>box2d</strong>-kengz: 2.3.3</li>
 <li><strong>numpy</strong>: 2.1.3</li>
 </ul>
-<h1 id="2-🫙-构建缓存区"><a href="#2-🫙-构建缓存区" class="headerlink" title="2. 🫙 构建缓存区"></a>2. 🫙 构建缓存区</h1><pre><code class="Python">class Memory:
+<h1><span id="2-构建缓存区">2. 🫙 构建缓存区</span></h1><pre><code class="Python">class Memory:
     def __init__(self):
         # 缓存区，用于存储当前一个 episode 中的经验
         self.actions = []
@@ -265,7 +278,7 @@ device = torch.device(“cuda:0” if torch.cuda.is_available() else &quot;cpu&q
         del self.rewards[:]
         del self.is_terminals[:]
 </code></pre>
-<h1 id="3-🧱-构建-A2C-策略网络"><a href="#3-🧱-构建-A2C-策略网络" class="headerlink" title="3. 🧱 构建 A2C 策略网络"></a>3. 🧱 构建 A2C 策略网络</h1><pre><code class="Python">class ActorCritic(nn.Module):
+<h1><span id="3-构建-a2c-策略网络">3. 🧱 构建 A2C 策略网络</span></h1><pre><code class="Python">class ActorCritic(nn.Module):
     def __init__(self, state_dim, action_dim, n_latent_var):
         super(ActorCritic, self).__init__()
 
@@ -325,7 +338,7 @@ device = torch.device(“cuda:0” if torch.cuda.is_available() else &quot;cpu&q
 </ul>
 <p><code>act</code> 方法接受当前状态，计算出动作概率分布并根据其进行抽样，保存当前的状态、动作和对应的 log 概率。</p>
 <p><code>evaluate</code> 方法用于计算动作的 log 概率、状态值和分布的熵。</p>
-<h1 id="4-👷-构建-PPO-算法"><a href="#4-👷-构建-PPO-算法" class="headerlink" title="4. 👷 构建 PPO 算法"></a>4. 👷 构建 PPO 算法</h1><pre><code class="Python">class PPO:
+<h1><span id="4-构建-ppo-算法">4. 👷 构建 PPO 算法</span></h1><pre><code class="Python">class PPO:
     def __init__(self, state_dim, action_dim, n_latent_var, lr, betas, gamma, K_epochs, eps_clip):
         self.lr = lr
         self.betas = betas
@@ -399,7 +412,7 @@ device = torch.device(“cuda:0” if torch.cuda.is_available() else &quot;cpu&q
 <li><strong>Value Loss</strong>：通过均方误差来最小化状态价值的误差。</li>
 <li><strong>Entropy</strong>：通过熵来避免策略过于确定，保持探索性。</li>
 </ul>
-<h1 id="5-🀄-主函数"><a href="#5-🀄-主函数" class="headerlink" title="5. 🀄 主函数"></a>5. 🀄 主函数</h1><pre><code class="Python">def main():
+<h1><span id="5-主函数">5. 🀄 主函数</span></h1><pre><code class="Python">def main():
     # 创建环境
     env_name = &quot;LunarLander-V2&quot;
     env = gym.make(env_name, render_name=&quot;human&quot;)
@@ -473,7 +486,7 @@ device = torch.device(“cuda:0” if torch.cuda.is_available() else &quot;cpu&q
             running_reward = 0
             avg_length = 0
 </code></pre>
-<h1 id="6-🚗-加载模型文件展示效果："><a href="#6-🚗-加载模型文件展示效果：" class="headerlink" title="6. 🚗 加载模型文件展示效果："></a>6. 🚗 加载模型文件展示效果：</h1><blockquote>
+<h1><span id="6-加载模型文件展示效果">6. 🚗 加载模型文件展示效果：</span></h1><blockquote>
 <p>这里要新建一个 <code>ppo_show.py</code> 文件</p>
 </blockquote>
 <pre><code class="Python">from ppo import PPO, Memory, ActorCritic
@@ -532,7 +545,8 @@ for i_episode in range(1, 20):
 <p><strong>如有报错且找不到报错原因的，可以私信小生</strong> 🥺</p>
 </blockquote>
 
-    </div>
+        </div>
+
     
     
     
@@ -541,6 +555,9 @@ for i_episode in range(1, 20):
     
     
 </div>
+
+
+    
 
             <footer id="footer">
     <div id="footer-wrap">

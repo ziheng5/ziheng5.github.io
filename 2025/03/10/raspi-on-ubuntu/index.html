@@ -30,7 +30,7 @@
 <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
 <link
     rel="stylesheet"
-    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
 />
 <script src="/js/lib/highlight.js"></script>
 
@@ -96,7 +96,7 @@
             <span>&ensp;Tags</span>
         </a>
         
-        <a href="/links">
+        <a href="/friends">
             <i class="fa-solid fa-link fa-fw"></i>
             <span>&ensp;Links</span>
         </a>
@@ -155,7 +155,7 @@
                     </div>
                 </a>
                 
-                <a href="/links">
+                <a href="/friends">
                     <div class="item">
                         <div style="min-width: 20px; max-width: 50px; width: 10%">
                             <i class="fa-solid fa-link fa-fw"></i>
@@ -177,6 +177,10 @@
     <div>
         <h1>在树莓派的 Ubuntu 系统上安装 RaspberryPi OS 上硬件相关的配置</h1>
     </div>
+
+    
+     
+    <!-- post 部分设计 -->
     <div class="info">
         <span class="date">
             <span class="icon">
@@ -203,21 +207,21 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%A1%AC%E4%BB%B6/" style="color: #ffa2c4">
+                <a href="/tags/%E7%A1%AC%E4%BB%B6/" style="color: #00a596">
                     硬件
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="color: #03a9f4">
+                <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="color: #ffa2c4">
                     树莓派
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/Ubuntu/" style="color: #00a596">
+                <a href="/tags/Ubuntu/" style="color: #ff7d73">
                     Ubuntu
                 </a>
             </span>
@@ -226,12 +230,21 @@
         
     </div>
     
+
+    <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
-        <blockquote>
+        
+    <div id="toc">
+        <strong class="sidebar-title">目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. raspi-config</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. GPIO 权限配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. SPI（Serial Peripheral Interface）权限配置</span></a></li></ol>
+    </div>
+
+
+            <blockquote>
 <p>正常情况下，如果要用树莓派做开发的话，最好使用树莓派官方的 RaspberryPi OS 操作系统。</p>
 <p>但如果实在想使用其他的 Linux 发行版（ Ubuntu、Kali 等），需要在系统上自行安装相关配置。</p>
 </blockquote>
-<h2 id="1-raspi-config"><a href="#1-raspi-config" class="headerlink" title="1. raspi-config"></a>1. raspi-config</h2><p>利用 raspi-config 来进行硬件相关配置极为方便，奈何只有 RaspberryPi OS 上才会自带 raspi-config。</p>
+<h2><span id="1-raspi-config">1. raspi-config</span></h2><p>利用 raspi-config 来进行硬件相关配置极为方便，奈何只有 RaspberryPi OS 上才会自带 raspi-config。</p>
 <p>raspi-config 历史版本安装包地址：<a target="_blank" rel="noopener" href="http://archive.raspberrypi.org/debian/pool/main/r/raspi-config">http://archive.raspberrypi.org/debian/pool/main/r/raspi-config</a></p>
 <p>选择自己需要的版本后，在 Ubuntu 的终端中输入以下命令来获取安装包：</p>
 <pre><code class="Terminal"># 这里我选择的是 raspi-config_20200707_all 版本的
@@ -247,7 +260,7 @@ sudo apt install -f -y
 </code></pre>
 <p>出现 raspi-config 配置界面后即为安装成功：</p>
 <p><img src="/../images/raspberrypi/raspi_config.png" alt="raspi-config"></p>
-<h2 id="2-GPIO-权限配置"><a href="#2-GPIO-权限配置" class="headerlink" title="2. GPIO 权限配置"></a>2. GPIO 权限配置</h2><p>首先更新 apt：</p>
+<h2><span id="2-gpio-权限配置">2. GPIO 权限配置</span></h2><p>首先更新 apt：</p>
 <pre><code class="bash">sudo apt update &amp;&amp; sudo apt upgrade -y
 </code></pre>
 <p>接着安装编译工具和依赖：</p>
@@ -269,7 +282,7 @@ SUBSYSTEM==&quot;gpiomem&quot;, GROUP=&quot;gpio&quot;, MODE=&quot;0660&quot;
 sudo udevadm trigger
 </code></pre>
 <p>最后重新启动一下就 OK 了。</p>
-<h2 id="3-SPI（Serial-Peripheral-Interface）权限配置"><a href="#3-SPI（Serial-Peripheral-Interface）权限配置" class="headerlink" title="3. SPI（Serial Peripheral Interface）权限配置"></a>3. SPI（Serial Peripheral Interface）权限配置</h2><p>在 Linux 系统中，SPI 设备的权限管理与 GPIO 类似，但默认情况下不存在名为 <code>spi</code> 的用户组。</p>
+<h2><span id="3-spiserial-peripheral-interface权限配置">3. SPI（Serial Peripheral Interface）权限配置</span></h2><p>在 Linux 系统中，SPI 设备的权限管理与 GPIO 类似，但默认情况下不存在名为 <code>spi</code> 的用户组。</p>
 <p>首先，确认 SPI 设备是否已启用并出现在 <code>/dev</code> 目录中：</p>
 <pre><code class="bash">ls /dev/spidev*
 </code></pre>
@@ -302,7 +315,8 @@ sudo udevadm trigger
 </code></pre>
 <p>最后重启一下即可</p>
 
-    </div>
+        </div>
+
     
     
     
@@ -311,6 +325,9 @@ sudo udevadm trigger
     
     
 </div>
+
+
+    
 
             <footer id="footer">
     <div id="footer-wrap">

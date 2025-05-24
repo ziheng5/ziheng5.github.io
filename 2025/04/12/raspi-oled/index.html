@@ -30,7 +30,7 @@
 <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
 <link
     rel="stylesheet"
-    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
 />
 <script src="/js/lib/highlight.js"></script>
 
@@ -96,7 +96,7 @@
             <span>&ensp;Tags</span>
         </a>
         
-        <a href="/links">
+        <a href="/friends">
             <i class="fa-solid fa-link fa-fw"></i>
             <span>&ensp;Links</span>
         </a>
@@ -155,7 +155,7 @@
                     </div>
                 </a>
                 
-                <a href="/links">
+                <a href="/friends">
                     <div class="item">
                         <div style="min-width: 20px; max-width: 50px; width: 10%">
                             <i class="fa-solid fa-link fa-fw"></i>
@@ -177,6 +177,10 @@
     <div>
         <h1>在树莓派上玩 I2C 接口 oled 显示屏</h1>
     </div>
+
+    
+     
+    <!-- post 部分设计 -->
     <div class="info">
         <span class="date">
             <span class="icon">
@@ -203,7 +207,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="color: #ffa2c4">
+                <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="color: #00a596">
                     树莓派
                 </a>
             </span>
@@ -212,8 +216,17 @@
         
     </div>
     
+
+    <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
-        <blockquote>
+        
+    <div id="toc">
+        <strong class="sidebar-title">目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 硬件连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 代码调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. 显示汉字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. 其他 API</span></a></li></ol>
+    </div>
+
+
+            <blockquote>
 <p>本文使用 <code>luma.oled</code> 库来对 I2C 接口 oled 显示器进行编辑</p>
 <p><code>luma.oled</code> 支持 <strong>SSD1306 &#x2F; SSD1309 &#x2F; SSD1322 &#x2F; SSD1325 &#x2F; SSD1327 &#x2F; SSD1331 &#x2F; SSD1351 &#x2F; SSD1362 &#x2F; SH1106 &#x2F; WS0010</strong></p>
 <p>安装 <code>luma.oled</code> 只需要在 python 虚拟环境中使用 pip 安装即可：</p>
@@ -221,7 +234,7 @@
 </code></pre>
 <p><strong>PS:</strong> 小生记得这里需要一些基本配置，否则 build 过程会引发报错，按照报错提示来配置即可</p>
 </blockquote>
-<h2 id="1-硬件连接"><a href="#1-硬件连接" class="headerlink" title="1. 硬件连接"></a>1. 硬件连接</h2><p>首先贴出树莓派的引脚图：</p>
+<h2><span id="1-硬件连接">1. 硬件连接</span></h2><p>首先贴出树莓派的引脚图：</p>
 <p><img src="/../images/raspberrypi/gpio_readall.png" alt="gpio_readall"></p>
 <blockquote>
 <p>可以直接执行以下命令查看 gpio 引脚情况：</p>
@@ -248,7 +261,7 @@
 <p><img src="/../images/raspberrypi/i2cdetect.png" alt="i2cdetect"></p>
 <p>上图中，3c 代表的就是 oled 模块的 I2C 地址。</p>
 <hr>
-<h2 id="2-代码调试"><a href="#2-代码调试" class="headerlink" title="2. 代码调试"></a>2. 代码调试</h2><blockquote>
+<h2><span id="2-代码调试">2. 代码调试</span></h2><blockquote>
 <p>这部分要注意自己的硬件信息，不要盲目 copy</p>
 </blockquote>
 <p>将下面的这段代码复制到 .py 文件中，尝试运行调试：</p>
@@ -296,7 +309,7 @@ device = sh1106(serial)
 <li><code>draw.ellipse()</code> 为画椭圆的函数。</li>
 <li><code>draw.rectangle()</code> 为画矩形的函数，类似的还有画直线、三角形等。</li>
 </ul>
-<h2 id="3-显示汉字"><a href="#3-显示汉字" class="headerlink" title="3. 显示汉字"></a>3. 显示汉字</h2><p>代码如下：</p>
+<h2><span id="3-显示汉字">3. 显示汉字</span></h2><p>代码如下：</p>
 <pre><code class="python">from luma.core.interface.serial import i2c, spi
 from luma.core.render import canvas
 from luma.oled.device import ssd1306, ssd1325, ssd1331, sh1106
@@ -327,9 +340,10 @@ sleep(5)
 <li><code>font = ImageFont.truetype(&quot;../source/msyh/msyh.ttf&quot;)</code> 这段代码的含义是调用当前目录下的字体文件 <code>msyh.ttf</code> 创建一个字体类，<code>msyh.ttf</code> 是微软雅黑字体，可以上网自行下载，也可以下载安装其他字体。</li>
 <li><code>draw.text((5, 10), &quot;精灵们今天非常开心！他们&quot;, fill=&quot;white&quot;, font=font)</code> 的含义是在 (5, 10) 位置显示汉字</li>
 </ul>
-<h2 id="4-其他-API"><a href="#4-其他-API" class="headerlink" title="4. 其他 API"></a>4. 其他 API</h2><p>具体参考<a target="_blank" rel="noopener" href="https://luma-oled.readthedocs.io/en/latest/">官方文档</a></p>
+<h2><span id="4-其他-api">4. 其他 API</span></h2><p>具体参考<a target="_blank" rel="noopener" href="https://luma-oled.readthedocs.io/en/latest/">官方文档</a></p>
 
-    </div>
+        </div>
+
     
     
     
@@ -338,6 +352,9 @@ sleep(5)
     
     
 </div>
+
+
+    
 
             <footer id="footer">
     <div id="footer-wrap">

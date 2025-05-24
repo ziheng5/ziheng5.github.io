@@ -30,7 +30,7 @@
 <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
 <link
     rel="stylesheet"
-    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
 />
 <script src="/js/lib/highlight.js"></script>
 
@@ -96,7 +96,7 @@
             <span>&ensp;Tags</span>
         </a>
         
-        <a href="/links">
+        <a href="/friends">
             <i class="fa-solid fa-link fa-fw"></i>
             <span>&ensp;Links</span>
         </a>
@@ -155,7 +155,7 @@
                     </div>
                 </a>
                 
-                <a href="/links">
+                <a href="/friends">
                     <div class="item">
                         <div style="min-width: 20px; max-width: 50px; width: 10%">
                             <i class="fa-solid fa-link fa-fw"></i>
@@ -177,6 +177,10 @@
     <div>
         <h1>Linux 终端美化：oh-my-posh</h1>
     </div>
+
+    
+     
+    <!-- post 部分设计 -->
     <div class="info">
         <span class="date">
             <span class="icon">
@@ -203,7 +207,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/Archlinux/" style="color: #00a596">
+                <a href="/tags/Archlinux/" style="color: #ffa2c4">
                     Archlinux
                 </a>
             </span>
@@ -212,13 +216,22 @@
         
     </div>
     
+
+    <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
-        <p><img src="/../images/oh-my-posh/pic0.png" alt="oh-my-posh"></p>
+        
+    <div id="toc">
+        <strong class="sidebar-title">目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 安装 oh-my-posh</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">Ubuntu</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">Archlinux</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 配置 bashrc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. 自定义主题</span></a></li></ol>
+    </div>
+
+
+            <p><img src="/../images/oh-my-posh/pic0.png" alt="oh-my-posh"></p>
 <blockquote>
 <p>oh-my-posh 官方网址：<a target="_blank" rel="noopener" href="https://ohmyposh.dev/">https://ohmyposh.dev/</a></p>
 <p>此外，本文不涉及 <code>Windows</code> 下 oh-my-posh 的配置，具体操作见<a target="_blank" rel="noopener" href="https://ohmyposh.dev/docs/installation/windows">官方文档</a></p>
 </blockquote>
-<h2 id="1-安装-oh-my-posh"><a href="#1-安装-oh-my-posh" class="headerlink" title="1. 安装 oh-my-posh"></a>1. 安装 oh-my-posh</h2><h3 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h3><pre><code class="bash">curl -s https://ohmyposh.dev/install.sh | bash -s
+<h2><span id="1-安装-oh-my-posh">1. 安装 oh-my-posh</span></h2><h3><span id="ubuntu">Ubuntu</span></h3><pre><code class="bash">curl -s https://ohmyposh.dev/install.sh | bash -s
 </code></pre>
 <blockquote>
 <p>如果 Ubuntu 上还没有安装 curl 的话，先安装 curl：</p>
@@ -226,10 +239,10 @@
 </code></pre>
 </blockquote>
 <p>另外，<code>Ubuntu</code> 系统下用 <code>curl</code> 安装 oh-my-posh，默认安装位置在 <code>/home/USER/.local/oh-my-posh</code></p>
-<h3 id="Archlinux"><a href="#Archlinux" class="headerlink" title="Archlinux"></a>Archlinux</h3><pre><code class="bash">paru -S oh-my-posh
+<h3><span id="archlinux">Archlinux</span></h3><pre><code class="bash">paru -S oh-my-posh
 </code></pre>
 <p><code>Archlinux</code> 系统下用 <code>pacman</code> 安装 oh-my-posh 的话，默认安装位置应该是在 <code>/usr/share/oh-my-posh</code></p>
-<h2 id="2-配置-bashrc"><a href="#2-配置-bashrc" class="headerlink" title="2. 配置 bashrc"></a>2. 配置 bashrc</h2><p>在安装完成后，打开安装位置处 <code>oh-my-posh</code> 文件夹下的 <code>themes</code> 文件夹，其中包含了官方的示例主题（可以在此基础上自由配置）。</p>
+<h2><span id="2-配置-bashrc">2. 配置 bashrc</span></h2><p>在安装完成后，打开安装位置处 <code>oh-my-posh</code> 文件夹下的 <code>themes</code> 文件夹，其中包含了官方的示例主题（可以在此基础上自由配置）。</p>
 <p>我们从中找到 <code>catppuccin_mocha.omp.json</code> 文件，即 <code>catppuccin_mocha</code> 主题的配置文件，复制文件路径，然后打开终端，输入</p>
 <pre><code class="bash">vim ~/.bashrc
 </code></pre>
@@ -238,7 +251,7 @@
 eval &quot;$(oh-my-posh init bash --config /location/catppuccin_mocha.omp.json)&quot;
 </code></pre>
 <p>添加完成后，保存退出，重启终端，就可以看到 oh-my-posh 主题美化后的终端界面了</p>
-<h2 id="3-自定义主题"><a href="#3-自定义主题" class="headerlink" title="3. 自定义主题"></a>3. 自定义主题</h2><p>在第 2 步中，我们使用的是官方提供的样例主题，实际上 oh-my-posh 的主题文件是可以自由配置的。</p>
+<h2><span id="3-自定义主题">3. 自定义主题</span></h2><p>在第 2 步中，我们使用的是官方提供的样例主题，实际上 oh-my-posh 的主题文件是可以自由配置的。</p>
 <p>配置文件中，主要修改的控件有 <a target="_blank" rel="noopener" href="https://ohmyposh.dev/docs/configuration/block">blocks</a>、<a target="_blank" rel="noopener" href="https://ohmyposh.dev/docs/configuration/segment">segments</a>，具体用法过多，请移步官方文档。</p>
 <p>比如下面这个主题配置，是小生自己编辑出来的，以供参考</p>
 <pre><code class="json">&#123;
@@ -384,7 +397,8 @@ eval &quot;$(oh-my-posh init bash --config /location/catppuccin_mocha.omp.json)&
 &#125;
 </code></pre>
 
-    </div>
+        </div>
+
     
     
     
@@ -393,6 +407,9 @@ eval &quot;$(oh-my-posh init bash --config /location/catppuccin_mocha.omp.json)&
     
     
 </div>
+
+
+    
 
             <footer id="footer">
     <div id="footer-wrap">

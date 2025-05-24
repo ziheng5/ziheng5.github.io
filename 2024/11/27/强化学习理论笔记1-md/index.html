@@ -30,7 +30,7 @@
 <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
 <link
     rel="stylesheet"
-    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
 />
 <script src="/js/lib/highlight.js"></script>
 
@@ -96,7 +96,7 @@
             <span>&ensp;Tags</span>
         </a>
         
-        <a href="/links">
+        <a href="/friends">
             <i class="fa-solid fa-link fa-fw"></i>
             <span>&ensp;Links</span>
         </a>
@@ -155,7 +155,7 @@
                     </div>
                 </a>
                 
-                <a href="/links">
+                <a href="/friends">
                     <div class="item">
                         <div style="min-width: 20px; max-width: 50px; width: 10%">
                             <i class="fa-solid fa-link fa-fw"></i>
@@ -177,6 +177,10 @@
     <div>
         <h1>深度学习与 PyTorch 入门指南</h1>
     </div>
+
+    
+     
+    <!-- post 部分设计 -->
     <div class="info">
         <span class="date">
             <span class="icon">
@@ -203,14 +207,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/PyTorch/" style="color: #00bcd4">
+                <a href="/tags/PyTorch/" style="color: #ffa2c4">
                     PyTorch
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
                     深度学习
                 </a>
             </span>
@@ -219,24 +223,33 @@
         
     </div>
     
+
+    <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
-        <blockquote>
+        
+    <div id="toc">
+        <strong class="sidebar-title">目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">1. 深度学习部分</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.1 深度学习是什么？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">2. PyTorch 简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.1 什么是 PyTorch❓</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.2 PyTorch 可以做什么呢❓</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.3 有哪些人在使用它呢❓</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.4 为什么选择 PyTorch❓</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.5 我们将在本节课中讲解哪些内容❓</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">3. PyTorch 基本用法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.1 引入 PyTorch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.2 什么是张量❓</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.3 在 PyTorch 中创建张量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.3.1 标量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.3.2 向量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.3.3 矩阵</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.4 随机张量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.5 零一张量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.6 创建一个范围和类似的张量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.7 张量数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.8 从张量中获取信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.9 张量运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.9.1 基本操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.9.2 矩阵乘法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.9.3 深度学习中最常见错误之一（形状错误）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.9.4 神经网络中的矩阵运算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.9.5 寻找最小值、最大值、平均值、总和等（聚合）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.9.6 位置最小值&#x2F;最大值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.9.7 改变张量数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.9.8 重塑、堆叠、压缩和取消压缩</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.10 索引（从张量中选择数据）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.11 PyTorch 张量与 Numpy 数组</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">4. 尾声</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.1 理论课程推荐</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.2 PyTorch 教程推荐</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.3 深度学习实践网站推荐</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.4 杂谈</span></a></li></ol></li></ol>
+    </div>
+
+
+            <blockquote>
 <p>本文是小生去年为了授课而编写的一篇文档，可以作为一门引导课程供尚未了解深度学习的新人学习<br>考虑到时间问题，本文档内容较为简略，只适用于了解深度学习与 PyTorch，正常学习请参考视频网站📽或网络教程💻与书籍📖</p>
 </blockquote>
-<h1 id="1-深度学习部分"><a href="#1-深度学习部分" class="headerlink" title="1. 深度学习部分"></a>1. 深度学习部分</h1><h2 id="1-1-深度学习是什么？"><a href="#1-1-深度学习是什么？" class="headerlink" title="1.1 深度学习是什么？"></a>1.1 深度学习是什么？</h2><p><img src="/./images/class/deep-learning.png" alt="deep-learning"></p>
+<h1><span id="1-深度学习部分">1. 深度学习部分</span></h1><h2><span id="11-深度学习是什么">1.1 深度学习是什么？</span></h2><p><img src="/./images/class/deep-learning.png" alt="deep-learning"></p>
 <p>深度学习是机器学习下的一个基于深度神经网络的机器学习方法，能够从海量数据和知识中学习，从而一定程度上具备了人的能力。</p>
 <p><img src="/./images/class/nn.png" alt="nn"></p>
 <p>深度学习是一种结构启发的机器学习，人脑在深度学习方面的结构，被称为人工神经网络</p>
-<h1 id="2-PyTorch-简介"><a href="#2-PyTorch-简介" class="headerlink" title="2. PyTorch 简介"></a>2. PyTorch 简介</h1><h2 id="2-1-什么是-PyTorch❓"><a href="#2-1-什么是-PyTorch❓" class="headerlink" title="2.1 什么是 PyTorch❓"></a>2.1 什么是 PyTorch❓</h2><p>PyTorch 是当下最热门的开源机器学习与深度学习框架。</p>
-<h2 id="2-2-PyTorch-可以做什么呢❓"><a href="#2-2-PyTorch-可以做什么呢❓" class="headerlink" title="2.2 PyTorch 可以做什么呢❓"></a>2.2 PyTorch 可以做什么呢❓</h2><p>PyTorch 允许你使用 Python 代码来操作和处理数据，并编写机器学习算法。</p>
-<h2 id="2-3-有哪些人在使用它呢❓"><a href="#2-3-有哪些人在使用它呢❓" class="headerlink" title="2.3 有哪些人在使用它呢❓"></a>2.3 有哪些人在使用它呢❓</h2><p>许多世界上最大的科技公司，比如<a target="_blank" rel="noopener" href="https://ai.facebook.com/blog/pytorch-builds-the-future-of-ai-and-machine-learning-at-facebook/">Meta（Facebook）</a>、特斯拉和微软，以及人工智能研究公司如<a target="_blank" rel="noopener" href="https://openai.com/blog/openai-pytorch/">OpenAI</a>，都使用PyTorch来推动研究并将机器学习应用到他们的产品中。</p>
+<h1><span id="2-pytorch-简介">2. PyTorch 简介</span></h1><h2><span id="21-什么是-pytorch">2.1 什么是 PyTorch❓</span></h2><p>PyTorch 是当下最热门的开源机器学习与深度学习框架。</p>
+<h2><span id="22-pytorch-可以做什么呢">2.2 PyTorch 可以做什么呢❓</span></h2><p>PyTorch 允许你使用 Python 代码来操作和处理数据，并编写机器学习算法。</p>
+<h2><span id="23-有哪些人在使用它呢">2.3 有哪些人在使用它呢❓</span></h2><p>许多世界上最大的科技公司，比如<a target="_blank" rel="noopener" href="https://ai.facebook.com/blog/pytorch-builds-the-future-of-ai-and-machine-learning-at-facebook/">Meta（Facebook）</a>、特斯拉和微软，以及人工智能研究公司如<a target="_blank" rel="noopener" href="https://openai.com/blog/openai-pytorch/">OpenAI</a>，都使用PyTorch来推动研究并将机器学习应用到他们的产品中。</p>
 <p>例如，Andrej Karpathy（特斯拉的人工智能负责人）在多个演讲中（<a target="_blank" rel="noopener" href="https://youtu.be/oBklltKXtDE">PyTorch DevCon 2019</a>，<a target="_blank" rel="noopener" href="https://youtu.be/j0z4FweCy4M?t=2904">特斯拉AI日2021</a>）讨论了特斯拉如何使用PyTorch来驱动他们的自动驾驶计算机视觉模型。</p>
 <p>此外，PyTorch也被用于其他各个行业，比如农业，用于<a target="_blank" rel="noopener" href="https://medium.com/pytorch/ai-for-ag-production-machine-learning-for-agriculture-e8cfdb9849a1">在拖拉机上实现计算机视觉</a>。</p>
-<h2 id="2-4-为什么选择-PyTorch❓"><a href="#2-4-为什么选择-PyTorch❓" class="headerlink" title="2.4 为什么选择 PyTorch❓"></a>2.4 为什么选择 PyTorch❓</h2><p>相比于过去热门的 TensorFlow 框架，如今的机器学习研究者门更倾向于使用 PyTorch 。截至2022年2月， PyTorch 是 <a target="_blank" rel="noopener" href="https://paperswithcode.com/trends">Papers With Code</a> 上使用最多的深度学习框架，这是一个跟踪机器学习研究论文及其附带代码库的网站。</p>
+<h2><span id="24-为什么选择-pytorch">2.4 为什么选择 PyTorch❓</span></h2><p>相比于过去热门的 TensorFlow 框架，如今的机器学习研究者门更倾向于使用 PyTorch 。截至2022年2月， PyTorch 是 <a target="_blank" rel="noopener" href="https://paperswithcode.com/trends">Papers With Code</a> 上使用最多的深度学习框架，这是一个跟踪机器学习研究论文及其附带代码库的网站。</p>
 <p>PyTorch 框架还帮助处理许多事情，比如调用 GPU 加速（让您的代码运行得更快），这些都是在后台自动完成的。</p>
 <p>因此，在 PyTorch 框架下，你可以专注于操作数据和编写算法，其他繁琐的操作都可以由 PyTorch 自动完成（如梯度计算、权重更新等）</p>
 <p>如果像特斯拉和 Meta（Facebook） 这样的公司使用它来构建他们部署的模型，以驱动数百个应用、驱动数千辆汽车和向数十亿人提供内容，那么它在开发方面显然也是能力出众的。</p>
-<h2 id="2-5-我们将在本节课中讲解哪些内容❓"><a href="#2-5-我们将在本节课中讲解哪些内容❓" class="headerlink" title="2.5 我们将在本节课中讲解哪些内容❓"></a>2.5 我们将在本节课中讲解哪些内容❓</h2><table>
+<h2><span id="25-我们将在本节课中讲解哪些内容">2.5 我们将在本节课中讲解哪些内容❓</span></h2><table>
 <thead>
 <tr>
 <th><strong>主题</strong></th>
@@ -284,7 +297,7 @@
 <td>GPU（图形处理单元）可以使你的代码更快，PyTorch使得在GPU上运行你的代码变得简单。</td>
 </tr>
 </tbody></table>
-<h1 id="3-PyTorch-基本用法"><a href="#3-PyTorch-基本用法" class="headerlink" title="3. PyTorch 基本用法"></a>3. PyTorch 基本用法</h1><h2 id="3-1-引入-PyTorch"><a href="#3-1-引入-PyTorch" class="headerlink" title="3.1 引入 PyTorch"></a>3.1 引入 PyTorch</h2><blockquote>
+<h1><span id="3-pytorch-基本用法">3. PyTorch 基本用法</span></h1><h2><span id="31-引入-pytorch">3.1 引入 PyTorch</span></h2><blockquote>
 <p><strong>注意：</strong> 在运行这个笔记本中的任何代码之前，你应该已经完成了<a target="_blank" rel="noopener" href="https://pytorch.org/get-started/locally/">PyTorch安装步骤</a>。</p>
 <p>然而，<strong>如果你在Google Colab上运行</strong>，一切都应该可以正常工作（Google Colab自带PyTorch和其他库的安装）。</p>
 </blockquote>
@@ -298,7 +311,7 @@ print(torch.__version__)
 </code></pre>
 <p>如果调用 <code>is_available()</code> 输出的结果为 <code>True</code> ，则说明 PyTorch 安装成功且可以正常调用 cuda</p>
 <p>这里 <code>torch.__version__</code> 输出了我们安装的 PyTorch 的版本。我这里输出的版本为 <code>2.5.0</code> 。一般来说，PyTorch 高版本对低版本具有向下兼容性，但注意：PyTorch <code>2.X.X</code> 系列版本与 <code>1.X.X</code> 系列版本更能差别较大。</p>
-<h2 id="3-2-什么是张量❓"><a href="#3-2-什么是张量❓" class="headerlink" title="3.2 什么是张量❓"></a>3.2 什么是张量❓</h2><p>现在我们已经导入了 PyTorch,是时候学习关于张量的知识了📚</p>
+<h2><span id="32-什么是张量">3.2 什么是张量❓</span></h2><p>现在我们已经导入了 PyTorch,是时候学习关于张量的知识了📚</p>
 <p>张量是机器学习的基本构建块，它们的任务是以数值的方式表示数据。</p>
 <p>例如，你可以将一张图像表示为形状为 <code>[3, 224, 224]</code> 的张量，这意味着 <code>[颜色通道，高度，宽度]</code> ，即图像有3个颜色通道（红色、绿色、蓝色），高度为224像素，宽度为224像素。</p>
 <p>在张量术语（用于描述张量的定义）中，该张量有三个维度，分别对应颜色通道、高度和宽度。</p>
@@ -307,10 +320,10 @@ print(torch.__version__)
 <p>这里我们不具体讲解理论知识，各位理解即可。</p>
 </blockquote>
 <p>下面我们通过代码来理解张量。</p>
-<h2 id="3-3-在-PyTorch-中创建张量"><a href="#3-3-在-PyTorch-中创建张量" class="headerlink" title="3.3 在 PyTorch 中创建张量"></a>3.3 在 PyTorch 中创建张量</h2><p>PyTorch非常喜欢张量。以至于有一个完整的文档页面专门介绍<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/tensors.html"><code>torch.Tensor</code></a>类。</p>
+<h2><span id="33-在-pytorch-中创建张量">3.3 在 PyTorch 中创建张量</span></h2><p>PyTorch非常喜欢张量。以至于有一个完整的文档页面专门介绍<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/tensors.html"><code>torch.Tensor</code></a>类。</p>
 <p>你的第一项家庭作业是<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/tensors.html">阅读<code>torch.Tensor</code>的文档</a>10分钟。但你可以在稍后进行。</p>
 <p>让我们开始编码。</p>
-<h3 id="3-3-1-标量"><a href="#3-3-1-标量" class="headerlink" title="3.3.1 标量"></a>3.3.1 标量</h3><p>我们首先将要创建的是一个<strong>标量</strong>。</p>
+<h3><span id="331-标量">3.3.1 标量</span></h3><p>我们首先将要创建的是一个<strong>标量</strong>。</p>
 <p>标量是一个单独的数字，在张量术语中，它是一个零维张量。</p>
 <blockquote>
 <p><strong>注意：</strong> 这是本课程的一个趋势。我们将专注于编写特定的代码。但通常我会设置一些练习，涉及阅读和熟悉PyTorch文档。毕竟，一旦你完成了这个课程，你无疑会想要学习更多。而文档是你经常会去查找的地方。</p>
@@ -329,7 +342,7 @@ print(scalar)
 <p>为此，我们可以使用 <code>item()</code> 方法。</p>
 <pre><code class="Python">print(scalar.item())
 </code></pre>
-<h3 id="3-3-2-向量"><a href="#3-3-2-向量" class="headerlink" title="3.3.2 向量"></a>3.3.2 向量</h3><p>好的，现在我们来看一个<strong>向量</strong>。</p>
+<h3><span id="332-向量">3.3.2 向量</span></h3><p>好的，现在我们来看一个<strong>向量</strong>。</p>
 <p>向量是一种单维度的张量，但它可以包含许多数字。</p>
 <p>比如，你可以有一个向量 <code>[3, 2]</code> 来描述你房子里的 <code>[卧室，浴室]</code> 数量。或者你可以有一个 <code>[3, 2, 2]</code> 来描述你房子里的 <code>[卧室，浴室，车位]</code> 数量。</p>
 <p>这里的重要趋势是向量在它所能代表的内容上是灵活的（和张量一样）。</p>
@@ -350,7 +363,7 @@ print(vector)
 <pre><code class="Python">print(vector.shape)
 </code></pre>
 <p>上述返回 <code>torch.Size([2])</code> ，这意味着我们的向量的形状是 <code>[2]</code> 。这是因为我们把两个元素放在了方括号内部（<code>[7, 7]</code>）。</p>
-<h3 id="3-3-3-矩阵"><a href="#3-3-3-矩阵" class="headerlink" title="3.3.3 矩阵"></a>3.3.3 矩阵</h3><p>现在我们来看一个<strong>矩阵</strong>。</p>
+<h3><span id="333-矩阵">3.3.3 矩阵</span></h3><p>现在我们来看一个<strong>矩阵</strong>。</p>
 <pre><code class="Python">matrix = torch.tensor([[7, 8],
                        [9, 10]])
 print(matrix)
@@ -417,7 +430,7 @@ print(tensor)
 <td>大写（<code>X</code>）</td>
 </tr>
 </tbody></table>
-<h2 id="3-4-随机张量"><a href="#3-4-随机张量" class="headerlink" title="3.4 随机张量"></a>3.4 随机张量</h2><p>我们已经确定张量代表了某种形式的数据。</p>
+<h2><span id="34-随机张量">3.4 随机张量</span></h2><p>我们已经确定张量代表了某种形式的数据。</p>
 <p>机器学习模型，比如神经网络，会操作张量并在其中寻找模式。</p>
 <p>但在使用PyTorch构建机器学习模型时，你很少会手工创建张量（就像我们之前所做的那样）。</p>
 <p>相反，机器学习模型通常从大量的随机数张量开始，并在处理数据时调整这些随机数，以便更好地表示数据。</p>
@@ -437,7 +450,7 @@ print(random_tensor.dtype)
 print(random_image_size_tensor.shape)
 print(random_image_size_tensor.ndim)
 </code></pre>
-<h2 id="3-5-零一张量"><a href="#3-5-零一张量" class="headerlink" title="3.5 零一张量"></a>3.5 零一张量</h2><p>有时候你可能只想用零或一来填充张量。</p>
+<h2><span id="35-零一张量">3.5 零一张量</span></h2><p>有时候你可能只想用零或一来填充张量。</p>
 <p>这种情况在掩码操作中很常见（比如用零掩码一个张量中的一些值，以让模型知道不要学习这些值）。</p>
 <p>让我们使用 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.zeros.html"><code>torch.zeros()</code></a> 创建一个全零的张量。</p>
 <p>同样，<code>size</code> 参数在这里起作用。</p>
@@ -451,7 +464,7 @@ print(zeros.dtype)
 print(ones)
 print(ones.dtype)
 </code></pre>
-<h2 id="3-6-创建一个范围和类似的张量"><a href="#3-6-创建一个范围和类似的张量" class="headerlink" title="3.6 创建一个范围和类似的张量"></a>3.6 创建一个范围和类似的张量</h2><p>有时候你可能想要一系列数字，比如从1到10或者从0到100。</p>
+<h2><span id="36-创建一个范围和类似的张量">3.6 创建一个范围和类似的张量</span></h2><p>有时候你可能想要一系列数字，比如从1到10或者从0到100。</p>
 <p>你可以使用 <code>torch.arange(start, end, step)</code> 来实现这一点。</p>
 <p>其中：</p>
 <ul>
@@ -476,7 +489,7 @@ print(zero_to_ten)
 <pre><code class="Python">ten_zeros = torch.zeros_like(input=zero_to_ten)
 print(ten_zeors)
 </code></pre>
-<h2 id="3-7-张量数据类型"><a href="#3-7-张量数据类型" class="headerlink" title="3.7 张量数据类型"></a>3.7 张量数据类型</h2><p>在PyTorch中有许多不同的<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/tensors.html#data-types">张量数据类型</a>。</p>
+<h2><span id="37-张量数据类型">3.7 张量数据类型</span></h2><p>在PyTorch中有许多不同的<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/tensors.html#data-types">张量数据类型</a>。</p>
 <p>有些是特定于CPU的，有些则更适合GPU。</p>
 <p>了解它们可能需要一些时间。</p>
 <p>通常，如果你在任何地方看到 <code>torch.cuda</code>，那么这个张量是用于GPU的（因为Nvidia GPU使用一个名为CUDA的计算工具包）。</p>
@@ -519,7 +532,7 @@ print(float_32_tensor.device)
 
 float_16_tensor.dtype
 </code></pre>
-<h2 id="3-8-从张量中获取信息"><a href="#3-8-从张量中获取信息" class="headerlink" title="3.8 从张量中获取信息"></a>3.8 从张量中获取信息</h2><p>一旦你创建了张量（或者别人为你创建了张量，或者PyTorch模块为你创建了它们），你可能想要从它们那里获取一些信息。</p>
+<h2><span id="38-从张量中获取信息">3.8 从张量中获取信息</span></h2><p>一旦你创建了张量（或者别人为你创建了张量，或者PyTorch模块为你创建了它们），你可能想要从它们那里获取一些信息。</p>
 <p>我们已经见过这些，但是关于张量，你最想了解的三个最常见的属性是：</p>
 <ul>
 <li><code>shape</code> - 张量的形状是什么？（一些操作需要特定的形状规则）</li>
@@ -539,7 +552,7 @@ print(f&quot;张量存储的位置 : &#123;some_tensor.device&#125;&quot;)
 <blockquote>
 <p><strong>注意：</strong> 当你在PyTorch中遇到问题时，这通常与上述三个属性中的一个有关。</p>
 </blockquote>
-<h2 id="3-9-张量运算"><a href="#3-9-张量运算" class="headerlink" title="3.9 张量运算"></a>3.9 张量运算</h2><p>在深度学习中，数据（图像、文本、视频、音频、蛋白质结构等）被表示为张量。</p>
+<h2><span id="39-张量运算">3.9 张量运算</span></h2><p>在深度学习中，数据（图像、文本、视频、音频、蛋白质结构等）被表示为张量。</p>
 <p>模型通过研究这些张量并在张量上执行一系列操作（可能是100万次以上）来创建输入数据中模式的表示。</p>
 <p>这些操作通常是在以下几项之间进行的：</p>
 <ul>
@@ -551,7 +564,7 @@ print(f&quot;张量存储的位置 : &#123;some_tensor.device&#125;&quot;)
 </ul>
 <p>仅此而已。当然，这里和那里还有一些其他的操作，但这些是神经网络的基本构建块。</p>
 <p>以正确的方式堆叠这些构建块，你可以创建最复杂的神经网络（就像乐高积木一样！）。</p>
-<h3 id="3-9-1-基本操作"><a href="#3-9-1-基本操作" class="headerlink" title="3.9.1 基本操作"></a>3.9.1 基本操作</h3><p>让我们从几个基本操作开始，加法（<code>+</code>）、减法（<code>-</code>）、乘法（<code>*</code>）。</p>
+<h3><span id="391-基本操作">3.9.1 基本操作</span></h3><p>让我们从几个基本操作开始，加法（<code>+</code>）、减法（<code>-</code>）、乘法（<code>*</code>）。</p>
 <p>它们的工作方式正如你所想象的那样。</p>
 <pre><code class="Python">tensor = torch.tensor([1, 2, 3])
 print(tensor + 10)
@@ -577,7 +590,7 @@ print(tensor)
 <pre><code class="Python">print(tensor, &quot;*&quot;, tensor)
 print(&quot;Equals:&quot;, tensor * tensor)
 </code></pre>
-<h3 id="3-9-2-矩阵乘法"><a href="#3-9-2-矩阵乘法" class="headerlink" title="3.9.2 矩阵乘法"></a>3.9.2 矩阵乘法</h3><p>在机器学习和深度学习算法（如神经网络）中最常用的操作之一是<a target="_blank" rel="noopener" href="https://www.mathsisfun.com/algebra/matrix-multiplying.html">矩阵乘法</a>。</p>
+<h3><span id="392-矩阵乘法">3.9.2 矩阵乘法</span></h3><p>在机器学习和深度学习算法（如神经网络）中最常用的操作之一是<a target="_blank" rel="noopener" href="https://www.mathsisfun.com/algebra/matrix-multiplying.html">矩阵乘法</a>。</p>
 <p>PyTorch在<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.matmul.html"><code>torch.matmul()</code></a>方法中实现了矩阵乘法功能。</p>
 <p>需要记住的矩阵乘法的两个主要规则是：</p>
 <ol>
@@ -646,7 +659,7 @@ print(value)
 # 用函数计算 be like：
 torch.matmul(tensor, tensor)
 </code></pre>
-<h3 id="3-9-3-深度学习中最常见错误之一（形状错误）"><a href="#3-9-3-深度学习中最常见错误之一（形状错误）" class="headerlink" title="3.9.3 深度学习中最常见错误之一（形状错误）"></a>3.9.3 深度学习中最常见错误之一（形状错误）</h3><p>由于深度学习的大部分内容涉及矩阵的乘法和操作，而矩阵对于形状和大小的组合有严格的规则，因此你在深度学习中最常见的错误之一就是形状不匹配。</p>
+<h3><span id="393-深度学习中最常见错误之一形状错误">3.9.3 深度学习中最常见错误之一（形状错误）</span></h3><p>由于深度学习的大部分内容涉及矩阵的乘法和操作，而矩阵对于形状和大小的组合有严格的规则，因此你在深度学习中最常见的错误之一就是形状不匹配。</p>
 <pre><code class="Python"># 下面这个代码会报错
 tensor_A = torch.tensor([[1, 2],
                          [3, 4],
@@ -684,7 +697,7 @@ print(f&quot;\nOutput shape: &#123;output.shape&#125;&quot;)
 <p><code>torch.mm()</code> 是一个用于矩阵乘法的便捷函数，它是 <code>torch.matmul()</code> 的别名，专门用于矩阵乘法操作。这个函数适用于两个二维张量的乘法，其中第一个张量的列数必须与第二个张量的行数相匹配。结果张量将具有与第一个张量相同的行数和与第二个张量相同的列数。</p>
 <pre><code class="Python">print(torch.mm(tensor_A, tensor_B.T))
 </code></pre>
-<h3 id="3-9-4-神经网络中的矩阵运算"><a href="#3-9-4-神经网络中的矩阵运算" class="headerlink" title="3.9.4 神经网络中的矩阵运算"></a>3.9.4 神经网络中的矩阵运算</h3><p>神经网络中充满了矩阵乘法和点积。</p>
+<h3><span id="394-神经网络中的矩阵运算">3.9.4 神经网络中的矩阵运算</span></h3><p>神经网络中充满了矩阵乘法和点积。</p>
 <p><a target="_blank" rel="noopener" href="https://pytorch.org/docs/1.9.1/generated/torch.nn.Linear.html"><code>torch.nn.Linear()</code></a> 模块（我们稍后将实际看到它的应用），也称为前馈层或全连接层，实现了输入 <code>x</code> 和权重矩阵 <code>A</code> 之间的矩阵乘法。</p>
 <p>$$ y &#x3D; x\cdot A^T + b $$</p>
 <p>其中：</p>
@@ -714,7 +727,7 @@ print(f&quot;Output:\n&#123;output&#125;\n\nOutput shape: &#123;output.shape&#12
 <blockquote>
 <p><strong>问题：</strong> 如果你将上面的 <code>in_features</code> 从 2 改为 3 会发生什么？会出现错误吗？你如何改变输入（<code>x</code>）的形状以适应这个错误？提示：我们之前对 <code>tensor_B</code> 做了什么？</p>
 </blockquote>
-<h3 id="3-9-5-寻找最小值、最大值、平均值、总和等（聚合）"><a href="#3-9-5-寻找最小值、最大值、平均值、总和等（聚合）" class="headerlink" title="3.9.5 寻找最小值、最大值、平均值、总和等（聚合）"></a>3.9.5 寻找最小值、最大值、平均值、总和等（聚合）</h3><p>现在我们已经看到了一些操作张量的方法，让我们来了解一些聚合它们的方法（从多个值变为较少的值）。</p>
+<h3><span id="395-寻找最小值-最大值-平均值-总和等聚合">3.9.5 寻找最小值、最大值、平均值、总和等（聚合）</span></h3><p>现在我们已经看到了一些操作张量的方法，让我们来了解一些聚合它们的方法（从多个值变为较少的值）。</p>
 <p>首先，我们将创建一个张量，然后找到它的最大值、最小值、平均值和总和。</p>
 <pre><code class="Python">x = torch.arange(0, 100, 10)
 print(x)
@@ -729,7 +742,7 @@ print(f&quot;Sum: &#123;x.sum()&#125;&quot;)
 <p><strong>注意：</strong> 你可能会发现一些方法，比如 <code>torch.mean()</code>，要求张量必须是 <code>torch.float32</code>（最常见的）或另一种特定的数据类型，否则操作将失败。</p>
 </blockquote>
 <p>你也可以使用 <code>torch</code> 方法来执行上述相同的操作。</p>
-<h3 id="3-9-6-位置最小值-最大值"><a href="#3-9-6-位置最小值-最大值" class="headerlink" title="3.9.6 位置最小值&#x2F;最大值"></a>3.9.6 位置最小值&#x2F;最大值</h3><p>你还可以分别使用 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.argmax.html"><code>torch.argmax()</code></a> 和 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.argmin.html"><code>torch.argmin()</code></a> 来找到张量中最大值或最小值出现的位置索引。</p>
+<h3><span id="396-位置最小值x2f最大值">3.9.6 位置最小值&#x2F;最大值</span></h3><p>你还可以分别使用 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.argmax.html"><code>torch.argmax()</code></a> 和 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.argmin.html"><code>torch.argmin()</code></a> 来找到张量中最大值或最小值出现的位置索引。</p>
 <p>这在你只想要最高（或最低）值的位置而不是实际值本身时非常有用（我们将在稍后使用<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.nn.Softmax.html">softmax激活函数</a>的章节中看到这一点）。</p>
 <pre><code class="Python"># Create a tensor
 tensor = torch.arange(10, 100, 10)
@@ -739,7 +752,7 @@ print(f&quot;Tensor: &#123;tensor&#125;&quot;)
 print(f&quot;Index where max value occurs: &#123;tensor.argmax()&#125;&quot;)
 print(f&quot;Index where min value occurs: &#123;tensor.argmin()&#125;&quot;)
 </code></pre>
-<h3 id="3-9-7-改变张量数据类型"><a href="#3-9-7-改变张量数据类型" class="headerlink" title="3.9.7 改变张量数据类型"></a>3.9.7 改变张量数据类型</h3><p>正如前面提到的，深度学习操作中一个常见的问题是张量的数据类型不同。</p>
+<h3><span id="397-改变张量数据类型">3.9.7 改变张量数据类型</span></h3><p>正如前面提到的，深度学习操作中一个常见的问题是张量的数据类型不同。</p>
 <p>如果一个张量是 <code>torch.float64</code> 而另一个是 <code>torch.float32</code>，你可能会碰到一些错误。</p>
 <p>但是有一个解决办法。</p>
 <p>你可以使用 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.Tensor.type.html"><code>torch.Tensor.type(dtype=None)</code></a> 来改变张量的数据类型，其中 <code>dtype</code> 参数是你想要使用的数据类型。</p>
@@ -762,7 +775,7 @@ print(tensor_int8)
 <blockquote>
 <p><strong>练习：</strong> 到目前为止，我们已经介绍了一些张量方法，但在 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/tensors.html"><code>torch.Tensor</code> 文档</a> 中还有更多。我建议你花10分钟浏览一下，看看有没有引起你注意的方法。点击它们，然后在代码中自己尝试编写这些方法，看看会发生什么。</p>
 </blockquote>
-<h3 id="3-9-8-重塑、堆叠、压缩和取消压缩"><a href="#3-9-8-重塑、堆叠、压缩和取消压缩" class="headerlink" title="3.9.8 重塑、堆叠、压缩和取消压缩"></a>3.9.8 重塑、堆叠、压缩和取消压缩</h3><p>很多时候，你可能想要重塑或改变你的张量的维度，而实际上并不改变它们内部的值。</p>
+<h3><span id="398-重塑-堆叠-压缩和取消压缩">3.9.8 重塑、堆叠、压缩和取消压缩</span></h3><p>很多时候，你可能想要重塑或改变你的张量的维度，而实际上并不改变它们内部的值。</p>
 <p>为此，一些常用的方法如下：</p>
 <table>
 <thead>
@@ -858,7 +871,7 @@ print(f&quot;New shape: &#123;x_permuted.shape&#125;&quot;)
 <blockquote>
 <p><strong>注意</strong>：因为置换返回的是一个<em>视图</em>（与原始数据共享相同的数据），所以置换后的张量中的值将与原始张量的值相同，如果你在视图中改变值，原始张量的值也会改变。</p>
 </blockquote>
-<h2 id="3-10-索引（从张量中选择数据）"><a href="#3-10-索引（从张量中选择数据）" class="headerlink" title="3.10 索引（从张量中选择数据）"></a>3.10 索引（从张量中选择数据）</h2><p>有时你想要从张量中选择特定的数据（例如，仅第一列或第二行）。</p>
+<h2><span id="310-索引从张量中选择数据">3.10 索引（从张量中选择数据）</span></h2><p>有时你想要从张量中选择特定的数据（例如，仅第一列或第二行）。</p>
 <p>为此，你可以使用索引。</p>
 <p>如果你曾经在Python列表或NumPy数组上进行过索引，那么在PyTorch中对张量进行索引是非常相似的。</p>
 <pre><code class="Python">import torch
@@ -877,7 +890,7 @@ print(x[:, 1, 1])
 print(x[0, 0, :])
 </code></pre>
 <p>索引一开始可能会相当令人困惑，特别是对于较大的张量（我仍然需要尝试多次索引才能正确）。但通过一些练习，并不断尝试对数据进行可视化，你将开始掌握它。</p>
-<h2 id="3-11-PyTorch-张量与-Numpy-数组"><a href="#3-11-PyTorch-张量与-Numpy-数组" class="headerlink" title="3.11 PyTorch 张量与 Numpy 数组"></a>3.11 PyTorch 张量与 Numpy 数组</h2><p>由于 NumPy 是一个流行的 Python 数值计算库，因此 PyTorch 具有与其良好交互的功能。</p>
+<h2><span id="311-pytorch-张量与-numpy-数组">3.11 PyTorch 张量与 Numpy 数组</span></h2><p>由于 NumPy 是一个流行的 Python 数值计算库，因此 PyTorch 具有与其良好交互的功能。</p>
 <p>你需要用于 NumPy 到 PyTorch（以及返回）的两种主要方法是：</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.from_numpy.html"><code>torch.from_numpy(ndarray)</code></a> - NumPy 数组 -&gt; PyTorch 张量。</li>
@@ -913,18 +926,19 @@ tensor, numpy_tensor
 tensor = tensor + 1
 tensor, numpy_tensor
 </code></pre>
-<h1 id="4-尾声"><a href="#4-尾声" class="headerlink" title="4. 尾声"></a>4. 尾声</h1><blockquote>
+<h1><span id="4-尾声">4. 尾声</span></h1><blockquote>
 <p>⚠️下面内容为个人推荐，具体情况视自身而定</p>
 </blockquote>
-<h2 id="4-1-理论课程推荐"><a href="#4-1-理论课程推荐" class="headerlink" title="4.1 理论课程推荐"></a>4.1 理论课程推荐</h2><p>吴恩达深度学习课程： BV1FT4y1E74V（BV号）</p>
-<h2 id="4-2-PyTorch-教程推荐"><a href="#4-2-PyTorch-教程推荐" class="headerlink" title="4.2 PyTorch 教程推荐"></a>4.2 PyTorch 教程推荐</h2><p>土堆：B站up主“我是土堆”</p>
-<h2 id="4-3-深度学习实践网站推荐"><a href="#4-3-深度学习实践网站推荐" class="headerlink" title="4.3 深度学习实践网站推荐"></a>4.3 深度学习实践网站推荐</h2><ol>
+<h2><span id="41-理论课程推荐">4.1 理论课程推荐</span></h2><p>吴恩达深度学习课程： BV1FT4y1E74V（BV号）</p>
+<h2><span id="42-pytorch-教程推荐">4.2 PyTorch 教程推荐</span></h2><p>土堆：B站up主“我是土堆”</p>
+<h2><span id="43-深度学习实践网站推荐">4.3 深度学习实践网站推荐</span></h2><ol>
 <li>GitHub（多读读别人的开源项目）</li>
 <li>Kaggle（对于不同的问题，可以多参考不同人的思路与代码，能够大大提高利用深度学习理论知识、PyTorch框架来解决实际问题的能力）</li>
 </ol>
-<h2 id="4-4-杂谈"><a href="#4-4-杂谈" class="headerlink" title="4.4 杂谈"></a>4.4 杂谈</h2><p>（略）</p>
+<h2><span id="44-杂谈">4.4 杂谈</span></h2><p>（略）</p>
 
-    </div>
+        </div>
+
     
     
     
@@ -933,6 +947,9 @@ tensor, numpy_tensor
     
     
 </div>
+
+
+    
 
             <footer id="footer">
     <div id="footer-wrap">

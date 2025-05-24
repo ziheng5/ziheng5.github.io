@@ -30,7 +30,7 @@
 <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
 <link
     rel="stylesheet"
-    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
 />
 <script src="/js/lib/highlight.js"></script>
 
@@ -96,7 +96,7 @@
             <span>&ensp;Tags</span>
         </a>
         
-        <a href="/links">
+        <a href="/friends">
             <i class="fa-solid fa-link fa-fw"></i>
             <span>&ensp;Links</span>
         </a>
@@ -155,7 +155,7 @@
                     </div>
                 </a>
                 
-                <a href="/links">
+                <a href="/friends">
                     <div class="item">
                         <div style="min-width: 20px; max-width: 50px; width: 10%">
                             <i class="fa-solid fa-link fa-fw"></i>
@@ -177,6 +177,10 @@
     <div>
         <h1>关于梯度爆炸的思考与应对策略</h1>
     </div>
+
+    
+     
+    <!-- post 部分设计 -->
     <div class="info">
         <span class="date">
             <span class="icon">
@@ -203,7 +207,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
                     深度学习
                 </a>
             </span>
@@ -219,25 +223,34 @@
         
     </div>
     
+
+    <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
-        <blockquote>
+        
+    <div id="toc">
+        <strong class="sidebar-title">目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1. 什么是梯度爆炸（Gradient Explosion）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2. 梯度爆炸的原因</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">(1) 网络结构问题：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">(2) 样本问题：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3. 如何解决梯度爆炸</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">(1) 梯度裁剪（Gradient Clipping）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">(2) 权重初始化（Weight Initialization）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">(3) 归一化层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">(4) 残差连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">(5) 激活函数与输出层调整</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">(6) 减少网络深度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">(7) 输入归一化（Input Normalization）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4. 如何针对梯度进行调试</span></a></li></ol>
+    </div>
+
+
+            <blockquote>
 <p><strong>本文背景：</strong></p>
 <p>两个月前，Coldrain 开始进军 MADRL（Multi-Agent Deep Reinforcement Learning）领域，并跟着老师和前辈开展相关方面的实验。</p>
 <p>然而在实验过程中，Coldrain 被一个可怕的现象困扰了许久 —— Coldrain 训练的智能体在环境中一直在重复相同动作，且丝毫不考虑奖励函数的约束。</p>
 <p>经过一整天的排查，Coldrain 终于将问题的根源锁定在了<strong>梯度爆炸</strong>上。</p>
 </blockquote>
 <hr>
-<h3 id="1-什么是梯度爆炸（Gradient-Explosion）"><a href="#1-什么是梯度爆炸（Gradient-Explosion）" class="headerlink" title="1. 什么是梯度爆炸（Gradient Explosion）"></a>1. 什么是梯度爆炸（Gradient Explosion）</h3><p>在反向传播过程中，由于网络层之间梯度的连续相乘（尤其是多层链式法则），梯度值急剧增大，导致权重更新步长过大，模型参数剧烈震荡甚至无法收敛，对模型造成严重影响</p>
+<h3><span id="1-什么是梯度爆炸gradient-explosion">1. 什么是梯度爆炸（Gradient Explosion）</span></h3><p>在反向传播过程中，由于网络层之间梯度的连续相乘（尤其是多层链式法则），梯度值急剧增大，导致权重更新步长过大，模型参数剧烈震荡甚至无法收敛，对模型造成严重影响</p>
 <p>比如说，在 RNN 中，梯度反向传播时需计算多个时间步的雅可比矩阵乘积。假设循环权重矩阵 $W_{rec}$ 的最大特征值 $|\lambda_1| &gt; 1$，那么梯度范数（Norm）将呈指数增长：</p>
 <p><img src="/../images/deeplearning/grad_explosion.png" alt="grad_explosion"></p>
 <hr>
-<h3 id="2-梯度爆炸的原因"><a href="#2-梯度爆炸的原因" class="headerlink" title="2. 梯度爆炸的原因"></a>2. 梯度爆炸的原因</h3><p>造成梯度爆炸的因素五花八门，具体问题应该具体分析，这里简单列举一下常见的因素</p>
-<h4 id="1-网络结构问题："><a href="#1-网络结构问题：" class="headerlink" title="(1) 网络结构问题："></a>(1) 网络结构问题：</h4><p>在构建模型的时候，如果<strong>网络深度过大</strong>、<strong>关联模块过多</strong>的话，可能会造成梯度在多层传递中连续相乘，进而呈指数增长。</p>
+<h3><span id="2-梯度爆炸的原因">2. 梯度爆炸的原因</span></h3><p>造成梯度爆炸的因素五花八门，具体问题应该具体分析，这里简单列举一下常见的因素</p>
+<h4><span id="1-网络结构问题">(1) 网络结构问题：</span></h4><p>在构建模型的时候，如果<strong>网络深度过大</strong>、<strong>关联模块过多</strong>的话，可能会造成梯度在多层传递中连续相乘，进而呈指数增长。</p>
 <p>此外，在选择<strong>激活函数</strong>的时候，使用<strong>无饱和区</strong>的激活函数（如 ReLU），梯度可能随输入增大而线性增长，加剧爆炸风险。</p>
-<h4 id="2-样本问题："><a href="#2-样本问题：" class="headerlink" title="(2) 样本问题："></a>(2) 样本问题：</h4><p>对于<strong>时序样本</strong>，如果<strong>序列长度过大</strong>，可能会导致梯度爆炸。</p>
+<h4><span id="2-样本问题">(2) 样本问题：</span></h4><p>对于<strong>时序样本</strong>，如果<strong>序列长度过大</strong>，可能会导致梯度爆炸。</p>
 <p>对于<strong>强化学习</strong>中的训练样本，主要因素可能是<strong>奖励函数设置不合理</strong>，进而造成不同的样本数据差异过大，导致参数更新时梯度较大。</p>
 <hr>
-<h3 id="3-如何解决梯度爆炸"><a href="#3-如何解决梯度爆炸" class="headerlink" title="3. 如何解决梯度爆炸"></a>3. 如何解决梯度爆炸</h3><h4 id="1-梯度裁剪（Gradient-Clipping）"><a href="#1-梯度裁剪（Gradient-Clipping）" class="headerlink" title="(1) 梯度裁剪（Gradient Clipping）"></a>(1) 梯度裁剪（Gradient Clipping）</h4><p><strong>梯度裁剪</strong>的方法首次提出于 《<a target="_blank" rel="noopener" href="https://proceedings.mlr.press/v28/pascanu13.html">On the difficulty of training Recurrent Neural Networks</a>》，作者是 Razvan Pascanu、Tomas Mikolov 和 Yoshua Bengio，发表于 2013 年的 ICML 会议。</p>
+<h3><span id="3-如何解决梯度爆炸">3. 如何解决梯度爆炸</span></h3><h4><span id="1-梯度裁剪gradient-clipping">(1) 梯度裁剪（Gradient Clipping）</span></h4><p><strong>梯度裁剪</strong>的方法首次提出于 《<a target="_blank" rel="noopener" href="https://proceedings.mlr.press/v28/pascanu13.html">On the difficulty of training Recurrent Neural Networks</a>》，作者是 Razvan Pascanu、Tomas Mikolov 和 Yoshua Bengio，发表于 2013 年的 ICML 会议。</p>
 <p>（具体原理与理论分析请阅读原论文）</p>
 <p>该方法的具体实现方式是在模型<strong>反向传播之后、参数更新之前</strong>，对模型的全局梯度进行裁剪，强制将梯度限制在既定的范围内，从而限制网络参数更新速度，进而避免梯度爆炸问题</p>
 <p>在 <code>PyTorch</code> 中可以按照下面的方法实现：</p>
@@ -251,11 +264,11 @@ torch.nn.utils.clip_grad_norm_(network.parameters(), 1.0)
 optimizer.step()
 </code></pre>
 <p>其中，<code>loss</code> 为损失函数，<code>network</code> 为网络模型。</p>
-<h4 id="2-权重初始化（Weight-Initialization）"><a href="#2-权重初始化（Weight-Initialization）" class="headerlink" title="(2) 权重初始化（Weight Initialization）"></a>(2) 权重初始化（Weight Initialization）</h4><p>将网络<strong>最后一层</strong>的权重初始化为较小的参数，避免权重过大导致输出直接饱和</p>
+<h4><span id="2-权重初始化weight-initialization">(2) 权重初始化（Weight Initialization）</span></h4><p>将网络<strong>最后一层</strong>的权重初始化为较小的参数，避免权重过大导致输出直接饱和</p>
 <p>在 PyTorch 中可以按照下面的方式进行操作：</p>
 <pre><code class="Python">torch.nn.init.uniform_(network.hidden_layer.weight, -0.01, 0.01)
 </code></pre>
-<h4 id="3-归一化层"><a href="#3-归一化层" class="headerlink" title="(3) 归一化层"></a>(3) 归一化层</h4><p>归一化层主要有两种，第一种是<strong>批归一化层（BatchNorm）</strong>，还有一种是对特征进行归一化。（LayerNorm）</p>
+<h4><span id="3-归一化层">(3) 归一化层</span></h4><p>归一化层主要有两种，第一种是<strong>批归一化层（BatchNorm）</strong>，还有一种是对特征进行归一化。（LayerNorm）</p>
 <p>这里主要讲<strong>批归一化层</strong>，即在隐藏层添加BN层，稳定中间特征分布。。</p>
 <p>具体操作方式如下：</p>
 <pre><code class="Python">self.hidden = nn.Sequential(
@@ -264,7 +277,7 @@ optimizer.step()
     nn.ReLU()
 )
 </code></pre>
-<h4 id="4-残差连接"><a href="#4-残差连接" class="headerlink" title="(4) 残差连接"></a>(4) 残差连接</h4><p>在深层网络中引入跳跃连接，缓解梯度爆炸问题。</p>
+<h4><span id="4-残差连接">(4) 残差连接</span></h4><p>在深层网络中引入跳跃连接，缓解梯度爆炸问题。</p>
 <p>具体操作方式如下：</p>
 <pre><code class="Python">class ResidualBlock(nn.Module):
     def __init__(self, dim):
@@ -273,16 +286,16 @@ optimizer.step()
     def forward(self, x):
         return x + torch.relu(self.fc(x))
 </code></pre>
-<h4 id="5-激活函数与输出层调整"><a href="#5-激活函数与输出层调整" class="headerlink" title="(5) 激活函数与输出层调整"></a>(5) 激活函数与输出层调整</h4><p>对于<strong>激活函数</strong>，可以将原本的激活函数替换为梯度较为平缓的激活函数。</p>
+<h4><span id="5-激活函数与输出层调整">(5) 激活函数与输出层调整</span></h4><p>对于<strong>激活函数</strong>，可以将原本的激活函数替换为梯度较为平缓的激活函数。</p>
 <p>比如，如果原本使用的激活函数为 <code>Softsign</code> 的话，可以尝试用 <code>Tanh</code> 来替代。</p>
 <p>此外，输出层后可加<strong>缩放层</strong>，匹配实际加速度范围。</p>
-<h4 id="6-减少网络深度"><a href="#6-减少网络深度" class="headerlink" title="(6) 减少网络深度"></a>(6) 减少网络深度</h4><p>（如题，这里不用解释了）</p>
-<h4 id="7-输入归一化（Input-Normalization）"><a href="#7-输入归一化（Input-Normalization）" class="headerlink" title="(7) 输入归一化（Input Normalization）"></a>(7) 输入归一化（Input Normalization）</h4><p>对于图像等类型的数据，其特征均分布在同样的范围内的话，可以对其进行归一化处理，确保输入特征的均值为0，方差为1。</p>
+<h4><span id="6-减少网络深度">(6) 减少网络深度</span></h4><p>（如题，这里不用解释了）</p>
+<h4><span id="7-输入归一化input-normalization">(7) 输入归一化（Input Normalization）</span></h4><p>对于图像等类型的数据，其特征均分布在同样的范围内的话，可以对其进行归一化处理，确保输入特征的均值为0，方差为1。</p>
 <p>具体操作方法如下：</p>
 <pre><code class="Python">state = (state - state_mean) / (state_std + 1e-8)
 </code></pre>
 <hr>
-<h3 id="4-如何针对梯度进行调试"><a href="#4-如何针对梯度进行调试" class="headerlink" title="4. 如何针对梯度进行调试"></a>4. 如何针对梯度进行调试</h3><ol>
+<h3><span id="4-如何针对梯度进行调试">4. 如何针对梯度进行调试</span></h3><ol>
 <li><strong>梯度监控</strong>：记录每次更新的梯度范数，确认是否爆炸。</li>
 <li><strong>逐步应用措施</strong>：<ul>
 <li>先添加梯度裁剪和学习率调整。</li>
@@ -293,7 +306,8 @@ optimizer.step()
 <li><strong>可视化分析</strong>：绘制训练曲线，检查Critic损失、Actor输出分布、奖励变化。</li>
 </ol>
 
-    </div>
+        </div>
+
     
     
     
@@ -302,6 +316,9 @@ optimizer.step()
     
     
 </div>
+
+
+    
 
             <footer id="footer">
     <div id="footer-wrap">

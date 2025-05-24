@@ -30,7 +30,7 @@
 <script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
 <link
     rel="stylesheet"
-    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
 />
 <script src="/js/lib/highlight.js"></script>
 
@@ -96,7 +96,7 @@
             <span>&ensp;Tags</span>
         </a>
         
-        <a href="/links">
+        <a href="/friends">
             <i class="fa-solid fa-link fa-fw"></i>
             <span>&ensp;Links</span>
         </a>
@@ -155,7 +155,7 @@
                     </div>
                 </a>
                 
-                <a href="/links">
+                <a href="/friends">
                     <div class="item">
                         <div style="min-width: 20px; max-width: 50px; width: 10%">
                             <i class="fa-solid fa-link fa-fw"></i>
@@ -177,6 +177,10 @@
     <div>
         <h1>Kaggle：Playground S4 E8</h1>
     </div>
+
+    
+     
+    <!-- post 部分设计 -->
     <div class="info">
         <span class="date">
             <span class="icon">
@@ -203,7 +207,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/PyTorch/" style="color: #ffa2c4">
+                <a href="/tags/PyTorch/" style="color: #ff7d73">
                     PyTorch
                 </a>
             </span>
@@ -219,12 +223,21 @@
         
     </div>
     
+
+    <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
-        <blockquote>
+        
+    <div id="toc">
+        <strong class="sidebar-title">目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">一、📦导入必要的包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">二、🪵导入训练数据与测试数据</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1. 导入训练数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2. 导入测试数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">三、🔍数据分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1. 数据信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2. 去除 NaN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3. 删除离谱数值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4. 填充 NaNs</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">四、🧠模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1. 数据分割</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2. 将 categories 转变为整型数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3. 特征选择</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4. 准备好 PyTorch 需要用到的数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">5. 模型搭建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">6. 训练效果检验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">7. 处理待测数据成为待提交文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">五、提交检验成果</span></a></li></ol>
+    </div>
+
+
+            <blockquote>
 <p>🔗比赛链接：<a target="_blank" rel="noopener" href="https://www.kaggle.com/competitions/playground-series-s4e8">https://www.kaggle.com/competitions/playground-series-s4e8</a></p>
 <p>训练数据集、测试数据集和提交样例都需要自行从比赛页面下载。</p>
 </blockquote>
-<h2 id="一、📦导入必要的包"><a href="#一、📦导入必要的包" class="headerlink" title="一、📦导入必要的包"></a>一、📦导入必要的包</h2><pre><code class="Python"># 数据处理
+<h2><span id="一-导入必要的包">一、📦导入必要的包</span></h2><pre><code class="Python"># 数据处理
 import numpy as np
 import pandas as pd
 
@@ -248,7 +261,7 @@ from matplotlib import pyplot
 
 import os
 </code></pre>
-<h2 id="二、🪵导入训练数据与测试数据"><a href="#二、🪵导入训练数据与测试数据" class="headerlink" title="二、🪵导入训练数据与测试数据"></a>二、🪵导入训练数据与测试数据</h2><h3 id="1-导入训练数据"><a href="#1-导入训练数据" class="headerlink" title="1. 导入训练数据"></a>1. 导入训练数据</h3><pre><code class="Python"># 导入训练数据
+<h2><span id="二-导入训练数据与测试数据">二、🪵导入训练数据与测试数据</span></h2><h3><span id="1-导入训练数据">1. 导入训练数据</span></h3><pre><code class="Python"># 导入训练数据
 train = pd.read_csv(&quot;train.csv&quot;)
 train.head()
 </code></pre>
@@ -262,7 +275,7 @@ train.head()
 
 [5 rows x 22 columns]
 </code></pre>
-<h3 id="2-导入测试数据"><a href="#2-导入测试数据" class="headerlink" title="2. 导入测试数据"></a>2. 导入测试数据</h3><pre><code class="Python"># 导入测试数据
+<h3><span id="2-导入测试数据">2. 导入测试数据</span></h3><pre><code class="Python"># 导入测试数据
 test = pd.read_csv(&quot;test.csv&quot;)
 test.head()
 </code></pre>
@@ -279,7 +292,7 @@ test.head()
 <blockquote>
 <p>观察数据内容发现 test.csv 中没一行没有 “class”，即 test.csv 是需要被分类的数据。</p>
 </blockquote>
-<h2 id="三、🔍数据分析"><a href="#三、🔍数据分析" class="headerlink" title="三、🔍数据分析"></a>三、🔍数据分析</h2><h3 id="1-数据信息"><a href="#1-数据信息" class="headerlink" title="1. 数据信息"></a>1. 数据信息</h3><pre><code class="Python">train.info(verbose=True, show_counts=True)
+<h2><span id="三-数据分析">三、🔍数据分析</span></h2><h3><span id="1-数据信息">1. 数据信息</span></h3><pre><code class="Python">train.info(verbose=True, show_counts=True)
 </code></pre>
 <p>输出如下：</p>
 <pre><code class="Terminal">&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
@@ -345,7 +358,7 @@ Data columns (total 21 columns):
 dtypes: float64(3), int64(1), object(17)
 memory usage: 332.9+ MB
 </code></pre>
-<h3 id="2-去除-NaN"><a href="#2-去除-NaN" class="headerlink" title="2. 去除 NaN"></a>2. 去除 NaN</h3><pre><code class="Python"># 下面的这些 columns 基本上没有有用信息（全是 NaN）
+<h3><span id="2-去除-nan">2. 去除 NaN</span></h3><pre><code class="Python"># 下面的这些 columns 基本上没有有用信息（全是 NaN）
 mostly_nan_cols = [&#39;stem-root&#39;, &#39;stem-surface&#39;, &#39;veil-type&#39;, &#39;veil-color&#39;, &#39;spore-print-color&#39;]
 
 # 这些是含有大量 NaN 的 columns 
@@ -378,7 +391,7 @@ ring-type              128880.0   86195.0
 habitat                    45.0      25.0
 season                      0.0       0.0
 </code></pre>
-<h3 id="3-删除离谱数值"><a href="#3-删除离谱数值" class="headerlink" title="3. 删除离谱数值"></a>3. 删除离谱数值</h3><pre><code class="Python"># 查看每一个 column 中的元素类别有多少
+<h3><span id="3-删除离谱数值">3. 删除离谱数值</span></h3><pre><code class="Python"># 查看每一个 column 中的元素类别有多少
 train.nunique()
 </code></pre>
 <p>输出如下：</p>
@@ -440,7 +453,7 @@ season                        4
 dtype: int64
 </code></pre>
 <p>通过上述操作，类别数减少了一部分</p>
-<h3 id="4-填充-NaNs"><a href="#4-填充-NaNs" class="headerlink" title="4. 填充 NaNs"></a>4. 填充 NaNs</h3><pre><code class="Python">for c in train.columns:
+<h3><span id="4-填充-nans">4. 填充 NaNs</span></h3><pre><code class="Python">for c in train.columns:
     train[c] = train[c].fillna(train[c].mode().values[0])
 train.isna().sum()
 </code></pre>
@@ -488,14 +501,14 @@ habitat                 0
 season                  0
 dtype: int64
 </code></pre>
-<h2 id="四、🧠模型"><a href="#四、🧠模型" class="headerlink" title="四、🧠模型"></a>四、🧠模型</h2><h3 id="1-数据分割"><a href="#1-数据分割" class="headerlink" title="1. 数据分割"></a>1. 数据分割</h3><pre><code class="Python"># 将原始 train 数据分割为 values 和 labels
+<h2><span id="四-模型">四、🧠模型</span></h2><h3><span id="1-数据分割">1. 数据分割</span></h3><pre><code class="Python"># 将原始 train 数据分割为 values 和 labels
 X = train.drop([&#39;class&#39;, &#39;id&#39;], axis=1)
 y = train[&#39;class&#39;]
 
 # 将 70% 的 train 数据用于训练，30% 的数据用于测试（不是待测数据集 test.csv）
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.3, random_state=4)
 </code></pre>
-<h3 id="2-将-categories-转变为整型数据"><a href="#2-将-categories-转变为整型数据" class="headerlink" title="2. 将 categories 转变为整型数据"></a>2. 将 categories 转变为整型数据</h3><pre><code class="Python">oe = OrdinalEncoder()
+<h3><span id="2-将-categories-转变为整型数据">2. 将 categories 转变为整型数据</span></h3><pre><code class="Python">oe = OrdinalEncoder()
 oe.fit(X_train[categorical_cols])
 X_train[categorical_cols] = oe.transform(X_train[categorical_cols])
 X_test[categorical_cols] = oe.transform(X_test[categorical_cols])
@@ -506,7 +519,7 @@ encoder.fit(y_train)
 y_train = encoder.transform(y_train)
 y_test = encoder.transform(y_test)
 </code></pre>
-<h3 id="3-特征选择"><a href="#3-特征选择" class="headerlink" title="3. 特征选择"></a>3. 特征选择</h3><pre><code class="Python">def select_features(X_train, y_train):
+<h3><span id="3-特征选择">3. 特征选择</span></h3><pre><code class="Python">def select_features(X_train, y_train):
     fs = SelectKBest(score_func=chi2, k=&#39;all&#39;)
     fs.fit(X_train, y_train)
     X_train_fs = fs.transform(X_train)
@@ -539,7 +552,7 @@ Feature 10: 4959.358699
 Feature 11: 10198.071977
 </code></pre>
 <p><img src="/./images/kaggle_s4e8/figure1.png" alt="figure1"></p>
-<h3 id="4-准备好-PyTorch-需要用到的数据"><a href="#4-准备好-PyTorch-需要用到的数据" class="headerlink" title="4. 准备好 PyTorch 需要用到的数据"></a>4. 准备好 PyTorch 需要用到的数据</h3><pre><code class="Python"># 使用 GPU
+<h3><span id="4-准备好-pytorch-需要用到的数据">4. 准备好 PyTorch 需要用到的数据</span></h3><pre><code class="Python"># 使用 GPU
 device = torch.device(&quot;cuda:0&quot; if torch.cuda.is_available() else &quot;cpu&quot;)
 
 # Convert your training and test data to tensors and move them to the correct device
@@ -554,7 +567,7 @@ X_train.shape
 <p>输出如下：</p>
 <pre><code class="Terminal">torch.Size([2181861, 15])
 </code></pre>
-<h3 id="5-模型搭建"><a href="#5-模型搭建" class="headerlink" title="5. 模型搭建"></a>5. 模型搭建</h3><pre><code class="Python"># Notes:
+<h3><span id="5-模型搭建">5. 模型搭建</span></h3><pre><code class="Python"># Notes:
 # dropout 设置为 0.5 时效果不佳，0.2 时效果较好
 # `self.layers.append(nn.Dropout(dropout_rate))`
 class Deep(nn.Module):
@@ -677,7 +690,7 @@ Accuracy (deep): 0.9879
 Accuracy (deep): 0.9880
 Model accuracy: 98.8006% (+/- 0.0103%)
 </code></pre>
-<h3 id="6-训练效果检验"><a href="#6-训练效果检验" class="headerlink" title="6. 训练效果检验"></a>6. 训练效果检验</h3><pre><code class="Python">model = Deep().to(device)
+<h3><span id="6-训练效果检验">6. 训练效果检验</span></h3><pre><code class="Python">model = Deep().to(device)
 
 model.load_state_dict(torch.load(&quot;model.pth&quot;))
 model.eval()
@@ -693,7 +706,7 @@ print(f&quot;Matthews Correlation Coefficient (MCC): &#123;matthews_corrcoef(y_t
 <pre><code class="Terminal">Accuracy Score: 98.810 %
 Matthews Correlation Coefficient (MCC): 0.97598
 </code></pre>
-<h3 id="7-处理待测数据成为待提交文件"><a href="#7-处理待测数据成为待提交文件" class="headerlink" title="7. 处理待测数据成为待提交文件"></a>7. 处理待测数据成为待提交文件</h3><pre><code class="Python">X_real = test.drop([&#39;id&#39;], axis=1)
+<h3><span id="7-处理待测数据成为待提交文件">7. 处理待测数据成为待提交文件</span></h3><pre><code class="Python">X_real = test.drop([&#39;id&#39;], axis=1)
 X_real = torch.tensor(X_real.values, dtype=torch.float32).to(device)
 
 y_real = model(X_real)
@@ -711,9 +724,10 @@ submission[&#39;class&#39;] = submission[&#39;class&#39;].astype(&#39;str&#39;)
 submission.loc[(submission[&#39;class&#39;] == &#39;0&#39;), &#39;class&#39;] = &#39;e&#39;
 submission.loc[(submission[&#39;class&#39;] == &#39;1&#39;), &#39;class&#39;] = &#39;p&#39;
 </code></pre>
-<h2 id="五、提交检验成果"><a href="#五、提交检验成果" class="headerlink" title="五、提交检验成果"></a>五、提交检验成果</h2><p>最后拿到了 0.975 的准确率💪</p>
+<h2><span id="五-提交检验成果">五、提交检验成果</span></h2><p>最后拿到了 0.975 的准确率💪</p>
 
-    </div>
+        </div>
+
     
     
     
@@ -722,6 +736,9 @@ submission.loc[(submission[&#39;class&#39;] == &#39;1&#39;), &#39;class&#39;] = 
     
     
 </div>
+
+
+    
 
             <footer id="footer">
     <div id="footer-wrap">
