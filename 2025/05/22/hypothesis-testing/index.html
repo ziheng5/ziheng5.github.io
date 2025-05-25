@@ -207,15 +207,15 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" style="color: #00a596">
-                    统计学
+                <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                    机器学习
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
-                    机器学习
+                <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" style="color: #03a9f4">
+                    统计学
                 </a>
             </span>
             
@@ -380,24 +380,24 @@
 <li><strong>原假设（H₀）</strong>：变量之间无关联（或观测分布符合理论分布）。  </li>
 <li><strong>备择假设（H₁）</strong>：变量之间有关联（或观测分布不符合理论分布）。</li>
 </ul>
-<h4><span id="2计算卡方统计量"><strong>（2）计算卡方统计量</strong></span></h4><p>公式为：<br>[<br>\chi^2 &#x3D; \sum \frac{(O_i - E_i)^2}{E_i}<br>]  </p>
+<h4><span id="2计算卡方统计量"><strong>（2）计算卡方统计量</strong></span></h4><p>公式为：<br>$$<br>\chi^2 &#x3D; \sum \frac{(O_i - E_i)^2}{E_i}<br>$$  </p>
 <ul>
-<li>(O_i)：实际观测频数  </li>
-<li>(E_i)：理论期望频数（在原假设成立时计算得出）。</li>
+<li>$O_i$：实际观测频数  </li>
+<li>$E_i$：理论期望频数（在原假设成立时计算得出）。</li>
 </ul>
 <h4><span id="3确定临界值"><strong>（3）确定临界值</strong></span></h4><p>根据<strong>显著性水平（α，通常取0.05）</strong>和<strong>自由度（df）</strong>查卡方分布表：</p>
 <ul>
-<li>拟合优度检验：(df &#x3D; \text{分类类别数} - 1)  </li>
-<li>独立性检验：(df &#x3D; (行数-1) \times (列数-1))</li>
+<li>拟合优度检验：$df &#x3D; \text{分类类别数} - 1$  </li>
+<li>独立性检验：$df &#x3D; (行数-1) \times (列数-1)$</li>
 </ul>
 <h4><span id="4做出决策"><strong>（4）做出决策</strong></span></h4><ul>
-<li>若 (\chi^2) &gt; 临界值，拒绝原假设；  </li>
-<li>若 (\chi^2) ≤ 临界值，不拒绝原假设。</li>
+<li>若 $\chi^2$ &gt; 临界值，拒绝原假设；  </li>
+<li>若 $\chi^2$ ≤ 临界值，不拒绝原假设。</li>
 </ul>
 <blockquote>
 <p><strong>适用条件</strong></p>
 <ul>
-<li><strong>样本量要求</strong>：每个单元格的期望频数 (E_i) 应 ≥5（若不满足，可用Fisher精确检验）。  </li>
+<li><strong>样本量要求</strong>：每个单元格的期望频数 $E_i$ 应 ≥5（若不满足，可用Fisher精确检验）。  </li>
 <li><strong>变量类型</strong>：分类变量（名义或有序），不能用于连续变量。</li>
 </ul>
 </blockquote>
@@ -422,11 +422,11 @@ chisquare(f_obs=f_obs, f_exp=f_exp)
 <p>p 值远低于所选的显著性水平。因此，作者认为这种差异是显著的，并得出结论，觅食事件的相对比例与树冠体积的相对比例不同。</p>
 <hr>
 <h2><span id="3-z-检验">3. Z 检验</span></h2><p>比较均值差异</p>
-<h3><span id="31-什么是-z-检验">3.1 什么是 Z 检验</span></h3><p><strong>Z 检验</strong>是一种基于<strong>正态分布（Z 分布）</strong>的统计假设检验方法，主要用于在<strong>已知总体标准差（σ）</strong>的情况下，检验<strong>样本均值是否与总体均值存在显著差异</strong>，或者比较<strong>两个独立样本的均值差异</strong>是否显著。它适用于大样本（通常 ( n \geq 30 )）或总体服从正态分布的情况。</p>
-<h3><span id="32-z-检验的核心思想">3.2 Z 检验的核心思想</span></h3><p>Z 检验通过计算 <strong>Z 统计量（Z-Score）</strong>，衡量样本均值与总体均值的差异是否超出了随机波动的范围：<br>[<br>Z &#x3D; \frac{\text{样本均值} - \text{总体均值}}{\text{标准误差（SE）}}<br>]<br>其中：</p>
+<h3><span id="31-什么是-z-检验">3.1 什么是 Z 检验</span></h3><p><strong>Z 检验</strong>是一种基于<strong>正态分布（Z 分布）</strong>的统计假设检验方法，主要用于在<strong>已知总体标准差（σ）</strong>的情况下，检验<strong>样本均值是否与总体均值存在显著差异</strong>，或者比较<strong>两个独立样本的均值差异</strong>是否显著。它适用于大样本（通常 $ n \geq 30 $）或总体服从正态分布的情况。</p>
+<h3><span id="32-z-检验的核心思想">3.2 Z 检验的核心思想</span></h3><p>Z 检验通过计算 <strong>Z 统计量（Z-Score）</strong>，衡量样本均值与总体均值的差异是否超出了随机波动的范围：<br>$$<br>Z &#x3D; \frac{\text{样本均值} - \text{总体均值}}{\text{标准误差（SE）}}<br>$$<br>其中：</p>
 <ul>
-<li><strong>标准误差（SE）</strong> &#x3D; ( \frac{\sigma}{\sqrt{n}} )（单样本 Z 检验）</li>
-<li>(\sigma) &#x3D; 总体标准差（<strong>若未知，可用样本标准差 ( s ) 近似，但严格来说应使用 T 检验</strong>）</li>
+<li><strong>标准误差（SE）</strong> &#x3D; $ \frac{\sigma}{\sqrt{n}} $（单样本 Z 检验）</li>
+<li>$\sigma$ &#x3D; 总体标准差（<strong>若未知，可用样本标准差 $ s $ 近似，但严格来说应使用 T 检验</strong>）</li>
 </ul>
 <p><strong>Z值越大</strong>，说明样本均值与总体均值的差异越显著。</p>
 <h3><span id="33-z-检验的适用场景">3.3 Z 检验的适用场景</span></h3><p>Z检验主要用于以下情况：</p>
@@ -451,34 +451,34 @@ chisquare(f_obs=f_obs, f_exp=f_exp)
 </ol>
 <h3><span id="34-z检验的计算步骤">3.4. Z检验的计算步骤</span></h3><h4><span id="1单样本z检验">（1）单样本Z检验</span></h4><p><strong>假设</strong>：</p>
 <ul>
-<li>( H_0: \mu &#x3D; \mu_0 )（样本均值等于总体均值）</li>
-<li>( H_1: \mu \neq \mu_0 )（双侧检验）或 ( \mu &gt; \mu_0 ) &#x2F; ( \mu &lt; \mu_0 )（单侧检验）</li>
+<li>$ H_0: \mu &#x3D; \mu_0 $（样本均值等于总体均值）</li>
+<li>$ H_1: \mu \neq \mu_0 $（双侧检验）或 $ \mu &gt; \mu_0 $ &#x2F; $ \mu &lt; \mu_0 $（单侧检验）</li>
 </ul>
-<p><strong>计算公式</strong>：<br>[<br>Z &#x3D; \frac{\bar{X} - \mu_0}{\sigma &#x2F; \sqrt{n}}<br>]</p>
+<p><strong>计算公式</strong>：<br>$$<br>Z &#x3D; \frac{\bar{X} - \mu_0}{\sigma &#x2F; \sqrt{n}}<br>$$</p>
 <ul>
-<li>(\bar{X}) &#x3D; 样本均值  </li>
-<li>(\mu_0) &#x3D; 假设的总体均值  </li>
-<li>(\sigma) &#x3D; 总体标准差  </li>
-<li>(n) &#x3D; 样本量</li>
+<li>$\bar{X}$ &#x3D; 样本均值  </li>
+<li>$\mu_0$ &#x3D; 假设的总体均值  </li>
+<li>$\sigma$ &#x3D; 总体标准差  </li>
+<li>$n$ &#x3D; 样本量</li>
 </ul>
 <p><strong>决策</strong>：</p>
 <ul>
-<li>计算得到的Z值与临界Z值（如 ( Z_{0.05} &#x3D; 1.96 )）比较，或直接看p值：<ul>
-<li>若 ( |Z| &gt; Z_{\alpha&#x2F;2} )，拒绝 ( H_0 )（差异显著）。</li>
-<li>若 p值 &lt; α（如 0.05），拒绝 ( H_0 )。</li>
+<li>计算得到的Z值与临界Z值（如 $ Z_{0.05} &#x3D; 1.96 $）比较，或直接看p值：<ul>
+<li>若 $ |Z| &gt; Z_{\alpha&#x2F;2} $，拒绝 $ H_0 $（差异显著）。</li>
+<li>若 p值 &lt; α（如 0.05），拒绝 $ H_0 $。</li>
 </ul>
 </li>
 </ul>
 <h4><span id="2两独立样本z检验">（2）两独立样本Z检验</span></h4><p><strong>假设</strong>：</p>
 <ul>
-<li>( H_0: \mu_1 &#x3D; \mu_2 )（两样本均值无差异）</li>
-<li>( H_1: \mu_1 \neq \mu_2 )（有差异）</li>
+<li>$ H_0: \mu_1 &#x3D; \mu_2 $（两样本均值无差异）</li>
+<li>$ H_1: \mu_1 \neq \mu_2 $（有差异）</li>
 </ul>
-<p><strong>计算公式</strong>：<br>[<br>Z &#x3D; \frac{(\bar{X}_1 - \bar{X}_2) - 0}{\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}}<br>]</p>
+<p><strong>计算公式</strong>：<br>$$<br>Z &#x3D; \frac{(\bar{X}_1 - \bar{X}_2) - 0}{\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}}<br>$$</p>
 <ul>
-<li>(\bar{X}_1, \bar{X}_2) &#x3D; 两样本均值  </li>
-<li>(\sigma_1, \sigma_2) &#x3D; 两总体标准差（若未知，可用样本标准差近似）  </li>
-<li>(n_1, n_2) &#x3D; 两样本量</li>
+<li>$\bar{X}_1, \bar{X}_2$ &#x3D; 两样本均值  </li>
+<li>$\sigma_1, \sigma_2$ &#x3D; 两总体标准差（若未知，可用样本标准差近似）  </li>
+<li>$n_1, n_2$ &#x3D; 两样本量</li>
 </ul>
 <p><strong>决策</strong>：</p>
 <ul>
@@ -531,10 +531,10 @@ else:
 <hr>
 <h2><span id="4-t-检验">4. T 检验</span></h2><p>用于判断样本均值与总体均值是否存在显著差异。</p>
 <h3><span id="41-什么是-t-检验t-test">4.1 什么是 T 检验（T-Test）</span></h3><p>T 检验是一种基于 <strong>t 分布</strong> 的统计假设检验方法，用于判断 <strong>样本均值是否与总体均值（或另一组样本均值）存在显著差异</strong>。与Z检验不同，T检验适用于 <strong>总体标准差未知</strong> 且 <strong>小样本（n &lt; 30）</strong> 的情况，是实际科研和数据分析中最常用的检验之一。</p>
-<h3><span id="42-t检验的核心思想">4.2 T检验的核心思想</span></h3><p>T 检验通过计算 <strong>t 统计量（t-score）</strong>，衡量样本均值与参考值（总体均值或另一组样本均值）的差异是否显著：<br>[<br>t &#x3D; \frac{\text{样本均值} - \text{参考值}}{\text{标准误差（SE）}}<br>]<br>其中：</p>
+<h3><span id="42-t检验的核心思想">4.2 T检验的核心思想</span></h3><p>T 检验通过计算 <strong>t 统计量（t-score）</strong>，衡量样本均值与参考值（总体均值或另一组样本均值）的差异是否显著：<br>$$<br>t &#x3D; \frac{\text{样本均值} - \text{参考值}}{\text{标准误差（SE）}}<br>$$<br>其中：</p>
 <ul>
-<li><strong>标准误差（SE）</strong> &#x3D; ( \frac{s}{\sqrt{n}} )（s为样本标准差，n为样本量）</li>
-<li><strong>自由度（df）</strong> &#x3D; ( n - 1 )（单样本 T 检验）</li>
+<li><strong>标准误差（SE）</strong> &#x3D; $ \frac{s}{\sqrt{n}} $（s为样本标准差，n为样本量）</li>
+<li><strong>自由度（df）</strong> &#x3D; $ n - 1 $（单样本 T 检验）</li>
 </ul>
 <p><strong>t 值越大</strong>，说明差异越显著。</p>
 <h3><span id="43-t检验的适用场景">4.3 T检验的适用场景</span></h3><p>T检验主要分为三类：</p>
@@ -591,42 +591,42 @@ else:
 <hr>
 <h3><span id="45-t检验的计算步骤">4.5 T检验的计算步骤</span></h3><h4><span id="1单样本t检验最常见">（1）单样本T检验（最常见）</span></h4><p><strong>假设</strong>：</p>
 <ul>
-<li>( H_0: \mu &#x3D; \mu_0 )（样本均值等于理论值）</li>
-<li>( H_1: \mu \neq \mu_0 )（双侧检验）</li>
+<li>$ H_0: \mu &#x3D; \mu_0 $（样本均值等于理论值）</li>
+<li>$ H_1: \mu \neq \mu_0 $（双侧检验）</li>
 </ul>
-<p><strong>公式</strong>：<br>[<br>t &#x3D; \frac{\bar{X} - \mu_0}{s &#x2F; \sqrt{n}}<br>]</p>
+<p><strong>公式</strong>：<br>$$<br>t &#x3D; \frac{\bar{X} - \mu_0}{s &#x2F; \sqrt{n}}<br>$$</p>
 <ul>
-<li>(\bar{X})：样本均值  </li>
-<li>(\mu_0)：理论均值  </li>
-<li>(s)：样本标准差  </li>
-<li>(n)：样本量</li>
+<li>$\bar{X}$：样本均值  </li>
+<li>$\mu_0$：理论均值  </li>
+<li>$s$：样本标准差  </li>
+<li>$n$：样本量</li>
 </ul>
 <p><strong>决策</strong>：</p>
 <ul>
 <li>计算t值后，查t分布表或直接比较p值：<ul>
-<li>若 ( |t| &gt; t_{\alpha&#x2F;2, df} ) 或 p值 &lt; α（如0.05），拒绝H₀。</li>
+<li>若 $ |t| &gt; t_{\alpha&#x2F;2, df} $ 或 p值 &lt; α（如0.05），拒绝H₀。</li>
 </ul>
 </li>
 </ul>
 <h4><span id="2独立样本t检验"><strong>（2）独立样本T检验</strong></span></h4><p><strong>假设</strong>：</p>
 <ul>
-<li>( H_0: \mu_1 &#x3D; \mu_2 )（两样本均值无差异）</li>
-<li>( H_1: \mu_1 \neq \mu_2 )（有差异）</li>
+<li>$ H_0: \mu_1 &#x3D; \mu_2 $（两样本均值无差异）</li>
+<li>$ H_1: \mu_1 \neq \mu_2 $（有差异）</li>
 </ul>
-<p><strong>公式</strong>（假设两总体方差相等）：<br>[<br>t &#x3D; \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\frac{s_p^2}{n_1} + \frac{s_p^2}{n_2}}}, \quad s_p^2 &#x3D; \frac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1 + n_2 - 2}<br>]</p>
+<p><strong>公式</strong>（假设两总体方差相等）：<br>$$<br>t &#x3D; \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\frac{s_p^2}{n_1} + \frac{s_p^2}{n_2}}}, \quad s_p^2 &#x3D; \frac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1 + n_2 - 2}<br>$$</p>
 <ul>
-<li>(s_p^2)：合并方差  </li>
+<li>$s_p^2$：合并方差  </li>
 <li>若方差不齐（需先做 <a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/scipy/tutorial/stats/hypothesis_levene.html">Levene</a> 检验），使用 <strong>Welch’s T检验</strong>（修正自由度）。</li>
 </ul>
 <h4><span id="3配对样本t检验"><strong>（3）配对样本T检验</strong></span></h4><p><strong>假设</strong>：</p>
 <ul>
-<li>( H_0: \mu_{\text{前}} &#x3D; \mu_{\text{后}} )（前后无差异）</li>
-<li>( H_1: \mu_{\text{前}} \neq \mu_{\text{后}} )（有差异）</li>
+<li>$ H_0: \mu_{\text{前}} &#x3D; \mu_{\text{后}} $（前后无差异）</li>
+<li>$ H_1: \mu_{\text{前}} \neq \mu_{\text{后}} $（有差异）</li>
 </ul>
-<p><strong>公式</strong>：<br>[<br>t &#x3D; \frac{\bar{D}}{s_D &#x2F; \sqrt{n}}<br>]</p>
+<p><strong>公式</strong>：<br>$$<br>t &#x3D; \frac{\bar{D}}{s_D &#x2F; \sqrt{n}}<br>$$</p>
 <ul>
-<li>(\bar{D})：配对差异的均值  </li>
-<li>(s_D)：配对差异的标准差</li>
+<li>$\bar{D}$：配对差异的均值  </li>
+<li>$s_D$：配对差异的标准差</li>
 </ul>
 <hr>
 <h3><span id="46-python实现scipy">4.6 Python实现（SciPy）</span></h3><h4><span id="1单样本t检验"><strong>（1）单样本T检验</strong></span></h4><pre><code class="python">from scipy.stats import ttest_1samp
