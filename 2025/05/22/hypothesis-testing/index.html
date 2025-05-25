@@ -214,7 +214,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" style="color: #00bcd4">
+                <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" style="color: #ffa2c4">
                     统计学
                 </a>
             </span>
@@ -320,7 +320,7 @@
 <h3><span id="22-核心思想">2.2 核心思想</span></h3><p>卡方检验是以卡方分布为基础的一种常用假设检验方法。</p>
 <p>原假设 $H_0$ 是：观察频数与期望频数没有差别。</p>
 <p>$$\chi^2 &#x3D; \Sigma \frac{(A-E)^2}{E}&#x3D;\Sigma^k_{i&#x3D;1} \frac{(A_i-E_i)^2}{E_i}$$</p>
-<p>$A$：某个类别的观察频数<br>$E$：基于原假设 H_0 计算出的期望频数<br>$A-E$：残差</p>
+<p>$A$：某个类别的观察频数<br>$E$：基于原假设 $H_0$ 计算出的期望频数<br>$A-E$：残差</p>
 <blockquote>
 <p><strong>求和之前除以期望频数的原因</strong>：观察频数与期望频数的差距是相对较大还是较小，取决于期望频数的大小。例如期望频数为1000，观察频数为1040和期望频数为10，观察频数为50，差值均为40，但是显然后者的期望与实际的差距显然大于前者的期望和实际的差距。</p>
 </blockquote>
@@ -334,13 +334,17 @@
 <blockquote>
 <p>卡方拟合优度检验的自由度为 $df&#x3D;k-1$，其中 $k$ 代表分类变量数<br>卡方独立性检验的自由度为 $df&#x3D;(R-1)(C-1)$，$R$ 代表行数，$C$ 代表列数。</p>
 </blockquote>
-<h3><span id="24-卡方检验实例与-python-实现">2.4 卡方检验实例与 Python 实现</span></h3><p><strong>（⚠️ 由于 Coldrain 写到一半的时候突然跑去魔改 Hexo 主题配置了，遂中断，明天补上）</strong></p>
+<h3><span id="24-卡方检验实例与-python-实现">2.4 卡方检验实例与 Python 实现</span></h3><p>（⚠️ Coldrain 最近迷上了 <code>Node.js</code>，故本文暂停一天）</p>
 
         </div>
 
     
     
     
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
     
     
     
@@ -380,10 +384,34 @@
     <script src="/js/main.js"></script>
     
     
+<script
+    src="https://giscus.app/client.js"
+    data-repo="ziheng5/ziheng5.github.io"
+    data-repo-id="R_kgDONTCwmA"
+    data-category="Announcements"
+    data-category-id="DIC_kwDONTCwmM4Cqj_g"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
 
 
 
 
     
 </body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
 </html>

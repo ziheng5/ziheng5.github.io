@@ -207,14 +207,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/PyTorch/" style="color: #ffa2c4">
+                <a href="/tags/PyTorch/" style="color: #00a596">
                     PyTorch
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
                     深度学习
                 </a>
             </span>
@@ -516,6 +516,10 @@ trainer.fit(model, train_dataloaders=dataloader)
     
     
     
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
     
     
     
@@ -554,10 +558,34 @@ trainer.fit(model, train_dataloaders=dataloader)
     <script src="/js/main.js"></script>
     
     
+<script
+    src="https://giscus.app/client.js"
+    data-repo="ziheng5/ziheng5.github.io"
+    data-repo-id="R_kgDONTCwmA"
+    data-category="Announcements"
+    data-category-id="DIC_kwDONTCwmM4Cqj_g"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
 
 
 
 
     
 </body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
 </html>
