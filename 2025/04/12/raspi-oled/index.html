@@ -219,14 +219,20 @@
 
     <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
+        <hr>
+    
         
     <div id="toc">
-        <strong class="sidebar-title">目录</strong>
+        <font style="font-size: 20px"><strong>目录</strong></font>
         <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 硬件连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 代码调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. 显示汉字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. 其他 API</span></a></li></ol>
+	    <!-- <p id="text"></p> -->
+	
+    <hr>
+
     </div>
 
 
-            <blockquote>
+        <blockquote>
 <p>本文使用 <code>luma.oled</code> 库来对 I2C 接口 oled 显示器进行编辑</p>
 <p><code>luma.oled</code> 支持 <strong>SSD1306 &#x2F; SSD1309 &#x2F; SSD1322 &#x2F; SSD1325 &#x2F; SSD1327 &#x2F; SSD1331 &#x2F; SSD1351 &#x2F; SSD1362 &#x2F; SH1106 &#x2F; WS0010</strong></p>
 <p>安装 <code>luma.oled</code> 只需要在 python 虚拟环境中使用 pip 安装即可：</p>
@@ -342,7 +348,7 @@ sleep(5)
 </ul>
 <h2><span id="4-其他-api">4. 其他 API</span></h2><p>具体参考<a target="_blank" rel="noopener" href="https://luma-oled.readthedocs.io/en/latest/">官方文档</a></p>
 
-        </div>
+    </div>
 
     
     

@@ -207,7 +207,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
                     深度学习
                 </a>
             </span>
@@ -221,7 +221,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/CV/" style="color: #00bcd4">
+                <a href="/tags/CV/" style="color: #00a596">
                     CV
                 </a>
             </span>
@@ -233,14 +233,20 @@
 
     <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
+        <hr>
+    
         
     <div id="toc">
-        <strong class="sidebar-title">目录</strong>
+        <font style="font-size: 20px"><strong>目录</strong></font>
         <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 实机演示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 代码详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.1 导入必要的包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.2 设计程序框架</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.3 无人机键盘控制设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.4 目标实时检测设计</span></a></li></ol></li></ol>
+	    <!-- <p id="text"></p> -->
+	
+    <hr>
+
     </div>
 
 
-            <blockquote>
+        <blockquote>
 <p>经过一段时间的筹备，Coldrain 花了 <strong>1.2k</strong> 把电脑的内存从 16G 扩充到了 <strong>64G</strong>，于是终于有了在电脑上同时进行实时渲染调试和模型运算的信心 💪（这个月要开始吃土了 🪨）</p>
 <p>于是趁着五一假期，Coldrain 写了一个小程序，实现了在 <strong>AirSim</strong> 插件中使用键盘控制无人机自由飞行，同时利用 <strong>YOLOv8s</strong> 模型实现无人机的实时目标检测</p>
 <p>PS：你问为什么不用厉害点的模型？买不起 <strong>Jetson Nano</strong> 这种档次的设备，就算仿真有效，硬件条件也不支持迁移啊 😭（而且目前 Coldrain 也没有正式学过<strong>边缘计算</strong>）</p>
@@ -448,7 +454,7 @@ if __name__ == &quot;__main__&quot;:
         cv2.destroyAllWindows()
 </code></pre>
 
-        </div>
+    </div>
 
     
     

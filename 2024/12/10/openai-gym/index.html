@@ -207,7 +207,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
                     强化学习
                 </a>
             </span>
@@ -219,14 +219,20 @@
 
     <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
+        <hr>
+    
         
     <div id="toc">
-        <strong class="sidebar-title">目录</strong>
+        <font style="font-size: 20px"><strong>目录</strong></font>
         <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 剖析智能体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. OpenAI Gym API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.1 动作空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.2 观察空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.3 环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.4 创建环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.5 车摆控制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. 随机 CartPole 智能体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. Gym 的额外功能：包装器和监控器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.1 包装器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.2 监控器</span></a></li></ol></li></ol>
+	    <!-- <p id="text"></p> -->
+	
+    <hr>
+
     </div>
 
 
-            <blockquote>
+        <blockquote>
 <p>OpenAI Gym 是一个能够提供智能体统一 API 以及很多 RL 环境的库。有了它，我们就不需要写大把大把的样板代码了</p>
 <p>在这篇文章中，我们会学习如何写下第一个有随机行为的智能体，并借此来进一步熟悉 RL 中的各种概念。在这篇文章结束时，你可能会理解以下内容：</p>
 <ul>
@@ -433,7 +439,7 @@ print(&quot;Reward got: %.2f&quot; % total_reward)
 </code></pre>
 <p>传给 Monitor 类的第二个参数是监控结果存放的目录名。目录不应该存在，否则程序会抛出异常。</p>
 
-        </div>
+    </div>
 
     
     

@@ -214,14 +214,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #03a9f4">
+                <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00bcd4">
                     笔记
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E7%BA%AF%E7%90%86%E8%AE%BA/" style="color: #00bcd4">
+                <a href="/tags/%E7%BA%AF%E7%90%86%E8%AE%BA/" style="color: #00a596">
                     纯理论
                 </a>
             </span>
@@ -233,14 +233,20 @@
 
     <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
+        <hr>
+    
         
     <div id="toc">
-        <strong class="sidebar-title">目录</strong>
+        <font style="font-size: 20px"><strong>目录</strong></font>
         <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">1. 强化学习基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.1 A grid-world example（网格世界）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.2 State（状态）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.3 State space（状态空间）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.4 Action（动作）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.5 Action space（动作空间）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.6 State transition（状态转移）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.6.1 什么是 state transition？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.6.2 考虑复杂情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.6.3 state transition 的表达方式（两种）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.7 Policy（策略）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.7.1 什么是 Policy？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.7.2 如何表示 Policy？（两种）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.8 Reward（奖励）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.8.1 什么是 Reward？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.8.2 如何设计 Reward？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.8.3 如何表示 Reward？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.9 Trajectory</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.9.1 什么是Trajectory？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.9.2 return</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.9.3 比较trajectory优劣</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.9.4 Discounted return</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.10 Episode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.11 MDP（Markov decision process 马尔科夫链）</span></a></li></ol></li></ol>
+	    <!-- <p id="text"></p> -->
+	
+    <hr>
+
     </div>
 
 
-            <h1><span id="1-强化学习基本概念">1. 强化学习基本概念</span></h1><h2><span id="11-a-grid-world-example网格世界">1.1 A grid-world example（网格世界）</span></h2><p><img src="/./images/rl_note1/pic1.png" alt="pic1.png"></p>
+        <h1><span id="1-强化学习基本概念">1. 强化学习基本概念</span></h1><h2><span id="11-a-grid-world-example网格世界">1.1 A grid-world example（网格世界）</span></h2><p><img src="/./images/rl_note1/pic1.png" alt="pic1.png"></p>
 <p>在本课程中，网格世界的例子将贯穿始终（如上图所示）</p>
 <p>在这个网格世界中，有一个机器人在行走。</p>
 <p>网格世界中的每一个小网格，它们有不同的类型，比如有的网格是accessible，即可以进入的，用白色来表示；有的网格是forbidden，即不可进入的，用黄色来表示；另外还有一个target area，即我们希望机器人进入的网格。</p>
@@ -613,7 +619,7 @@
 <p>小结：</p>
 <p><img src="/./images/rl_note1/pic14.png" alt="pic14.png"></p>
 
-        </div>
+    </div>
 
     
     

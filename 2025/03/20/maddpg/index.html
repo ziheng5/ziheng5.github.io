@@ -207,14 +207,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
+                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
                     深度学习
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
                     强化学习
                 </a>
             </span>
@@ -226,14 +226,20 @@
 
     <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
+        <hr>
+    
         
     <div id="toc">
-        <strong class="sidebar-title">目录</strong>
+        <font style="font-size: 20px"><strong>目录</strong></font>
         <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1. 什么是梯度爆炸（Gradient Explosion）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2. 梯度爆炸的原因</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">(1) 网络结构问题：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">(2) 样本问题：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3. 如何解决梯度爆炸</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">(1) 梯度裁剪（Gradient Clipping）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">(2) 权重初始化（Weight Initialization）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">(3) 归一化层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">(4) 残差连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">(5) 激活函数与输出层调整</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">(6) 减少网络深度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">(7) 输入归一化（Input Normalization）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4. 如何针对梯度进行调试</span></a></li></ol>
+	    <!-- <p id="text"></p> -->
+	
+    <hr>
+
     </div>
 
 
-            <blockquote>
+        <blockquote>
 <p><strong>本文背景：</strong></p>
 <p>两个月前，Coldrain 开始进军 MADRL（Multi-Agent Deep Reinforcement Learning）领域，并跟着老师和前辈开展相关方面的实验。</p>
 <p>然而在实验过程中，Coldrain 被一个可怕的现象困扰了许久 —— Coldrain 训练的智能体在环境中一直在重复相同动作，且丝毫不考虑奖励函数的约束。</p>
@@ -306,7 +312,7 @@ optimizer.step()
 <li><strong>可视化分析</strong>：绘制训练曲线，检查Critic损失、Actor输出分布、奖励变化。</li>
 </ol>
 
-        </div>
+    </div>
 
     
     
