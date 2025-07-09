@@ -207,7 +207,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
                     强化学习
                 </a>
             </span>
@@ -220,18 +220,6 @@
     <!-- 显示文章特有的模块（如标签、分类） -->
     <div class="content" v-pre>
         <hr>
-    
-        
-    <div id="toc">
-        <font style="font-size: 20px"><strong>目录</strong></font>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">1. 什么是 Universal Value Function Approximator（UVFA）？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.1 核心思想</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">🔁 从 Q(s, a) → Q(s, a, g)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.2 应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.3 UVFA 的训练方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">Bellman 更新形式：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.4 神经网络实现方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.5 UVFA 的优势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.6 与 HER 的关系</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">2. 示例任务：GridWorld 多目标导航</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.1 环境设定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.2 UVFA 代码结构（基于 PyTorch）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1️⃣ 状态 + 目标 合并输入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2️⃣ 示例输入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3️⃣ Q-Learning 更新（伪代码）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4️⃣ 多目标训练示意</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">📈 效果与泛化能力</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">🚀 小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">📚 参考文献</span></a></li></ol></li></ol>
-	    <!-- <p id="text"></p> -->
-	
-    <hr>
-
-    </div>
-
-
         <blockquote>
 <p>论文地址：</p>
 </blockquote>
@@ -240,7 +228,7 @@
 <p>而 UVFA 允许我们同时处理 <strong>多个目标（multi-goal）或多个任务（multi-task）</strong> 的问题。</p>
 <hr>
 <h2><span id="11-核心思想">1.1 核心思想</span></h2><h3><span id="从-qs-a-qs-a-g">🔁 从 Q(s, a) → Q(s, a, g)</span></h3><p>UVFA 把“目标 $g$” 作为一个额外的输入引入 Q 函数中：</p>
-<p>$$<br>Q(s, a, g) &#x3D; \mathbb{E}[R_t | s_t &#x3D; s, a_t &#x3D; a, g]<br>$$</p>
+<p>$$ Q(s, a, g) &#x3D; \mathbb{E}[R_t | s_t &#x3D; s, a_t &#x3D; a, g] $$</p>
 <p>其中：</p>
 <ul>
 <li>$s$：当前状态；</li>
@@ -276,7 +264,7 @@
 <p>在这种情况下，我们可以用一个统一的 Q 函数，训练出能够适应不同目标的策略。</p>
 <hr>
 <h2><span id="13-uvfa-的训练方式">1.3 UVFA 的训练方式</span></h2><p>UVFA 可以和常规的强化学习算法（如 DQN、DDPG）结合使用。其训练方式与标准 Q-learning 类似，只是将目标 $g$ 一并作为输入。</p>
-<h3><span id="bellman-更新形式">Bellman 更新形式：</span></h3><p>$$<br>Q(s, a, g) \leftarrow r + \gamma \cdot \max_{a’} Q(s’, a’, g)<br>$$</p>
+<h3><span id="bellman-更新形式">Bellman 更新形式：</span></h3><p>$$ Q(s, a, g) \leftarrow r + \gamma \cdot \max_{a’} Q(s’, a’, g) $$</p>
 <p>这里的目标 $g$ 在整个 episode 中保持不变。</p>
 <hr>
 <h2><span id="14-神经网络实现方式">1.4 神经网络实现方式</span></h2><p>你可以将状态 $s$、目标 $g$、动作 $a$ 作为神经网络的输入之一，例如：</p>

@@ -1,0 +1,675 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>利用 Python 绘制环形热力图 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="希望成为自己喜欢的模样" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>利用 Python 绘制环形热力图</h1>
+    </div>
+
+    
+     
+    <!-- post 部分设计 -->
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/7/8
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E7%BB%98%E5%9B%BE/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                绘图
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" style="color: #03a9f4">
+                    统计学
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00a596">
+                    数学建模
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BB%98%E5%9B%BE/" style="color: #ffa2c4">
+                    绘图
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+
+    <!-- 显示文章特有的模块（如标签、分类） -->
+    <div class="content" v-pre>
+        <hr>
+        <blockquote>
+<p>暑假伊始，Coldrain 参加了学校举办的数模集训，集训的过程中，遇到了需要展示 59 个特征与 15 个指标之间的相关性的情况，在常用的图表不大合适的情况下，学到了一些<strong>厉害的图表</strong>，但是似乎千篇一律都是用 R 语言、MATLAB 和 SPSS 绘制，Python 代码少之又少，遂作此篇，以为模板。</p>
+<p>题目地址：<br><a target="_blank" rel="noopener" href="https://www.mcm.edu.cn/problem/2012/2012.html">2012 年全国大学生数学建模竞赛 A 题</a></p>
+<p>参考资料：<br>[1] <a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/pie_and_polar_charts/nested_pie.html#sphx-glr-gallery-pie-and-polar-charts-nested-pie-py">matplotlib 官网嵌套饼图教学（Nested pie charts）</a><br>[2] <a target="_blank" rel="noopener" href="https://matplotlib.org/stable/users/explain/colors/colormaps.html">matplotlib 官网 colormaps 一览</a><br>[3] <a target="_blank" rel="noopener" href="https://www.bioinformatics.com.cn/plot_basic_circular_cluster_heatmap_plot_070">Coldrain 最初遇到的环形热力图</a></p>
+</blockquote>
+<p>网络上找到的环形热力图 be like：</p>
+<p><img src="/../images/mathematic_maps/ring_heat_map_exp.png" alt="ring_heat_map_exp"></p>
+<p>这种图片究竟是如何绘制出来的呢？</p>
+<p>接下来，和小生用 Python 手搓一个吧喵 🐱</p>
+<h2><span id="1-嵌套饼图nested-pie-charts">1. 嵌套饼图（Nested Pie Charts）</span></h2><p>一开始，Coldrain 并无一点头绪，于是在 <strong>matplotlib 官网上提供的千奇百怪的图表样例</strong>里翻找，找到了一个叫做 <strong>Nested Pie Charts</strong> 的东西，翻译过来叫做嵌套饼图，官网给的嵌套饼图长这个样子：</p>
+<p><img src="/../images/mathematic_maps/nested_pie_charts.png" alt="nested_pie_charts"></p>
+<p>官网给出的第一份案例代码如下：</p>
+<pre><code class="Python">import numpy as np
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots()
+
+size = 0.3
+vals = np.array([[60., 32.], [37., 40.], [29., 10.]])
+
+tab20c = plt.color_sequences[&quot;tab20c&quot;]
+outer_colors = [tab20c[i] for i in [0, 4, 8]]
+inner_colors = [tab20c[i] for i in [1, 2, 5, 6, 9, 10]]
+
+ax.pie(vals.sum(axis=1), radius=1, colors=outer_colors,
+       wedgeprops=dict(width=size, edgecolor=&#39;w&#39;))
+
+ax.pie(vals.flatten(), radius=1-size, colors=inner_colors,
+       wedgeprops=dict(width=size, edgecolor=&#39;w&#39;))
+
+ax.set(aspect=&quot;equal&quot;, title=&#39;Pie plot with `ax.pie`&#39;)
+plt.show()
+</code></pre>
+<p>但是！采用这种方法实现嵌套饼图的效率虽然很高，但是灵活性不高，不便于实现精细设计，于是官方又给出了下面这个新的实现代码：</p>
+<pre><code class="Python">import numpy as np
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(subplot_kw=dict(projection=&quot;polar&quot;))
+
+size = 0.3
+vals = np.array([[60., 32.], [37., 40.], [29., 10.]])
+# Normalize vals to 2 pi
+valsnorm = vals/np.sum(vals)*2*np.pi
+# Obtain the ordinates of the bar edges
+valsleft = np.cumsum(np.append(0, valsnorm.flatten()[:-1])).reshape(vals.shape)
+
+cmap = plt.colormaps[&quot;tab20c&quot;]
+outer_colors = cmap(np.arange(3)*4)
+inner_colors = cmap([1, 2, 5, 6, 9, 10])
+
+ax.bar(x=valsleft[:, 0],
+       width=valsnorm.sum(axis=1), bottom=1-size, height=size,
+       color=outer_colors, edgecolor=&#39;w&#39;, linewidth=1, align=&quot;edge&quot;)
+
+ax.bar(x=valsleft.flatten(),
+       width=valsnorm.flatten(), bottom=1-2*size, height=size,
+       color=inner_colors, edgecolor=&#39;w&#39;, linewidth=1, align=&quot;edge&quot;)
+
+ax.set(title=&quot;Pie plot with `ax.bar` and polar coordinates&quot;)
+ax.set_axis_off()
+plt.show()
+</code></pre>
+<p>现在，我们认真读一下上面的这段代码。</p>
+<blockquote>
+<p>⚠️ Coldrain 觉得有必要认真读一下。</p>
+</blockquote>
+<h4><span id="gtgt-11-创建极坐标图">&gt;&gt; 1.1 创建极坐标图</span></h4><pre><code class="python">fig, ax = plt.subplots(subplot_kw=dict(projection=&quot;polar&quot;))
+</code></pre>
+<ul>
+<li>首先创建一个子图（<code>fig, ax</code>），并指定为极坐标投影 <code>projection=&quot;polar&quot;</code>。</li>
+<li>所有角度以弧度制表示，从 0 开始，逆时针增加。</li>
+</ul>
+<h4><span id="gtgt-12-设置参数和数据">&gt;&gt; 1.2 设置参数和数据</span></h4><pre><code class="python">size = 0.3
+vals = np.array([[60., 32.], [37., 40.], [29., 10.]])
+</code></pre>
+<ul>
+<li><code>size</code>：每一个圆环的厚度（即扇形外圈半径长度减去内圈半径长度）</li>
+<li><code>vals</code>：二维数组，每一行表示外圈的一个扇区，每行中两个数字表示该扇区内部的两个子分类（用于内圈）<blockquote>
+<p>❓ 看到这个 <code>vals</code> 的形状和对应的饼图形状，你想到了什么？没错，似乎可以通过改变 vals 的维度来实现环形热力图的形状！</p>
+</blockquote>
+</li>
+</ul>
+<h4><span id="gtgt-13-角度归一化">&gt;&gt; 1.3 角度归一化</span></h4><pre><code class="python">valsnorm = vals / np.sum(vals) * 2 * np.pi
+</code></pre>
+<ul>
+<li>先将 <code>vals</code> 所有数值加起来，然后把每个值按比例映射到 [0, $2\pi$] 的弧度范围（也就是一整圈的弧度）</li>
+<li>得到每个子块对应的角度宽度</li>
+</ul>
+<h4><span id="gtgt-14-计算起始角度边界">&gt;&gt; 1.4 计算起始角度（边界）</span></h4><pre><code class="python">valsleft = np.cumsum(np.append(0, valsnorm.flatten()[:-1])).reshape(vals.shape)
+</code></pre>
+<ul>
+<li><code>valsnorm.flatten()</code> 把二维数组拉成一维</li>
+<li><code>np.cumsum(...)</code> 计算角度的累积和，也就是每个条形的起始角度</li>
+<li><code>reshape(vals.shape)</code> 把它还原为原来二维结构</li>
+</ul>
+<h4><span id="gtgt-15-设置颜色">&gt;&gt; 1.5 设置颜色</span></h4><pre><code class="python">cmap = plt.colormaps[&quot;tab20c&quot;]
+outer_colors = cmap(np.arange(3)*4)
+inner_colors = cmap([1, 2, 5, 6, 9, 10])
+</code></pre>
+<ul>
+<li>使用 <code>tab20c</code> 调色板。</li>
+<li><code>outer_colors</code>：每个外圈段使用不同颜色（间隔选择索引 0、4、8）。</li>
+<li><code>inner_colors</code>：内圈颜色从调色板中挑选不同颜色索引。</li>
+</ul>
+<blockquote>
+<p>🎨 关于 <code>tab20c</code> 调色板：</p>
+<p><code>tab20c</code> 是 <code>matplotlib</code> 中内置的<strong>分类调色板</strong>，共有 20 种颜色，包括 5 个颜色组（每组 4 个颜色）。其构成如下：</p>
+<table>
+<thead>
+<tr>
+<th>颜色组</th>
+<th>索引范围</th>
+<th>颜色说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>组 1</td>
+<td>0-3</td>
+<td>蓝绿色系（蓝、浅蓝、灰蓝等）</td>
+</tr>
+<tr>
+<td>组 2</td>
+<td>4-7</td>
+<td>橙色系（橙、浅橙、灰橙等）</td>
+</tr>
+<tr>
+<td>组 3</td>
+<td>8-11</td>
+<td>红紫色系（红、粉红、灰红等）</td>
+</tr>
+<tr>
+<td>组 4</td>
+<td>12-15</td>
+<td>绿色系（绿、浅绿、灰绿等）</td>
+</tr>
+<tr>
+<td>组 5</td>
+<td>16-19</td>
+<td>灰紫色系（紫灰、浅紫等）</td>
+</tr>
+</tbody></table>
+</blockquote>
+<h4><span id="gtgt-16-绘制外圈大类">&gt;&gt; 1.6 绘制外圈（大类）</span></h4><pre><code class="python">ax.bar(x=valsleft[:, 0],
+       width=valsnorm.sum(axis=1), bottom=1-size, height=size,
+       color=outer_colors, edgecolor=&#39;w&#39;, linewidth=1, align=&quot;edge&quot;)
+</code></pre>
+<ul>
+<li>每个外圈<strong>段的起始角度</strong>为 <code>valsleft[:, 0]</code></li>
+<li><code>width=valsnorm.sum(axis=1)</code>：每个大类的角度宽度是该行两个值之和。</li>
+<li><code>bottom=1-size</code>：外圈从半径 0.7 开始（1-0.3&#x3D;0.7）</li>
+<li><code>height=size</code>：厚度是 0.3</li>
+<li><code>align=&quot;edge&quot;</code>：从 <code>x</code> 角度开始绘制</li>
+</ul>
+<h4><span id="gtgt-17-绘制内圈子类">&gt;&gt; 1.7 绘制内圈（子类）</span></h4><pre><code class="python">ax.bar(x=valsleft.flatten(),
+       width=valsnorm.flatten(), bottom=1-2*size, height=size,
+       color=inner_colors, edgecolor=&#39;w&#39;, linewidth=1, align=&quot;edge&quot;)
+</code></pre>
+<ul>
+<li>每个内圈段的起始角度为展平后的 <code>valsleft</code></li>
+<li>每段的角度宽度来自展平后的 <code>valsnorm</code></li>
+<li><code>bottom=1-2*size</code>：从半径 0.4 开始</li>
+<li>用不同颜色表示不同子类</li>
+</ul>
+<h4><span id="gtgt-18-清理图像">&gt;&gt; 1.8 清理图像</span></h4><pre><code class="python">ax.set(title=&quot;Pie plot with `ax.bar` and polar coordinates&quot;)
+ax.set_axis_off()
+</code></pre>
+<ul>
+<li>设置标题</li>
+<li>去掉极坐标轴的刻度、边框等</li>
+</ul>
+<h2><span id="2-着手绘制环形热力图">2. 着手绘制环形热力图</span></h2><blockquote>
+<p>由于数据采用的是小生本地的数据，所以这部分代码应该只能用作学习、讲解，如果你<strong>想要开袋即食的函数</strong>，可以根据下面的代码进行调整（</p>
+</blockquote>
+<p>具体讲解咱们<strong>以注释的形式</strong>写在代码块里喵：</p>
+<pre><code class="Python">&#39;&#39;&#39;
+Part1 导入库
+&#39;&#39;&#39;
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.cm import get_cmap, ScalarMappable
+import pandas as pd
+from matplotlib.colors import Normalize, mcolors # 用于标准化颜色映射和自定义 colormap
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes   # 在极坐标图中嵌入色条
+import matplotlib.font_manager as fm      # 支持中文字体加载
+
+
+&#39;&#39;&#39;
+Part2 读取数据   
+这里小生用的是自己的数据，如果需要参考的话，请务必替
+换成自己的数据
+（其实这部分不需要关注，直接跳转到 Part3 即可）
+&#39;&#39;&#39;
+red_results = pd.read_excel(&#39;red_results.xlsx&#39;)
+df_doc2_1 = pd.read_excel(&#39;doc2.xls&#39;)
+unprocessed_categories = df_doc2_1.columns.tolist()
+categories = [item for item in unprocessed_categories if &#39;Unnamed&#39; not in item][1:]
+color = categories.pop(-1)
+for i in [&#39;L&#39;, &#39;a&#39;, &#39;b&#39;, &#39;H&#39;, &#39;c&#39;]:
+    categories.append(color+i)
+
+df_doc2_2 = pd.read_excel(&#39;doc2.xls&#39;, sheet_name=&#39;葡萄酒&#39;)
+
+unprocessed_categories = df_doc2_2.columns.tolist()
+categories_red = [item for item in unprocessed_categories if &#39;Unnamed&#39; not in item][1:]
+color = categories_red.pop(-1)
+for i in [&#39;L&#39;, &#39;a&#39;, &#39;b&#39;, &#39;H&#39;, &#39;c&#39;]:
+    categories_red.append(color+i)
+
+categories_white = deepcopy(categories_red[1:])
+
+unprocessed_grape_features = red_results.iloc[:,0].to_list()
+grape_features = []
+for i in unprocessed_grape_features:
+    if i not in grape_features:
+        grape_features.append(i)
+
+unprocessed_wine_features = red_results.iloc[:,1].to_list()
+wine_features = []
+for i in unprocessed_wine_features:
+    if i not in wine_features:
+        wine_features.append(i)
+
+
+&#39;&#39;&#39;
+Part3 将相关系数填入 59*15 大小的列表中
+（这里只需要生成你自己的数据即可）
+&#39;&#39;&#39;
+feature_value_map = [[0.0 for i in range(59)] for j in range(15)]
+
+for i in range(145):
+    line = red_results.iloc[i,:].to_list()
+    # print(line)
+    n_col = categories.index(line[0])
+    n_row = categories_red.index(line[1])
+    # print(n_row, n_col)
+    feature_value_map[n_row][n_col] = line[2]
+
+
+&#39;&#39;&#39;
+Part4 图片绘制
+&#39;&#39;&#39;
+def truncate_colormap(cmap, minval=0.2, maxval=0.8, n=256):
+    &quot;&quot;&quot;
+    这个函数用来实现 cmap 的截取，具体 cmap 操作可参考
+    matplotlib 官网
+    &quot;&quot;&quot;
+    new_cmap = mcolors.LinearSegmentedColormap.from_list(
+        f&#39;trunc(&#123;cmap.name&#125;, &#123;minval:.2f&#125;, &#123;maxval:.2f&#125;)&#39;,
+        cmap(np.linspace(minval, maxval, n))
+    )
+    return new_cmap
+
+# 手动添加中文字体（请根据实际路径更改）
+font_path = &#39;/usr/share/fonts/noto-cjk/NotoSansCJK-Medium.ttc&#39;
+my_font = fm.FontProperties(fname=font_path)
+
+# 参数设置
+num_rings = 15       # 行数（饼图圈数）
+num_segments = 59    # 列数（每圈有多少小格）
+ring_width = 0.5 / num_rings  # 控制总半径范围在 [0.5, 1]
+angle_width = (1.75 * np.pi) / num_segments      # 这里如果调成 2*np.pi 的话是一个完整的圆
+angles = np.linspace(0.5 * np.pi, 2.25 * np.pi, num_segments, endpoint=False)       # 设置起始角度和结束角度
+
+# 采用蓝-白-红渐变的配色（请根据个人喜好自行调整）
+cmap = get_cmap(&quot;RdBu&quot;).reversed()      # 这里对 cmap 进行取反操作
+cmap = truncate_colormap(cmap, minval=0.1, maxval=0.9)
+norm = Normalize(vmin=-1, vmax=1)
+
+# 创建画布
+fig, ax = plt.subplots(figsize=(10, 10), subplot_kw=dict(polar=True))
+ax.set_axis_off()    # 将坐标轴隐藏
+ax.set_title(&quot;酿酒红葡萄理化指标与红葡萄酒理化指标之间的关系热力图&quot;, fontsize=14, fontproperties=my_font)       # 设置标题
+
+# 绘制所有圈（从外向内）
+for i in range(num_rings):
+    bottom = 0.8 - (i + 1) * ring_width   # 每一圈的起始位置
+    height = ring_width
+    
+    for j in range(num_segments):
+        color = cmap((feature_value_map[i][j] + 1)/2)   # 颜色映射
+        theta = angles[j]   # 当前段（单元格）中心角度
+        radius = bottom + height / 2      # 填入数值的位置（方格上界和下界中间的位置）
+
+        # 对每个单元格执行操作
+        ax.bar(
+            x=angles[j],    # 中心角度
+            width=angle_width,     # 扇形的角度宽度
+            bottom=bottom,  # 环的底部半径
+            height=height,  # 环的厚度
+            color=color,    # 采用的颜色
+            edgecolor=&quot;black&quot;,     # 设置分割线颜色
+            linewidth=0.3,  # 设置分割线宽度
+            align=&quot;edge&quot;    # 对齐方式（从角度边缘开始）
+        )
+        if np.abs(feature_value_map[i][j]) &gt; 0:
+            ax.text(
+                theta + angle_width / 2,  # 移到扇形中间
+                radius,
+                f&quot;&#123;feature_value_map[i][j]:.2f&#125;&quot;,            # 保留两位小数
+                ha=&#39;center&#39;, va=&#39;center&#39;,   # 水平/垂直居中（horizontal/verticle）
+                fontsize=4.5,
+                color=&#39;black&#39; if abs(feature_value_map[i][j]) &lt; 0.7 else &#39;white&#39;,  # 自适应颜色
+                rotation=0  # 不旋转文本
+            )
+
+# 在最外圈插入指标名称
+label_radius = (0.3 + num_rings * ring_width + 0.02)  # 最外圈外一点点
+indicator_labels = [f&#39;HG&#123;i&#125;&#39; for i in range(1, num_segments + 1)]
+for j in range(num_segments):
+    theta = angles[j] + angle_width / 2  # 扇形中间角度
+    label = indicator_labels[j]
+
+    ax.text(
+        theta,
+        label_radius,
+        label,
+        fontsize=8,
+        ha=&#39;center&#39;,
+        va=&#39;center&#39;,
+        rotation=np.degrees(theta - np.pi / 2),
+        rotation_mode=&#39;anchor&#39;
+    )
+
+# 在圆环缺口处添加文字
+theta_gap = np.deg2rad(90)  # 可调
+ring_width = 0.5 / num_rings
+for i in range(num_rings):
+    radius = 0.3 + i * ring_width + ring_width / 2
+    ax.text(
+        theta_gap,
+        radius,
+        f&quot;  HW&#123;15-i&#125;&quot;,              # 或者你自定义的 label[i]
+        fontsize=6.5,
+        ha=&#39;left&#39;,               # 靠左对齐，文字朝外
+        va=&#39;center&#39;,
+        rotation=0,
+        rotation_mode=&#39;anchor&#39;,
+        color=&#39;black&#39;
+    )
+
+# 在极坐标图的中间嵌入一个小长条色带（纵向）
+cbar_ax = inset_axes(ax,
+    width=&quot;4%&quot;,   # 相对于父图宽度
+    height=&quot;25%&quot;,  # 相对于父图高度
+    loc=&#39;center&#39;   # 放在图中心
+)
+
+sm = ScalarMappable(cmap=cmap, norm=norm)
+sm.set_array([])
+cbar = plt.colorbar(sm, cax=cbar_ax, orientation=&#39;vertical&#39;)
+cbar.set_label(&quot;相关系数 R&quot;, fontsize=10, fontproperties=my_font)
+
+# 保存图片
+plt.tight_layout()
+# plt.show()
+plt.savefig(&quot;my_figure2.png&quot;, dpi=300, bbox_inches=&#39;tight&#39;)
+</code></pre>
+<p>运行之后，得到的效果图如下所示：<br><img src="/../images/mathematic_maps/ring_heat_map_works.png" alt="final_work"></p>
+<p>效果图的配色等设计可能有欠缺的地方，但由于时间紧迫，并没有太多时间用于色彩、样式设计…</p>
+
+    </div>
+
+    
+    
+    
+    
+    <div id="comment">
+        <div id="giscus-container" class="giscus"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+
+    
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="ziheng5/ziheng5.github.io"
+    data-repo-id="R_kgDONTCwmA"
+    data-category="Announcements"
+    data-category-id="DIC_kwDONTCwmM4Cqj_g"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>
