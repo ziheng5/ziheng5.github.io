@@ -27,9 +27,7 @@ Universal Value Function Approximator（通用值函数逼近器）是强化学�
 
 UVFA 把“目标 $g$” 作为一个额外的输入引入 Q 函数中：
 
-$$
-Q(s, a, g) = \mathbb{E}[R_t | s_t = s, a_t = a, g]
-$$
+$$ Q(s, a, g) = \mathbb{E}[R_t | s_t = s, a_t = a, g] $$
 
 其中：
 
@@ -62,9 +60,7 @@ UVFA 可以和常规的强化学习算法（如 DQN、DDPG）结合使用。其�
 
 ### Bellman 更新形式：
 
-$$
-Q(s, a, g) \leftarrow r + \gamma \cdot \max_{a'} Q(s', a', g)
-$$
+$$ Q(s, a, g) \leftarrow r + \gamma \cdot \max_{a'} Q(s', a', g) $$
 
 这里的目标 $g$ 在整个 episode 中保持不变。
 
