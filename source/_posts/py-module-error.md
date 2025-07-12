@@ -5,7 +5,6 @@ tags:
     - Python
     - Archlinux
 categories: 
-    - 编程语言
     - Archlinux
 description: |
     ❓ 诶？明明已经装上包了啊...为什么还会报错呢？

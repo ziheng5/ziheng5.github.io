@@ -15,11 +15,6 @@ description: |
 >
 > 题目地址：
 > [2012 年全国大学生数学建模竞赛 A 题](https://www.mcm.edu.cn/problem/2012/2012.html)
->
-> 参考资料：
-> [1] [matplotlib 官网嵌套饼图教学（Nested pie charts）](https://matplotlib.org/stable/gallery/pie_and_polar_charts/nested_pie.html#sphx-glr-gallery-pie-and-polar-charts-nested-pie-py)
-> [2] [matplotlib 官网 colormaps 一览](https://matplotlib.org/stable/users/explain/colors/colormaps.html)
-> [3] [Coldrain 最初遇到的环形热力图](https://www.bioinformatics.com.cn/plot_basic_circular_cluster_heatmap_plot_070)
 
 网络上找到的环形热力图 be like：
 
@@ -28,6 +23,8 @@ description: |
 这种图片究竟是如何绘制出来的呢？
 
 接下来，和小生用 Python 手搓一个吧喵 🐱
+
+---
 
 ## 1. 嵌套饼图（Nested Pie Charts）
 一开始，Coldrain 并无一点头绪，于是在 **matplotlib 官网上提供的千奇百怪的图表样例**里翻找，找到了一个叫做 **Nested Pie Charts** 的东西，翻译过来叫做嵌套饼图，官网给的嵌套饼图长这个样子：
@@ -180,6 +177,7 @@ ax.set_axis_off()
 - 设置标题
 - 去掉极坐标轴的刻度、边框等
 
+---
 
 ## 2. 着手绘制环形热力图
 > 由于数据采用的是小生本地的数据，所以这部分代码应该只能用作学习、讲解，如果你**想要开袋即食的函数**，可以根据下面的代码进行调整（
@@ -374,3 +372,11 @@ plt.savefig("my_figure2.png", dpi=300, bbox_inches='tight')
 ![final_work](../images/mathematic_maps/ring_heat_map_works.png)
 
 效果图的配色等设计可能有欠缺的地方，但由于时间紧迫，并没有太多时间用于色彩、样式设计...
+
+---
+## 3. 参考
+[1] [matplotlib 官网嵌套饼图教学（Nested pie charts）](https://matplotlib.org/stable/gallery/pie_and_polar_charts/nested_pie.html#sphx-glr-gallery-pie-and-polar-charts-nested-pie-py)
+
+[2] [matplotlib 官网 colormaps 一览](https://matplotlib.org/stable/users/explain/colors/colormaps.html)
+
+[3] [Coldrain 最初遇到的环形热力图](https://www.bioinformatics.com.cn/plot_basic_circular_cluster_heatmap_plot_070)
