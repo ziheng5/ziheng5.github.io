@@ -221,7 +221,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%BB%98%E5%9B%BE/" style="color: #ffa2c4">
+                <a href="/tags/%E7%BB%98%E5%9B%BE/" style="color: #ff7d73">
                     绘图
                 </a>
             </span>
@@ -237,12 +237,12 @@
         <blockquote>
 <p>暑假伊始，Coldrain 参加了学校举办的数模集训，集训的过程中，遇到了需要展示 59 个特征与 15 个指标之间的相关性的情况，在常用的图表不大合适的情况下，学到了一些<strong>厉害的图表</strong>，但是似乎千篇一律都是用 R 语言、MATLAB 和 SPSS 绘制，Python 代码少之又少，遂作此篇，以为模板。</p>
 <p>题目地址：<br><a target="_blank" rel="noopener" href="https://www.mcm.edu.cn/problem/2012/2012.html">2012 年全国大学生数学建模竞赛 A 题</a></p>
-<p>参考资料：<br>[1] <a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/pie_and_polar_charts/nested_pie.html#sphx-glr-gallery-pie-and-polar-charts-nested-pie-py">matplotlib 官网嵌套饼图教学（Nested pie charts）</a><br>[2] <a target="_blank" rel="noopener" href="https://matplotlib.org/stable/users/explain/colors/colormaps.html">matplotlib 官网 colormaps 一览</a><br>[3] <a target="_blank" rel="noopener" href="https://www.bioinformatics.com.cn/plot_basic_circular_cluster_heatmap_plot_070">Coldrain 最初遇到的环形热力图</a></p>
 </blockquote>
 <p>网络上找到的环形热力图 be like：</p>
 <p><img src="/../images/mathematic_maps/ring_heat_map_exp.png" alt="ring_heat_map_exp"></p>
 <p>这种图片究竟是如何绘制出来的呢？</p>
 <p>接下来，和小生用 Python 手搓一个吧喵 🐱</p>
+<hr>
 <h2><span id="1-嵌套饼图nested-pie-charts">1. 嵌套饼图（Nested Pie Charts）</span></h2><p>一开始，Coldrain 并无一点头绪，于是在 <strong>matplotlib 官网上提供的千奇百怪的图表样例</strong>里翻找，找到了一个叫做 <strong>Nested Pie Charts</strong> 的东西，翻译过来叫做嵌套饼图，官网给的嵌套饼图长这个样子：</p>
 <p><img src="/../images/mathematic_maps/nested_pie_charts.png" alt="nested_pie_charts"></p>
 <p>官网给出的第一份案例代码如下：</p>
@@ -404,6 +404,7 @@ ax.set_axis_off()
 <li>设置标题</li>
 <li>去掉极坐标轴的刻度、边框等</li>
 </ul>
+<hr>
 <h2><span id="2-着手绘制环形热力图">2. 着手绘制环形热力图</span></h2><blockquote>
 <p>由于数据采用的是小生本地的数据，所以这部分代码应该只能用作学习、讲解，如果你<strong>想要开袋即食的函数</strong>，可以根据下面的代码进行调整（</p>
 </blockquote>
@@ -593,6 +594,10 @@ plt.savefig(&quot;my_figure2.png&quot;, dpi=300, bbox_inches=&#39;tight&#39;)
 </code></pre>
 <p>运行之后，得到的效果图如下所示：<br><img src="/../images/mathematic_maps/ring_heat_map_works.png" alt="final_work"></p>
 <p>效果图的配色等设计可能有欠缺的地方，但由于时间紧迫，并没有太多时间用于色彩、样式设计…</p>
+<hr>
+<h2><span id="3-参考">3. 参考</span></h2><p>[1] <a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/pie_and_polar_charts/nested_pie.html#sphx-glr-gallery-pie-and-polar-charts-nested-pie-py">matplotlib 官网嵌套饼图教学（Nested pie charts）</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://matplotlib.org/stable/users/explain/colors/colormaps.html">matplotlib 官网 colormaps 一览</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://www.bioinformatics.com.cn/plot_basic_circular_cluster_heatmap_plot_070">Coldrain 最初遇到的环形热力图</a></p>
 
     </div>
 
