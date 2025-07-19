@@ -456,12 +456,39 @@
     margin-bottom: 50px;
     z-index: 1000;
 }
+
+.toc-artical {
+    position: relative;
+}
+
+.toc-artical .toc-title{
+    font-weight: bold;
+}
+
+#toc {
+    font-size: 15px;
+}
+
+#toc .toc{
+    padding: 0
+}
+
+#toc li , .toc li {
+    list-style-type: none
+}
+
+#toc ol {
+    margin: 0;
+}
+
+#toc .toc-child {
+    padding-left: 1.5em
+}
+
 #timeline-wrap {
     display: flex;
     flex-direction: column-reverse;
 }
-
-
 * {
     margin: 0;
     padding: 0;
@@ -1113,3 +1140,71 @@ ol li {
   }
 
   
+#post-toc-card #toc-card-style {
+    background: #fff;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 60px); /* 最大高度为视口高度减上下边距 */
+    justify-content: center;
+    overflow: auto;
+    position: fixed;
+    text-align: left;
+    top: 15vh;
+    width: 240px;
+    padding-left: 35px;
+    padding-right: 35px;
+}
+#post-toc-card #toc-card-div {
+    overflow: auto;
+    padding: 25px 0;
+}
+
+
+
+/* 文章内容和目录的分布设计 */
+.article-wrap {
+    display: flex;
+    width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    gap: 40px;
+  }
+  
+  .article-content {
+    flex: 5;
+    min-width: 0; /* 防止flex项目溢出 */
+  }
+  
+  .article-toc {
+    flex: 1; 
+    min-width: 0;
+    position: sticky;
+  }
+  
+  
+
+  
+  /* 响应式设计 */
+  @media (max-width: 992px) {
+    .article-wrap {
+      flex-direction: column;
+    }
+    
+    .article-toc {
+        display: none;
+    }
+    
+    .toc-card {
+      display: none;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .article-wrap {
+      padding: 15px;
+      gap: 20px;
+    }
+  }

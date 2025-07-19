@@ -174,67 +174,75 @@
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
-    <div>
-        <h1>PyTorch 深度学习、强化学习入门</h1>
-    </div>
-
     
-     
-    <!-- post 部分设计 -->
-    <div class="info">
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/12/11
-        </span>
-        
-        <span class="category">
-            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                深度学习
-            </a>
-        </span>
-        
-        
-        <span class="tags">
-            <span class="icon">
-                <i class="fa-solid fa-tags fa-fw"></i>
-            </span>
-            
-            
-            <span class="tag">
-                
-                <a href="/tags/PyTorch/" style="color: #03a9f4">
-                    PyTorch
-                </a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
-                    深度学习
-                </a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
-                    强化学习
-                </a>
-            </span>
-            
-        </span>
-        
-    </div>
     
+        <!-- post 部分设计 -->
 
-    <!-- 显示文章特有的模块（如标签、分类） -->
-    <div class="content" v-pre>
-        <hr>
-        <h2><span id="1-张量">1. 张量</span></h2><p>张量是所有DL工具包的基本组成部分。名字听起来很神秘，但本质上张量就是一个多维数组。用数学知识来类比，单个数字就像点，是零维的，向量就像线段，是一维的，矩阵则是二维的对象。三维数字的集合可以用平行六面体表示，但它们不像矩阵一样有特定的名称。我们可以用“张量”来表示高维集合。</p>
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>PyTorch 深度学习、强化学习入门</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2024/12/11
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                深度学习
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/PyTorch/" style="color: #ff7d73">
+                                        PyTorch
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
+                                        深度学习
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
+                                        强化学习
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <h2><span id="1-张量">1. 张量</span></h2><p>张量是所有DL工具包的基本组成部分。名字听起来很神秘，但本质上张量就是一个多维数组。用数学知识来类比，单个数字就像点，是零维的，向量就像线段，是一维的，矩阵则是二维的对象。三维数字的集合可以用平行六面体表示，但它们不像矩阵一样有特定的名称。我们可以用“张量”来表示高维集合。</p>
 <p>需要注意的是，在DL中所使用的张量和在张量演算或张量代数中所用的张量相比，只在部分层面上相关。在DL中，张量是任意多维的数组，但在数学中，张量是向量空间之间的映射，在某些情况下可以表示为多维数组，但背后具有更多的语义信息。数学家通常会对任何使用公认数学术语来命名不同事物的人皱眉，因此要当心！</p>
 <h3><span id="11-创建张量">1.1 创建张量</span></h3><p>如果你熟悉 NumPy 库，那你应该知道其主要目的是以通用的方式处理多维数组。在 NumPy 中，这样的数组没被称为张量，但事实上，它们就是张量。张量在科学计算中被广泛用作数据的通用存储方式。例如，彩图会被编码成具有宽度、高度和色值的三维张量。</p>
 <p>除了维度之外，元素类型也是张量的特征之一。PyTorch支持八种类型，包括三种浮点类型（16位、32位和64位）和五种整数类型（有符号8位、无符号8位、16位、32位和64位）。不同类型的张量用不同的类表示，其中最常用的是 <code>torch.FloatTensor</code>（对应32位浮点类型）、<code>torch.ByteTensor</code>（无符号8位整数）、<code>torch.LongTensor</code>（有符号64位整数）。其余的可以在PyTorch的文档中查到。</p>
@@ -590,24 +598,46 @@ if __name__ == &quot;__main__&quot;:
 <p>Generator 将随机数向量（隐向量）作为输入，并使用“转置卷积”操作（也称为 deconvolution ）将该向量转换为原始分辨率的彩色图像。</p>
 <p>（施工中🚧）</p>
 
-    </div>
+                    </div>
+                
+            </div>
 
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 张量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.1 创建张量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.2 零维张量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.3 张量操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.4 GPU 张量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 梯度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. NN 构建块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. 自定义层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5. 最终黏合剂：损失函数和优化器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">5.1 损失函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">5.2 优化器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6. 使用 TensorBoard 进行监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">6.1 TensorBoard</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">6.2 绘图</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">7. 示例：将 GAN 应用于 Atari 图像</span></a></li></ol>
+        </div>
     
-    
-    
-    
-    <div id="comment">
-        <div id="giscus-container" class="giscus"></div>
+        </div>
     </div>
-    
-    
-    
-    
 </div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+                <div id="comment">
+                    <div id="giscus-container" class="giscus"></div>
+                </div>
+            
+            
+            
+        
 
 
     
 
+</div>
             <footer id="footer">
     <div id="footer-wrap">
         <div>

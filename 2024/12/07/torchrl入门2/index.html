@@ -174,67 +174,75 @@
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
-    <div>
-        <h1>TorchRL 入门 2</h1>
-    </div>
-
     
-     
-    <!-- post 部分设计 -->
-    <div class="info">
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/12/7
-        </span>
-        
-        <span class="category">
-            <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                强化学习
-            </a>
-        </span>
-        
-        
-        <span class="tags">
-            <span class="icon">
-                <i class="fa-solid fa-tags fa-fw"></i>
-            </span>
-            
-            
-            <span class="tag">
-                
-                <a href="/tags/PyTorch/" style="color: #00bcd4">
-                    PyTorch
-                </a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
-                    强化学习
-                </a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/tags/TorchRL/" style="color: #ffa2c4">
-                    TorchRL
-                </a>
-            </span>
-            
-        </span>
-        
-    </div>
     
+        <!-- post 部分设计 -->
 
-    <!-- 显示文章特有的模块（如标签、分类） -->
-    <div class="content" v-pre>
-        <hr>
-        <h1><span id="开始使用-torchrl-的模块">开始使用 TorchRL 的模块</span></h1><h2><span id="1-tensordict-模块">1. TensorDict 模块</span></h2><p>与环境与实例交互的方式类似 <code>TensorDict</code>，用于表示策略和值函数的模块也执行相同的操作。核心思想很简单：将标准 <code>Module</code> （或任何其他函数）封装在一个类中，该类知道需要读取哪些条目并将其传递给模块，然后使用分配的条目记录结果。为了说明这一点，我们将使用最简单的策略：<strong>从观察空间到动作空间的确定性映射</strong>。为了获得最大的通用性，我们将使用一个带有 <code>LazyLinear</code> 的我们在上一个教程中实例化的 <code>Pendulum</code> 环境的模块。</p>
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>TorchRL 入门 2</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2024/12/7
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                强化学习
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/PyTorch/" style="color: #03a9f4">
+                                        PyTorch
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
+                                        强化学习
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/TorchRL/" style="color: #00bcd4">
+                                        TorchRL
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <h1><span id="开始使用-torchrl-的模块">开始使用 TorchRL 的模块</span></h1><h2><span id="1-tensordict-模块">1. TensorDict 模块</span></h2><p>与环境与实例交互的方式类似 <code>TensorDict</code>，用于表示策略和值函数的模块也执行相同的操作。核心思想很简单：将标准 <code>Module</code> （或任何其他函数）封装在一个类中，该类知道需要读取哪些条目并将其传递给模块，然后使用分配的条目记录结果。为了说明这一点，我们将使用最简单的策略：<strong>从观察空间到动作空间的确定性映射</strong>。为了获得最大的通用性，我们将使用一个带有 <code>LazyLinear</code> 的我们在上一个教程中实例化的 <code>Pendulum</code> 环境的模块。</p>
 <pre><code class="Python">import torch
 
 from torchrl.envs import GymEnv
@@ -423,24 +431,46 @@ with set_exploration_type(ExplorationType.RANDOM):
     rollout_explore = env.rollout(max_steps=3, policy=policy_explore)
 </code></pre>
 
-    </div>
+                    </div>
+                
+            </div>
 
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">开始使用 TorchRL 的模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. TensorDict 模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 专用的 wrappers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. Network</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. 概率策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5. exploration</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6. Q-Value actors</span></a></li></ol></li></ol>
+        </div>
     
-    
-    
-    
-    <div id="comment">
-        <div id="giscus-container" class="giscus"></div>
+        </div>
     </div>
-    
-    
-    
-    
 </div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+                <div id="comment">
+                    <div id="giscus-container" class="giscus"></div>
+                </div>
+            
+            
+            
+        
 
 
     
 
+</div>
             <footer id="footer">
     <div id="footer-wrap">
         <div>

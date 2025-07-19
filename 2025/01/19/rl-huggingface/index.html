@@ -174,60 +174,68 @@
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
-    <div>
-        <h1>基于 PyTorch 与 Gym 的 PPO 算法复现</h1>
-    </div>
-
     
-     
-    <!-- post 部分设计 -->
-    <div class="info">
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/1/19
-        </span>
-        
-        <span class="category">
-            <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                强化学习
-            </a>
-        </span>
-        
-        
-        <span class="tags">
-            <span class="icon">
-                <i class="fa-solid fa-tags fa-fw"></i>
-            </span>
-            
-            
-            <span class="tag">
-                
-                <a href="/tags/PyTorch/" style="color: #ff7d73">
-                    PyTorch
-                </a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
-                    强化学习
-                </a>
-            </span>
-            
-        </span>
-        
-    </div>
     
+        <!-- post 部分设计 -->
 
-    <!-- 显示文章特有的模块（如标签、分类） -->
-    <div class="content" v-pre>
-        <hr>
-        <blockquote>
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>基于 PyTorch 与 Gym 的 PPO 算法复现</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2025/1/19
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                强化学习
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/PyTorch/" style="color: #00bcd4">
+                                        PyTorch
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
+                                        强化学习
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <blockquote>
 <p>🤞 这段时间在师姐的推荐下，学习了网上关于强化学习的 PyTorch 实战视频，小生自己也是跟着视频复现了一遍 PPO 算法，于是准备写一篇 Blog 来记录学习心得</p>
 <p>框架：<strong>PyTorch</strong></p>
 <p>游戏：<strong>LunarLander-v2</strong></p>
@@ -539,24 +547,46 @@ for i_episode in range(1, 20):
 <p><strong>如有报错且找不到报错原因的，可以私信小生</strong> 🥺</p>
 </blockquote>
 
-    </div>
+                    </div>
+                
+            </div>
 
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">1. 📦 导入必要的包</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">2. 🫙 构建缓存区</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">3. 🧱 构建 A2C 策略网络</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">4. 👷 构建 PPO 算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">5. 🀄 主函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">6. 🚗 加载模型文件展示效果：</span></a></li></ol>
+        </div>
     
-    
-    
-    
-    <div id="comment">
-        <div id="giscus-container" class="giscus"></div>
+        </div>
     </div>
-    
-    
-    
-    
 </div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+                <div id="comment">
+                    <div id="giscus-container" class="giscus"></div>
+                </div>
+            
+            
+            
+        
 
 
     
 
+</div>
             <footer id="footer">
     <div id="footer-wrap">
         <div>

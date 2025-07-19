@@ -174,53 +174,61 @@
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
-    <div>
-        <h1>在深度神经网络中常用的激活函数及其性质</h1>
-    </div>
-
     
-     
-    <!-- post 部分设计 -->
-    <div class="info">
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/2/26
-        </span>
-        
-        <span class="category">
-            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                深度学习
-            </a>
-        </span>
-        
-        
-        <span class="tags">
-            <span class="icon">
-                <i class="fa-solid fa-tags fa-fw"></i>
-            </span>
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
             
-            
-            <span class="tag">
+            <div class="article-content">
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
-                    深度学习
-                </a>
-            </span>
-            
-        </span>
-        
-    </div>
-    
+                <div>
+                    <h1>在深度神经网络中常用的激活函数及其性质</h1>
+                </div>
 
-    <!-- 显示文章特有的模块（如标签、分类） -->
-    <div class="content" v-pre>
-        <hr>
-        <h2><span id="1-前言">1. 前言</span></h2><p>在神经网络中，激活函数（Activation Function）是决定神经元输出信号的关键组件。它通过引入非线性特性，使神经网络能够学习和模拟复杂的模式。</p>
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2025/2/26
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                深度学习
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
+                                        深度学习
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <h2><span id="1-前言">1. 前言</span></h2><p>在神经网络中，激活函数（Activation Function）是决定神经元输出信号的关键组件。它通过引入非线性特性，使神经网络能够学习和模拟复杂的模式。</p>
 <blockquote>
 <p>激活函数的作用:</p>
 <ol>
@@ -382,24 +390,46 @@
 <li><strong>适用场景</strong>：计算机视觉任务。</li>
 </ul>
 
-    </div>
+                    </div>
+                
+            </div>
 
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. Sigmoid（Logistic 函数）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. Tanh（双曲正切函数）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. ReLU（Rectified Linear Unit 非线性激活单元）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5. Leaky ReLU</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6. Parametric ReLU（PReLU）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">7. ELU（Exponential Linear Unit）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">8. Softmax</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">9. Swish</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">10. Mish</span></a></li></ol>
+        </div>
     
-    
-    
-    
-    <div id="comment">
-        <div id="giscus-container" class="giscus"></div>
+        </div>
     </div>
-    
-    
-    
-    
 </div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+                <div id="comment">
+                    <div id="giscus-container" class="giscus"></div>
+                </div>
+            
+            
+            
+        
 
 
     
 
+</div>
             <footer id="footer">
     <div id="footer-wrap">
         <div>

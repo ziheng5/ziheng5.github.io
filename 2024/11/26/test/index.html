@@ -174,53 +174,61 @@
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
-    <div>
-        <h1>个人简介</h1>
-    </div>
-
     
-     
-    <!-- post 部分设计 -->
-    <div class="info">
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/11/26
-        </span>
-        
-        <span class="category">
-            <a href="/categories/%E6%9D%82%E8%B0%88/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                杂谈
-            </a>
-        </span>
-        
-        
-        <span class="tags">
-            <span class="icon">
-                <i class="fa-solid fa-tags fa-fw"></i>
-            </span>
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
             
-            
-            <span class="tag">
+            <div class="article-content">
                 
-                <a href="/tags/%E6%9D%82%E8%B0%88/" style="color: #ff7d73">
-                    杂谈
-                </a>
-            </span>
-            
-        </span>
-        
-    </div>
-    
+                <div>
+                    <h1>个人简介</h1>
+                </div>
 
-    <!-- 显示文章特有的模块（如标签、分类） -->
-    <div class="content" v-pre>
-        <hr>
-        <p>喵喵喵 🐱</p>
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2024/11/26
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/%E6%9D%82%E8%B0%88/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                杂谈
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E6%9D%82%E8%B0%88/" style="color: #00a596">
+                                        杂谈
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <p>喵喵喵 🐱</p>
 <ul>
 <li>小生略通：<ul>
 <li>深度学习、强化学习、数学建模</li>
@@ -236,24 +244,46 @@
 <p>小生的 tele 账号最近被 ban 掉了（似乎是因为折腾了一些不太妙的机器人💦），所以想要联系小生的话，请务必采用 <strong>QQ</strong>…</p>
 </blockquote>
 
-    </div>
+                    </div>
+                
+            </div>
 
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            
+        </div>
     
-    
-    
-    
-    <div id="comment">
-        <div id="giscus-container" class="giscus"></div>
+        </div>
     </div>
-    
-    
-    
-    
 </div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+                <div id="comment">
+                    <div id="giscus-container" class="giscus"></div>
+                </div>
+            
+            
+            
+        
 
 
     
 
+</div>
             <footer id="footer">
     <div id="footer-wrap">
         <div>
