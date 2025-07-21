@@ -1052,7 +1052,7 @@ ol li {
     display: flex;
     max-width: 100%;
     width: auto;
-
+    right: auto;
     padding: 20px;
     gap: 50px;
   }
@@ -1084,7 +1084,7 @@ ol li {
 
   
 /* 响应式设计 - 小屏幕改为单列 */
-@media (max-width: 1200px) {
+@media (max-width: 1300px) {
     .article-wrap {
       flex-direction: column;
       margin: 20px;
