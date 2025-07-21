@@ -1092,7 +1092,7 @@ ol li {
   
   @media (max-width: 768px) {
     .article-wrap {
-        display: flex;
+        display: none;
         width: 500px;
         margin: 0 auto;
         padding: 20px;
