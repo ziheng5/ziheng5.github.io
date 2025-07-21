@@ -1071,40 +1071,32 @@ ol li {
   
 
   
-  /* 响应式设计 */
-  @media (max-width: 992px) {
+/* 响应式设计 - 小屏幕改为单列 */
+@media (max-width: 992px) {
     .article-wrap {
-        display: flex;
-        width: 500px;
-        margin: 0 auto;
-        padding: 20px;
-        gap: 40px;
+      flex-direction: column;
+    }
+    
+    .article-content,
+    .article-toc {
+      flex: none;
+      width: 100%;
     }
     
     .article-toc {
-        display: none;
+      display: none;
+      order: -1; /* 小屏幕上目录显示在上方 */
+      margin-bottom: 30px;
     }
     
     .toc-card {
-      display: none;
+      position: static;
     }
-
-    .article-content {
-        flex: 5;
-        min-width: 0; /* 防止flex项目溢出 */
-      }
   }
   
   @media (max-width: 768px) {
     .article-wrap {
-        display: flex;
-        width: 500px;
-        margin: 0 auto;
-        padding: 20px;
-        gap: 40px;
+      padding: 15px;
+      gap: 20px;
     }
-    .article-content {
-        flex: 5;
-        min-width: 0; /* 防止flex项目溢出 */
-      }
   }
