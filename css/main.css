@@ -887,6 +887,9 @@ ol li {
     ol {
         padding-left: 20px;
     }
+    .article {
+        margin-top: 50px;
+    }
 }
 
 /* 卡片容器 - 响应式网格布局 */
@@ -1159,7 +1162,7 @@ ol li {
     .article-wrap {
         flex-direction: column;
         margin: 0;
-        
+        padding: 5px;
         width: auto;
       }
       
