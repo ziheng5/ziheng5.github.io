@@ -1072,7 +1072,7 @@ ol li {
 
   
 /* 响应式设计 - 小屏幕改为单列 */
-@media (max-width: 992px) {
+@media (max-width: 800px) {
     .article-wrap {
       flex-direction: column;
     }
@@ -1080,7 +1080,7 @@ ol li {
     .article-content,
     .article-toc {
       flex: none;
-      width: 100%;
+      width: auto;
     }
     
     .article-toc {
