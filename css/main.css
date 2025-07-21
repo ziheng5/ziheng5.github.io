@@ -20,82 +20,7 @@
     margin-right: 10px;
 }
 #archives .categories-tags span a {
-    border: #ffffff80 1px solid;
-    border-radius: 10px;
-    color: #fff;
-    padding: 10px 15px;
-    transition: background 0.25s, border 0.25s, color 0.25s;
-}
-#archives .categories-tags span a:hover {
-    background: #fff !important;
-    border: #a5c2f5 1px solid;
-    color: #5c6b72;
-}
-#archives .category,
-#archives .tags .tag,
-.article .info .category,
-.article .info .tags,
-.article .info .tags .tag {
-    display: inline-block;
-    margin-right: 10px;
-}
-#archives h3 {
-    margin: 10px 0;
-}
-#crypto {
-    margin: 50px 0;
-}
-#crypto.failure {
-    border-color: #ea4a5a;
-    color: #ea4a5a;
-}
-#crypto.failure:focus {
-    box-shadow: 0 0 0 3px #ea4a5a4d;
-}
-#crypto.success {
-    border-color: #34d058;
-    color: #34d058;
-}
-#footer {
-    font-size: 14px;
-    margin-top: 150px;
-    padding-bottom: 20px;
-    text-align: center;
-    width: 100%;
-}
-#footer #footer-icon {
-    color: #66afef;
-    display: inline-block;
-    font-size: 18px;
-    margin: 0 10px;
-}
-#footer #footer-wrap {
-    border-top: 1px solid #aaa;
-    color: #5c6b72;
-    margin: auto;
-    width: 900px;
-}
-#footer #footer-wrap div {
-    margin: 15px;
-}
-#home-card {
-    width: 300px;
-}
-#home-card #card-style {
-    background: #fff;
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 0 20px #d9d9d980;
-    display: flex;
-    flex-direction: column;
-    max-height: 80vh;
-    justify-content: center;
-    overflow: auto;
-    position: sticky;
-    text-align: center;
-    top: 10vh;
-    width: 300px;
-}
+    border: #ffffff80 1px solid; border-radius: 10px; color: #fff; padding: 10px 15px; transition: background 0.25s, border 0.25s, color 0.25s; } #archives .categories-tags span a:hover { background: #fff !important; border: #a5c2f5 1px solid; color: #5c6b72; } #archives .category, #archives .tags .tag, .article .info .category, .article .info .tags, .article .info .tags .tag { display: inline-block; margin-right: 10px; } #archives h3 { margin: 10px 0; } #crypto { margin: 50px 0; } #crypto.failure { border-color: #ea4a5a; color: #ea4a5a; } #crypto.failure:focus { box-shadow: 0 0 0 3px #ea4a5a4d; } #crypto.success { border-color: #34d058; color: #34d058; } #footer { font-size: 14px; margin-top: 150px; padding-bottom: 20px; text-align: center; width: 100%; } #footer #footer-icon { color: #66afef; display: inline-block; font-size: 18px; margin: 0 10px; } #footer #footer-wrap { border-top: 1px solid #aaa; color: #5c6b72; margin: auto; width: 900px; } #footer #footer-wrap div { margin: 15px; } #home-card { width: 300px; } #home-card #card-style { background: #fff; border: none; border-radius: 10px; box-shadow: 0 0 20px #d9d9d980; display: flex; flex-direction: column; max-height: 80vh; justify-content: center; overflow: auto; position: sticky; text-align: center; top: 10vh; width: 300px; }
 #home-card #card-div {
     overflow: auto;
     padding: 25px 0;
@@ -159,11 +84,7 @@
 #home-head {
     display: flex;
     height: 100vh;
-    width: 100vw;
-}
-#home-head #home-background {
-    background-position: center;
-    background-repeat: no-repeat;
+    width: 100vw; } #home-head #home-background { background-position: center; background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
     left: 0;
@@ -172,44 +93,7 @@
     width: 100vw;
     z-index: -1;
 }
-#home-head #home-info .info {
-    align-items: center;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-}
-#home-head #home-info .loop:nth-child(1) {
-    animation: loop1 10s linear infinite;
-    background: #fff;
-    border-radius: 38% 62% 63% 37%/41% 44% 56% 59%;
-    opacity: 0.3;
-    transform: rotate(30deg);
-}
-#home-head #home-info .loop:nth-child(2) {
-    animation: loop2 15s linear infinite;
-    background: #fff;
-    border-radius: 38% 62% 63% 37%/41% 44% 56% 59%;
-    opacity: 0.45;
-    transform: rotate(60deg);
-}
-#home-head #home-info .loop:nth-child(3) {
-    animation: loop3 10s linear infinite;
-    background: #fff;
-    border-radius: 38% 62% 63% 37%/41% 44% 56% 59%;
-    opacity: 0.3;
-    transform: rotate(90deg);
-}
-#home-head #home-info .loop:nth-child(4) {
-    animation: loop4 15s linear infinite;
-    background: #fff;
-    border-radius: 38% 62% 63% 37%/41% 44% 56% 59%;
-    opacity: 0.45;
-    transform: rotate(120deg);
-}
-#home-head #home-info,
-#home-posts {
-    margin: auto;
+#home-head #home-info .info { align-items: center; border-radius: 50%; display: flex; justify-content: center; text-align: center; } #home-head #home-info .loop:nth-child(1) { animation: loop1 10s linear infinite; background: #fff; border-radius: 38% 62% 63% 37%/41% 44% 56% 59%; opacity: 0.3; transform: rotate(30deg); } #home-head #home-info .loop:nth-child(2) { animation: loop2 15s linear infinite; background: #fff; border-radius: 38% 62% 63% 37%/41% 44% 56% 59%; opacity: 0.45; transform: rotate(60deg); } #home-head #home-info .loop:nth-child(3) { animation: loop3 10s linear infinite; background: #fff; border-radius: 38% 62% 63% 37%/41% 44% 56% 59%; opacity: 0.3; transform: rotate(90deg); } #home-head #home-info .loop:nth-child(4) { animation: loop4 15s linear infinite; background: #fff; border-radius: 38% 62% 63% 37%/41% 44% 56% 59%; opacity: 0.45; transform: rotate(120deg); } #home-head #home-info, #home-posts { margin: auto;
 }
 #home-posts .page-current {
     align-items: center;
@@ -1190,7 +1074,7 @@ ol li {
   /* 响应式设计 */
   @media (max-width: 992px) {
     .article-wrap {
-      flex-direction: column;
+        display: none;
     }
     
     .article-toc {
@@ -1204,7 +1088,6 @@ ol li {
   
   @media (max-width: 768px) {
     .article-wrap {
-      padding: 15px;
-      gap: 20px;
+        display: none;
     }
   }
