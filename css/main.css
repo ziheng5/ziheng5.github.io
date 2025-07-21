@@ -1116,6 +1116,7 @@ ol li {
     
     .article-content{
         margin: auto;
+        
     }
     .article-toc {
       flex: none;
@@ -1164,6 +1165,7 @@ ol li {
       
       .article-content{
           margin: 0px;
+          padding: 0;
       }
       .article-toc {
         flex: none;
