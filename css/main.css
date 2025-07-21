@@ -1072,9 +1072,10 @@ ol li {
 
   
 /* 响应式设计 - 小屏幕改为单列 */
-@media (max-width: 800px) {
+@media (max-width: 900px) {
     .article-wrap {
       flex-direction: column;
+      margin: 20px;
     }
     
     .article-content,
