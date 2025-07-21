@@ -1088,6 +1088,11 @@ ol li {
     .toc-card {
       display: none;
     }
+
+    .article-content {
+        flex: 5;
+        min-width: 0; /* 防止flex项目溢出 */
+      }
   }
   
   @media (max-width: 768px) {
@@ -1098,4 +1103,8 @@ ol li {
         padding: 20px;
         gap: 40px;
     }
+    .article-content {
+        flex: 5;
+        min-width: 0; /* 防止flex项目溢出 */
+      }
   }
