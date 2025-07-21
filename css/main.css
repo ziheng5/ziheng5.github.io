@@ -1162,7 +1162,7 @@ ol li {
     .article-wrap {
         flex-direction: column;
         margin: 0;
-        padding: 5px;
+        padding: 0;
         width: auto;
       }
       
@@ -1190,6 +1190,7 @@ ol li {
       #archives,
       #footer #footer-wrap {
           width: 100%;
+          margin-top: 20px;
       }
   
       /* 图片响应式处理 */
