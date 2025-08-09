@@ -8,6 +8,7 @@ categories:
 description: |
     喵！是个人简介！🐱
 ---
+### About Me
 
 喵喵喵 🐱
 
@@ -18,5 +19,9 @@ description: |
 - `Minecraft`、`Stardew Valley`、`Arknights` 忠实玩家
 - 对嵌入式、飞控感兴趣，已经有了一些小小的尝试
 - 数模国赛绝命备赛中 orz
+- 目前有一个想法：写一个好看的 **Spotify** Linux 客户端，且支持桌面歌词等各种功能
+- ENFJ-A 一枚
 
-> 小生的 tele 账号最近被 ban 掉了（似乎是因为折腾了一些不太妙的机器人💦），所以想要联系小生的话，请务必采用 **QQ**...
+### Contact Me
+
+小生的 tele 账号最近被 ban 掉了（似乎是因为折腾了一些不太妙的机器人💦），所以想要联系小生的话，请务必采用 **QQ**...
