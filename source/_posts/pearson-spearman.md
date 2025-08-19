@@ -132,6 +132,6 @@ Pearson 相关系数只适用于线性关系且正态分布。
 
 ## 6. 参考资料
 - [1] 石爱菊，丁秀梅，孔告化. 概率统计与随机过程. 3版. 北京：人民邮电出版社， 2024.2
-- https://zhuanlan.zhihu.com/p/465213120
-- https://zhuanlan.zhihu.com/p/664287775
-- [维基百科](https://zh.wikipedia.org/wiki/%E7%9B%B8%E5%85%B3_(%E6%A6%82%E7%8E%87%E8%AE%BA))
+- [2] https://zhuanlan.zhihu.com/p/465213120
+- [3] https://zhuanlan.zhihu.com/p/664287775
+- [4] [维基百科](https://zh.wikipedia.org/wiki/%E7%9B%B8%E5%85%B3_(%E6%A6%82%E7%8E%87%E8%AE%BA))

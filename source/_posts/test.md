@@ -19,7 +19,6 @@ description: |
 - `Minecraft`、`Stardew Valley`、`Arknights` 忠实玩家
 - 对嵌入式、飞控感兴趣，已经有了一些小小的尝试
 - 数模国赛绝命备赛中 orz
-- 目前有一个想法：写一个好看的 **Spotify** Linux 客户端，且支持桌面歌词等各种功能
 - ENFJ-A 一枚
 
 ### Contact Me

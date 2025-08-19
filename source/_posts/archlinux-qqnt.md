@@ -55,6 +55,8 @@ cp -r /opt/LiteLoaderQQNT/* /home/USER/.config/QQ/LiteLoaderQQNT/
 
 ## 2. 配置插件
 
-这里以[轻量工具箱](https://github.com/xiyuesaves/lite_tools/tree/v4)插件为例，在官方的 Github 仓库中下载[最新发布版本](https://github.com/xiyuesaves/LiteLoaderQQNT-lite_tools/releases/latest)中的 `lite_tools.zip` 文件，接着在 `/home/USER/.config/QQ/LiteLoaderQQMT/plugins/` 目录下创建 `lite_tools` 文件夹，然后将 `lite_tools.zip` 文件中的内容解压到 `lite_tools` 文件夹下。
+这里以[轻量工具箱](https://github.com/xiyuesaves/lite_tools/tree/v4) 插件为例：
+
+在官方的 Github 仓库中下载[最新发布版本](https://github.com/xiyuesaves/LiteLoaderQQNT-lite_tools/releases/latest)中的 `lite_tools.zip` 文件，接着在 `/home/USER/.config/QQ/LiteLoaderQQMT/plugins/` 目录下创建 `lite_tools` 文件夹，然后将 `lite_tools.zip` 文件中的内容解压到 `lite_tools` 文件夹下。
 
 重启 QQNT 即可安装完成，配置界面出现了一个新的插件！
