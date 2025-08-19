@@ -1,0 +1,453 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>Hyprland 安装及配置 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>Hyprland 安装及配置</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2025/8/17
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/Archlinux/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                Archlinux
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/Archlinux/" style="color: #ff7d73">
+                                        Archlinux
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <blockquote>
+<p>Coldrain 在暑假期间心血来潮，突然想要给自己的 Archlinux 配一个 Hyprland 桌面，然而过程并非一帆风顺，遂作此篇。</p>
+</blockquote>
+<h2><span id="1-hyprland-的安装手动">1. Hyprland 的安装（手动）</span></h2><p>参考 <a target="_blank" rel="noopener" href="https://wiki.hypr.land/Getting-Started/Installation/">Hyprland 官网</a></p>
+<blockquote>
+<ul>
+<li><p>这一部分采用<strong>手动</strong>构建的方法，因为官方的 WARNING 让小生担心使用包管理器会出岔子 💦</p>
+</li>
+<li><p>此外，为方便起见，下文安装部分均采用 <code>aur</code> 安装</p>
+</li>
+</ul>
+</blockquote>
+<p>安装依赖包，确保万无一失：</p>
+<pre><code class="bash">paru -S ninja gcc cmake meson libxcb xcb-proto xcb-util xcb-util-keysyms libxfixes libx11 libxcomposite libxrender libxcursor pixman wayland-protocols cairo pango libxkbcommon xcb-util-wm xorg-xwayland libinput libliftoff libdisplay-info cpio tomlplusplus hyprlang-git hyprcursor-git hyprwayland-scanner-git xcb-util-errors hyprutils-git glaze hyprgraphics-git aquamarine-git re2 hyprland-qtutils
+</code></pre>
+<p>接下来，采用 <code>CMake</code> 构建 <code>Hyprland</code>：</p>
+<pre><code class="bash"># 随便找一个地方就可以了
+git clone --recursive https://github.com/hyprwm/Hyprland
+cd Hyprland
+make all &amp;&amp; sudo make install
+</code></pre>
+<p>接下来：</p>
+<pre><code class="bash">meson subprojects update --reset
+meson setup build
+ninja -C build
+ninja -C build install --tags runtime,man
+</code></pre>
+<h2><span id="2-安装必要软件">2. 安装必要软件</span></h2><p>该部分参考文档：<a target="_blank" rel="noopener" href="https://wiki.hypr.land/Useful-Utilities/Must-have/">https://wiki.hypr.land/Useful-Utilities/Must-have/</a></p>
+<h3><span id="21-kitty">2.1 kitty</span></h3><p><code>kitty</code> 是 <code>Hyprland</code> 的默认终端模拟器，直接 <code>paru</code> 安装：</p>
+<pre><code class="bash">paru -S kitty
+</code></pre>
+<p>此外，<code>kitty</code> 的终端界面配置挺有说法的，小生非常推荐，具体可以参考 <a target="_blank" rel="noopener" href="https://sw.kovidgoyal.net/kitty/">kitty 官方文档</a>。</p>
+<h3><span id="22-通知程序">2.2 通知程序</span></h3><p>如果你的系统上没有安装通知程序的话，这里刚好一并安装了（</p>
+<pre><code class="bash">paru -S dunst mako fnott swaync
+</code></pre>
+<h3><span id="23-pipewire用于屏幕共享">2.3 pipewire（用于屏幕共享）</span></h3><p><code>pipewire</code> 虽然不是必需的，但是没有这个玩意就无法屏幕共享。</p>
+<pre><code class="bash">paru -S pipewire wireplumber
+</code></pre>
+<h3><span id="24-qt-wayland-支持">2.4 Qt Wayland 支持</span></h3><pre><code class="bash">paru -S qt5-wayland qt6-wayland
+</code></pre>
+<h2><span id="3-安装第三方-hyprland-主题">3. 安装第三方 Hyprland 主题</span></h2><p>这里小生采用的是 <a target="_blank" rel="noopener" href="https://github.com/end-4/dots-hyprland">end-4 主题</a>，效果图如下：</p>
+<p><img src="/../images/hyprland/end4_theme.png" alt="end4-pic"></p>
+<p>话不多说，接下来直接开始安装，这里小生依然采用手动构建的方案（<strong>安装前请先开启代理</strong>）：</p>
+<pre><code class="bash"># 随便找一个路径
+git clone https://github.com/end-4/dots-hyprland
+cd dots-hyprland
+./install.sh
+</code></pre>
+<p>接下来就是官方的安装程序了，按照程序提示安装即可（<strong>时间较长</strong>且需要全程有操作，请留出足够的空闲时间安装）。</p>
+<blockquote>
+<p>Coldrain 在执行 <code>install.sh</code> 的过程中，<code>html2markdown</code> 这个包始终安装失败。</p>
+<p>如果你在安装的时候也遇到了这个问题，此时请退出安装程序，安装 <code>html2markdown-bin</code> 这个包：</p>
+<pre><code class="bash">paru -S html2markdown-bin
+</code></pre>
+</blockquote>
+<p>安装完成后，就可以启动 <code>Hyprland</code> 了：</p>
+<ul>
+<li>在登陆界面切换至 <code>Hyprland</code> 即可</li>
+</ul>
+<h2><span id="4-配置代理采用-v2raya-和-proxychains">4. 配置代理（采用 V2raya 和 Proxychains）</span></h2><p>在 <code>Hyprland</code> 中小生使用 <code>V2raya</code> 来作为代理软件，<code>Xray</code> 作为内核，首先执行下面指令安装：</p>
+<pre><code class="bash">sudo pacman -S v2raya xray
+
+sudo systemctl enable --now v2raya  # 启动并配置开机自启动
+</code></pre>
+<p>接下来要设置 <code>V2raya</code> 调用 <code>Xray</code> 内核（默认配置是调用 <code>V2ray</code> 内核，我们不使用 <code>V2ray</code> 也就没有安装），可参考<a target="_blank" rel="noopener" href="https://v2raya.org/docs/manual/variable-argument/#systemd-%E7%AE%A1%E7%90%86%E7%9A%84-v2raya">官方文档</a>，下面提供两种方法（<strong>只需要按一种设置即可，推荐第一种</strong>）：</p>
+<h3><span id="41-编辑修改-etcdefaultv2raya-配置文件">4.1 编辑修改 <code>/etc/default/v2raya</code> 配置文件</span></h3><p>首先打开 <code>/etc/default/v2raya</code> 文件</p>
+<pre><code class="bash">sudo vim /etc/default/v2raya
+</code></pre>
+<p>然后找到 <code>V2RAYA_V2RAY_BIN</code> 和 <code>V2RAYA_V2RAY_ASSETSDIR</code> 两个环境变量，将其前面的 <code>#</code> 去掉，并将其值按如下修改</p>
+<pre><code class="bash">V2RAYA_V2RAY_BIN=/usr/bin/xray
+
+V2RAYA_V2RAY_ASSETSDIR=/usr/share/xray
+</code></pre>
+<p>其中 <code>/usr/bin/xray</code> 指的是 <code>xray</code> 可执行文件，而 <code>/usr/share/xray</code> 指的是 <code>xray</code> 数据文件目录（包含了 <code>geosite.dat</code> 和 <code>geoip.dat</code> 文件）</p>
+<p>然后重启 <code>v2raya</code> 服务即可</p>
+<pre><code class="bash">sudo systemctl restart v2raya
+</code></pre>
+<h3><span id="42-编辑修改-systemd-管理的配置文件">4.2 编辑修改 <code>systemd</code> 管理的配置文件</span></h3><p>新建一个文件夹 <code>/etc/systemd/system/v2raya.service.d</code>，然后进入文件夹新建一个文件 <code>xray.conf</code>，类似的，写入以下内容：</p>
+<pre><code class="bash">[Service]
+Environment=&quot;V2RAYA_V2RAY_BIN=/usr/bin/xray&quot;
+Environment=&quot;V2RAYA_V2RAY_ASSETSDIR=/usr/share/xray&quot;
+</code></pre>
+<p>然后执行下面指令重新加载 <code>V2rayA</code> 服务即可：</p>
+<pre><code class="bash">sudo systemctl daemon-reload &amp;&amp; sudo systemctl restart v2raya
+</code></pre>
+<p>然后我们直接在终端执行 <code>firefox</code> 进入火狐浏览器，然后访问 <code>http://127.0.0.1:2017</code> 进入 <code>V2raya</code> 配置界面，导入自己的配置规则</p>
+<p>点击右上角的设置，关闭 <code>透明代理/系统代理</code> 选项，然后将 <code>规则端口的分流模式</code> 选为 <code>RoutingA</code>，随后点击右边的 <code>配置</code> 选项，写入以下内容（用默认配置不改也行，也可以根据自己的需要更改）：</p>
+<pre><code class="bash">default: proxy
+# write your own rules below
+
+domain(geosite:cn)-&gt;direct
+ip(geoip:private)-&gt;direct
+ip(geoip:cn)-&gt;direct
+</code></pre>
+<p>然后点击保存，注意此时这些规则并不会生肖，因为 <code>V2raya</code> 为 <code>socks</code> 协议和 <code>http</code> 协议设置了<strong>带分流规则的端口</strong>（该端口进来的流量会按照分流规则分流）和<strong>不带分流规则的端口</strong>（该端口进来的流量并不会按照规则分流），而且默认只设置了 <code>http</code> 的分流端口，因此需要我们下面手动设置带分流规则的端口。</p>
+<p>我们可以点开设置界面左下角的<code>地址与端口</code>选项，然后填写 <code>带分流规则的 socks 端口</code> 并保存，如下所示：</p>
+<p><img src="/../images/hyprland/v2raya.png" alt="v2raya"></p>
+<h3><span id="43-编辑-~confighyprhyprlandconf-配置文件">4.3 编辑 <code>~/.config/hypr/hyprland.conf</code> 配置文件</span></h3><p>在 <code>~/.config/hypr/hyprland.conf</code> 配置文件中写入如下内容以配置代理端口：</p>
+<pre><code class="conf">env = ALL_PROXY=socks5://127.0.0.1:20168
+env = http_proxy=socks5://127.0.0.1:20168
+env = https_proxy=socks5://127.0.0.1:20168
+</code></pre>
+<h3><span id="44-安装-proxychains">4.4 安装 Proxychains</span></h3><p>使用 <code>Proxychains</code> 从终端启动应用程序的话，可以实现指定端口开启，从而让应用程序走代理。</p>
+<p>执行下面的命令：</p>
+<pre><code class="bash">paru -S proxychains
+</code></pre>
+<p>安装完成后，编辑 <code>/etc/proxychains.conf</code>，找到最下方的 <code>[ProxyList]</code>，添加上一步中 <code>v2raya</code> 设置的代理，例如：</p>
+<pre><code class="conf">[ProxyList]
+socks5 127.0.0.1 20168
+</code></pre>
+<p>然后就可以用 <code>proxychains</code> 让有些需要访问网络的程序走代理了喵，试试用下面这个指令打开 <code>Firefox</code>，看看能否正常使用代理（请确保 <code>v2raya</code> 正常运行）：</p>
+<pre><code class="bash">proxychains firefox
+</code></pre>
+<blockquote>
+<p>小生最初尝试的其实是 <code>google-chrome-stable</code>，但是实际上发现 <code>google-chrome-stable</code> 的沙盒机制会导致 <code>proxychains</code> 无法正常启动 <code>google-chrome-stable</code>，需要执行以下命令：</p>
+<pre><code class="bash">proxychains google-chrome-stable --no-sandbox --disable-zygote
+</code></pre>
+<p>但是小生如此尝试后，<code>google-chrome-stable</code> 依然无法正常使用代理，目前暂时不清楚具体原因，小生决定先用 <code>Firefox</code> 吧（</p>
+</blockquote>
+<hr>
+<h2><span id="参考资料">参考资料</span></h2><p>[1] <a target="_blank" rel="noopener" href="https://wiki.hypr.land/Getting-Started/Installation/">https://wiki.hypr.land/Getting-Started/Installation/</a><br>[2] <a target="_blank" rel="noopener" href="https://end-4.github.io/dots-hyprland-wiki/en/ii-qs/01setup/">https://end-4.github.io/dots-hyprland-wiki/en/ii-qs/01setup/</a><br>[3] <a target="_blank" rel="noopener" href="https://blog.manjusaka.de/p/0-0-0-52/#%E5%AE%89%E8%A3%85%E4%BB%A3%E7%90%86%E5%B7%A5%E5%85%B7v2raya">https://blog.manjusaka.de/p/0-0-0-52/#%E5%AE%89%E8%A3%85%E4%BB%A3%E7%90%86%E5%B7%A5%E5%85%B7v2raya</a></p>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. Hyprland 的安装（手动）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 安装必要软件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.1 kitty</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.2 通知程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.3 pipewire（用于屏幕共享）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.4 Qt Wayland 支持</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. 安装第三方 Hyprland 主题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. 配置代理（采用 V2raya 和 Proxychains）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.1 编辑修改 &#x2F;etc&#x2F;default&#x2F;v2raya 配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.2 编辑修改 systemd 管理的配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.3 编辑 ~&#x2F;.config&#x2F;hypr&#x2F;hyprland.conf 配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.4 安装 Proxychains</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">参考资料</span></a></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+                <div id="comment">
+                    <div id="giscus-container" class="giscus"></div>
+                </div>
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+<script
+    src="https://giscus.app/client.js"
+    data-repo="ziheng5/ziheng5.github.io"
+    data-repo-id="R_kgDONTCwmA"
+    data-category="Announcements"
+    data-category-id="DIC_kwDONTCwmM4Cqj_g"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin
+    async
+></script>
+
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>
