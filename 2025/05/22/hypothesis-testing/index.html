@@ -215,15 +215,15 @@
                             
                                 <span class="tag">
                                     
-                                    <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" style="color: #00bcd4">
-                                        统计学
+                                    <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
+                                        机器学习
                                     </a>
                                 </span>
                             
                                 <span class="tag">
                                     
-                                    <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
-                                        机器学习
+                                    <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" style="color: #00bcd4">
+                                        统计学
                                     </a>
                                 </span>
                             
@@ -422,6 +422,15 @@ chisquare(f_obs=f_obs, f_exp=f_exp)
 <pre><code class="terminal">Power_divergenceResult(statistic=228.23515947653874, pvalue=3.3295585338846486e-49)
 </code></pre>
 <p>p 值远低于所选的显著性水平。因此，作者认为这种差异是显著的，并得出结论，觅食事件的相对比例与树冠体积的相对比例不同。</p>
+<blockquote>
+<p>小生在这里其实更推荐另一种方法，方便快捷：</p>
+<pre><code class="python">from scipy.stats import chi2_contingency
+import numpy as np
+
+table = np.array([44, 24, 29, 3], [43, 52, 54, 40])
+chi2_contingency(table, correction=False)
+</code></pre>
+</blockquote>
 <hr>
 <h2><span id="3-z-检验">3. Z 检验</span></h2><p>比较均值差异</p>
 <h3><span id="31-什么是-z-检验">3.1 什么是 Z 检验</span></h3><p><strong>Z 检验</strong>是一种基于<strong>正态分布（Z 分布）</strong>的统计假设检验方法，主要用于在<strong>已知总体标准差（σ）</strong>的情况下，检验<strong>样本均值是否与总体均值存在显著差异</strong>，或者比较<strong>两个独立样本的均值差异</strong>是否显著。它适用于大样本（通常 $ n \geq 30 $）或总体服从正态分布的情况。</p>
