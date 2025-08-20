@@ -166,6 +166,16 @@ Power_divergenceResult(statistic=228.23515947653874, pvalue=3.3295585338846486e-
 
 p 值远低于所选的显著性水平。因此，作者认为这种差异是显著的，并得出结论，觅食事件的相对比例与树冠体积的相对比例不同。
 
+> 小生在这里其实更推荐另一种方法，方便快捷：
+> 
+> ```python
+> from scipy.stats import chi2_contingency
+> import numpy as np
+> 
+> table = np.array([44, 24, 29, 3], [43, 52, 54, 40])
+> chi2_contingency(table, correction=False)
+> ```
+
 ---
 
 ## 3. Z 检验
