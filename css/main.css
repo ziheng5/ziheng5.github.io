@@ -1149,7 +1149,7 @@ ol li {
     video,
     audio {
         display: block;
-        margin: 15px auto;
+        margin: auto;
         max-width: 100%;
         height: auto;
     }
