@@ -211,6 +211,49 @@ proxychains firefox
 > 但是小生如此尝试后，`google-chrome-stable` 依然无法正常使用代理，目前暂时不清楚具体原因，小生决定先用 `Firefox` 吧（
 
 
+## 5. 终端配置（kitty）
+
+`hyprland` 的默认终端模拟器使用的是 [kitty](https://sw.kovidgoyal.net/kitty/)，一款配置简单、界面美观的终端模拟器，详细教程参考官网。
+
+`kitty` 的配置文件默认为 `~/.config/kitty/kitty.conf`，关于 `kitty` 的配置都可以写在这个文件里面。
+
+> #### ❓ `hyprland` 下 `kitty` 可能遇到的问题及解决方案
+> 
+> 如果你编写完你的 `kitty.conf` 文件后，发现你的终端模拟器界面没有发生任何改变的话，可以参考一下本段内容。
+>
+> 打开你的 `~/.config/hypr/hyprland/env.conf` 文件（或者你自己的 `hyprland` 配置文件），检查其中是否包含如下内容：
+>
+> ```bash
+> env = TERMINAL,kitty -1
+> ```
+>
+> 如果有这一行内容，那么说明你的 `hyprland` 在启动终端时调用的是 `kitty -1` 而不是单纯的 `kitty`，也就是说：如果有一个 `kitty` 实例已经在跑，`hyprland` 在后续启动 `kitty` 的时候，只是在里面开一个新窗口，而不是重新开一个 `kitty` 实例。
+>
+> #### 解决方案：
+> - 关闭所有 `kitty` 窗口，然后重新启动即可。
+>
+> ```bash
+> pkill kitty
+> kitty
+> ```
+> - 或者直接更改 `env = TERMINAL,kitty -1` 为 `env = TERMINAL,kitty`，这样的话每次打开终端的逻辑就变成了：创建一个新的 `kitty` 实例。
+
+
+## 6. 启动失败问题及解决方案
+目前 Coldrain 已经遇到过一次 **从 SDDM 登陆界面启动 Hyprland 后又回到了 SDDM 登陆界面**的赛博鬼打墙（
+
+Coldrain 切换至 tty3 中，试图查找 Hyprland 的运行日志来调查问题的根本原因，但是发现 Hyprland 根本没有生成运行日志，也就是说，Hyprland 还没来得及写日志，就已经崩溃了。
+
+于是，Coldrain 尝试从 tty 中启动 Hyprland，看看是怎么崩溃的：
+
+```bash
+Hyprland
+```
+
+结果根据报错信息发现是 abseil 版本过新，导致 hyprland 无法找到原本配置文件的位置（人话就是：滚包把 hyprland 滚炸了💦）
+
+Coldrain 接着前往 Hyprland 官方文档的 Q&A 中寻找解决方案，发现官方已经注意到这个问题。那么解决方案就是：把你系统中所有包含 `hypr*` 的包及依赖这些包的包全部卸载掉，然后重新用 `cmake` 编译 Hyprland，Coldrain 亲测有效（虽然有点麻烦就是了）。
+
 ---
 
 ## 参考资料
