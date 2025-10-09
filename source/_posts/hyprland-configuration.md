@@ -301,3 +301,4 @@ exec /opt/QQ/qq ${QQ_USER_FLAGS[@]} "$@" --ozone-platform-hint=x11 --enable-wayl
 [1] https://wiki.hypr.land/Getting-Started/Installation/
 [2] https://end-4.github.io/dots-hyprland-wiki/en/ii-qs/01setup/
 [3] https://blog.manjusaka.de/p/0-0-0-52/#%E5%AE%89%E8%A3%85%E4%BB%A3%E7%90%86%E5%B7%A5%E5%85%B7v2raya
+[4] https://github.com/aurora0x27/dotfiles/blob/main/items/linuxqq/src/qq-electron-flags.conf
