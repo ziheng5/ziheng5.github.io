@@ -36,7 +36,7 @@ require(String.raw`/home/USER/.config/QQ/LiteLoaderQQNT`)
 
 接着修改 `app/package.json` 文件，将 `main` 后值修改为 `./app_launcher/LiteLoader.js`。
 
-然后，执行下面的命令将 `/opt/LiteLoaderQQNT` 目录下的所有内容迁移到 `/home/USER/.config/QQ/LiteLoaderQQMT` 目录下：
+然后，执行下面的命令将 `/opt/LiteLoaderQQNT` 目录下的所有内容迁移到 `/home/USER/.config/QQ/LiteLoaderQQNT` 目录下：
 
 ```bash
 cp -r /opt/LiteLoaderQQNT/* /home/USER/.config/QQ/LiteLoaderQQNT/

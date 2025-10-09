@@ -18,7 +18,7 @@ description: |
   - `Python`、`C/C++`、`MATLAB`、`Node.js`
 - `Minecraft`、`Stardew Valley`、`Arknights` 忠实玩家
 - 对嵌入式、飞控感兴趣，已经有了一些小小的尝试
-- 数模国赛绝命备赛中 orz
+- 数模国赛绝命等奖中 orz
 - ENFJ-A 一枚
 
 ### Contact Me
