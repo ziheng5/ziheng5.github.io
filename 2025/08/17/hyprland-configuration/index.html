@@ -215,7 +215,7 @@
                             
                                 <span class="tag">
                                     
-                                    <a href="/tags/Archlinux/" style="color: #03a9f4">
+                                    <a href="/tags/Archlinux/" style="color: #ff7d73">
                                         Archlinux
                                     </a>
                                 </span>
@@ -365,36 +365,10 @@ kitty
 <li>或者直接更改 <code>env = TERMINAL,kitty -1</code> 为 <code>env = TERMINAL,kitty</code>，这样的话每次打开终端的逻辑就变成了：创建一个新的 <code>kitty</code> 实例。</li>
 </ul>
 </blockquote>
-<h2><span id="6-启动失败问题及解决方案">6. 启动失败问题及解决方案</span></h2><blockquote>
+<h2><span id="6-配置过程中遇到的问题及解决方案">6. 配置过程中遇到的问题及解决方案</span></h2><blockquote>
 <p>建议先前往 Hyprland 官方文档查找问题案例</p>
 </blockquote>
-<h3><span id="61-启动失败回到登陆界面">6.1 启动失败（回到登陆界面）</span></h3><p>目前 Coldrain 已经遇到过一次 <strong>从 SDDM 登陆界面启动 Hyprland 后又回到了 SDDM 登陆界面</strong>的赛博鬼打墙（</p>
-<p>Coldrain 切换至 tty3 中，试图查找 Hyprland 的运行日志来调查问题的根本原因，但是发现 Hyprland 根本没有生成运行日志，也就是说，Hyprland 还没来得及写日志，就已经崩溃了。</p>
-<p>于是，Coldrain 尝试从 tty 中启动 Hyprland，看看是怎么崩溃的：</p>
-<pre><code class="bash">Hyprland
-</code></pre>
-<p>结果根据报错信息发现是 abseil 版本过新，导致 hyprland 无法找到原本配置文件的位置（人话就是：滚包把 hyprland 滚炸了💦）</p>
-<p>Coldrain 接着前往 Hyprland 官方文档的 Q&amp;A 中寻找解决方案，发现官方已经注意到这个问题。那么解决方案就是：把你系统中所有包含 <code>hypr*</code> 的包及依赖这些包的包全部卸载掉，然后重新用 <code>cmake</code> 编译 Hyprland，Coldrain 亲测有效（虽然有点麻烦就是了）。</p>
-<blockquote>
-<p>⚠️ 记得备份好你现有的配置文件</p>
-</blockquote>
-<h3><span id="62-启动后各种配件消失但是应用程序和终端可以唤出">6.2 启动后各种配件消失（但是应用程序和终端可以唤出）</span></h3><p>遇到这种情况一般是在你滚包之后，各种配件更新后与 Hyprland 官方的配置不兼容导致</p>
-<p>可以先切换到 tty 界面，将当前启动的 Hyprland 关闭：</p>
-<pre><code class="bash">killall Hyprland
-</code></pre>
-<p>接下来手动启动 Hyprland，并并将输出重定向到一个文件以便查看：</p>
-<pre><code class="bash">Hyprland &gt; ~/hyprland.log 2&gt;&amp;1
-</code></pre>
-<p>启动后，在终端打开你的 <code>hyprland.log</code>，看看问题出在哪里。</p>
-<p>当然，如果你实在找不到问题，或者实在懒得查问题的话，完全可以把 Hyprland 重新编译安装一遍（</p>
-<h3><span id="63-linuxqq-中无法正常使用-fcitx5-输入法">6.3 linuxqq 中无法正常使用 fcitx5 输入法</span></h3><p>Hyprland 不依赖传统的 X11 协议，而是使用 Wayland，这意味着应用程序要想在 Hyprland 下运行，必须通过 Wayland 原生支持或 XWayland 兼容层（用于运行老的 X11 应用）</p>
-<p><code>linuxqq</code> 是一个 Electron 应用，Electron 在 Linux 上同时支持两种后端：<code>X11</code> 和 <code>Wayland</code>。默认情况下，<code>linuxqq</code> 会根据当前环境变量自动选择运行模式，也就是说 <code>linuxqq</code> 在 <code>Hyprland</code> 上默认通过 <code>Wayland</code> 启动，然而 <code>linuxqq</code> 默认未启用 <code>--enable-wayland-ime</code>，导致 fcitx5 无法检测到输入窗口，最终表现为：在 linuxqq 中无法正常使用 fcitx5 输入法</p>
-<p>解决方案如下：</p>
-<ul>
-<li>在 <code>/usr/bin/linuxqq</code> 中加入如下内容（直接复制粘贴到最后一行即可）：</li>
-</ul>
-<pre><code class="bash">exec /opt/QQ/qq $&#123;QQ_USER_FLAGS[@]&#125; &quot;$@&quot; --ozone-platform-hint=x11 --enable-wayland-ime --wayland-text-input-version=3
-</code></pre>
+<p>该部分请参考：<a href="./hyprland-problems.md">Hyprland 常见问题</a></p>
 <hr>
 <h2><span id="参考资料">参考资料</span></h2><p>[1] <a target="_blank" rel="noopener" href="https://wiki.hypr.land/Getting-Started/Installation/">https://wiki.hypr.land/Getting-Started/Installation/</a><br>[2] <a target="_blank" rel="noopener" href="https://end-4.github.io/dots-hyprland-wiki/en/ii-qs/01setup/">https://end-4.github.io/dots-hyprland-wiki/en/ii-qs/01setup/</a><br>[3] <a target="_blank" rel="noopener" href="https://blog.manjusaka.de/p/0-0-0-52/#%E5%AE%89%E8%A3%85%E4%BB%A3%E7%90%86%E5%B7%A5%E5%85%B7v2raya">https://blog.manjusaka.de/p/0-0-0-52/#%E5%AE%89%E8%A3%85%E4%BB%A3%E7%90%86%E5%B7%A5%E5%85%B7v2raya</a><br>[4] <a target="_blank" rel="noopener" href="https://github.com/aurora0x27/dotfiles/blob/main/items/linuxqq/src/qq-electron-flags.conf">https://github.com/aurora0x27/dotfiles/blob/main/items/linuxqq/src/qq-electron-flags.conf</a></p>
 
@@ -411,7 +385,7 @@ kitty
             
         <div id='toc'>
             <strong class="sidebar-title"> 目录 </strong>
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. Hyprland 的安装（手动）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 安装必要软件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.1 kitty</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.2 通知程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.3 pipewire（用于屏幕共享）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.4 Qt Wayland 支持</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. 安装第三方 Hyprland 主题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. 配置代理（采用 V2raya 和 Proxychains）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.1 编辑修改 &#x2F;etc&#x2F;default&#x2F;v2raya 配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.2 编辑修改 systemd 管理的配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.3 编辑 ~&#x2F;.config&#x2F;hypr&#x2F;hyprland.conf 配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.4 安装 Proxychains</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5. 终端配置（kitty）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">❓ hyprland 下 kitty 可能遇到的问题及解决方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">解决方案：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6. 启动失败问题及解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">6.1 启动失败（回到登陆界面）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">6.2 启动后各种配件消失（但是应用程序和终端可以唤出）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">6.3 linuxqq 中无法正常使用 fcitx5 输入法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">参考资料</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. Hyprland 的安装（手动）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 安装必要软件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.1 kitty</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.2 通知程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.3 pipewire（用于屏幕共享）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.4 Qt Wayland 支持</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. 安装第三方 Hyprland 主题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. 配置代理（采用 V2raya 和 Proxychains）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.1 编辑修改 &#x2F;etc&#x2F;default&#x2F;v2raya 配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.2 编辑修改 systemd 管理的配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.3 编辑 ~&#x2F;.config&#x2F;hypr&#x2F;hyprland.conf 配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.4 安装 Proxychains</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5. 终端配置（kitty）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">❓ hyprland 下 kitty 可能遇到的问题及解决方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">解决方案：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6. 配置过程中遇到的问题及解决方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">参考资料</span></a></li></ol>
         </div>
     
         </div>
