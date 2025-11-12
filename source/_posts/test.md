@@ -18,9 +18,8 @@ description: |
   - `Python`、`C/C++`、`MATLAB`、`Node.js`
 - `Minecraft`、`Stardew Valley`、`Arknights` 忠实玩家
 - 对嵌入式、飞控感兴趣，已经有了一些小小的尝试
-- 数模国赛绝命等奖中 orz
 - ENFJ-A 一枚
 
 ### Contact Me
 - Gmail：[zihengye02@gmail.com](mailto:zihengye02@gmail.com)
-- QQ：[2199325776](qq://2199325776)
+- QQ：[2199325776](http://wpa.qq.com/msgrd?v=3&uin=2199325776&site=qq&menu=yes)
