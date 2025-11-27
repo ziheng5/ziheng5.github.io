@@ -24,3 +24,8 @@ description: |
 ### Contact Me
 - Gmail：[zihengye02@gmail.com](mailto:zihengye02@gmail.com)
 - QQ：[2199325776](http://wpa.qq.com/msgrd?v=3&uin=2199325776&site=qq&menu=yes)
+
+
+### Something else
+- 在历经数次碰壁后，确证与现实世界格格不入的理想主义者
+- 对投机有天然反感，对真理有执拗追求
