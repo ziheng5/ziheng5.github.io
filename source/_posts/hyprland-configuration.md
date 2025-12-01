@@ -243,7 +243,7 @@ proxychains firefox
 
 > 建议先前往 Hyprland 官方文档查找问题案例
 
-该部分请参考：[Hyprland 常见问题](./hyprland-problems.md)
+该部分请参考：[Hyprland 常见问题](https://ziheng5.github.io/2025/10/18/hyprland-problems/)
 
 
 
