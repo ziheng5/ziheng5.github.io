@@ -1,0 +1,350 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>在 Archlinux 上安装并配置 LiteLoaderQQNT 插件 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>在 Archlinux 上安装并配置 LiteLoaderQQNT 插件</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2025/8/4
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/Archlinux/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                Archlinux
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/Archlinux/" style="color: #00a596">
+                                        Archlinux
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <h2><span id="0-简介">0. 简介</span></h2>
+<blockquote>
+<p>“LiteLoaderQQNT 是 QQNT 的插件加载器，一般在 QQNT 的环境内简称为 LiteLoader<br>
+它可以让你自由地为 QQNT 添加各种插件，并实现例如美化主题、增加功能等各种功能<br>
+支持 QQNT 桌面端 全架构 最低 34xxx 版本到官网最新版本（一般情况是这样的）。”</p>
+<p>官方文档：<a target="_blank" rel="noopener" href="https://liteloaderqqnt.github.io/">LiteLoaderQQNT</a></p>
+</blockquote>
+<h2><span id="1-安装">1. 安装</span></h2>
+<p>使用 Arch Linux 系统可以通过 AUR 安装：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://aur.archlinux.org/packages/liteloader-qqnt-bin">https://aur.archlinux.org/packages/liteloader-qqnt-bin</a></li>
+<li><a target="_blank" rel="noopener" href="https://aur.archlinux.org/packages/liteloader-qqnt-git">https://aur.archlinux.org/packages/liteloader-qqnt-git</a></li>
+</ul>
+<p>执行以下命令：</p>
+<pre><code class="language-bash">paru -S liteloader-qqnt-bin
+</code></pre>
+<p>等待安装完成后，进入到 <code>/home/USER/.config/QQ/</code> 目录下（ aur 官方仓库给出的建议目录是 <code>$&#123;XDG_CONFIG_HOME/QQ/LiteLoaderQQNT&#125;</code>），创建文件夹 <code>LiteLoaderQQNT</code>，以便后续步骤中迁移数据目录。</p>
+<p>接着进入到 <code>/opt/QQ/resources/app/app_launcher/</code> 目录下，创建文件 <code>LiteLoader.js</code>，并在其中写入如下内容（<strong>按照你的实际路径填写</strong>）：</p>
+<pre><code class="language-js">require(String.raw`/home/USER/.config/QQ/LiteLoaderQQNT`)
+</code></pre>
+<p>接着修改 <code>app/package.json</code> 文件，将 <code>main</code> 后的 <code>&quot;./application.asar/app_launcher/index.js&quot;</code> （或者其他值）修改为 <code>./app_launcher/LiteLoader.js</code>。</p>
+<p>然后，执行下面的命令将 <code>/opt/LiteLoaderQQNT</code> 目录下的所有内容迁移到 <code>/home/USER/.config/QQ/LiteLoaderQQNT</code> 目录下：</p>
+<pre><code class="language-bash">cp -r /opt/LiteLoaderQQNT/* /home/USER/.config/QQ/LiteLoaderQQNT/
+</code></pre>
+<blockquote>
+<p>上面的这步迁移，原因在于：</p>
+<ul>
+<li><code>/opt</code> 是系统目录，需要 sudo 权限，普通用户会遇到无法写入的问题。</li>
+<li>安装多个用户时共享 <code>/opt/LiteLoaderQQNT</code> 不安全。</li>
+<li>遵循 <code>XDG</code> 标准能够让桌面环境、应用更一致，便于清理与迁移。</li>
+</ul>
+</blockquote>
+<p>然后，在 <code>/home/USER/.config/QQ/LiteLoaderQQMT</code> 目录下创建 <code>data</code>、<code>plugins</code> 两个文件夹，用于后续配置插件。</p>
+<p>此时，当你打开 QQ，点开设置界面，将会发现你的设置界面出现了 LiteLoaderQQNT 这一栏：</p>
+<p><img src="../images/qqnt/liteloaderqqntpage.png" alt="liteloaderqqntpage"></p>
+<h2><span id="2-配置插件">2. 配置插件</span></h2>
+<p>这里以<a target="_blank" rel="noopener" href="https://github.com/xiyuesaves/lite_tools/tree/v4">轻量工具箱</a> 插件为例：</p>
+<p>在官方的 Github 仓库中下载<a target="_blank" rel="noopener" href="https://github.com/xiyuesaves/LiteLoaderQQNT-lite_tools/releases/latest">最新发布版本</a>中的 <code>lite_tools.zip</code> 文件，接着在 <code>/home/USER/.config/QQ/LiteLoaderQQMT/plugins/</code> 目录下创建 <code>lite_tools</code> 文件夹，然后将 <code>lite_tools.zip</code> 文件中的内容解压到 <code>lite_tools</code> 文件夹下。</p>
+<p>重启 QQNT 即可安装完成，配置界面出现了一个新的插件！</p>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">0. 简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 配置插件</span></a></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

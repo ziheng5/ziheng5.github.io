@@ -1,0 +1,636 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>基于 PyTorch 与 Gym 的 PPO 算法复现 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>基于 PyTorch 与 Gym 的 PPO 算法复现</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2025/1/19
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                强化学习
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/PyTorch/" style="color: #ffa2c4">
+                                        PyTorch
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
+                                        强化学习
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <blockquote>
+<p>🤞 这段时间在师姐的推荐下，学习了网上关于强化学习的 PyTorch 实战视频，小生自己也是跟着视频复现了一遍 PPO 算法，于是准备写一篇 Blog 来记录学习心得</p>
+<p>框架：<strong>PyTorch</strong></p>
+<p>游戏：<strong>LunarLander-v2</strong></p>
+<p>上一次运行成功时间：<strong>2025-01-20</strong></p>
+<p>（本文里的代码是小生重新手打的，未复制粘贴，可能存在拼写错误，望见谅）</p>
+</blockquote>
+<p><img src="../images/rl_practice/pic1" alt="pic1"></p>
+<h1><span id="1-导入必要的包">1. 📦 导入必要的包</span></h1>
+<pre><code class="language-Python">import torch
+import torch.nn as nn
+from torch.distributions.categorical import Categorical
+import gym
+import numpy as np
+
+# 导完包之后顺手定义一下 device
+device = torch.device(“cuda:0” if torch.cuda.is_available() else &quot;cpu&quot;)
+</code></pre>
+<p>⚠️ 注意：下载 gym 的时候一定要记得安装一下 <code>box2d</code> 包，否则会报错。如下所示：</p>
+<pre><code class="language-Terminal">pip install box2d box2d-kengz
+</code></pre>
+<p>这里顺便列一下 requirements:</p>
+<ul>
+<li><strong>pytorch</strong>: 2.5.0</li>
+<li><strong>gym</strong>: 0.26.2</li>
+<li><strong>box2d</strong>: 2.3.10</li>
+<li><strong>box2d</strong>-kengz: 2.3.3</li>
+<li><strong>numpy</strong>: 2.1.3</li>
+</ul>
+<h1><span id="2-构建缓存区">2. 🫙 构建缓存区</span></h1>
+<pre><code class="language-Python">class Memory:
+    def __init__(self):
+        # 缓存区，用于存储当前一个 episode 中的经验
+        self.actions = []
+        self.states = []
+        self.logprobs = []
+        self.rewards = []
+        self.is_terminals = []
+
+    def clear_memory(self):
+        # 清空缓存
+        del self.actions[:]
+        del self.states[:]
+        del self.logprobs[:]
+        del self.rewards[:]
+        del self.is_terminals[:]
+</code></pre>
+<h1><span id="3-构建-a2c-策略网络">3. 🧱 构建 A2C 策略网络</span></h1>
+<pre><code class="language-Python">class ActorCritic(nn.Module):
+    def __init__(self, state_dim, action_dim, n_latent_var):
+        super(ActorCritic, self).__init__()
+
+        # Actor 网络：
+        self.action_layer = nn.Sequential(
+            nn.Linear(state_dim, n_latent_var),
+            nn.Tanh(),  # 你问我为什么不用其他激活函数？我也不清楚，待会儿查一下 QWQ
+            nn.Linear(n_latent_var, n_latent_var),
+            nn.Tanh(),
+            nn.Linear(n_latent_var, action_dim),
+            nn.Softmax(dim=-1)  # 这里 dim=-1 相当于 dim=2，对 actions 进行归一化处理
+        )
+
+        # Critic 网络：
+        self.value_layer = nn.Sequential(
+            nn.Linear(state_dim, n_latent_var),
+            nn.Tanh(),
+            nn.Linear(n_latent_var, n_latent_var),
+            nn.Tanh(),
+            nn.Linear(n_latent_var, 1)
+        )
+    
+    def forward(self):
+        # 你问这里为什么用不到 forward？大笨蛋！这里有两个网络你怎么前向传播？
+        raise NotImplementedError
+
+    def act(self, state, memory):
+        # 根据当前状态 s 生成下一步动作 a
+        state = torch.from_numpy(state).float().to(device)
+        actions_probs = self.action_layer(state)
+        dist = Categorical(actions_probs)
+        action = dist.sample()
+
+        # 压入缓存区
+        memory.states.append(state)
+        memory.actions.append(action)
+        memory.logprobs.append(dist.log_prob(action))
+
+        return action.item()
+
+    def evaluate(self, state, action):
+        # 评估模式
+        action_probs = self.action_layer(state)
+        dist = Categorical(action_probs)
+        
+        action_logprobs = dist.log_prob(action)
+        dist_entropy = dist.entropy()
+
+        state_value = self.value_layer(state)
+
+        return action_logprobs, torch.squeeze(state_value), dist_entropy
+</code></pre>
+<p><code>ActorCritic</code> 类是 PPO 算法的核心，它由两个部分组成：</p>
+<ul>
+<li><strong>Actor</strong>：用于根据当前状态选择动作。通过一个神经网络来预测动作的概率分布，并通过 <code>Categorical</code> 类来抽样动作。</li>
+<li><strong>Critic</strong>：用于评估当前状态的价值，通过一个神经网络输出状态的价值函数。</li>
+</ul>
+<p><code>act</code> 方法接受当前状态，计算出动作概率分布并根据其进行抽样，保存当前的状态、动作和对应的 log 概率。</p>
+<p><code>evaluate</code> 方法用于计算动作的 log 概率、状态值和分布的熵。</p>
+<h1><span id="4-构建-ppo-算法">4. 👷 构建 PPO 算法</span></h1>
+<pre><code class="language-Python">class PPO:
+    def __init__(self, state_dim, action_dim, n_latent_var, lr, betas, gamma, K_epochs, eps_clip):
+        self.lr = lr
+        self.betas = betas
+        self.gamma = gamma
+        self.eps_clip = eps_clip
+        self.K_epochs = K_epochs
+
+        # 创建策略网络
+        self.policy = ActorCritic(state_dim, action_dim, n_latent_var).to(device)
+        self.optimizer = torch.optim.Adam(self.policy.parameters(), lr=lr, betas=betas)
+
+        # 这里使用 off policy 思想，给我们的 policy 召唤一个分身
+        self.policy_old = ActorCritic(state_dim, action_dim, n_latent_var).to(device)
+        self.policy_old.load_state_dict(self.policy.state_dict)
+
+        self.MseLoss = nn.MSELoss()
+    
+
+    def update(self, memory):
+        # 利用蒙特卡洛算法计算 state rewards:
+        rewards = []
+        discounted_reward = 0
+        for reward, is_terminal in zip(reversed(memory.rewards), reversed(memory.is_terminal)):
+            if is_terminal:
+                discounted_reward = 0
+            discounted_reward = reward + self.gamma * discounted_reward
+            rewards.insert(0, discounted_reward)
+
+        # 归一化 rewards
+        rewards = torch.tensor(rewards, dtype=torch.float32).to(device)
+        rewards = (rewards - rewards.mean()) / (rewards.std() + 1e-5)
+
+        # 把 list 全部转换为 tensor
+        old_states = torch.stack(memory.states).to(device).detach()
+        old_actions = torch.stack(memory.actions).to(device).detach()
+        old_logprobs = torch.stack(memory.logprobs).to(device).detach()
+
+        # 优化策略
+        for _ in range(self.K_epochs):
+            # 评估 old actions 和 values
+            logprobs, state_values, dist_entropy = self.policy.evaluate(old_state, old_actions)
+
+            # 计算 ratio (pi_theta / pi_theta_old)
+            ratios = torch.exp(logprobs - old_logprobs.detach())
+
+            # 计算 surrogate loss
+            advantages = rewards - state_values.detach()
+            surr1 = ratios * advantages
+            surr2 = torch.clamp(ratios, 1.0-self.eps_clip, 1.0+self.eps_clip) * advantages
+            loss = -torch.min(surr1, surr2) + 0.5*self.MseLoss(state_values, rewards) - 0.01*dist_entropy
+
+            # 更新权重
+            self.optimizer.zero_grad()
+            loss.mean().backward()
+            self.optimizer.step()
+
+        
+        # 将新的权重赋给我们的 old_policy
+        self.policy_old.load_state_dict(self.policy.state_dict())
+</code></pre>
+<p><code>PPO</code> 类封装了强化学习训练的主要逻辑。<br>
+<code>update</code> 方法通过经验回放更新策略：</p>
+<ul>
+<li>首先，计算蒙特卡洛奖励。</li>
+<li>然后对奖励归一化处理。</li>
+<li>接着，通过多次优化（K-epochs），计算损失函数并进行梯度更新。</li>
+<li>最后，将新的策略参数复制到旧策略中。</li>
+</ul>
+<p>损失函数由三部分组成：</p>
+<ul>
+<li><strong>Surrogate Loss</strong>：确保新的策略和旧的策略之间的比率 ratio 不便，以避免过大的策略变化。</li>
+<li><strong>Value Loss</strong>：通过均方误差来最小化状态价值的误差。</li>
+<li><strong>Entropy</strong>：通过熵来避免策略过于确定，保持探索性。</li>
+</ul>
+<h1><span id="5-主函数">5. 🀄 主函数</span></h1>
+<pre><code class="language-Python">def main():
+    # 创建环境
+    env_name = &quot;LunarLander-V2&quot;
+    env = gym.make(env_name, render_name=&quot;human&quot;)
+
+    #############################################################################
+    # 初始化参数
+    state_dim = env.observation_space.shape[0]  # state_dim = 8
+    action_dim = 4  # 上下左右
+    render = True   # 是否展示（建议设置为 False,这样可以加快训练速度）
+    solved_reward = 230 # 训练成功的指标
+    log_interval = 20
+    max_episodes = 50000
+    max_timesteps = 300
+    n_latent_var = 64
+    update_timestep = 2000
+    lr = 0.002
+    betas = (0.9, 0.999)
+    gamma = 0.99
+    K_epochs = 4
+    eps_clip = 0.2
+    random_seed = None
+    #############################################################################
+
+    if random_seed:
+        torch.manual_seed(random_seed)
+        env.seed(random_seed)
+
+    memory = Memory()
+    ppo = PPO(state_dim, action_dim, n_latent_var, lr, betas, gamma, K_epochs, eps_clip)
+
+    running_reward = 0
+    avg_length = 0
+    timestep = 0
+
+    for i_episode in range(1, max_episodes+1):
+        state = env.reset()
+        state = np.array(state[0])
+        for t in range(max_timesteps):
+            timestep += 1
+
+            action = ppo.policy_old.act(state, memory)
+            state, reward, done, _, _ = env.step(action)
+            # 注意：新版的 gym 在 env.step 时会返回 5 个值，具体请查阅官方文档或源码注释
+
+            memory.rewards.append(reward)
+            memory.is_terminals.append(done)
+
+            if timestep % update_timestep == 0:
+                ppo.update(memory)
+                memory.clear_memory()
+                timestep = 0
+
+            running_reward += reward
+            if render:
+                env.render()
+            if done:
+                break
+            
+        avg_length += t
+
+        if running_reward &gt; (log_interval*solved_reward):
+            print(&quot;#################### Solved ! ####################&quot;)
+            torch.save(ppo.policy.state_dict(), './PPO_&#123;&#125;.pth'.format(env.name))
+            break
+
+        if i_episode % log_interval == 0:
+            avg_length = int(avg_length/log_interval)
+            running_reward = int(running_reward/log_interval)
+
+            print(&quot;Episode &#123;&#125; \t avg length: &#123;&#125; \t reward:&#123;&#125;&quot;.format(i_episode, avg_length, running_reward))
+            running_reward = 0
+            avg_length = 0
+</code></pre>
+<h1><span id="6-加载模型文件展示效果">6. 🚗 加载模型文件展示效果：</span></h1>
+<blockquote>
+<p>这里要新建一个 <code>ppo_show.py</code> 文件</p>
+</blockquote>
+<pre><code class="language-Python">from ppo import PPO, Memory, ActorCritic
+import gym
+import torch
+import numpy as np
+
+env_name = &quot;LunarLander-v2&quot;
+env = gym.make(env_name, render_mode=&quot;human&quot;)
+state_dim = env.observation_space.shape[0]
+action_dim = 4
+render = True
+max_timesteps = 300
+n_latent_var = 64
+lr = 0.0007
+betas = (0.9, 0.999)
+gamma = 0.99
+K_epochs = 4
+eps_clip = 0.2
+n_episodes = 3
+filename = &quot;PPO_LunarLander-v2.pth&quot;
+directory = &quot;./&quot;
+
+memory = Memory()
+ppo = PPO(state_dim, action_dim, n_latent_var, lr, betas, gamma, K_epochs, eps_clip=eps_clip)
+ppo.policy.load_state_dict(torch.load(filename))
+ppo.policy_old.load_state_dict(torch.load(filename))
+
+# logging variables
+running_reward = 0
+avg_length = 0
+timestep = 0
+
+# training loop
+for i_episode in range(1, 20):
+    state = env.reset()
+    state = np.array(state[0])
+    for t in range(max_timesteps):
+        timestep += 1
+
+        action = ppo.policy_old.act(state, memory)
+        state, reward, done, _, _ = env.step(action)
+
+        memory.rewards.append(reward)
+        memory.is_terminals.append(done)
+
+        running_reward += reward
+        if render:
+            env.render()
+        if done:
+            break
+
+    avg_length += t
+</code></pre>
+<blockquote>
+<p><strong>如有报错且找不到报错原因的，可以私信小生</strong> 🥺</p>
+</blockquote>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">1. 📦 导入必要的包</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">2. 🫙 构建缓存区</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">3. 🧱 构建 A2C 策略网络</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">4. 👷 构建 PPO 算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">5. 🀄 主函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">6. 🚗 加载模型文件展示效果：</span></a></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

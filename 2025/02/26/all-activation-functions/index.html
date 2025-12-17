@@ -1,0 +1,519 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>在深度神经网络中常用的激活函数及其性质 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>在深度神经网络中常用的激活函数及其性质</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2025/2/26
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                深度学习
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
+                                        深度学习
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <h2><span id="1-前言">1. 前言</span></h2>
+<p>在神经网络中，激活函数（Activation Function）是决定神经元输出信号的关键组件。它通过引入非线性特性，使神经网络能够学习和模拟复杂的模式。</p>
+<blockquote>
+<p>激活函数的作用:</p>
+<ol>
+<li>
+<p><strong>引入非线性</strong>：神经网络的作用便是用于拟合难以描述的函数关系，如果没有激活函数，多层神经网络等价于单层现性变换，无法解决非线性问题，即无法拟合出非线性函数关系。</p>
+</li>
+<li>
+<p><strong>控制输出范围</strong>：比如 Sigmoid 将输出压缩到 (0, 1)，适合概率输出</p>
+</li>
+<li>
+<p><strong>梯度传播</strong>：激活函数的导数影响反向传播的梯度，避免梯度消失或爆炸。</p>
+</li>
+</ol>
+</blockquote>
+<h2><span id="2-sigmoidlogistic-函数">2. Sigmoid（Logistic 函数）</span></h2>
+<ul>
+<li>
+<p><strong>公式</strong>：<br>
+$$ \sigma(x) = \frac{1}{1 + e^{-x}} $$</p>
+</li>
+<li>
+<p><strong>图像</strong>：S 型曲线，输出范围为 (0, 1)。（如下所示）</p>
+</li>
+</ul>
+<p><img src="../images/activation_functions/sigmoid.png" alt="sigmoid"></p>
+<ul>
+<li>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>输出可解释为概率。</li>
+<li>平滑梯度，适合<strong>浅层</strong>网络。（深层网络不太适用）</li>
+</ul>
+</li>
+<li>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>梯度消失：当输入绝对值较大时，导数接近 0 。</li>
+<li>非零中心化：输出均值不为 0，影响梯度更新效率。</li>
+</ul>
+</li>
+<li>
+<p><strong>适用场景</strong>：二分类输出层、早期简单神经网络</p>
+</li>
+</ul>
+<h2><span id="3-tanh双曲正切函数">3. Tanh（双曲正切函数）</span></h2>
+<ul>
+<li>
+<p><strong>公式</strong>：<br>
+$$ tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}} $$</p>
+</li>
+<li>
+<p><strong>图像</strong>：S 型曲线，输出范围 (-1, 1)。（如下所示）</p>
+</li>
+</ul>
+<p><img src="../images/activation_functions/tanh.png" alt="tanh"></p>
+<ul>
+<li><strong>优点</strong>：
+<ul>
+<li>零中心化：输出均值为 0, 梯度更新更高效。</li>
+<li>比 Sigmoid 更陡峭的梯度。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：
+<ul>
+<li>仍存在梯度消失问题。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：隐藏层，尤其是 RNN、LSTM 等。</li>
+</ul>
+<h2><span id="4-relurectified-linear-unit-非线性激活单元">4. ReLU（Rectified Linear Unit 非线性激活单元）</span></h2>
+<ul>
+<li><strong>公式</strong>：<br>
+$$ ReLU(x) = max(0, x)$$</li>
+<li><strong>图像</strong>：左半轴恒为 0，右半轴恒为线性。（如下所示）</li>
+</ul>
+<p><img src="../images/activation_functions/relu.png" alt="relu"></p>
+<ul>
+<li><strong>优点</strong>：
+<ul>
+<li>计算高效：无指数运算。</li>
+<li>缓解梯度消失：正区间导数为 1 。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：
+<ul>
+<li>Dead ReLU 问题：输入为负时梯度为 0，神经元”死亡“。</li>
+<li>输出非零中心化：</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：大多数前馈神经网络的隐藏层（默认选择）。</li>
+</ul>
+<blockquote>
+<p>前馈神经网络（Feedforward Neural Network, FNN）是人工神经网络中最基础、最广泛使用的类型之一，其核心是数据单向流动（从输入层到输出层），没有循环或反馈连接。</p>
+</blockquote>
+<h2><span id="5-leaky-relu">5. Leaky ReLU</span></h2>
+<blockquote>
+<p>ReLU 的升级版</p>
+</blockquote>
+<ul>
+<li>
+<p><strong>公式</strong>：<br>
+$$LeakyReLU(x) = \left{\begin{matrix} x \text{ if x&gt;0} \ \alpha x \text{ otherwise} \end{matrix}\right.$$<br>
+（通常 $\alpha = 0.01$）</p>
+</li>
+<li>
+<p><strong>图像</strong>：（如下所示）</p>
+</li>
+</ul>
+<p><img src="../images/activation_functions/leaky_relu.png" alt="leaky_relu"></p>
+<ul>
+<li><strong>改进</strong>：负区间引入小斜率 $\alpha$，缓解 Dead ReLU。</li>
+<li><strong>优点</strong>：
+<ul>
+<li>保留 ReLU 优点，减少神经元死亡。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：
+<ul>
+<li>$\alpha$ 需手动设定或学习。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：需解决 Dead ReLU 问题的深层网络。</li>
+</ul>
+<h2><span id="6-parametric-reluprelu">6. Parametric ReLU（PReLU）</span></h2>
+<blockquote>
+<p>Leaky ReLU 的升级版</p>
+</blockquote>
+<ul>
+<li><strong>公式</strong>：类似于 Leaky ReLU，但 $\alpha$ 是可学习参数</li>
+<li><strong>优点</strong>：自适应调整负区间斜率。</li>
+<li><strong>缺点</strong>：增加参数量，可能过拟合。</li>
+<li><strong>适用场景</strong>：大型网路（如 ResNet）</li>
+</ul>
+<h2><span id="7-eluexponential-linear-unit">7. ELU（Exponential Linear Unit）</span></h2>
+<blockquote>
+<p>ReLU 的另一个升级版</p>
+</blockquote>
+<ul>
+<li>
+<p><strong>公式</strong>：<br>
+$$ELU(x) = \left{\begin{matrix} x \text{ if x&gt;0} \ \alpha(e^x - 1) \text{otherwise} \end{matrix}\right.$$</p>
+</li>
+<li>
+<p><strong>图像</strong>：（如下所示）</p>
+</li>
+</ul>
+<p><img src="../images/activation_functions/elu.png" alt="elu"></p>
+<p>（通常 $\alpha = 1$）</p>
+<ul>
+<li><strong>优点</strong>：
+<ul>
+<li>负区间平滑过渡，接近零均值输出。</li>
+<li>缓解 Dead ReLU 问题。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：
+<ul>
+<li>指数计算增加复杂度。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：深层网络，对噪声敏感的任务</li>
+</ul>
+<h2><span id="8-softmax">8. Softmax</span></h2>
+<ul>
+<li>
+<p><strong>公式</strong>：<br>
+$$Softmax(x_i) = \frac{e^{x_i}}{\Sigma^n_{j=1} e^{x_j}}$$</p>
+</li>
+<li>
+<p><strong>特点</strong>：将输出压缩为概率分布（总和为 1）。</p>
+</li>
+<li>
+<p><strong>适用场景</strong>：多分类输出层。</p>
+</li>
+</ul>
+<h2><span id="9-swish">9. Swish</span></h2>
+<ul>
+<li><strong>公式</strong>：<br>
+$$Swish(x) = x \cdot \sigma(\beta x) $$<br>
+($\sigma$ 为 Sigmoid，$\beta$ 常设为 1 或可学习)</li>
+</ul>
+<p><img src="../images/activation_functions/swish.png" alt="swish"></p>
+<ul>
+<li><strong>优点</strong>：
+<ul>
+<li>平滑且非单调，实验显示优于 ReLU。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：计算量略大。</li>
+<li><strong>适用场景</strong>：替代 ReLU 的隐藏层。</li>
+</ul>
+<h2><span id="10-mish">10. Mish</span></h2>
+<ul>
+<li><strong>公式</strong>：<br>
+$$Mish(x) = x \cdot \tanh(\ln(1+e^x))$$</li>
+</ul>
+<p><img src="../images/activation_functions/mish.png" alt="mish"></p>
+<ul>
+<li><strong>优点</strong>：
+<ul>
+<li>更平滑的梯度，缓解 Dead ReLU。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：计算成本高。</li>
+<li><strong>适用场景</strong>：计算机视觉任务。</li>
+</ul>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. Sigmoid（Logistic 函数）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. Tanh（双曲正切函数）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. ReLU（Rectified Linear Unit 非线性激活单元）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5. Leaky ReLU</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6. Parametric ReLU（PReLU）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">7. ELU（Exponential Linear Unit）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">8. Softmax</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">9. Swish</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">10. Mish</span></a></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

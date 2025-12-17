@@ -1,0 +1,357 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>Hyprland 常见问题 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>Hyprland 常见问题</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2025/10/18
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/Archlinux/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                Archlinux
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/Archlinux/" style="color: #00a596">
+                                        Archlinux
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <h2><span id="1-桌面环境问题">1. 桌面环境问题</span></h2>
+<h3><span id="11-启动失败回到登陆界面">1.1 启动失败（回到登陆界面）</span></h3>
+<p>目前 Coldrain 已经遇到过一次 <strong>从 SDDM 登陆界面启动 Hyprland 后又回到了 SDDM 登陆界面</strong>的赛博鬼打墙（</p>
+<p>Coldrain 切换至 tty3 中，试图查找 Hyprland 的运行日志来调查问题的根本原因，但是发现 Hyprland 根本没有生成运行日志，也就是说，Hyprland 还没来得及写日志，就已经崩溃了。</p>
+<p>于是，Coldrain 尝试从 tty 中启动 Hyprland，看看是怎么崩溃的：</p>
+<pre><code class="language-bash">Hyprland
+</code></pre>
+<p>结果根据报错信息发现是 abseil 版本过新，导致 hyprland 无法找到原本配置文件的位置（人话就是：滚包把 hyprland 滚炸了💦）</p>
+<p>Coldrain 接着前往 Hyprland 官方文档的 Q&amp;A 中寻找解决方案，发现官方已经注意到这个问题。那么解决方案就是：把你系统中所有包含 <code>hypr*</code> 的包及依赖这些包的包全部卸载掉，然后重新用 <code>cmake</code> 编译 Hyprland，Coldrain 亲测有效（虽然有点麻烦就是了）。</p>
+<blockquote>
+<p>⚠️ 记得备份好你现有的配置文件</p>
+</blockquote>
+<h3><span id="12-启动后各种配件消失但是应用程序和终端可以唤出">1.2 启动后各种配件消失（但是应用程序和终端可以唤出）</span></h3>
+<p>遇到这种情况一般是在你滚包之后，各种配件更新后与 Hyprland 官方的配置不兼容导致</p>
+<p>可以先切换到 tty 界面，将当前启动的 Hyprland 关闭：</p>
+<pre><code class="language-bash">killall Hyprland
+</code></pre>
+<p>接下来手动启动 Hyprland，并并将输出重定向到一个文件以便查看：</p>
+<pre><code class="language-bash">Hyprland &gt; ~/hyprland.log 2&gt;&amp;1
+</code></pre>
+<p>启动后，在终端打开你的 <code>hyprland.log</code>，看看问题出在哪里。</p>
+<p>当然，如果你实在找不到问题，或者实在懒得查问题的话，完全可以把 Hyprland 重新编译安装一遍（</p>
+<h2><span id="2-应用程序问题">2. 应用程序问题</span></h2>
+<h3><span id="21-linuxqq-中无法正常使用-fcitx5-输入法">2.1 linuxqq 中无法正常使用 fcitx5 输入法</span></h3>
+<p>Hyprland 不依赖传统的 X11 协议，而是使用 Wayland，这意味着应用程序要想在 Hyprland 下运行，必须通过 Wayland 原生支持或 XWayland 兼容层（用于运行老的 X11 应用）</p>
+<p><code>linuxqq</code> 是一个 Electron 应用，Electron 在 Linux 上同时支持两种后端：<code>X11</code> 和 <code>Wayland</code>。默认情况下，<code>linuxqq</code> 会根据当前环境变量自动选择运行模式，也就是说 <code>linuxqq</code> 在 <code>Hyprland</code> 上默认通过 <code>Wayland</code> 启动，然而 <code>linuxqq</code> 默认未启用 <code>--enable-wayland-ime</code>，导致 fcitx5 无法检测到输入窗口，最终表现为：在 linuxqq 中无法正常使用 fcitx5 输入法</p>
+<p>解决方案如下：</p>
+<ul>
+<li>在 <code>/usr/bin/linuxqq</code> 中加入如下内容（直接复制粘贴到最后一行即可）：</li>
+</ul>
+<pre><code class="language-bash">exec /opt/QQ/qq $&#123;QQ_USER_FLAGS[@]&#125; &quot;$@&quot; --ozone-platform-hint=x11 --enable-wayland-ime --wayland-text-input-version=3
+</code></pre>
+<h3><span id="22-steam-启动后-gui-界面模糊">2.2 Steam 启动后 GUI 界面模糊</span></h3>
+<blockquote>
+<p>ArchWiki 有相关讨论与解决方案：<a target="_blank" rel="noopener" href="https://wiki.archlinux.org/title/Steam/Troubleshooting#Blurry_text_and_graphics_with_Xwayland_and_HiDPI">Blurry text and graphics with Xwayland and HiDPI</a></p>
+</blockquote>
+<p>当 Steam 作为 Xwayland 客户端在一个使用 HiDPI 缩放的合成器下运行时，你可能会发现 Steam 和游戏以一半的分辨率渲染，然后缩放以适应 HiDPI 屏幕。这会导致图形模糊，如下图所示：</p>
+<p><img src="../images/hypr_problems/steam_blur.png" alt="Steam Blur"></p>
+<p>在 Hyprland 下如果遇到这个问题，可以在 <code>~/.config/hypr/hyprland.conf</code> 文件（或者你的其他 Hyprland 配置文件中）添加如下内容：</p>
+<pre><code class="language-json">xwayland &#123;
+    force_zero_scaling = true
+&#125;
+</code></pre>
+<blockquote>
+<p>但是这么修改之后，窗口又有点太小了？暂时没想到如何解决这个问题…</p>
+</blockquote>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 桌面环境问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.1 启动失败（回到登陆界面）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.2 启动后各种配件消失（但是应用程序和终端可以唤出）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 应用程序问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.1 linuxqq 中无法正常使用 fcitx5 输入法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.2 Steam 启动后 GUI 界面模糊</span></a></li></ol></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

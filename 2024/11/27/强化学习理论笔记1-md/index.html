@@ -1,0 +1,1067 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>深度学习与 PyTorch 入门指南 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>深度学习与 PyTorch 入门指南</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2024/11/27
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                深度学习
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/PyTorch/" style="color: #ffa2c4">
+                                        PyTorch
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
+                                        深度学习
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <blockquote>
+<p>本文是小生去年为了授课而编写的一篇文档，可以作为一门引导课程供尚未了解深度学习的新人学习<br>
+考虑到时间问题，本文档内容较为简略，只适用于了解深度学习与 PyTorch，正常学习请参考视频网站📽或网络教程💻与书籍📖</p>
+</blockquote>
+<h1><span id="1-深度学习部分">1. 深度学习部分</span></h1>
+<h2><span id="11-深度学习是什么">1.1 深度学习是什么？</span></h2>
+<p><img src="./images/class/deep-learning.png" alt="deep-learning"></p>
+<p>深度学习是机器学习下的一个基于深度神经网络的机器学习方法，能够从海量数据和知识中学习，从而一定程度上具备了人的能力。</p>
+<p><img src="./images/class/nn.png" alt="nn"></p>
+<p>深度学习是一种结构启发的机器学习，人脑在深度学习方面的结构，被称为人工神经网络</p>
+<h1><span id="2-pytorch-简介">2. PyTorch 简介</span></h1>
+<h2><span id="21-什么是-pytorch">2.1 什么是 PyTorch❓</span></h2>
+<p>PyTorch 是当下最热门的开源机器学习与深度学习框架。</p>
+<h2><span id="22-pytorch-可以做什么呢">2.2 PyTorch 可以做什么呢❓</span></h2>
+<p>PyTorch 允许你使用 Python 代码来操作和处理数据，并编写机器学习算法。</p>
+<h2><span id="23-有哪些人在使用它呢">2.3 有哪些人在使用它呢❓</span></h2>
+<p>许多世界上最大的科技公司，比如<a target="_blank" rel="noopener" href="https://ai.facebook.com/blog/pytorch-builds-the-future-of-ai-and-machine-learning-at-facebook/">Meta（Facebook）</a>、特斯拉和微软，以及人工智能研究公司如<a target="_blank" rel="noopener" href="https://openai.com/blog/openai-pytorch/">OpenAI</a>，都使用PyTorch来推动研究并将机器学习应用到他们的产品中。</p>
+<p>例如，Andrej Karpathy（特斯拉的人工智能负责人）在多个演讲中（<a target="_blank" rel="noopener" href="https://youtu.be/oBklltKXtDE">PyTorch DevCon 2019</a>，<a target="_blank" rel="noopener" href="https://youtu.be/j0z4FweCy4M?t=2904">特斯拉AI日2021</a>）讨论了特斯拉如何使用PyTorch来驱动他们的自动驾驶计算机视觉模型。</p>
+<p>此外，PyTorch也被用于其他各个行业，比如农业，用于<a target="_blank" rel="noopener" href="https://medium.com/pytorch/ai-for-ag-production-machine-learning-for-agriculture-e8cfdb9849a1">在拖拉机上实现计算机视觉</a>。</p>
+<h2><span id="24-为什么选择-pytorch">2.4 为什么选择 PyTorch❓</span></h2>
+<p>相比于过去热门的 TensorFlow 框架，如今的机器学习研究者门更倾向于使用 PyTorch 。截至2022年2月， PyTorch 是 <a target="_blank" rel="noopener" href="https://paperswithcode.com/trends">Papers With Code</a> 上使用最多的深度学习框架，这是一个跟踪机器学习研究论文及其附带代码库的网站。</p>
+<p>PyTorch 框架还帮助处理许多事情，比如调用 GPU 加速（让您的代码运行得更快），这些都是在后台自动完成的。</p>
+<p>因此，在 PyTorch 框架下，你可以专注于操作数据和编写算法，其他繁琐的操作都可以由 PyTorch 自动完成（如梯度计算、权重更新等）</p>
+<p>如果像特斯拉和 Meta（Facebook） 这样的公司使用它来构建他们部署的模型，以驱动数百个应用、驱动数千辆汽车和向数十亿人提供内容，那么它在开发方面显然也是能力出众的。</p>
+<h2><span id="25-我们将在本节课中讲解哪些内容">2.5 我们将在本节课中讲解哪些内容❓</span></h2>
+<table>
+<thead>
+<tr>
+<th><strong>主题</strong></th>
+<th><strong>内容</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>深度学习简介</strong></td>
+<td>什么是深度学习</td>
+</tr>
+<tr>
+<td><strong>张量简介</strong></td>
+<td>张量是所有机器学习和深度学习的基本构建块。</td>
+</tr>
+<tr>
+<td><strong>创建张量</strong></td>
+<td>张量可以表示几乎所有类型的数据（图像、文字、数字表格）。</td>
+</tr>
+<tr>
+<td><strong>从张量中获取信息</strong></td>
+<td>如果你可以将信息放入张量，你也会想要将其取出。</td>
+</tr>
+<tr>
+<td><strong>操作张量</strong></td>
+<td>机器学习算法（如神经网络）涉及以多种不同方式操作张量，例如添加、乘法、组合。</td>
+</tr>
+<tr>
+<td><strong>处理张量形状</strong></td>
+<td>机器学习中最常见问题之一是处理形状不匹配（尝试将形状错误的张量与其他张量混合）。</td>
+</tr>
+<tr>
+<td><strong>张量索引</strong></td>
+<td>如果你曾在Python列表或NumPy数组上进行过索引，那么在张量上的操作非常相似，只是张量可以有更多的维度。</td>
+</tr>
+<tr>
+<td><strong>混合PyTorch张量和NumPy</strong></td>
+<td>PyTorch使用张量（<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/tensors.html"><code>torch.Tensor</code></a>），NumPy喜欢数组（<a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html"><code>np.ndarray</code></a>），有时你可能想要混合使用这些。</td>
+</tr>
+<tr>
+<td><strong>可复现性</strong></td>
+<td>机器学习非常实验性，因为它使用大量的<em>随机性</em>来工作，有时你可能希望这种<em>随机性</em>不要太随机。</td>
+</tr>
+<tr>
+<td><strong>在GPU上运行张量</strong></td>
+<td>GPU（图形处理单元）可以使你的代码更快，PyTorch使得在GPU上运行你的代码变得简单。</td>
+</tr>
+</tbody>
+</table>
+<h1><span id="3-pytorch-基本用法">3. PyTorch 基本用法</span></h1>
+<h2><span id="31-引入-pytorch">3.1 引入 PyTorch</span></h2>
+<blockquote>
+<p><strong>注意：</strong> 在运行这个笔记本中的任何代码之前，你应该已经完成了<a target="_blank" rel="noopener" href="https://pytorch.org/get-started/locally/">PyTorch安装步骤</a>。</p>
+<p>然而，<strong>如果你在Google Colab上运行</strong>，一切都应该可以正常工作（Google Colab自带PyTorch和其他库的安装）。</p>
+</blockquote>
+<pre><code class="language-python">import torch
+
+# 检查能否调用 cuda
+print(torch.cuda.is_available())
+
+# 输出 PyTorch 版本
+print(torch.__version__)
+</code></pre>
+<p>如果调用 <code>is_available()</code> 输出的结果为 <code>True</code> ，则说明 PyTorch 安装成功且可以正常调用 cuda</p>
+<p>这里 <code>torch.__version__</code> 输出了我们安装的 PyTorch 的版本。我这里输出的版本为 <code>2.5.0</code> 。一般来说，PyTorch 高版本对低版本具有向下兼容性，但注意：PyTorch <code>2.X.X</code> 系列版本与 <code>1.X.X</code> 系列版本更能差别较大。</p>
+<h2><span id="32-什么是张量">3.2 什么是张量❓</span></h2>
+<p>现在我们已经导入了 PyTorch,是时候学习关于张量的知识了📚</p>
+<p>张量是机器学习的基本构建块，它们的任务是以数值的方式表示数据。</p>
+<p>例如，你可以将一张图像表示为形状为 <code>[3, 224, 224]</code> 的张量，这意味着 <code>[颜色通道，高度，宽度]</code> ，即图像有3个颜色通道（红色、绿色、蓝色），高度为224像素，宽度为224像素。</p>
+<p>在张量术语（用于描述张量的定义）中，该张量有三个维度，分别对应颜色通道、高度和宽度。</p>
+<blockquote>
+<p>如果想要了解更多关于张量的理论知识，请自行查找<strong>线性代数</strong>相关资料学习📚</p>
+<p>这里我们不具体讲解理论知识，各位理解即可。</p>
+</blockquote>
+<p>下面我们通过代码来理解张量。</p>
+<h2><span id="33-在-pytorch-中创建张量">3.3 在 PyTorch 中创建张量</span></h2>
+<p>PyTorch非常喜欢张量。以至于有一个完整的文档页面专门介绍<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/tensors.html"><code>torch.Tensor</code></a>类。</p>
+<p>你的第一项家庭作业是<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/tensors.html">阅读<code>torch.Tensor</code>的文档</a>10分钟。但你可以在稍后进行。</p>
+<p>让我们开始编码。</p>
+<h3><span id="331-标量">3.3.1 标量</span></h3>
+<p>我们首先将要创建的是一个<strong>标量</strong>。</p>
+<p>标量是一个单独的数字，在张量术语中，它是一个零维张量。</p>
+<blockquote>
+<p><strong>注意：</strong> 这是本课程的一个趋势。我们将专注于编写特定的代码。但通常我会设置一些练习，涉及阅读和熟悉PyTorch文档。毕竟，一旦你完成了这个课程，你无疑会想要学习更多。而文档是你经常会去查找的地方。</p>
+</blockquote>
+<pre><code class="language-Python"># Scalar
+scalar = torch.tensor(7)
+print(scalar)
+</code></pre>
+<p>看到上面打印出的<code>tensor(7)</code>了吗？</p>
+<p>这意味着尽管 <code>scalar</code> 是一个单独的数字，但它的类型是 <code>torch.Tensor</code>。</p>
+<p>我们可以使用 <code>ndim</code> 属性来检查张量的维度。</p>
+<pre><code class="language-Python">print(scalar.ndim)
+</code></pre>
+<p>如果我们想要从张量中检索数字呢？</p>
+<p>比如，将其从 <code>torch.Tensor</code> 转换为Python整数？</p>
+<p>为此，我们可以使用 <code>item()</code> 方法。</p>
+<pre><code class="language-Python">print(scalar.item())
+</code></pre>
+<h3><span id="332-向量">3.3.2 向量</span></h3>
+<p>好的，现在我们来看一个<strong>向量</strong>。</p>
+<p>向量是一种单维度的张量，但它可以包含许多数字。</p>
+<p>比如，你可以有一个向量 <code>[3, 2]</code> 来描述你房子里的 <code>[卧室，浴室]</code> 数量。或者你可以有一个 <code>[3, 2, 2]</code> 来描述你房子里的 <code>[卧室，浴室，车位]</code> 数量。</p>
+<p>这里的重要趋势是向量在它所能代表的内容上是灵活的（和张量一样）。</p>
+<pre><code class="language-Python"># vector
+vector = torch.tensor([7, 7])
+print(vector)
+</code></pre>
+<p>毫德，<code>vector</code> 现在包含了两个7。</p>
+<p>你认为它将有多少个维度？</p>
+<pre><code class="language-Python">print(vector.ndim)
+</code></pre>
+<p>嗯，这有点奇怪，<code>vector</code> 包含了两个数字，但只有一个维度。</p>
+<p>我来告诉你一个窍门。</p>
+<p>你可以通过外部的方括号数量（<code>[</code>）来判断PyTorch中张量的维度，你只需要数一边的方括号数量。</p>
+<p><code>vector</code> 有多少个方括号？</p>
+<p>另一个对张量来说重要的概念是它们的 <code>shape</code> 属性。<code>shape</code> 告诉你它们内部的元素是如何排列的。</p>
+<p>让我们来检查一下 <code>vector</code> 的形状。</p>
+<pre><code class="language-Python">print(vector.shape)
+</code></pre>
+<p>上述返回 <code>torch.Size([2])</code> ，这意味着我们的向量的形状是 <code>[2]</code> 。这是因为我们把两个元素放在了方括号内部（<code>[7, 7]</code>）。</p>
+<h3><span id="333-矩阵">3.3.3 矩阵</span></h3>
+<p>现在我们来看一个<strong>矩阵</strong>。</p>
+<pre><code class="language-Python">matrix = torch.tensor([[7, 8],
+                       [9, 10]])
+print(matrix)
+</code></pre>
+<p>矩阵和向量一样灵活，只是它们多了一个维度。</p>
+<pre><code class="language-Python">print(matrix.ndim)
+</code></pre>
+<p><code>matrix</code> 有两个维度（你数了一边外部的方括号数量了吗？）。</p>
+<p>你认为它将具有什么样的<code>shape</code>？</p>
+<pre><code class="language-Python">print(matrix.shape)
+</code></pre>
+<p>我们得到的输出是 <code>torch.Size([2, 2])</code>，因为 <code>matrix</code> 深度为两个元素，宽度也为两个元素。</p>
+<p>那么我们来创建一个<strong>张量</strong>怎么样？</p>
+<pre><code class="language-Python">tensor = torch.tensor([[[1, 2, 3],
+                        [3, 6, 9],
+                        [2, 4, 5]]])
+print(tensor)
+</code></pre>
+<p>这个张量看起来真不错。</p>
+<blockquote>
+<p>张量几乎可以代表任何东西。</p>
+</blockquote>
+<p>你认为它有多少个维度？（提示：使用方括号计数技巧）</p>
+<pre><code class="language-Python">print(tensor.ndim)
+</code></pre>
+<p>那么它有着什么样的 <code>shape</code> 呢？</p>
+<pre><code class="language-Python">print(tensor.shape)
+</code></pre>
+<p>好的，输出是 <code>torch.Size([1, 3, 3])</code>。</p>
+<p>维度是从外向内排列的。</p>
+<p>这意味着有一个3乘3的维度。</p>
+<p>让我们总结一下。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>它是什么？</th>
+<th>维度数量</th>
+<th>通常/示例是小写还是大写</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>标量（scalar）</strong></td>
+<td>一个单独的数字</td>
+<td>0</td>
+<td>小写（<code>a</code>）</td>
+</tr>
+<tr>
+<td><strong>向量（vector）</strong></td>
+<td>有方向的数字（例如风速和方向）但也可能有其他许多数字</td>
+<td>1</td>
+<td>小写（<code>y</code>）</td>
+</tr>
+<tr>
+<td><strong>矩阵（matrix）</strong></td>
+<td>一个二维数组</td>
+<td>2</td>
+<td>大写（<code>Q</code>）</td>
+</tr>
+<tr>
+<td><strong>张量（tensor）</strong></td>
+<td>一个n维数组</td>
+<td>可以是任何数量，0维张量是标量，1维张量是向量</td>
+<td>大写（<code>X</code>）</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="34-随机张量">3.4 随机张量</span></h2>
+<p>我们已经确定张量代表了某种形式的数据。</p>
+<p>机器学习模型，比如神经网络，会操作张量并在其中寻找模式。</p>
+<p>但在使用PyTorch构建机器学习模型时，你很少会手工创建张量（就像我们之前所做的那样）。</p>
+<p>相反，机器学习模型通常从大量的随机数张量开始，并在处理数据时调整这些随机数，以便更好地表示数据。</p>
+<p>本质上是：</p>
+<p><code>从随机数开始 -&gt; 查看数据 -&gt; 更新随机数 -&gt; 查看数据 -&gt; 更新随机数...</code></p>
+<p>作为数据科学家，你可以定义机器学习模型如何开始（初始化）、查看数据（表示）以及更新（优化）其随机数。</p>
+<p>我们稍后将亲身实践这些步骤。</p>
+<p>现在，让我们看看如何创建一个随机数张量。</p>
+<p>我们可以使用 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.rand.html"><code>torch.rand()</code></a> 并传入 <code>size</code> 参数来实现。</p>
+<pre><code class="language-Python">random_tensor = torch.rand(size=(3, 4))
+print(random_tensor)
+print(random_tensor.dtype)
+</code></pre>
+<p><code>torch.rand()</code> 的灵活性在于我们可以调整 <code>size</code> 参数为任何我们想要的值。</p>
+<p>例如，假设你想要一个常见图像形状的随机张量 <code>[224, 224, 3]</code>（<code>[高度，宽度，颜色通道]</code>）。</p>
+<pre><code class="language-Python">random_image_size_tensor = torch.rand(size=(224, 224, 3))
+print(random_image_size_tensor.shape)
+print(random_image_size_tensor.ndim)
+</code></pre>
+<h2><span id="35-零一张量">3.5 零一张量</span></h2>
+<p>有时候你可能只想用零或一来填充张量。</p>
+<p>这种情况在掩码操作中很常见（比如用零掩码一个张量中的一些值，以让模型知道不要学习这些值）。</p>
+<p>让我们使用 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.zeros.html"><code>torch.zeros()</code></a> 创建一个全零的张量。</p>
+<p>同样，<code>size</code> 参数在这里起作用。</p>
+<pre><code class="language-Python">zeros = torch.zeros(size=(3, 4))
+print(zeros)
+print(zeros.dtype)
+</code></pre>
+<p>我们可以做同样的事情来创建一个全一的张量，只是使用 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.ones.html"><code>torch.ones()</code></a> 代替。</p>
+<p>使用 <code>torch.ones()</code> 函数时，你可以通过指定 <code>size</code> 参数来创建一个指定形状的张量，其中所有元素都是1。</p>
+<pre><code class="language-Python">ones = torch.ones(size=(3, 4))
+print(ones)
+print(ones.dtype)
+</code></pre>
+<h2><span id="36-创建一个范围和类似的张量">3.6 创建一个范围和类似的张量</span></h2>
+<p>有时候你可能想要一系列数字，比如从1到10或者从0到100。</p>
+<p>你可以使用 <code>torch.arange(start, end, step)</code> 来实现这一点。</p>
+<p>其中：</p>
+<ul>
+<li><code>start</code> = 范围的开始（例如 0）</li>
+<li><code>end</code> = 范围的结束（例如 10）</li>
+<li><code>step</code> = 每个值之间的步长（例如 1）</li>
+</ul>
+<blockquote>
+<p><strong>注意：</strong> 在Python中，你可以使用 <code>range()</code> 来创建一个范围。然而在PyTorch中，<code>torch.range()</code> 已经被弃用，可能会显示错误。</p>
+</blockquote>
+<pre><code class="language-Python"># 下面这一行代码可能会报错
+zero_to_ten_deprecated = torch.range(0, 10)
+
+# 建议用下面这一行
+zero_to_ten = torch.arange(start=0, end=10, step=1)
+print(zero_to_ten)
+</code></pre>
+<p>有时候你可能想要一个与另一个张量形状相同的特定类型的张量。</p>
+<p>例如，一个与之前张量形状相同的全零张量。</p>
+<p>为此，你可以使用 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.zeros_like.html"><code>torch.zeros_like(input)</code></a> 或者 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/1.9.1/generated/torch.ones_like.html"><code>torch.ones_like(input)</code></a>，它们分别返回一个与 <code>input</code> 形状相同但填充了零或一的张量。</p>
+<p>使用 <code>torch.zeros_like(input)</code> 和 <code>torch.ones_like(input)</code> 函数时，你只需要提供一个已有的张量作为 <code>input</code> 参数，这两个函数就会返回一个新的张量，其形状与输入张量相同，但所有元素分别是0或1。</p>
+<pre><code class="language-Python">ten_zeros = torch.zeros_like(input=zero_to_ten)
+print(ten_zeors)
+</code></pre>
+<h2><span id="37-张量数据类型">3.7 张量数据类型</span></h2>
+<p>在PyTorch中有许多不同的<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/tensors.html#data-types">张量数据类型</a>。</p>
+<p>有些是特定于CPU的，有些则更适合GPU。</p>
+<p>了解它们可能需要一些时间。</p>
+<p>通常，如果你在任何地方看到 <code>torch.cuda</code>，那么这个张量是用于GPU的（因为Nvidia GPU使用一个名为CUDA的计算工具包）。</p>
+<p>最常见的类型（通常也是默认类型）是<code>torch.float32</code>或<code>torch.float</code>。</p>
+<p>这被称为“32位浮点数”。</p>
+<p>但也有16位浮点数（<code>torch.float16</code> 或 <code>torch.half</code>）和64位浮点数（<code>torch.float64</code> 或 <code>torch.double</code>）。</p>
+<p>还有8位、16位、32位和64位整数。</p>
+<p>还有更多！</p>
+<blockquote>
+<p><strong>注意：</strong> 整数是一个平坦的圆形数字，如 <code>7</code>，而浮点数有一个小数 <code>7.0</code>。</p>
+</blockquote>
+<p>所有这些的原因与<strong>计算中的精度</strong>有关。</p>
+<p>精度是用来描述一个数字的细节量。</p>
+<p>精度值越高（8、16、32），用来表达一个数字的细节和数据就越多。</p>
+<p>这在深度学习和数值计算中很重要，因为你正在进行如此多的操作，你拥有的细节越多，你就需要使用更多的计算资源。</p>
+<p>因此，低精度数据类型通常计算速度更快，但在评估指标如准确性上会牺牲一些性能（计算速度更快但准确性较低）。</p>
+<blockquote>
+<p><strong>资源：</strong></p>
+</blockquote>
+<ul>
+<li>请参阅<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/tensors.html#data-types">PyTorch文档</a>，了解所有可用张量数据类型的列表。</li>
+<li>阅读<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Precision_(computer_science)">维基百科页面</a>，了解计算中精度的概述。</li>
+</ul>
+<p>让我们看看如何创建具有特定数据类型的张量。我们可以使用<code>dtype</code>参数来实现。</p>
+<pre><code class="language-Python">float_32_tensor = torch.tensor([3.0, 6.0, 9.0],
+                               dtype=None, 
+                               device=None, 
+                               requires_grad=False)
+print(float_32_tensor.shape)
+print(float_32_tensor.dtype)
+print(float_32_tensor.device)
+</code></pre>
+<p>除了形状问题（张量形状不匹配）之外，你在PyTorch中遇到的另外两个最常见的问题就是数据类型和设备问题。</p>
+<p>例如，一个张量是<code>torch.float32</code>，而另一个是<code>torch.float16</code>（PyTorch通常希望张量是相同的格式）。</p>
+<p>或者你的一个张量在CPU上，而另一个在GPU上（PyTorch希望张量之间的计算在同一设备上进行）。</p>
+<p>我们稍后会更多地讨论设备问题。</p>
+<p>现在，让我们创建一个<code>dtype=torch.float16</code>的数据类型的张量。</p>
+<pre><code class="language-Python">float_16_tensor = torch.tensor([3.0, 6.0, 9.0],
+                               dtype=torch.float16)
+
+float_16_tensor.dtype
+</code></pre>
+<h2><span id="38-从张量中获取信息">3.8 从张量中获取信息</span></h2>
+<p>一旦你创建了张量（或者别人为你创建了张量，或者PyTorch模块为你创建了它们），你可能想要从它们那里获取一些信息。</p>
+<p>我们已经见过这些，但是关于张量，你最想了解的三个最常见的属性是：</p>
+<ul>
+<li><code>shape</code> - 张量的形状是什么？（一些操作需要特定的形状规则）</li>
+<li><code>dtype</code> - 张量内部的元素存储的数据类型是什么？</li>
+<li><code>device</code> - 张量存储在哪个设备上？（通常是GPU或CPU）</li>
+</ul>
+<p>让我们创建一个随机张量，并找出有关它的详细信息。</p>
+<pre><code class="language-Python"># Create a tensor
+some_tensor = torch.rand(3, 4)
+
+# Find out details about it
+print(some_tensor)
+print(f&quot;张量的 shape : &#123;some_tensor.shape&#125;&quot;)
+print(f&quot;张量的类型 : &#123;some_tensor.dtype&#125;&quot;)
+print(f&quot;张量存储的位置 : &#123;some_tensor.device&#125;&quot;)
+</code></pre>
+<blockquote>
+<p><strong>注意：</strong> 当你在PyTorch中遇到问题时，这通常与上述三个属性中的一个有关。</p>
+</blockquote>
+<h2><span id="39-张量运算">3.9 张量运算</span></h2>
+<p>在深度学习中，数据（图像、文本、视频、音频、蛋白质结构等）被表示为张量。</p>
+<p>模型通过研究这些张量并在张量上执行一系列操作（可能是100万次以上）来创建输入数据中模式的表示。</p>
+<p>这些操作通常是在以下几项之间进行的：</p>
+<ul>
+<li>加法</li>
+<li>减法</li>
+<li>乘法（逐元素）</li>
+<li>除法</li>
+<li>矩阵乘法</li>
+</ul>
+<p>仅此而已。当然，这里和那里还有一些其他的操作，但这些是神经网络的基本构建块。</p>
+<p>以正确的方式堆叠这些构建块，你可以创建最复杂的神经网络（就像乐高积木一样！）。</p>
+<h3><span id="391-基本操作">3.9.1 基本操作</span></h3>
+<p>让我们从几个基本操作开始，加法（<code>+</code>）、减法（<code>-</code>）、乘法（<code>*</code>）。</p>
+<p>它们的工作方式正如你所想象的那样。</p>
+<pre><code class="language-Python">tensor = torch.tensor([1, 2, 3])
+print(tensor + 10)
+print(tensor * 10)
+</code></pre>
+<p>注意到上面的张量值最终并没有变成 <code>tensor([110, 120, 130])</code>，这是因为张量内部的值除非被重新赋值，否则不会改变。</p>
+<pre><code class="language-Python">print(tensor)
+</code></pre>
+<p>好的，让我们从一个数字中减去，并这次我们将重新赋值给 tensor 变量。</p>
+<pre><code class="language-Python">tensor = tensor - 10
+print(tensor)
+</code></pre>
+<pre><code class="language-Python">tensor = tensor + 10
+print(tensor)
+</code></pre>
+<p>PyTorch还提供了许多内置函数，比如 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.mul.html#torch.mul"><code>torch.mul()</code></a>（乘法的简称）和 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.add.html"><code>torch.add()</code></a>，用于执行基本操作。</p>
+<p>这些内置函数提供了一种不使用Python运算符（如 <code>*</code> 和 <code>+</code> ）而是使用PyTorch函数的方式来执行张量运算，这在某些情况下非常有用，比如当需要明确指定操作的维度或者当需要保持操作的梯度信息时。</p>
+<pre><code class="language-Python">print(torch.multiply(tensor, 10))
+
+print(tensor)
+</code></pre>
+<p>然而，更常见的是使用操作符符号，如 <code>*</code>，而不是 <code>torch.mul()</code>。</p>
+<pre><code class="language-Python">print(tensor, &quot;*&quot;, tensor)
+print(&quot;Equals:&quot;, tensor * tensor)
+</code></pre>
+<h3><span id="392-矩阵乘法">3.9.2 矩阵乘法</span></h3>
+<p>在机器学习和深度学习算法（如神经网络）中最常用的操作之一是<a target="_blank" rel="noopener" href="https://www.mathsisfun.com/algebra/matrix-multiplying.html">矩阵乘法</a>。</p>
+<p>PyTorch在<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.matmul.html"><code>torch.matmul()</code></a>方法中实现了矩阵乘法功能。</p>
+<p>需要记住的矩阵乘法的两个主要规则是：</p>
+<ol>
+<li><strong>内维度</strong>必须匹配：</li>
+</ol>
+<ul>
+<li><code>(3, 2) @ (3, 2)</code> 不可行</li>
+<li><code>(2, 3) @ (3, 2)</code> 可行</li>
+<li><code>(3, 2) @ (2, 3)</code> 可行</li>
+</ul>
+<ol start="2">
+<li>结果矩阵的形状是<strong>外维度</strong>的形状：</li>
+</ol>
+<ul>
+<li><code>(2, 3) @ (3, 2)</code> -&gt; <code>(2, 2)</code></li>
+<li><code>(3, 2) @ (2, 3)</code> -&gt; <code>(3, 3)</code></li>
+</ul>
+<blockquote>
+<p><strong>注意：</strong> 在Python中，&quot;<code>@</code>&quot;是矩阵乘法的符号。</p>
+</blockquote>
+<blockquote>
+<p><strong>资源：</strong> 你可以在<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.matmul.html">PyTorch文档</a>中查看使用<code>torch.matmul()</code>进行矩阵乘法的所有规则。</p>
+</blockquote>
+<p>让我们创建一个张量，并在其上执行逐元素乘法和矩阵乘法。</p>
+<pre><code class="language-Python">import torch
+tensor = torch.tensor([1, 2, 3])
+print(tensor.shape)
+</code></pre>
+<p>逐元素乘法和矩阵乘法之间的差异在于值的相加方式。</p>
+<p>对于我们的 <code>tensor</code> 变量，其值为 <code>[1, 2, 3]</code>：</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>计算</th>
+<th>代码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>逐元素乘法</strong></td>
+<td><code>[1*1, 2*2, 3*3]</code> = <code>[1, 4, 9]</code></td>
+<td><code>tensor * tensor</code></td>
+</tr>
+<tr>
+<td><strong>矩阵乘法</strong></td>
+<td><code>[1*1 + 2*2 + 3*3]</code> = <code>[14]</code></td>
+<td><code>tensor.matmul(tensor)</code></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-Python">print(tensor * tensor)
+
+print(torch.matmul(tensor, tensor))
+
+print(tensor @ tensor)
+</code></pre>
+<p>你可以手工进行矩阵乘法，但不建议这样做。</p>
+<p>内置的 <code>torch.matmul()</code> 方法更快。</p>
+<pre><code class="language-Python">%%time
+# 手动计算 be like：
+value = 0
+for i in range(len(tensor)):
+  value += tensor[i] * tensor[i]
+print(value)
+</code></pre>
+<pre><code class="language-Python">%%time
+# 用函数计算 be like：
+torch.matmul(tensor, tensor)
+</code></pre>
+<h3><span id="393-深度学习中最常见错误之一形状错误">3.9.3 深度学习中最常见错误之一（形状错误）</span></h3>
+<p>由于深度学习的大部分内容涉及矩阵的乘法和操作，而矩阵对于形状和大小的组合有严格的规则，因此你在深度学习中最常见的错误之一就是形状不匹配。</p>
+<pre><code class="language-Python"># 下面这个代码会报错
+tensor_A = torch.tensor([[1, 2],
+                         [3, 4],
+                         [5, 6]], dtype=torch.float32)
+
+tensor_B = torch.tensor([[7, 10],
+                         [8, 11], 
+                         [9, 12]], dtype=torch.float32)
+
+torch.matmul(tensor_A, tensor_B) # (this will error)
+</code></pre>
+<p>我们可以通过使 <code>tensor_A</code> 和 <code>tensor_B</code> 的内维度匹配来实现它们之间的矩阵乘法。</p>
+<p>实现这一点的方法之一是使用<strong>转置</strong>（交换给定张量的维度）。</p>
+<p>你可以使用以下任一方法在PyTorch中执行转置：</p>
+<ul>
+<li><code>torch.transpose(input, dim0, dim1)</code> - 其中 <code>input</code> 是要转置的张量，<code>dim0</code> 和 <code>dim1</code> 是要交换的维度。</li>
+<li><code>tensor.T</code> - 其中 <code>tensor</code> 是要转置的张量。</li>
+</ul>
+<p>我们来尝试后者。</p>
+<pre><code class="language-Python">print(tensor_A)
+print(tensor_B)
+</code></pre>
+<pre><code class="language-Python">print(tensor_A)
+print(tensor_B.T)
+</code></pre>
+<pre><code class="language-Python">print(f&quot;Original shapes: tensor_A = &#123;tensor_A.shape&#125;, tensor_B = &#123;tensor_B.shape&#125;\n&quot;)
+print(f&quot;New shapes: tensor_A = &#123;tensor_A.shape&#125; (same as above), tensor_B.T = &#123;tensor_B.T.shape&#125;\n&quot;)
+print(f&quot;Multiplying: &#123;tensor_A.shape&#125; * &#123;tensor_B.T.shape&#125; &lt;- inner dimensions match\n&quot;)
+print(&quot;Output:\n&quot;)
+output = torch.matmul(tensor_A, tensor_B.T)
+print(output) 
+print(f&quot;\nOutput shape: &#123;output.shape&#125;&quot;)
+</code></pre>
+<p>您也可以使用 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.mm.html"><code>torch.mm()</code></a>，它是 <code>torch.matmul()</code> 的简称。</p>
+<p><code>torch.mm()</code> 是一个用于矩阵乘法的便捷函数，它是 <code>torch.matmul()</code> 的别名，专门用于矩阵乘法操作。这个函数适用于两个二维张量的乘法，其中第一个张量的列数必须与第二个张量的行数相匹配。结果张量将具有与第一个张量相同的行数和与第二个张量相同的列数。</p>
+<pre><code class="language-Python">print(torch.mm(tensor_A, tensor_B.T))
+</code></pre>
+<h3><span id="394-神经网络中的矩阵运算">3.9.4 神经网络中的矩阵运算</span></h3>
+<p>神经网络中充满了矩阵乘法和点积。</p>
+<p><a target="_blank" rel="noopener" href="https://pytorch.org/docs/1.9.1/generated/torch.nn.Linear.html"><code>torch.nn.Linear()</code></a> 模块（我们稍后将实际看到它的应用），也称为前馈层或全连接层，实现了输入 <code>x</code> 和权重矩阵 <code>A</code> 之间的矩阵乘法。</p>
+<p>$$ y = x\cdot A^T + b $$</p>
+<p>其中：</p>
+<ul>
+<li><code>x</code> 是该层的输入（深度学习是像 <code>torch.nn.Linear()</code> 这样的层堆叠在一起）。</li>
+<li><code>A</code> 是由该层创建的权重矩阵，这最初是随机数，随着神经网络学习以更好地表示数据中的模式而进行调整（注意 “<code>T</code>”，这是因为权重矩阵需要转置）。
+<ul>
+<li><strong>注意：</strong> 你可能还会经常看到 <code>W</code> 或其他字母如 <code>X</code> 用来表示权重矩阵。</li>
+</ul>
+</li>
+<li><code>b</code> 是偏置项，用于轻微偏移权重和输入。</li>
+<li><code>y</code> 是输出（对输入的操纵，希望发现其中的模式）。</li>
+</ul>
+<p>这是一个线性函数（你可能在高中或其他场合见过类似 $y = mx + b$ 的东西），可以用来画一条直线！</p>
+<p>让我们来玩转一下线性层。</p>
+<p>尝试改变下面的 <code>in_features</code> 和 <code>out_features</code> 的值，看看会发生什么。</p>
+<p>你有没有注意到与形状有关的任何事情？</p>
+<pre><code class="language-Python"># Since the linear layer starts with a random weights matrix, let's make it reproducible (more on this later)
+print(torch.manual_seed(42))
+# This uses matrix multiplication
+linear = torch.nn.Linear(in_features=2, # in_features = matches inner dimension of input 
+                         out_features=6) # out_features = describes outer value 
+print(x = tensor_A)
+output = linear(x)
+print(f&quot;Input shape: &#123;x.shape&#125;\n&quot;)
+print(f&quot;Output:\n&#123;output&#125;\n\nOutput shape: &#123;output.shape&#125;&quot;)
+</code></pre>
+<blockquote>
+<p><strong>问题：</strong> 如果你将上面的 <code>in_features</code> 从 2 改为 3 会发生什么？会出现错误吗？你如何改变输入（<code>x</code>）的形状以适应这个错误？提示：我们之前对 <code>tensor_B</code> 做了什么？</p>
+</blockquote>
+<h3><span id="395-寻找最小值-最大值-平均值-总和等聚合">3.9.5 寻找最小值、最大值、平均值、总和等（聚合）</span></h3>
+<p>现在我们已经看到了一些操作张量的方法，让我们来了解一些聚合它们的方法（从多个值变为较少的值）。</p>
+<p>首先，我们将创建一个张量，然后找到它的最大值、最小值、平均值和总和。</p>
+<pre><code class="language-Python">x = torch.arange(0, 100, 10)
+print(x)
+
+print(f&quot;Minimum: &#123;x.min()&#125;&quot;)
+print(f&quot;Maximum: &#123;x.max()&#125;&quot;)
+# print(f&quot;Mean: &#123;x.mean()&#125;&quot;) # this will error
+print(f&quot;Mean: &#123;x.type(torch.float32).mean()&#125;&quot;) # won't work without float datatype
+print(f&quot;Sum: &#123;x.sum()&#125;&quot;)
+</code></pre>
+<blockquote>
+<p><strong>注意：</strong> 你可能会发现一些方法，比如 <code>torch.mean()</code>，要求张量必须是 <code>torch.float32</code>（最常见的）或另一种特定的数据类型，否则操作将失败。</p>
+</blockquote>
+<p>你也可以使用 <code>torch</code> 方法来执行上述相同的操作。</p>
+<h3><span id="396-位置最小值最大值">3.9.6 位置最小值/最大值</span></h3>
+<p>你还可以分别使用 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.argmax.html"><code>torch.argmax()</code></a> 和 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.argmin.html"><code>torch.argmin()</code></a> 来找到张量中最大值或最小值出现的位置索引。</p>
+<p>这在你只想要最高（或最低）值的位置而不是实际值本身时非常有用（我们将在稍后使用<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.nn.Softmax.html">softmax激活函数</a>的章节中看到这一点）。</p>
+<pre><code class="language-Python"># Create a tensor
+tensor = torch.arange(10, 100, 10)
+print(f&quot;Tensor: &#123;tensor&#125;&quot;)
+
+# Returns index of max and min values
+print(f&quot;Index where max value occurs: &#123;tensor.argmax()&#125;&quot;)
+print(f&quot;Index where min value occurs: &#123;tensor.argmin()&#125;&quot;)
+</code></pre>
+<h3><span id="397-改变张量数据类型">3.9.7 改变张量数据类型</span></h3>
+<p>正如前面提到的，深度学习操作中一个常见的问题是张量的数据类型不同。</p>
+<p>如果一个张量是 <code>torch.float64</code> 而另一个是 <code>torch.float32</code>，你可能会碰到一些错误。</p>
+<p>但是有一个解决办法。</p>
+<p>你可以使用 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.Tensor.type.html"><code>torch.Tensor.type(dtype=None)</code></a> 来改变张量的数据类型，其中 <code>dtype</code> 参数是你想要使用的数据类型。</p>
+<p>首先，我们将创建一个张量并检查其数据类型（默认是 <code>torch.float32</code>）。</p>
+<pre><code class="language-Python"># Create a tensor and check its datatype
+tensor = torch.arange(10., 100., 10.)
+print(tensor.dtype)
+</code></pre>
+<p>现在我们将创建一个与之前相同的张量，但是将其数据类型更改为 <code>torch.float16</code>。</p>
+<pre><code class="language-Python">tensor_float16 = tensor.type(torch.float16)
+print(tensor_float16)
+</code></pre>
+<p>我们也可以进行类似的操作来创建一个 <code>torch.int8</code> 类型的张量。</p>
+<pre><code class="language-Python">tensor_int8 = tensor.type(torch.int8)
+print(tensor_int8)
+</code></pre>
+<blockquote>
+<p><strong>注意：</strong> 不同的数据类型一开始可能会让人感到困惑。但可以这样理解，数字越小（例如32、16、8），计算机存储该值的精度就越低。存储量越少，通常意味着更快的计算速度和更小的模型总体大小。基于移动设备的神经网络通常使用8位整数进行操作，它们比float32的对应物更小、运行更快，但准确度较低。想要了解更多，可以阅读关于<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Precision_(computer_science)">计算中的精度</a>的内容。</p>
+</blockquote>
+<blockquote>
+<p><strong>练习：</strong> 到目前为止，我们已经介绍了一些张量方法，但在 <a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/tensors.html"><code>torch.Tensor</code> 文档</a> 中还有更多。我建议你花10分钟浏览一下，看看有没有引起你注意的方法。点击它们，然后在代码中自己尝试编写这些方法，看看会发生什么。</p>
+</blockquote>
+<h3><span id="398-重塑-堆叠-压缩和取消压缩">3.9.8 重塑、堆叠、压缩和取消压缩</span></h3>
+<p>很多时候，你可能想要重塑或改变你的张量的维度，而实际上并不改变它们内部的值。</p>
+<p>为此，一些常用的方法如下：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>一句话描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.reshape.html#torch.reshape"><code>torch.reshape(input, shape)</code></a></td>
+<td>将 <code>input</code> 重塑为 <code>shape</code>（如果兼容），也可以使用 <code>torch.Tensor.reshape()</code>。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.Tensor.view.html"><code>Tensor.view(shape)</code></a></td>
+<td>返回原始张量的一个视图，其形状不同 <code>shape</code>，但与原始张量共享相同的数据。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://pytorch.org/docs/1.9.1/generated/torch.stack.html"><code>torch.stack(tensors, dim=0)</code></a></td>
+<td>沿着一个新的维度（<code>dim</code>）连接一系列 <code>tensors</code>，所有的 <code>tensors</code> 必须大小相同。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.squeeze.html"><code>torch.squeeze(input)</code></a></td>
+<td>压缩 <code>input</code> 以移除所有值为 <code>1</code> 的维度。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://pytorch.org/docs/1.9.1/generated/torch.unsqueeze.html"><code>torch.unsqueeze(input, dim)</code></a></td>
+<td>返回 <code>input</code>，并在 <code>dim</code> 处添加一个值为 <code>1</code> 的维度。</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.permute.html"><code>torch.permute(input, dims)</code></a></td>
+<td>返回原始 <code>input</code> 的一个视图，其维度被置换（重新排列）为 <code>dims</code>。</td>
+</tr>
+</tbody>
+</table>
+<p>为什么要使用这些方法？</p>
+<p>因为深度学习模型（神经网络）都是以某种方式操作张量。由于矩阵乘法的规则，如果你有形状不匹配的问题，你会遇到错误。这些方法帮助你确保你的张量的正确的元素与其他张量的正确的元素混合。</p>
+<p>让我们来尝试一下它们。</p>
+<p>首先，我们将创建一个张量。</p>
+<pre><code class="language-Python">import torch
+x = torch.arange(1., 8.)
+print(x)
+print(x.shape)
+</code></pre>
+<pre><code class="language-Python"># Add an extra dimension
+x_reshaped = x.reshape(1, 7)
+print(x_reshaped)
+print(x_reshaped.shape)
+</code></pre>
+<pre><code class="language-Python"># Change view (keeps same data as original but changes view)
+# See more: https://stackoverflow.com/a/54507446/7900723
+z = x.view(1, 7)
+print(z)
+print(z.shape)
+</code></pre>
+<p>请记住，使用 <code>torch.view()</code> 改变张量的视图实际上只创建了同一个张量的<em>新视图</em>。</p>
+<p>所以改变视图也会改变原始张量。</p>
+<pre><code class="language-Python">z[:, 0] = 5
+print(z)
+print(x)
+</code></pre>
+<pre><code class="language-Python"># Stack tensors on top of each other
+x_stacked = torch.stack([x, x, x, x], dim=0) # try changing dim to dim=1 and see what happens
+print(x_stacked)
+</code></pre>
+<p>那么，如何从张量中移除所有单一维度呢？</p>
+<p>为此，你可以使用 <code>torch.squeeze()</code>（我记作<em>挤压</em>张量，使其只有大于1的维度）。</p>
+<pre><code class="language-Python">print(f&quot;Previous tensor: &#123;x_reshaped&#125;&quot;)
+print(f&quot;Previous shape: &#123;x_reshaped.shape&#125;&quot;)
+
+# Remove extra dimension from x_reshaped
+x_squeezed = x_reshaped.squeeze()
+print(f&quot;\nNew tensor: &#123;x_squeezed&#125;&quot;)
+print(f&quot;New shape: &#123;x_squeezed.shape&#125;&quot;)
+</code></pre>
+<p>要执行 <code>torch.squeeze()</code> 的反向操作，你可以使用 <code>torch.unsqueeze()</code> 在特定索引处添加一个值为1的维度。</p>
+<pre><code class="language-Python">print(f&quot;Previous tensor: &#123;x_squeezed&#125;&quot;)
+print(f&quot;Previous shape: &#123;x_squeezed.shape&#125;&quot;)
+
+## Add an extra dimension with unsqueeze
+x_unsqueezed = x_squeezed.unsqueeze(dim=0)
+print(f&quot;\nNew tensor: &#123;x_unsqueezed&#125;&quot;)
+print(f&quot;New shape: &#123;x_unsqueezed.shape&#125;&quot;)
+</code></pre>
+<p>你还可以使用 <code>torch.permute(input, dims)</code> 重新排列轴的顺序，其中 <code>input</code> 被转换成具有新 <code>dims</code> 的<em>视图</em>。</p>
+<pre><code class="language-Python"># Create tensor with specific shape
+x_original = torch.rand(size=(224, 224, 3))
+
+# Permute the original tensor to rearrange the axis order
+x_permuted = x_original.permute(2, 0, 1) # shifts axis 0-&gt;1, 1-&gt;2, 2-&gt;0
+
+print(f&quot;Previous shape: &#123;x_original.shape&#125;&quot;)
+print(f&quot;New shape: &#123;x_permuted.shape&#125;&quot;)
+</code></pre>
+<blockquote>
+<p><strong>注意</strong>：因为置换返回的是一个<em>视图</em>（与原始数据共享相同的数据），所以置换后的张量中的值将与原始张量的值相同，如果你在视图中改变值，原始张量的值也会改变。</p>
+</blockquote>
+<h2><span id="310-索引从张量中选择数据">3.10 索引（从张量中选择数据）</span></h2>
+<p>有时你想要从张量中选择特定的数据（例如，仅第一列或第二行）。</p>
+<p>为此，你可以使用索引。</p>
+<p>如果你曾经在Python列表或NumPy数组上进行过索引，那么在PyTorch中对张量进行索引是非常相似的。</p>
+<pre><code class="language-Python">import torch
+x = torch.arange(1, 10).reshape(1, 3, 3)
+x, x.shape
+</code></pre>
+<p>索引值从外维度到内维度（检查一下方括号）。</p>
+<pre><code class="language-Python">print(f&quot;First square bracket:\n&#123;x[0]&#125;&quot;) 
+print(f&quot;Second square bracket: &#123;x[0][0]&#125;&quot;) 
+print(f&quot;Third square bracket: &#123;x[0][0][0]&#125;&quot;)
+</code></pre>
+<p>你还可以使用 <code>:</code> 来指定“这个维度的所有值”，然后使用逗号（<code>,</code>）来添加另一个维度。</p>
+<pre><code class="language-Python">print(x[:, 0])
+print(x[:, :, 1])
+print(x[:, 1, 1])
+print(x[0, 0, :])
+</code></pre>
+<p>索引一开始可能会相当令人困惑，特别是对于较大的张量（我仍然需要尝试多次索引才能正确）。但通过一些练习，并不断尝试对数据进行可视化，你将开始掌握它。</p>
+<h2><span id="311-pytorch-张量与-numpy-数组">3.11 PyTorch 张量与 Numpy 数组</span></h2>
+<p>由于 NumPy 是一个流行的 Python 数值计算库，因此 PyTorch 具有与其良好交互的功能。</p>
+<p>你需要用于 NumPy 到 PyTorch（以及返回）的两种主要方法是：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.from_numpy.html"><code>torch.from_numpy(ndarray)</code></a> - NumPy 数组 -&gt; PyTorch 张量。</li>
+<li><a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.Tensor.numpy.html"><code>torch.Tensor.numpy()</code></a> - PyTorch 张量 -&gt; NumPy 数组。</li>
+</ul>
+<p>让我们尝试一下。</p>
+<pre><code class="language-Python"># NumPy array to tensor
+import torch
+import numpy as np
+array = np.arange(1.0, 8.0)
+tensor = torch.from_numpy(array)
+print(array)
+print(tensor)
+</code></pre>
+<blockquote>
+<p><strong>注意</strong>：默认情况下，NumPy 数组是使用数据类型 <code>float64</code> 创建的，如果将其转换为 PyTorch 张量，它将保留相同的数据类型（如上所示）。</p>
+<p>但是，许多 PyTorch 计算默认使用 <code>float32</code>。</p>
+<p>因此，如果要将 NumPy 数组 (float64) -&gt; PyTorch 张量 (float64) -&gt; PyTorch 张量 (float32)，可以使用 <code>tensor = torch.from_numpy(array).type(torch.float32)</code>。</p>
+</blockquote>
+<p>因为我们在上面重新分配了 <code>tensor</code>，所以如果更改张量，数组将保持不变。</p>
+<pre><code class="language-Python"># Change the array, keep the tensor
+array = array + 1
+array, tensor
+</code></pre>
+<p>如果你想从 PyTorch 张量转换为 NumPy 数组，你可以调用 <code>tensor.numpy()</code>。</p>
+<pre><code class="language-Python"># Tensor to NumPy array
+tensor = torch.ones(7) # create a tensor of ones with dtype=float32
+numpy_tensor = tensor.numpy() # will be dtype=float32 unless changed
+tensor, numpy_tensor
+</code></pre>
+<p>与上述相同的规则适用，如果你改变原始的“张量”，新的 <code>numpy_tensor</code> 保持不变。</p>
+<pre><code class="language-Python"># Change the tensor, keep the array the same
+tensor = tensor + 1
+tensor, numpy_tensor
+</code></pre>
+<h1><span id="4-尾声">4. 尾声</span></h1>
+<blockquote>
+<p>⚠️下面内容为个人推荐，具体情况视自身而定</p>
+</blockquote>
+<h2><span id="41-理论课程推荐">4.1 理论课程推荐</span></h2>
+<p>吴恩达深度学习课程： BV1FT4y1E74V（BV号）</p>
+<h2><span id="42-pytorch-教程推荐">4.2 PyTorch 教程推荐</span></h2>
+<p>土堆：B站up主“我是土堆”</p>
+<h2><span id="43-深度学习实践网站推荐">4.3 深度学习实践网站推荐</span></h2>
+<ol>
+<li>GitHub（多读读别人的开源项目）</li>
+<li>Kaggle（对于不同的问题，可以多参考不同人的思路与代码，能够大大提高利用深度学习理论知识、PyTorch框架来解决实际问题的能力）</li>
+</ol>
+<h2><span id="44-杂谈">4.4 杂谈</span></h2>
+<p>（略）</p>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">1. 深度学习部分</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.1 深度学习是什么？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">2. PyTorch 简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.1 什么是 PyTorch❓</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.2 PyTorch 可以做什么呢❓</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.3 有哪些人在使用它呢❓</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.4 为什么选择 PyTorch❓</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.5 我们将在本节课中讲解哪些内容❓</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">3. PyTorch 基本用法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.1 引入 PyTorch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.2 什么是张量❓</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.3 在 PyTorch 中创建张量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.3.1 标量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.3.2 向量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.3.3 矩阵</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.4 随机张量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.5 零一张量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.6 创建一个范围和类似的张量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.7 张量数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.8 从张量中获取信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.9 张量运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.9.1 基本操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.9.2 矩阵乘法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.9.3 深度学习中最常见错误之一（形状错误）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.9.4 神经网络中的矩阵运算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.9.5 寻找最小值、最大值、平均值、总和等（聚合）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.9.6 位置最小值&#x2F;最大值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.9.7 改变张量数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.9.8 重塑、堆叠、压缩和取消压缩</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.10 索引（从张量中选择数据）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.11 PyTorch 张量与 Numpy 数组</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">4. 尾声</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.1 理论课程推荐</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.2 PyTorch 教程推荐</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.3 深度学习实践网站推荐</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4.4 杂谈</span></a></li></ol></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

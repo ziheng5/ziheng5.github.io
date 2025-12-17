@@ -1,0 +1,487 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>Linux 终端美化：oh-my-posh | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>Linux 终端美化：oh-my-posh</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2025/4/11
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/Archlinux/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                Archlinux
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/Archlinux/" style="color: #03a9f4">
+                                        Archlinux
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <p><img src="../images/oh-my-posh/pic0.png" alt="oh-my-posh"></p>
+<blockquote>
+<p>oh-my-posh 官方网址：<a target="_blank" rel="noopener" href="https://ohmyposh.dev/">https://ohmyposh.dev/</a></p>
+<p>此外，本文不涉及 <code>Windows</code> 下 oh-my-posh 的配置，具体操作见<a target="_blank" rel="noopener" href="https://ohmyposh.dev/docs/installation/windows">官方文档</a></p>
+</blockquote>
+<h2><span id="1-安装-oh-my-posh">1. 安装 oh-my-posh</span></h2>
+<h3><span id="ubuntu">Ubuntu</span></h3>
+<pre><code class="language-bash">curl -s https://ohmyposh.dev/install.sh | bash -s
+</code></pre>
+<blockquote>
+<p>如果 Ubuntu 上还没有安装 curl 的话，先安装 curl：</p>
+<pre><code class="language-bash">sudo apt install curl
+</code></pre>
+</blockquote>
+<p>另外，<code>Ubuntu</code> 系统下用 <code>curl</code> 安装 oh-my-posh，默认安装位置在 <code>/home/USER/.local/oh-my-posh</code></p>
+<h3><span id="archlinux">Archlinux</span></h3>
+<pre><code class="language-bash">paru -S oh-my-posh
+</code></pre>
+<p><code>Archlinux</code> 系统下用 <code>pacman</code> 安装 oh-my-posh 的话，默认安装位置应该是在 <code>/usr/share/oh-my-posh</code></p>
+<h2><span id="2-配置-bashrc">2. 配置 bashrc</span></h2>
+<p>在安装完成后，打开安装位置处 <code>oh-my-posh</code> 文件夹下的 <code>themes</code> 文件夹，其中包含了官方的示例主题（可以在此基础上自由配置）。</p>
+<p>我们从中找到 <code>catppuccin_mocha.omp.json</code> 文件，即 <code>catppuccin_mocha</code> 主题的配置文件，复制文件路径，然后打开终端，输入</p>
+<pre><code class="language-bash">vim ~/.bashrc
+</code></pre>
+<p>进入 <code>bashrc</code> 开始为终端配置 <code>oh-my-posh</code>，在其中添加下面这行代码：</p>
+<pre><code class="language-bash"># 此处的 location 为 oh-my-posh 的安装位置
+eval &quot;$(oh-my-posh init bash --config /location/catppuccin_mocha.omp.json)&quot;
+</code></pre>
+<p>添加完成后，保存退出，重启终端，就可以看到 oh-my-posh 主题美化后的终端界面了</p>
+<h2><span id="3-自定义主题">3. 自定义主题</span></h2>
+<p>在第 2 步中，我们使用的是官方提供的样例主题，实际上 oh-my-posh 的主题文件是可以自由配置的。</p>
+<p>配置文件中，主要修改的控件有 <a target="_blank" rel="noopener" href="https://ohmyposh.dev/docs/configuration/block">blocks</a>、<a target="_blank" rel="noopener" href="https://ohmyposh.dev/docs/configuration/segment">segments</a>，具体用法过多，请移步官方文档。</p>
+<p>比如下面这个主题配置，是小生自己编辑出来的，以供参考</p>
+<pre><code class="language-json">&#123;
+  &quot;$schema&quot;: &quot;https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json&quot;,
+  &quot;palette&quot;: &#123;
+        &quot;os&quot;: &quot;#ACB0BE&quot;,
+        &quot;closer&quot;: &quot;p:os&quot;,
+        &quot;pink&quot;: &quot;#F5C2E7&quot;,
+        &quot;lavender&quot;: &quot;#B4BEFE&quot;,
+        &quot;blue&quot;:  &quot;#89B4FA&quot;
+  &#125;,
+  &quot;blocks&quot;: [
+    &#123;
+      &quot;alignment&quot;: &quot;left&quot;,
+      &quot;newline&quot;: true,
+      &quot;segments&quot;: [
+        
+        &#123;
+          &quot;foreground&quot;: &quot;#3498DB&quot;,
+          &quot;style&quot;: &quot;plain&quot;,
+          &quot;template&quot;: &quot; &#123;&#123;.Icon&#125;&#125; &quot;,
+          &quot;type&quot;: &quot;os&quot;
+        &#125;,
+        &#123;
+          &quot;foreground&quot;: &quot;p:blue&quot;,
+          &quot;style&quot;: &quot;plain&quot;,
+          &quot;template&quot;: &quot;&#123;&#123; .UserName &#125;&#125;@&#123;&#123; .HostName &#125;&#125; &quot;,
+          &quot;type&quot;: &quot;session&quot;
+        &#125;,
+        &#123;
+          &quot;foreground&quot;: &quot;#FFFFFF&quot;,
+          &quot;style&quot;: &quot;plain&quot;,
+          &quot;template&quot;: &quot;| \ue266 MEM: &#123;&#123; round .PhysicalPercentUsed .Precision &#125;&#125;% | &#123;&#123; (div ((sub .PhysicalTotalMemory .PhysicalAvailableMemory)|float64) 1073741824.0) &#125;&#125;/&#123;&#123; (div .PhysicalTotalMemory 1073741824.0) &#125;&#125;GB \ue266  |&quot;,
+          &quot;type&quot;: &quot;sysinfo&quot;
+        &#125;,
+        &#123;
+          &quot;type&quot;: &quot;battery&quot;,
+          &quot;style&quot;: &quot;plain&quot;,
+          &quot;foreground&quot;: &quot;#6CE035&quot;,
+          &quot;template&quot;: &quot; &#123;&#123; if not .Error &#125;&#125;&#123;&#123; .Icon &#125;&#125;&#123;&#123; .Percentage &#125;&#125;&#123;&#123; end &#125;&#125; &quot;,
+          &quot;properties&quot;: &#123;
+            &quot;discharging_icon&quot;: &quot;\ue304 &quot;,
+            &quot;charging_icon&quot;: &quot;\uf5f8 &quot;,
+            &quot;charged_icon&quot;: &quot; &quot;
+          &#125;
+        &#125;
+
+
+      ],
+      &quot;type&quot;: &quot;prompt&quot;
+    &#125;,
+    
+    &#123;
+      &quot;alignment&quot;: &quot;left&quot;,
+      &quot;newline&quot;: true,
+      &quot;segments&quot;: [
+        &#123;
+          &quot;style&quot;: &quot;plain&quot;,
+          &quot;template&quot;: &quot;\u256d\u2500&quot;,
+          &quot;type&quot;: &quot;text&quot;
+        &#125;,
+        &#123;
+          &quot;properties&quot;: &#123;
+            &quot;time_format&quot;: &quot;15:04:05&quot;
+          &#125;,
+          &quot;style&quot;: &quot;plain&quot;,
+          &quot;template&quot;: &quot; \uf017 &#123;&#123; .CurrentDate | date .Format &#125;&#125; |&quot;,
+          &quot;type&quot;: &quot;time&quot;
+        &#125;,
+        &#123;
+          &quot;foreground&quot;: &quot;#FFDE57&quot;,
+          &quot;properties&quot;: &#123;
+              &quot;display_mode&quot;: &quot;environment&quot;,
+              &quot;fetch_virtual_env&quot;: true,
+              &quot;home_enabled&quot;: true
+          &#125;,
+          &quot;style&quot;: &quot;plain&quot;,
+          &quot;template&quot;: &quot; \ue235 &#123;&#123; if .Venv &#125;&#125;(&#123;&#123; .Venv &#125;&#125;)&#123;&#123; end &#125;&#125;&quot;,
+          &quot;type&quot;: &quot;python&quot;
+        &#125;,
+        &#123;
+          &quot;style&quot;: &quot;plain&quot;,
+          &quot;template&quot;: &quot; \uf292 &quot;,
+          &quot;type&quot;: &quot;root&quot;
+        &#125;,
+        &#123;
+          &quot;foreground&quot;: &quot;p:pink&quot;,
+          &quot;properties&quot;: &#123;
+            &quot;folder_icon&quot;: &quot;..\ue5fe..&quot;,
+            &quot;home_icon&quot;: &quot; ~&quot;,
+            &quot;style&quot;: &quot;agnoster_short&quot;
+          &#125;,
+          &quot;style&quot;: &quot;plain&quot;,
+          &quot;template&quot;: &quot; \uf07c &#123;&#123; .Path &#125;&#125; &quot;,
+          &quot;type&quot;: &quot;path&quot;
+        &#125;,
+        &#123;
+          &quot;foreground&quot;: &quot;p:lavender&quot;,
+          &quot;properties&quot;: &#123;
+            &quot;branch_icon&quot;: &quot;\ue725 &quot;,
+            &quot;cherry_pick_icon&quot;: &quot;\ue29b &quot;,
+            &quot;commit_icon&quot;: &quot;\uf417 &quot;,
+            &quot;fetch_status&quot;: false,
+            &quot;fetch_upstream_icon&quot;: false,
+            &quot;merge_icon&quot;: &quot;\ue727 &quot;,
+            &quot;no_commits_icon&quot;: &quot;\uf0c3 &quot;,
+            &quot;rebase_icon&quot;: &quot;\ue728 &quot;,
+            &quot;revert_icon&quot;: &quot;\uf0e2 &quot;,
+            &quot;tag_icon&quot;: &quot;\uf412 &quot;
+          &#125;,
+          &quot;template&quot;: &quot;&#123;&#123; .HEAD &#125;&#125; &quot;,
+          &quot;style&quot;: &quot;plain&quot;,
+          &quot;type&quot;: &quot;git&quot;
+        &#125;
+      ],
+      &quot;type&quot;: &quot;prompt&quot;
+    &#125;,
+
+    &#123;
+      &quot;alignment&quot;: &quot;left&quot;,
+      &quot;newline&quot;: true,
+      &quot;segments&quot;: [
+        &#123;
+          &quot;properties&quot;: &#123;
+            &quot;always_enabled&quot;: true
+          &#125;,
+          &quot;style&quot;: &quot;plain&quot;,
+          &quot;template&quot;: &quot;\u2570\u2500 &quot;,
+          &quot;type&quot;: &quot;status&quot;
+        &#125;,
+        &#123;
+          &quot;style&quot;: &quot;plain&quot;,
+          &quot;foreground&quot;: &quot;#FFFFFF&quot;,
+          &quot;template&quot;: &quot;\uf105&quot;,
+          &quot;type&quot;: &quot;text&quot;
+        &#125;
+      ],
+      &quot;type&quot;: &quot;prompt&quot;
+    &#125;
+  ],
+  &quot;final_space&quot;: true,
+  &quot;version&quot;: 3
+&#125;
+
+</code></pre>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 安装 oh-my-posh</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">Ubuntu</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">Archlinux</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 配置 bashrc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. 自定义主题</span></a></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

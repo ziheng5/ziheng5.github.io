@@ -1,0 +1,539 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>TorchRL 入门 1 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>TorchRL 入门 1</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2024/12/7
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                强化学习
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/PyTorch/" style="color: #00bcd4">
+                                        PyTorch
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
+                                        强化学习
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/TorchRL/" style="color: #00a596">
+                                        TorchRL
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <blockquote>
+<p><a target="_blank" rel="noopener" href="https://pytorch.org/rl/stable/index.html">TorchRL</a> 是 PyTorch 下的一个用于强化学习的包</p>
+<p>使用前请先安装 torchrl：</p>
+<pre><code class="language-Terminal">pip install torchrl
+</code></pre>
+</blockquote>
+<h1><span id="强化学习中的环境">强化学习中的环境</span></h1>
+<h2><span id="1-创建环境">1. 创建环境</span></h2>
+<p>实际上，TorchRL 并不直接提供环境，而是为封装模拟器的其他库提供包装器，该 <code>envs</code> 模块可以被视为通用环境 API 的提供者，以及 <a target="_blank" rel="noopener" href="https://gymnasium.farama.org/">gym</a> ( <code>GymEnv</code> )、 Brax ( <code>BraxEnv</code> ) 或 DeepMind Control Suite ( <code>DMControlEnv</code> ) 等模拟后端的中央枢纽。</p>
+<p>创建环境通常与底层后端 API 允许的一样简单。下面是使用 gym 的示例：</p>
+<pre><code class="language-Python">from torchrl.envs import GymEnv
+
+env = GymEnv(&quot;Pendulum-v1&quot;)
+</code></pre>
+<h2><span id="2-运行环境">2.  运行环境</span></h2>
+<p>TorchRL 中的环境有两个关键方法： <code>reset()</code>，用于启动情节，以及 <code>step()</code>，用于执行参与者选择的动作。在 TorchRL 中，环境方法读取和写入 <code>TensorDict</code> 实例。本质上，<code>TensorDict</code> 是张量的基于密钥的通用数据载体。与普通张量相比，使用 TensorDict 的好处是：它使我们能够交替处理简单和复杂的数据结构，且它消除了适应不同数据格式的难题。</p>
+<p>话不多说，我们来看看 <code>tensordict</code> 实例是什么样子的：</p>
+<pre><code class="language-Python">reset = env.reset()
+print(reset)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>TensorDict(<br>
+fields={<br>
+done: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+observation: Tensor(shape=torch.Size([3]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+terminated: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+truncated: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False)},<br>
+batch_size=torch.Size([]),<br>
+device=None,<br>
+is_shared=False)</p>
+</blockquote>
+<p>现在让我们在动作空间中<strong>随机</strong>采取一个动作。首先，<strong>对动作进行采样</strong>：</p>
+<pre><code class="language-Python">reset_with_action = env.rand_action(reset)
+print(reset_with_action)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>TensorDict(<br>
+fields={<br>
+action: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+done: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+observation: Tensor(shape=torch.Size([3]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+terminated: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+truncated: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False)},<br>
+batch_size=torch.Size([]),<br>
+device=None,<br>
+is_shared=False)</p>
+</blockquote>
+<p>此 <code>tensordict</code> 的结构与从中获得的结构相同， 但 <code>EnvBase()</code> 多了一个 “<code>action</code>” 条目。你可以轻松访问操作，用法和 Python 自带的<strong>字典</strong>结构基本一致：</p>
+<pre><code class="language-Python">print(reset_with_action)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>tensor([0.0635])</p>
+</blockquote>
+<p>接下来，我们需要将把整个 <code>tensordict</code> 传递给该 <code>step</code> 方法，因为在更高级的情况下（如<strong>多智能体强化学习</strong>或<strong>无状态环境</strong>），可能需要读取多个张量：</p>
+<pre><code class="language-Python">stepped_data = env.step(reset_with_action)
+print(stepped_data)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>TensorDict(<br>
+fields={<br>
+action: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+done: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+next: TensorDict(<br>
+fields={<br>
+done: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+observation: Tensor(shape=torch.Size([3]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+reward: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+terminated: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+truncated: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False)},<br>
+batch_size=torch.Size([]),<br>
+device=None,<br>
+is_shared=False),<br>
+observation: Tensor(shape=torch.Size([3]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+terminated: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+truncated: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False)},<br>
+batch_size=torch.Size([]),<br>
+device=None,<br>
+is_shared=False)</p>
+</blockquote>
+<p>这里需要指出，这个新的张量字典与前一个完全相同，只是它有一个 “<code>next</code>” 条目（本身就是一个张量字典！），其中包含由我们的行动产生的观察、奖励和完成状态。</p>
+<p>我们将这种格式称为 <strong>TED</strong>，即 TorchRL Episode Dictory 数据格式。它是库中表示数据的普遍方式，既可以像这里一样动态表示，也可以使用离线数据集静态表示。</p>
+<p>在环境中运行部署所需的最后一点信息是如何将该 “<code>next</code>” 条目置于根目录以执行下一步。TorchRL 提供了一个专门的 <code>step_mdp()</code> 功能来执行此操作：它会过滤掉您不需要的信息，并在马尔可夫决策过程 (MDP) 中的某个步骤之后提供与您的观察结果相对应的数据结构。</p>
+<pre><code class="language-Python">from torchrl.envs import step_mdp
+
+data = step_mdp(stepped_data)
+print(data)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>TensorDict(<br>
+fields={<br>
+done: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+observation: Tensor(shape=torch.Size([3]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+terminated: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+truncated: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False)},<br>
+batch_size=torch.Size([]),<br>
+device=None,<br>
+is_shared=False)</p>
+</blockquote>
+<h2><span id="3-环境推出">3. 环境推出</span></h2>
+<p>写下这三个步骤（计算动作、采取步骤、在 MDP 中移动）可能有点繁琐和重复。幸运的是，TorchRL 提供了一个很好的 <code>rollout()</code> 函数，允许你随意在闭环中运行它们：</p>
+<pre><code class="language-Python">rollout = env.rollout(max_steps=10)
+print(rollout)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>TensorDict(<br>
+fields={<br>
+action: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+done: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+next: TensorDict(<br>
+fields={<br>
+done: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+observation: Tensor(shape=torch.Size([10, 3]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+reward: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+terminated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+truncated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False)},<br>
+batch_size=torch.Size([10]),<br>
+device=None,<br>
+is_shared=False),<br>
+observation: Tensor(shape=torch.Size([10, 3]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+terminated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+truncated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False)},<br>
+batch_size=torch.Size([10]),<br>
+device=None,<br>
+is_shared=False)</p>
+</blockquote>
+<p><code>stepped_data</code> 除了批处理大小之外，此数据与上面的数据非常相似，批处理大小现在等于我们通过 <code>max_steps</code> 参数提供的步骤数。tensordict 的魔力不止于此：如果你对此环境的单个转换感兴趣，则可以像索引张量一样对 tensordict 进行索引：</p>
+<pre><code class="language-Python">transition = rollout[3]
+print(transition)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>TensorDict(<br>
+fields={<br>
+action: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+done: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+next: TensorDict(<br>
+fields={<br>
+done: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+observation: Tensor(shape=torch.Size([3]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+reward: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+terminated: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+truncated: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False)},<br>
+batch_size=torch.Size([]),<br>
+device=None,<br>
+is_shared=False),<br>
+observation: Tensor(shape=torch.Size([3]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+terminated: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+truncated: Tensor(shape=torch.Size([1]), device=cpu, dtype=torch.bool, is_shared=False)},<br>
+batch_size=torch.Size([]),<br>
+device=None,<br>
+is_shared=False)</p>
+</blockquote>
+<p><code>TensorDict</code> 将自动检查您提供的索引是否是键（在这种情况下，我们沿着键维度进行索引）或像这样的空间索引。</p>
+<p>按照这种方式执行（没有策略），该 <code>rollout</code> 方法可能看起来相当无用：它只是运行<strong>随机操作</strong>。如果有策略可用，则可以<strong>将其传递给该方法并用于收集数据</strong>。</p>
+<p>尽管如此，首先运行一个简单的、无策略的部署来检查对环境的期望是有用的。</p>
+<p>要了解 TorchRL API 的多功能性，请考虑这样一个事实：<code>rollout</code> 方法具有普遍适用性。它适用于所有用例，无论你使用的是像这样的单一环境、跨各种流程的多个副本、多代理环境，甚至是无状态版本！</p>
+<h2><span id="4-改变环境">4. 改变环境</span></h2>
+<p>大多数情况下，你需要修改环境的输出以更好地满足您的要求。</p>
+<p>例如，你可能想要监控自上次重置以来执行的步骤数、调整图像大小或将连续的观察结果堆叠在一起。</p>
+<p>在本节中，我们将研究一种简单的变换，即 <code>StepCounter</code> 变换。完整的变换列表可在<a target="_blank" rel="noopener" href="https://pytorch.org/rl/stable/reference/envs.html#id2">这里</a>找到。</p>
+<p>变换通过以下方式与环境集成 <code>TransformedEnv</code>：</p>
+<pre><code class="language-Python">from torchrl.envs import StepCounter, TransformedEnv
+
+transformed_env = TransformedEnv(env, StepCounter(max_steps=10))
+rollout = transformed_env.rollout(max_steps=100)
+print(rollout)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>TensorDict(<br>
+fields={<br>
+action: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+done: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+next: TensorDict(<br>
+fields={<br>
+done: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+observation: Tensor(shape=torch.Size([10, 3]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+reward: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+step_count: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.int64, is_shared=False),<br>
+terminated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+truncated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False)},<br>
+batch_size=torch.Size([10]),<br>
+device=None,<br>
+is_shared=False),<br>
+observation: Tensor(shape=torch.Size([10, 3]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+step_count: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.int64, is_shared=False),<br>
+terminated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+truncated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False)},<br>
+batch_size=torch.Size([10]),<br>
+device=None,<br>
+is_shared=False)</p>
+</blockquote>
+<p>如你所见，我们的环境现在多了一个条目，&quot;<code>step_count</code>&quot;用于跟踪自上次重置以来的步数。鉴于我们将可选参数传递 <code>max_steps=10</code> 给了变换构造函数，我们还在 10 步后截断了轨迹（没有像我们在调用时要求的那样完成 100 步的完整展开rollout）。我们可以通过查看截断的条目来看到轨迹被截断了：</p>
+<pre><code class="language-Python">print(rollout[&quot;next&quot;, &quot;truncated&quot;])
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>tensor([[False],<br>
+[False],<br>
+[False],<br>
+[False],<br>
+[False],<br>
+[False],<br>
+[False],<br>
+[False],<br>
+[False],<br>
+[ True]])</p>
+</blockquote>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">强化学习中的环境</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 创建环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.  运行环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. 环境推出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. 改变环境</span></a></li></ol></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

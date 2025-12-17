@@ -1,0 +1,521 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>DBSCAN 密度聚类分析算法 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>DBSCAN 密度聚类分析算法</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2025/4/15
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                机器学习
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
+                                        机器学习
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <h2><span id="1-dbscan-算法简介">1. DBSCAN 算法简介</span></h2>
+<hr>
+<p>DBSCAN 是一种基于密度的聚类算法，旨在发现任意形状的<strong>簇</strong>，并且对<strong>噪声点</strong>（<strong>outliers</strong>）具有鲁棒性。</p>
+<p>DBSCAN 通过在数据空间中找到高密度区域，将这些区域作为簇，同时把孤立点（密度低的点）归为<strong>噪声</strong>。</p>
+<p>DBSCAN 的基本思想是：</p>
+<ul>
+<li>在某个点的<strong>邻域半径</strong>（$\epsilon$，<strong>epsilon</strong>）内，如果有足够多的点（超过一个<strong>阈值 minPts</strong>），就认为这个区域是一个高密度区域，可以扩展成一个簇。</li>
+<li>一个簇通过密度相连（density-connected）的点进行扩展。</li>
+<li>无法归属于任何簇的点被认为是噪声点。</li>
+</ul>
+<blockquote>
+<p>可以前往 <a target="_blank" rel="noopener" href="https://www.naftaliharris.com/blog/visualizing-dbscan-clustering/">DBSCAN 数据可视化网站</a>来了解执行的流程。</p>
+</blockquote>
+<p><img src="../images/machine_learning/dbscan1.png" alt="dbscan_example"></p>
+<h2><span id="2-dbscan-的基本概念">2. DBSCAN 的基本概念</span></h2>
+<hr>
+<ul>
+<li>$\epsilon$-邻域（Epsilon-neighborhood）<br>
+对于某个点 $P$，以半径 $\epsilon$ 为边界的区域内所有的点称为该点的 $\epsilon$ 邻域。</li>
+<li><strong>核心点</strong>（<strong>Core Point</strong>）<br>
+如果一个点 $P$ 的 $\epsilon$ 邻域内至少有 <strong>minPts</strong> 个点（包括 $P$ 自己），那么它被称为核心点。</li>
+<li><strong>边界点</strong>（<strong>Border Point</strong>）<br>
+如果一个点 $P$ 在某个核心的 $\epsilon$ 邻域内，但自身不是核心点，它被称为边界点。</li>
+<li><strong>噪声点</strong>（<strong>Noise Point</strong>）<br>
+如果一个点既不是核心点，也不属于任何核心点的领域，它被认为是噪声点。</li>
+<li><strong>密度直达</strong>（<strong>Directly Density-Reachable</strong>）<br>
+如果点 $P$ 是核心点，并且点 $Q$ 在 $P$ 的 $\epsilon$ 邻域内，那么 $Q$ 被称为 $P$ 的密度直达。</li>
+<li><strong>密度可达</strong>（<strong>Density-Reachable</strong>）<br>
+如果存在一条核心点链表（$P_1 \rightarrow P_2 \rightarrow … \rightarrow P_n$），使得每个点从前一个点密度直达，且 $P_1=P$，$P_n=Q$，则 Q 是从 P 密度可达的。</li>
+<li><strong>密度相连</strong>（<strong>Density-Connected</strong>）<br>
+如果存在一个点 $O$，使得 $P$ 和 $Q$ 都从 $O$ 密度可达，则称 $P$ 和 $Q$ 是密度相连的。</li>
+</ul>
+<h2><span id="3-dbscan-算法步骤">3. DBSCAN 算法步骤</span></h2>
+<hr>
+<ul>
+<li><strong>初始化</strong><br>
+从数据集中任意选择一个点 $P$，判断它是否为核心点（即 $\epsilon$ 邻域内是否包含至少 minPts 个点）。</li>
+<li><strong>扩展簇</strong><br>
+如果 $P$ 是核心点，则开始一个新簇，将 $P$ 及其邻域中的点加入簇中，并不断对新的核心点的邻域进行扩展。</li>
+<li><strong>处理噪声点</strong><br>
+如果一个点既不在任何簇中，也不满足成为核心点的条件，则将其标记为噪声点。</li>
+<li><strong>重复处理</strong><br>
+继续检查所有未访问的点，直到所有点都被访问为止。</li>
+</ul>
+<h2><span id="4-dbscan-伪代码">4. DBSCAN 伪代码</span></h2>
+<hr>
+<pre><code class="language-python">DBSCAN(D, epsilon, minPts):
+    C = 0   # 初始化簇标签
+    for each unvisited point P in dataset D:
+        mark P as visited
+        Neighbors = getNeighbors(P, epsilon)    # 获取邻域内的所有点
+        if size(Neighbors) &lt; minPts:
+            mark P as NOISE # 认为该点是噪声
+        else:
+            C = C + 1   # 创建新簇
+            expandCluster(P, Neighbors, C, epsilon, minPts)
+
+expandCluster(P, Neighbors, C, epsilon, minPts):
+    add P to cluster C
+    for each point Q in Neighbors:
+        if Q is not visited:
+            mark Q as visited
+            NeighborsQ = getNeighbors(Q, epsilon)
+            if size(NeighborsQ) &gt;= minPts:
+                Neighbors = Neighbors U NeighborsQ  # 扩展簇
+        if Q is not yet assigned to any cluster:
+            add Q to cluster C
+</code></pre>
+<h2><span id="5-dbscan-的时间复杂度分析">5. DBSCAN 的时间复杂度分析</span></h2>
+<hr>
+<ul>
+<li><strong>邻域查询</strong>：在每次扩展时，需要查找一个点的 $\epsilon$ 邻域。如果使用 KD-Tree 或 Ball-Tree 等空间索引结构，这个操作的复杂度为 $O(\log n)$。</li>
+<li><strong>总体复杂度</strong>：如果对每个点进行邻域查询，算法的时间复杂度为 $O(n·\log n)$。如果不使用索引结构，最坏情况下是 $O(n^2)$。</li>
+</ul>
+<h2><span id="6-dbscan-的-python-实现">6. DBSCAN 的 Python 实现</span></h2>
+<hr>
+<h3><span id="方法一使用-scikit-learn">方法一：使用 scikit-learn</span></h3>
+<p><img src="../images/machine_learning/scatter_plot.png" alt="cluster"></p>
+<p>聚类代码如下</p>
+<pre><code class="language-python">from sklearn.cluster import DBSCAN
+import numpy as np
+
+# 生成示例数据
+X = np.array([[1, 2], [2, 2], [2, 3],[8, 7], [8, 8], [25, 80]])
+
+# 初始化 DBSCAN 模型
+db = DBSCAN(eps=3, min_samples=2).fit(X)
+
+# 获取聚类标签
+labels = db.labels_
+
+print(&quot;Cluster labels:&quot;, labels)
+</code></pre>
+<p>输出：</p>
+<pre><code class="language-terminal">Cluster labels: [ 0 0 0 1 1 -1]
+</code></pre>
+<p>其中：</p>
+<ul>
+<li>标签为 <code>-1</code> 的点表示<strong>噪声点</strong></li>
+<li>其他标签表示该点属于的<strong>簇</strong></li>
+</ul>
+<h3><span id="方法二手动实现">方法二：手动实现</span></h3>
+<pre><code class="language-python">import numpy as np
+from sklearn.metrics import pairwise_distances
+
+class DBSCAN:
+    def __init__(self, eps=1.0, min_samples=5):
+        self.eps = eps
+        self.min_samples = min_samples
+    
+    def fit(self, X):
+        # 计算所有点之间的距离矩阵
+        distances = pairwise_distances(X)
+        
+        # 初始化标签：0表示未访问，-1表示噪声
+        labels = np.zeros(X.shape[0], dtype=int)
+        cluster_id = 0
+        
+        for i in range(X.shape[0]):
+            if labels[i] != 0:  # 已访问过的点跳过
+                continue
+                
+            # 找到当前点的所有邻居
+            neighbors = self._find_neighbors(i, distances)
+            
+            if len(neighbors) &lt; self.min_samples:
+                labels[i] = -1  # 标记为噪声
+            else:
+                cluster_id += 1
+                self._expand_cluster(i, neighbors, labels, cluster_id, distances)
+        
+        self.labels_ = labels
+        return self
+    
+    def _find_neighbors(self, point_idx, distances):
+        &quot;&quot;&quot;找到给定点的所有ε-邻域内的邻居&quot;&quot;&quot;
+        return np.where(distances[point_idx] &lt;= self.eps)[0]
+    
+    def _expand_cluster(self, point_idx, neighbors, labels, cluster_id, distances):
+        &quot;&quot;&quot;从核心点扩展聚类&quot;&quot;&quot;
+        labels[point_idx] = cluster_id
+        
+        i = 0
+        while i &lt; len(neighbors):
+            current_point = neighbors[i]
+            
+            if labels[current_point] == -1:  # 如果是噪声，改为边界点
+                labels[current_point] = cluster_id
+            elif labels[current_point] == 0:  # 如果是未访问点
+                labels[current_point] = cluster_id
+                
+                # 找到当前点的所有邻居
+                current_neighbors = self._find_neighbors(current_point, distances)
+                
+                if len(current_neighbors) &gt;= self.min_samples:
+                    # 将新邻居加入列表（合并邻居）
+                    neighbors = np.concatenate([neighbors, current_neighbors])
+            
+            i += 1
+
+# 测试代码
+if __name__ == &quot;__main__&quot;:
+    # 使用你提供的示例数据
+    X = np.array([[1, 2], [2, 2], [2, 3], [8, 7], [8, 8], [25, 80]])
+    
+    # 创建并运行DBSCAN
+    dbscan = DBSCAN(eps=3, min_samples=2)
+    dbscan.fit(X)
+    
+    # 打印结果
+    print(&quot;聚类结果:&quot;, dbscan.labels_)
+    
+    # 可视化结果
+    import matplotlib.pyplot as plt
+    
+    plt.figure(figsize=(10, 6))
+    colors = ['red', 'blue', 'green', 'purple', 'orange']
+    
+    for i in range(len(X)):
+        if dbscan.labels_[i] == -1:
+            plt.scatter(X[i, 0], X[i, 1], c='black', marker='x', s=100, label='Noise' if i == 0 else &quot;&quot;)
+        else:
+            plt.scatter(X[i, 0], X[i, 1], c=colors[dbscan.labels_[i] - 1], 
+                       label=f'Cluster &#123;dbscan.labels_[i]&#125;' if i == 0 or dbscan.labels_[i] != dbscan.labels_[i-1] else &quot;&quot;)
+    
+    plt.title('DBSCAN Clustering Result')
+    plt.xlabel('X coordinate')
+    plt.ylabel('Y coordinate')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+</code></pre>
+<h2><span id="7-dbscan-的优缺点">7. DBSCAN 的优缺点</span></h2>
+<hr>
+<ul>
+<li>优点：
+<ul>
+<li>可以发现任意形状的簇。</li>
+<li>不需要预先指定簇的数量。</li>
+<li>对噪声有鲁棒性。</li>
+</ul>
+</li>
+<li>缺点
+<ul>
+<li>当簇的密度差异较大时，效果不佳。</li>
+<li><strong>高维数据</strong>（超过 10 维）中的性能较差，非常消耗 CPU 和 GPU 以及内存性能。</li>
+<li>需要合理选择 $\epsilon$ 和 minPts 参数。</li>
+</ul>
+</li>
+</ul>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. DBSCAN 算法简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. DBSCAN 的基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. DBSCAN 算法步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. DBSCAN 伪代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5. DBSCAN 的时间复杂度分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6. DBSCAN 的 Python 实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">方法一：使用 scikit-learn</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">方法二：手动实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">7. DBSCAN 的优缺点</span></a></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

@@ -1,0 +1,627 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>LSTM 原理及其 PyTorch 实现 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>LSTM 原理及其 PyTorch 实现</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2024/12/13
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                深度学习
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/PyTorch/" style="color: #00bcd4">
+                                        PyTorch
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
+                                        深度学习
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/RNN/" style="color: #00bcd4">
+                                        RNN
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <blockquote>
+<p>PyTorch 其实内置了 LSTM 模型，直接调用即可，不需要费劲去手搓了</p>
+<p>（某个人复现到一半才反应过来 😭）</p>
+<p>✨通俗易懂的 LSTM 原理讲解（力推）：<br>
+<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=YCzL96nL7j0&amp;t=1s">https://www.youtube.com/watch?v=YCzL96nL7j0&amp;t=1s</a></p>
+<p>（ 发明 LSTM 的人真 ** 是个天才！）</p>
+</blockquote>
+<h2><span id="1-什么是-lstm">1. ❓ 什么是 LSTM</span></h2>
+<p>长短期记忆网络（LSTM，Long-Short-Term Memory）是传统 RNN 网络的 Plus 版本。</p>
+<h3><span id="11-发明背景">1.1 发明背景</span></h3>
+<p>传统的 RNN 网络在训练的时候，当遇到长序列数据时，很容易出现 <strong>梯度爆炸</strong> 与 <strong>梯度消失</strong> 的情况，导致训练效果不太好。</p>
+<blockquote>
+<p>👀 什么？你不知道什么是 <strong>梯度爆炸</strong> 和 <strong>梯度消失</strong>？！快来看看这个视频：</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=AsNTP8Kwu80">https://www.youtube.com/watch?v=AsNTP8Kwu80</a></p>
+</blockquote>
+<p>为了解决这一问题，LSTM 在传统 RNN 的基础上，加入了 <strong>门控机制（Gate）</strong> 来控制信息流动，从而记住长期依赖信息。</p>
+<h3><span id="12-原理详解">1.2 原理详解</span></h3>
+<blockquote>
+<p>先看视频：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=YCzL96nL7j0&amp;t=1s">https://www.youtube.com/watch?v=YCzL96nL7j0&amp;t=1s</a></p>
+</blockquote>
+<p>LSTM 由多个 <strong>LSTM 单元（Cell）</strong> 组成，每个单元包含以下三个门和一个单元状态：</p>
+<h4><span id="遗忘门forget-gate"><strong>遗忘门（Forget Gate）</strong></span></h4>
+<ul>
+<li><strong>功能：</strong> 决定哪些信息需要 <strong>遗忘</strong>。</li>
+<li><strong>公式：</strong><br>
+$$ f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f) $$</li>
+<li><strong>解释：</strong>
+<ul>
+<li>输入：前一个隐藏状态 $h_{t-1}$ 和当前输入 $x_t$。</li>
+<li>输出：范围在 $[0, 1]$，其中 0 表示完全遗忘，1 表示完全保留。</li>
+</ul>
+</li>
+</ul>
+<h4><span id="输入门input-gate"><strong>输入门（Input Gate）</strong></span></h4>
+<ul>
+<li><strong>功能：</strong> 决定哪些新信息需要 <strong>存储</strong>。</li>
+<li><strong>公式：</strong>
+<ul>
+<li>候选信息生成：<br>
+$$ \tilde{C}<em>t = \tanh(W_C \cdot [h</em>{t-1}, x_t] + b_C)$$</li>
+<li>输入门激活：<br>
+$$i_t = \sigma(W_i \cdot [h_{t-1}, x_t] + b_i)$$</li>
+<li>更新单元状态：<br>
+$$C_t = f_t \cdot C_{t-1} + i_t \cdot \tilde{C}_t$$</li>
+</ul>
+</li>
+<li><strong>解释：</strong>
+<ul>
+<li>候选信息 $\tilde{C}_t$：当前时间步的新信息。</li>
+<li>输入门 $i_t$：控制候选信息的存储程度。</li>
+</ul>
+</li>
+</ul>
+<h4><span id="输出门output-gate"><strong>输出门（Output Gate）</strong></span></h4>
+<ul>
+<li><strong>功能：</strong> 决定单元状态中的信息 <strong>公开输出</strong>。</li>
+<li><strong>公式：</strong>
+<ul>
+<li>输出门激活：<br>
+$$o_t = \sigma(W_o \cdot [h_{t-1}, x_t] + b_o)$$</li>
+<li>最终隐藏状态：<br>
+$$h_t = o_t \cdot \tanh(C_t)$$</li>
+</ul>
+</li>
+<li><strong>解释：</strong>
+<ul>
+<li>输出门决定当前时间步的隐藏状态 $h_t$，该状态将作为下一个时间步的输入。</li>
+</ul>
+</li>
+</ul>
+<h4><span id="单元状态cell-state"><strong>单元状态（Cell State）</strong></span></h4>
+<ul>
+<li><strong>功能：</strong>
+<ul>
+<li>作为信息的“长期记忆”路径，在整个时间序列中流动。</li>
+<li>线性传递，几乎不受激活函数的影响，确保长时间的信息保留。</li>
+</ul>
+</li>
+</ul>
+<h3><span id="13-lstm-数据流总结">1.3 LSTM 数据流总结：</span></h3>
+<ol>
+<li>接收输入 $x_t$ 和上一个隐藏状态 $h_{t-1}$。</li>
+<li><strong>遗忘门</strong> 确定需要遗忘的信息。</li>
+<li><strong>输入门</strong> 确定存储的新信息。</li>
+<li>更新单元状态 $C_t$。</li>
+<li><strong>输出门</strong> 确定当前时间步的输出隐藏状态 $h_t$。</li>
+</ol>
+<h3><span id="14-lstm-的优势">1.4 LSTM 的优势：</span></h3>
+<ul>
+<li><strong>长期依赖记忆：</strong> 能够有效记住长期信息，解决了传统 RNN 的梯度消失问题。</li>
+<li><strong>适用场景：</strong> 广泛用于自然语言处理、时间序列预测、语音识别等领域。</li>
+<li><strong>灵活性高：</strong> 支持多层堆叠，能够学习高度复杂的数据模式。</li>
+</ul>
+<hr>
+<h2><span id="2-pytorch-手动复现-lstm灵活度高">2. PyTorch 手动复现 LSTM（灵活度高）</span></h2>
+<blockquote>
+<p>参考教程：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=RHGiXPuo_pI">https://www.youtube.com/watch?v=RHGiXPuo_pI</a></p>
+</blockquote>
+<h3><span id="21-导入包">2.1 📦导入包</span></h3>
+<pre><code class="language-Python">import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch.optim import Adam
+
+import lightning as L
+from torch.utils.data import TensorDataset, DataLoader
+</code></pre>
+<p>⚠️注意：这里有个叫 <code>lightning</code> 的包。</p>
+<blockquote>
+<p>什么？你不知道这个包是用来干什么的？！PyTorch Lightning 是一个基于 PyTorch 的深度学习框架，其功能相当强大，可以一键实现很多功能！</p>
+<p>官方文档：<a target="_blank" rel="noopener" href="https://lightning.ai/docs/pytorch/stable/">https://lightning.ai/docs/pytorch/stable/</a></p>
+<p>下载方式:</p>
+<ol>
+<li>pip 用户：</li>
+</ol>
+<pre><code class="language-Terminal">pip install lightning
+</code></pre>
+<ol start="2">
+<li>conda 用户：</li>
+</ol>
+<pre><code class="language-Terminal">conda install lightning
+</code></pre>
+</blockquote>
+<h3><span id="22-手搓-lstm-网络">2.2 ✋手搓 LSTM 网络</span></h3>
+<pre><code class="language-Python">class LSTMbyHand(L.LightningModule):
+    def __init__(self):
+        # create and initialize weight and bias tensors
+        super().__init__()
+        mean = torch.tensor(0.0)
+        std = torch.tensor(1.0)
+
+        ## 1. 遗忘门 
+        self.wlr1 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.wlr2 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.blr1 = nn.Parameter(torch.tensor(0.), requires_grad=True)
+
+        ## 2. 输入门
+        self.wpr1 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.wpr2 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.bpr1 = nn.Parameter(torch.tensor(0.), requires_grad=True)
+
+        self.wp1 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.wp2 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.bp1 = nn.Parameter(torch.tensor(0.), requires_grad=True)
+
+        ## 3. 输出门
+        self.wo1 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.wo2 = nn.Parameter(torch.normal(mean=mean, std=std), requires_grad=True)
+        self.bo1 = nn.Parameter(torch.tensor(0.), requires_grad=True)
+
+
+    def lstm_unit(self, input_value, long_memory, short_memory):
+        # do the lstm math
+        ## 1. 遗忘门
+        long_remember_percent = torch.sigmoid((short_memory * self.wlr1) +
+                                              (input_value * self.wlr2) +
+                                              self.blr1)
+        
+        ## 2. 输入门
+        potential_remember_percent = torch.sigmoid((short_memory * self.wpr1) +
+                                                   (input_value * self.wpr2) +
+                                                   self.bpr1)
+        
+        potential_memory = torch.tanh((short_memory * self.wp1) +
+                                      (input_value * self.wp2) +
+                                      self.bp1)
+        
+        updated_long_memory = ((long_memory * long_remember_percent) +
+                              (potential_memory * potential_remember_percent))
+        
+        ## 3. 输出门
+        output_percent = torch.sigmoid((short_memory * self.wo1) +
+                                       (input_value * self.wo2) +
+                                       self.bo1)
+        
+        updated_short_memory = torch.tanh(updated_long_memory) * output_percent
+
+        ## 4. 输出
+        return ([updated_long_memory, updated_short_memory])
+
+
+    def forward(self, input):
+        # make a forward pass through unrolled lstm
+        long_memory = 0
+        short_memory = 0
+        day1 = input[0]
+        day2 = input[1]
+        day3 = input[2]
+        day4 = input[3]
+
+        long_memory, short_memory = self.lstm_unit(day1, long_memory, short_memory)
+        long_memory, short_memory = self.lstm_unit(day2, long_memory, short_memory)
+        long_memory, short_memory = self.lstm_unit(day3, long_memory, short_memory)
+        long_memory, short_memory = self.lstm_unit(day4, long_memory, short_memory)
+
+        return short_memory
+
+
+    def configure_optimizers(self):
+        # configure adam optimizer
+        return Adam(self.parameters())
+    
+
+    def training_step(self, batch, batch_idx):
+        # calculate loss and log training progress
+        input_i, label_i = batch
+        output_i = self.forward(input_i[0])
+        loss = (output_i - label_i) ** 2
+
+        self.log(&quot;train_loss&quot;, loss)
+        
+        if (label_i == 0):
+            self.log(&quot;out_0&quot;, output_i)
+        else:
+            self.log(&quot;out_1&quot;, output_i)
+
+        return loss
+</code></pre>
+<h3><span id="23-检查网络是否正确搭建">2.3 🔍检查网络是否正确搭建</span></h3>
+<pre><code class="language-Python">model = LSTMbyHand()
+
+print(&quot;\nNow let's compare the observed and predicted values...&quot;)
+print(&quot;Company A: Observed = 0, Predicted = &quot;, model(torch.tensor([0., 0.5, 0.25, 1.])).detach())
+
+print(&quot;Company B: Observed = 1, Predicted = &quot;, model(torch.tensor([1., 0.5, 0.25, 1.])).detach())
+</code></pre>
+<h3><span id="24-开始训练">2.4 💪开始训练</span></h3>
+<pre><code class="language-Python">inputs = torch.tensor([[0., 0.5, 0.25, 1.], [1., 0.5, 0.25, 1.]])
+labels = torch.tensor([0., 1.])
+
+dataset = TensorDataset(inputs, labels)
+dataloader = DataLoader(dataset)
+
+trainer = L.Trainer(max_epochs=2000)
+trainer.fit(model, train_dataloaders=dataloader)
+</code></pre>
+<h3><span id="25-检查训练效果">2.5 🔎检查训练效果</span></h3>
+<pre><code class="language-Terminal">tensorboard --logdir=lightning_logs/
+</code></pre>
+<p><img src="./images/lstm/tensorboard1.png" alt="result"></p>
+<p>发现效果一般😢</p>
+<h3><span id="26-迁移学习">2.6 💪迁移学习</span></h3>
+<pre><code class="language-Python">path_to_best_checkpoint = trainer.checkpoint_callback.best_model_path
+
+trainer = L.Trainer(max_epochs=5000)
+trainer.fit(model, train_dataloaders=dataloader, ckpt_path=path_to_best_checkpoint)
+</code></pre>
+<p>再次查看效果：</p>
+<p><img src="./images/lstm/tensorboard3.png" alt="result2"></p>
+<p>效果巨好👌</p>
+<h2><span id="3-pytorch-内置-lstm-的使用">3. PyTorch 内置 LSTM 的使用</span></h2>
+<h3><span id="31-导入包">3.1 📦导入包</span></h3>
+<pre><code class="language-Python">import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch.optim import Adam
+
+import lightning as L
+from torch.utils.data import TensorDataset, DataLoader
+</code></pre>
+<h3><span id="32-搭建网络">3.2 🧱搭建网络</span></h3>
+<pre><code class="language-Python">class LightningLSTM(L.LightningModule):
+    def __init__(self):
+        super().__init__()
+        self.lstm = nn.LSTM(input_size=1, hidden_size=1)
+
+    
+    def forward(self, input):
+        input_trans = input.view(len(input), 1)
+
+        lstm_out, temp = self.lstm(input_trans)
+
+        prediction = lstm_out[-1]
+        return prediction
+    
+
+    def configure_optimizers(self):
+        return Adam(self.parameters(), lr=0.1)
+    
+
+    def training_step(self, batch, batch_idx):
+        input_i, label_i = batch
+        output_i = self.forward(input_i[0])
+        loss = (output_i - label_i) ** 2
+
+        self.log(&quot;train_loss&quot;, loss)
+
+        if (label_i==0):
+            self.log(&quot;out_0&quot;, output_i)
+        else:
+            self.log(&quot;out_1&quot;, output_i)
+
+        return loss
+</code></pre>
+<p>这里需要注意的是，在 PyTorch 中，LSTM 的输入格式为 <code>(batch_size, sequence_length, input_size)</code>，即<strong>样本数量、时间步长、特征数量</strong>。</p>
+<p>如果实际中的数据格式与此不同，需要手动处理成对应的格式。</p>
+<h3><span id="33-开始训练">3.3 💪开始训练</span></h3>
+<pre><code class="language-Python">model = LightningLSTM()
+
+trainer = L.Trainer(max_epochs=300, log_every_n_steps=2)
+trainer.fit(model, train_dataloaders=dataloader)
+</code></pre>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. ❓ 什么是 LSTM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.1 发明背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.2 原理详解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">遗忘门（Forget Gate）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">输入门（Input Gate）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">输出门（Output Gate）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">单元状态（Cell State）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.3 LSTM 数据流总结：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.4 LSTM 的优势：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. PyTorch 手动复现 LSTM（灵活度高）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.1 📦导入包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.2 ✋手搓 LSTM 网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.3 🔍检查网络是否正确搭建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.4 💪开始训练</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.5 🔎检查训练效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.6 💪迁移学习</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. PyTorch 内置 LSTM 的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.1 📦导入包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.2 🧱搭建网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.3 💪开始训练</span></a></li></ol></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

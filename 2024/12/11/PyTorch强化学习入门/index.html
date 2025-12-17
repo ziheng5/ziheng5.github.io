@@ -1,0 +1,696 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>PyTorch 深度学习、强化学习入门 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>PyTorch 深度学习、强化学习入门</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2024/12/11
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                深度学习
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/PyTorch/" style="color: #00a596">
+                                        PyTorch
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
+                                        深度学习
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                                        强化学习
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <h2><span id="1-张量">1. 张量</span></h2>
+<p>张量是所有DL工具包的基本组成部分。名字听起来很神秘，但本质上张量就是一个多维数组。用数学知识来类比，单个数字就像点，是零维的，向量就像线段，是一维的，矩阵则是二维的对象。三维数字的集合可以用平行六面体表示，但它们不像矩阵一样有特定的名称。我们可以用“张量”来表示高维集合。</p>
+<p>需要注意的是，在DL中所使用的张量和在张量演算或张量代数中所用的张量相比，只在部分层面上相关。在DL中，张量是任意多维的数组，但在数学中，张量是向量空间之间的映射，在某些情况下可以表示为多维数组，但背后具有更多的语义信息。数学家通常会对任何使用公认数学术语来命名不同事物的人皱眉，因此要当心！</p>
+<h3><span id="11-创建张量">1.1 创建张量</span></h3>
+<p>如果你熟悉 NumPy 库，那你应该知道其主要目的是以通用的方式处理多维数组。在 NumPy 中，这样的数组没被称为张量，但事实上，它们就是张量。张量在科学计算中被广泛用作数据的通用存储方式。例如，彩图会被编码成具有宽度、高度和色值的三维张量。</p>
+<p>除了维度之外，元素类型也是张量的特征之一。PyTorch支持八种类型，包括三种浮点类型（16位、32位和64位）和五种整数类型（有符号8位、无符号8位、16位、32位和64位）。不同类型的张量用不同的类表示，其中最常用的是 <code>torch.FloatTensor</code>（对应32位浮点类型）、<code>torch.ByteTensor</code>（无符号8位整数）、<code>torch.LongTensor</code>（有符号64位整数）。其余的可以在PyTorch的文档中查到。</p>
+<p>有三种方法可以在 PyTorch 中创建张量：</p>
+<ul>
+<li>通过调用所需类型的构造函数。</li>
+<li>通过将 NumPy 数组或 Python 列表转换为张量。在这种情况下，类型将从数组的类型中获取。</li>
+<li>通过要求 PyTorch 创建带有特定数据的张量。例如，可以使用 <code>torch.zeros()</code> 函数创建一个全为零的张量。</li>
+</ul>
+<p>下面是上述方法的实现方式：</p>
+<pre><code class="language-Python">&gt;&gt;&gt; import torch
+&gt;&gt;&gt; import numpy as np
+&gt;&gt;&gt; a = torch.FloatTensor(3, 2)
+&gt;&gt;&gt; a
+tensor([[0.0000e+00, 2.9468e-24],
+        [7.1179e-23, 9.5008e-43],
+        [9.5709e-43, 0.0000e+00]])
+</code></pre>
+<p>在这里，我们导入了 PyTorch 和 NumPy，并创建未初始化的3×2的张量。默认情况下， PyTorch 会为张量分配内存，但不进行初始化。要清除张量的内容，需要使用以下操作：</p>
+<pre><code class="language-Python">&gt;&gt;&gt; a.zero_()
+tensor([[0., 0.],
+        [0., 0.],
+        [0., 0.]])
+</code></pre>
+<p>张量有两种类型的操作：<strong>inplace</strong> 和 <strong>functional</strong>。inplace 操作需在函数名称后<strong>附加一个下划线，作用于张量的内容。然后，会返回对象本身</strong>。functional操作是创建一个张量的副本，对其副本进行修改，而原始张量保持不变。从性能和内存角度来看、inplace 方式通常更为高效。</p>
+<p>通过其构造函数创建张量的另一种方法是提供Python可迭代对象（例如列表或元组），它将被用作新创建张量的内容：</p>
+<pre><code class="language-Python">&gt;&gt;&gt; torch.FloatTensor([[1, 2, 3], [3, 2, 1]])
+tensor([[1., 2., 3.],
+        [3., 2., 1.]])
+</code></pre>
+<p>下面的代码用 NumPy 创建了一个全零张量：</p>
+<pre><code class="language-Python">&gt;&gt;&gt; n = np.zeros(shape=(3, 2))
+&gt;&gt;&gt; n
+array([[0., 0.],
+       [0., 0.],
+       [0., 0.]])
+&gt;&gt;&gt; b = torch.tensor(n)
+&gt;&gt;&gt; b
+tensor([[0., 0.],
+        [0., 0.],
+        [0., 0.]], dtype=torch.float64)
+</code></pre>
+<p><code>torch.tensor</code> 方法接受 NumPy 数组作为参数，并创建一个适当形状的张量。在前面的示例中，我们创建了一个由零初始化的 NumPy 数组，默认情况下，该数组创建一个 double（64位浮点数）数组。因此，生成的张量具有 <code>DoubleTensor</code> 类型（在前面的示例中使用 <code>dtype</code> 值显示）。在 DL 中，通常不需要双精度，因为使用双精度会增加内存和性能开销。通常的做法是使用 32 位浮点类型，甚至使用 16 位浮点类型，这已经能够满足需求了。要创建这样的张量，需要明确指定 NumPy 数组的类型：</p>
+<pre><code class="language-Python">&gt;&gt;&gt; n = np.zeros(shape=(3, 2), dtype=np.float32)
+&gt;&gt;&gt; torch.tensor(n)
+tensor([[0., 0.],
+        [0., 0.],
+        [0., 0.]])
+</code></pre>
+<p>作为可选项，可以在 <code>dtype</code> 参数中将所需张量的类型提供给 <code>torch.tensor</code> 函数。但是，请小心，因为此参数期望传入 PyTorch 类型规范，而不是 NumPy 类型规范。PyTorch 类型保存在 <code>torch</code> 包中，例如 <code>torch.float32</code> 和 <code>torch.uint8</code>。</p>
+<pre><code class="language-Python">&gt;&gt;&gt; n = np.zeros(shape=(3, 2))
+&gt;&gt;&gt; torch.tensor(n, dtype=torch.float32)
+tensor([[0., 0.],
+        [0., 0.],
+        [0., 0.]])
+</code></pre>
+<h3><span id="12-零维张量">1.2 零维张量</span></h3>
+<p>从 0.4.0 版本开始，PyTorch 已经支持了与标量相对应的零维张量。这种张量可能是某些操作（例如对张量中的所有值求和）的结果。这种情况以前是通过创建维度为 1 的张量（向量）来处理的。</p>
+<p>该解决方案是有效的，但它并不简单，因为需要额外的索引才能访问值。现在，已经支持零维张量并由合适的函数返回，并且可以通过 <code>torch.tensor()</code> 函数创建。为了访问这种张量的实际 Python值，可以使用特殊的 <code>item()</code> 方法：</p>
+<pre><code class="language-Python">&gt;&gt;&gt; a = torch.tensor([1, 2, 3])
+&gt;&gt;&gt; a
+tensor([3, 2, 1])
+&gt;&gt;&gt; s = a.sum()
+&gt;&gt;&gt; s
+tensor(6)
+&gt;&gt;&gt; s.item()
+6
+&gt;&gt;&gt; torch.tensor(1)
+tensor(1)
+</code></pre>
+<h3><span id="13-张量操作">1.3 张量操作</span></h3>
+<p>你可以对张量执行很多操作，因为操作太多，无法一一列出。通常，在 PyTorch 的官方文档中搜索就足够使用了。需要指出的是，除了前文所讨论的 inplace 和 functional （即带有下划线的函数和不带下划线的函数，例如 <code>abs()</code> 和 <code>abs_()</code>），还有两个地方可以查找操作：torch 包和张量类。在第一种情况下，函数通常接受张量作为参数。在第二个中，函数作用于张量上。在大多数情况下，张量操作试图和NumPy中相应的操作等效，因此，如果NumPy中存在一些不是非常专有的函数，那么 PyTorch 中也可能会有，例如 <code>torch.stack()</code>、<code>torch.transpose()</code>和 <code>torch.cat()</code>。</p>
+<h3><span id="14-gpu-张量">1.4 GPU 张量</span></h3>
+<p>PyTorch 透明地支持 CUDA GPU ，这意味着所有操作都有两个版本（ CPU 和 GPU ）供自动选择。使用哪个版本操作根据所操作的张量类型决定。</p>
+<p>我提到的每种张量类型都是针对 CPU 的，并且具有与之对应的 GPU 类型。唯一的区别是 GPU 张量在 <code>torch.cuda</code> 包中，而不是在 <code>torch</code> 中。例如，<code>torch.FloatTensor</code> 是在CPU内存中的32位浮点张量，而 <code>torch.cuda.FloatTensor</code> 是在GPU中的32位浮点张量。</p>
+<p>为了从CPU转换到GPU，有一个 <code>to(device)</code> 的张量方法，可以创建张量的副本到指定设备（可以是 CPU 或  GPU）。如果张量已经在相应的设备上，那么什么也不会发生，并且返回原始张量。可以用不同的方式指定设备类型。首先，可以仅传递设备的字符串名称，对于 CPU 内存为“cpu”，对于 GPU 可用 “cuda”。GPU 设备可以在冒号之后指定一个可选设备的索引。例如，系统中的第二个GPU可以用 “cuda:1” 寻址（索引从零开始）。</p>
+<p>在 <code>to()</code> 方法中指定设备的另一种更为有效的方法是使用<br>
+<code>torch.device</code> 类，该类接受设备名称和可选索引。它有 <code>device</code> 属性，所以可以访问张量当前所在的设备。</p>
+<pre><code class="language-Python">&gt;&gt;&gt; a = torch.FloatTensor([2, 3])
+&gt;&gt;&gt; a
+tensor([2., 3.])
+&gt;&gt;&gt; ca = a.to('cuda')
+&gt;&gt;&gt; ca
+tensor([2., 3.], device='cuda:0')
+</code></pre>
+<p>上面的代码在 CPU 上创建了一个张量，然后将其复制到 GPU 中。两个副本均可用于计算，并且所有 GPU 特有的机制对用户都是透明的：</p>
+<pre><code class="language-Python">&gt;&gt;&gt; a + 1
+tensor([3., 4.])
+&gt;&gt;&gt; ca + 1
+tensor([3., 4.], device='cuda:0')
+&gt;&gt;&gt; ca.device
+device(type='cuda', index=0)
+</code></pre>
+<h2><span id="2-梯度">2. 梯度</span></h2>
+<p>即便对 GPU 的支持是透明的，如果没有“杀手锏”——梯度的自动计算——所有与张量有关的计算都将变得很复杂。这个功能最初是在 Caffe 工具库中实现的，然后成为 DL 库中约定俗成的标准。</p>
+<p>手动计算梯度实现和调试起来都非常痛苦，即使是最简单的神经网络（Neural Network，NN）。你必须计算所有函数的导数，应用链式法则，然后计算结果，并祈祷计算准确。对于理解 DL 的具体细节来说，这可能是一个非常有用的练习，但你肯定不想一遍又一遍地在不同的 NN 架构中重复计算。</p>
+<p>幸运的是，那些日子已经过去了，就像使用烙铁和真空管编写硬件程序一样，都过去了。现在，定义一个数百层的 NN 只需要从预先定义好的模块中组装即可，在一些极端情况下，也可以手动定义转换表达式。</p>
+<p>所有的梯度都会仔细计算好，通过反向传播应用于网络。为了能够做到这一点，需要根据所使用的 DL 库来定义网络架构，它可能在细节上有所不同，但大体是相同的——就是必须定义好网络输入输出的顺序。</p>
+<p>最根本的区别是如何计算梯度。有两种方法：</p>
+<ul>
+<li><strong>静态图</strong>：在这种方法中，需要提前定义计算，并且以后也不能更改。在进行任何计算之前，DL 库将对图进行处理和优化。此模型在 TensorFlow（&lt;2的版本）、Theano 和许多其他 DL 工具库中均已实现。</li>
+<li><strong>动态图</strong>：不需要预先精确地定义将要执行的图；只需要在实际数据上执行希望用于数据转换的操作。在此期间，库将记录执行的操作的顺序，当要求它计算梯度时，它将展开其操作历史，积累网络参数的梯度。这种方法也称为 notebook gradient，它已在 PyTorch、Chainer 和一些其他库中实现。</li>
+</ul>
+<p>两种方法各有优缺点。例如，静态图通常更快，因为所有的计算都可以转移到 GPU，从而最小化数据传输开销。此外，在静态图中，库可以更自由地优化在图中执行计算的顺序，甚至可以删除图的某些部分。</p>
+<p>另一方面，虽然动态图的计算开销较大，但它给了开发者更多的自由。例如，开发者可以说 “对这部分数据，可以将这个网络应用两次，对另一部分数据，则使用一个完全不同的模型，并用批的均值修剪梯度。” 动态图模型的另一个非常吸引人的优点是，它可以通过一种更 Pythonic 的方式自然地表达转换。最后，它只是一个有很多函数的 Python 库，所以只需调用它们，让库发挥作用就可以了。</p>
+<blockquote>
+<p><strong>张量和梯度</strong></p>
+<p>PyTorch张量有内置的梯度计算和跟踪机制，因此你所需要做的就是将数据转换为张量，并使用torch提供的张量方法和函数执行计算。当然，如果要访问底层的详细信息，也是可以的，不过在大多数情况下PyTorch可以满足你的期望。</p>
+<p>每个张量都有几个与梯度相关的属性：</p>
+<ul>
+<li><code>grad</code>：张量的梯度，与原张量形状相同。</li>
+<li><code>is_leaf</code>：如果该张量是由用户构造的，则为True；如果是函数转换的结果，则为False。</li>
+<li><code>requires_grad</code>：如果此张量需要计算梯度，则为True。此属性是从叶张量继承而来，叶张量从张量构建过程（<code>torch.zeros()</code> 或 <code>torch.tensor()</code>等）中获得此值。默认情况下，构造函数的 <code>requires_grad = False</code>，如果要计算张量梯度，则需明确声明。</li>
+</ul>
+</blockquote>
+<p>为了更清楚地展示梯度机制，我们来看下面的例子：</p>
+<pre><code class="language-Python">&gt;&gt;&gt; v1 = torch.tensor([1.0, 1.0], requires_grad=True)
+&gt;&gt;&gt; v2 = torch.tensor([2.0, 2.0])
+</code></pre>
+<p>上面的代码创建了两个张量。第一个要求计算梯度，第二个则不需要。</p>
+<pre><code class="language-Python">&gt;&gt;&gt; v_sum = v1 + v2
+&gt;&gt;&gt; v_res = (v_sum*2).sum()
+&gt;&gt;&gt; v_res
+tensor(12., grad_fn=&lt;SumBackward0&gt;)
+</code></pre>
+<p>因此，现在我们将两个向量逐个元素相加（向量 [3, 3]），然后每个元素翻倍，再将它们求和。结果是零维张量，值为 12。到目前依然很简单。</p>
+<p>如果查看张量的属性，会发现 v1 和 v2 是仅有的叶节点，并且每个变量（ v2 除外）都需要计算梯度：</p>
+<pre><code class="language-Python">&gt;&gt;&gt; v1.is_leaf, v2.is_leaf
+(True, True)
+&gt;&gt;&gt; v_sum.is_leaf, v_res.is_leaf
+(False, False)
+&gt;&gt;&gt; v1.requires_grad
+True
+&gt;&gt;&gt; v2.requires_grad
+False
+&gt;&gt;&gt; v_sum.requires_grad
+True
+&gt;&gt;&gt; v_res.requires_grad
+True
+</code></pre>
+<p>现在，让PyTroch来计算图中的梯度：</p>
+<pre><code class="language-Python">&gt;&gt;&gt; v_res.backward()
+&gt;&gt;&gt; v1.grad
+tensor([2., 2.])
+</code></pre>
+<p>通过调用 <code>backward</code> 函数，PyTorch 计算了 <code>v_res</code> 变量相对于图中变量的数值导数。换句话说，图中变量的变化会对 <code>v_res</code> 变量产生什么样的影响？在上面的例子中，<code>v1</code> 的梯度值为 2，这意味 <code>v1</code> 的任意元素增加 1，<code>v_res</code> 的值将增加 2 。</p>
+<p>如前所述，PyTorch 仅针对 <code>requires_grad = True</code> 的叶张量计算梯度。的确，如果查看 v2 的梯度，会发现 v2 没有梯度：</p>
+<pre><code class="language-Python">&gt;&gt;&gt; v2.grad
+</code></pre>
+<p>这样做主要是考虑计算和存储方面的效率。实际情况下，网络可以拥有数百万个优化参数，并需要对它们执行数百个中间操作。在梯度下降优化过程中，我们对任何中间矩阵乘法的梯度都不感兴趣。我们要在模型中调整的唯一参数，是与模型参数（权重）有关的损失的梯度。当然，如果你要计算输入数据的梯度（如果想生成一些对抗性示例来欺骗现有的 NN 或调整预训练的文本嵌入层，可能会很有用），可以简单地通过在张量创建时传递 <code>requires_grad = True</code> 来实现。</p>
+<p>基本上，你现在已经拥有实现自己 NN 优化器所需的一切。本章的其余部分是关于额外的便捷函数的，提供 NN 结构中更高级的构建块、流行的优化算法以及常见的损失函数。但是，请不要忘记，你可以按照自己喜欢的任何方式轻松地重新实现所有功能。这就是 PyTorch 在 DL 研究人员中如此受欢迎的原因，因为它优雅且灵活。</p>
+<h2><span id="3-nn-构建块">3. NN 构建块</span></h2>
+<p>torch.nn包中有大量预定义的类，可以提供基本的功能。这些类在设计时就考虑了实用性（例如，它们支持mini-batch 处理，设置了合理的默认值，并且权重也经过了合理的初始化）。所有模块都遵循 callable 的约定，这意味着任何类的实例在应用于其参数时都可以充当函数。例如，Linear类实现了带有可选偏差的前馈层：</p>
+<pre><code class="language-Python">&gt;&gt;&gt; import torch.nn as nn
+&gt;&gt;&gt; l = nn.Linear(2, 5)
+&gt;&gt;&gt; v = torch.FloatTensor([1, 2])
+&gt;&gt;&gt; l(v)
+tensor([ 0.8651, -1.0807, -1.9816,  0.9625, -0.6975], grad_fn=&lt;ViewBackward0&gt;)
+</code></pre>
+<p>上述代码创建了一个随机初始化的前馈层，包含两个输入和五个输出，并将其应用于浮点张量。<code>torch.nn</code> 包中的所有类均继承自 <code>nn.Module</code> 基类，可以通过该基类构建更高级别的 NN 模块。下一节将介绍如何自己构建，但是现在，我们先看一下所有 <code>nn.Module</code> 子类提供的方法。如下：</p>
+<ul>
+<li>parameters()：此函数返回所有需要进行梯度计算的变量的<strong>迭代器</strong>（即模块权重）。</li>
+<li>zero_grad()：将所有参数的梯度初始化为零。</li>
+<li>to(device)：转移设备。</li>
+<li>state_dict()：此函数返回一个包含所有模块参数的字典，对于模型序列化很有用。</li>
+<li>load_state_dice()：此函数使用状态字典来初始化模块。</li>
+</ul>
+<p>现在，我将要提到一个非常方便的类，即Sequential，它可以将不同的层串起来。演示Sequential的最佳方法是通过一个示例：</p>
+<pre><code class="language-Python">&gt;&gt;&gt; s = nn.Sequential(
+        nn.Linear(2, 5),
+        nn.ReLU(),
+        nn.Linear(5, 20),
+        nn.ReLU(),
+        nn.Linear(20, 10),
+        nn.Dropout(p=0.3),
+        nn.Softmax(dim=1)
+)
+&gt;&gt;&gt; s
+Sequential(
+  (0): Linear(in_features=2, out_features=5, bias=True)
+  (1): ReLU()
+  (2): Linear(in_features=5, out_features=20, bias=True)
+  (3): ReLU()
+  (4): Linear(in_features=20, out_features=10, bias=True)
+  (5): Dropout(p=0.3, inplace=False)
+  (6): Softmax(dim=1)
+)
+</code></pre>
+<p>上面的代码定义了一个三层的 NN ，输出层是 <code>softmax</code> ，<code>softmax</code> 应用于第一维度（第零维度是批样本），还包括整流线性函数（Rectified Linear Unit，ReLU）非线性层和 dropout 。我们给这个模型输入一些数据：</p>
+<pre><code class="language-Python">&gt;&gt;&gt; s(torch.FloatTensor([[1, 2]]))
+tensor([[0.0658, 0.1382, 0.0874, 0.0874, 0.1143, 0.0751, 0.1148, 0.1361, 0.0874,
+         0.0936]], grad_fn=&lt;SoftmaxBackward0&gt;)
+</code></pre>
+<p>mini-batch 就是一个成功地遍历了网络的例子。</p>
+<h2><span id="4-自定义层">4. 自定义层</span></h2>
+<p>上一节简要地提到了 <code>nn.Module</code> 在 PyTorch 中是<strong>所有NN构建块的基础父类</strong>。它不仅仅是现存层的统一父类，它远不止于此。通过将 <code>nn.Module</code> 子类化，可以创建自己的构建块，它们可以组合在一起，后续可以复用，并且可以完美地集成到 PyTorch 框架中。</p>
+<p>作为核心，<code>nn.Module</code> 为其子类提供了相当丰富的功能：</p>
+<ul>
+<li>它记录当前模块的所有子模块。例如，构建块可以具有两个前馈层，可以以某种方式使用它们来执行代码块的转换。</li>
+<li>提供处理已注册子模块的所有参数的函数。可以获取模块参数的完整列表（ <code>parameters()</code> 方法）将其梯度置零（<code>zero_grads()</code> 方法），将其移至 CPU 或 GPU （<code>to( device )</code>方法），序列化和反序列化模块（<code>state_dict()</code> 和 <code>load_state_dict()</code>），甚至可以用自己的 callable 执行通用的转换逻辑（ <code>apply()</code> 方法）。</li>
+<li>建立了Module针对数据的约定。每个模块都需要覆盖<code>forward()</code> 方法来执行数据的转换。</li>
+<li>还有更多的函数，例如注册钩子函数以调整模块转换逻辑或梯度流，它们更加适合高级的使用场景。</li>
+</ul>
+<p>这些功能允许我们通过统一的方式将子模型嵌套到更高层次的模型中，在处理复杂的情况时非常有用。它可以是简单的单层线性变换，也可以是1001层的 residual NN(ResNet)，但是如果它们遵循 <code>nn.Module</code> 的约定，则可以用相同的方式处理它们。这对于代码的简洁性和可重用性非常有帮助。</p>
+<p>为了简化工作，PyTorch 的作者遵循上述约定，通过精心设计和大量 Python 魔术方法简化了模块的创建。因此，要创建自定义模块，通常只需要做两件事——注册子模块并实现 <code>forward()</code> 方法。</p>
+<p>我们来看上一节中 Sequential 的例子是如何使用更加通用和可复用的方式做到这一点的：</p>
+<pre><code class="language-Python">class OurModule(nn.Module):
+    def __init__(self, num_inputs, num_classes, dropout_prob=0.3):
+        super(OurModule, self).__init__()
+        self.pipe = nn.Sequential(
+            nn.Linear(num_inputs, 5),
+            nn.ReLU(),
+            nn.Linear(5, 20),
+            nn.ReLU(),
+            nn.Linear(20, num_classes),
+            nn.Dropout(p=dropout_prob),
+            nn.Softmax(dim=1)
+        )
+</code></pre>
+<p>这是继承了 <code>nn.Module</code> 的模块。在构造函数中，我们传递了三个参数：输入大小、输出大小和可选的 dropout 概率。我们要做的第一件事就是<strong>调用父类的构造函数来初始化</strong>。</p>
+<p>第二步，我们需要创建一个已经熟悉的 <code>nn.Sequential</code>，包含一些不同的层，并将其赋给类中名为 pipe 的字段。通过为字段分配一个 <code>Sequential</code> 实例，自动注册该模块（<code>nn.Sequential</code> 继承自 <code>nn.Module</code>，与 <code>nn</code> 包中的其他类一样）。注册它不需要任何调用，只需将子模块分配给字段即可。构造函数完成后，所有字段会被自动注册（如果确实想要手动注册，<code>nn.Module</code> 中也有函数可用）。</p>
+<pre><code class="language-Python">def forward(self, x):
+    return self.pipe(x)
+</code></pre>
+<p>在这里，我们必须覆写 forward 函数并实现自己的数据转换逻辑。由于模块是对其他层的非常简单的包装，因此只需让它们转换数据即可。请注意，要将模块应用于数据，我们需要调用该模块（即假设模块实例为一个函数并使用参数调用它）而不使用 <code>nn.Module</code> 类的 <code>forward()</code> 方法。这是因为 <code>nn.Module</code> 会覆盖__call__() 方法（将实例视为可调用实例时，会使用该方法）。该方法执行了 <code>nn.Module</code> 中的一些神奇的操作，并调用 <code>forward()</code> 方法。如果直接调用 <code>forward()</code>，则将干预 <code>nn.Module</code> 的职责，这可能会导致错误的结果。</p>
+<p>因此，这就是定义自己的模块所需要做的。现在，我们来使用它：</p>
+<pre><code class="language-Python">if __name__ == &quot;__main__&quot;:
+    net = OurModule(num_inputs=2, num_classes=3)
+    v = torch.FloatTensor([2, 3])
+    out = net(v)
+    print(net)
+    print(out)
+</code></pre>
+<p>我们创建模块，为输入和输出赋值，然后创建张量，让模块对其进行转换（遵守约定，将其视为 callable ）。之后，打印网络结构（<code>nn.Module</code> 覆写了__str__() 和__repr__() 方法），以更好的方式来展示内部结构。最后，展示运行的结果。</p>
+<p>代码输出应如下所示：</p>
+<pre><code class="language-Python">OurModule(
+  (pipe): Sequential(
+    (0): Linear(in_features=2, out_features=5, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=5, out_features=20, bias=True)
+    (3): ReLU()
+    (4): Linear(in_features=20, out_features=3, bias=True)
+    (5): Dropout(p=0.3, inplace=False)
+    (6): Softmax(dim=1)
+  )
+)
+tensor([[0.2440, 0.3808, 0.3753]], grad_fn=&lt;SoftmaxBackward0&gt;)
+</code></pre>
+<p>当然，之前说了 PyTorch 支持动态特性。每一批数据都会调用 <code>forward()</code> 方法，因此如果要根据所需处理的数据进行一些复杂的转换，例如分层 softmax 或要应用网络随机选择，那么你也可以这样做。模块参数的数量也不只限于一个。因此，如果需要，可以编写一个带有多个必需参数和几十个可选参数的模块，这都是可以的。</p>
+<p>接下来，我们需要熟悉 PyTorch 库的两个重要部分（损失函数和优化器），它们将简化我们的生活。</p>
+<h2><span id="5-最终黏合剂损失函数和优化器">5. 最终黏合剂：损失函数和优化器</span></h2>
+<p>将输入数据转换为输出的网络并不是训练唯一需要的东西。我们还需要定义学习目标，即要有一个接受两个参数（网络输出和预期输出）的函数。它的责任是返回一个表示网络预测结果与预期结果之间的差距的数字。此函数称为<strong>损失函数</strong>，其输出为损失值。使用损失值，可以<strong>计算网络参数的梯度</strong>，并对其进行调整以减小损失值，以便优化模型的结果。损失函数和通过梯度调整网络参数的方法非常普遍，并且以多种形式存在，以至于它们构成了 PyTorch 库的重要组成部分。我们从损失函数开始介绍。</p>
+<h3><span id="51-损失函数">5.1 损失函数</span></h3>
+<p>损失函数在 <code>nn</code> 包中，并实现为 <code>nn.Module</code> 的子类。通常，它们接受两个参数：网络输出（预测）和预期输出（真实数据，也称为数据样本的标签）。</p>
+<p>最常用的标准损失函数是：</p>
+<ul>
+<li><code>nn.MSELoss</code>：参数之间的均方误差，是回归问题的标准损失。</li>
+<li><code>nn.BCELoss</code> 和 <code>nn.BCEWithLogits</code>：<strong>二分类交叉熵损失</strong>。前者期望输入是一个概率值（通常是 Sigmoid 层的输出），而后者则假定原始分数为输入并应用 Sigmoid 本身。第二种方法通常在数值上更稳定、更有效。这些损失（顾名思义）经常用于<strong>分类问题</strong>。</li>
+<li><code>nn.CrossEntropyLoss</code> 和 <code>nn.NLLLoss</code>：著名的“最大似然”标准，用于多类分类问题。前者期望的输入是每个类的原始分数，并在内部应用 <code>LogSoftmax</code>，而后者期望将对数概率作为输入。</li>
+</ul>
+<p>还有一些其他的损失函数可供使用，当然你也可以自己写Module子类来比较输出值和目标值。现在，来看下关于优化过程的部分。</p>
+<h3><span id="52-优化器">5.2 优化器</span></h3>
+<p>基本优化器的职责是获取模型参数的梯度，并更改这些参数来降低损失值。通过降低损失值，使模型向期望的输出靠拢，使得模型性能越来越好。更改参数听起来很简单，但是有很多细节要处理，优化器仍是一个热门的研究主题。在 <code>torch.optim</code> 包中，PyTorch 提供了许多流行的优化器实现，其中最广为人知的是：</p>
+<ul>
+<li>SGD：具有可选动量的普通随机梯度下降算法。</li>
+<li>RMSprop：Geoffrey Hinton提出的优化器。</li>
+<li>Adagrad：自适应梯度优化器。</li>
+<li>Adam：一种非常成功且流行的优化器，是RMSprop和Adagrad的组合。</li>
+</ul>
+<p>所有优化器都公开了统一的接口，因而可以轻松地尝试使用不同的优化方法（有时，优化方法可以在动态收敛和最终结果上表现优秀）。在构造时，需要传递可迭代的张量，该张量在优化过程中会被修改。通常的做法是传递上层 <code>nn.Module</code> 实例的 <code>params()</code> 调用的结果，结果将返回所有具有梯度的可迭代叶张量。</p>
+<p>现在，我们来讨论训练循环的常见套路。</p>
+<pre><code class="language-Python">for batch_x, batch_y in iterate_batches(data, batch_size=32):
+    batch_x_t = torch.Tensor(batch_x)
+    batch_y_t = torch.Tensor(batch_y)
+    out_t = net(batch_x_t)
+    loss_t = loss_function(out_t, batch_y_t)
+    loss_t.backward()
+    optimizer.step()
+    optimizer.zero_grad()
+</code></pre>
+<p>通常，需要一遍又一遍地遍历数据（所有数据运行一个迭代称为一个 epoch ）。数据通常太大而无法立即放入CPU或 GPU 内存中，因此将其分成大小相同的批次进行处理。每一批数据都包含数据样本和目标标签，并且它们都必须是张量（第 2 行和第 3 行代码）。</p>
+<p>将数据样本传递给网络（第 4 行），并将其<strong>输出值</strong>和<strong>目标标签</strong>提供给损失函数（第 5 行），损失函数的结果显示了网络结果和目标标签的差距。网络的输入和网络的权重都是张量，所以网络的所有转换只不过是中间张量实例的操作图。损失函数也是如此——它的结果也是一个只有一个损失值的张量。</p>
+<p>计算图中的每一个张量都记得其来源，因此要对整个网络计算梯度，只需要在损失函数的返回结果上调用 <code>backward()</code> 函数（第 6 行）即可。调用结果是展开已执行计算的图和计算 <code>requires_grad = True</code> 的叶张量的梯度。通常，这些张量是模型的参数，比如前馈网络的权重和偏差，以及卷积滤波器。每次计算梯度时，都会在 <code>tensor.grad</code> 字段中累加梯度，所以一个张量可以参与多次转换，梯度会相加。例如，<strong>循环神经网络</strong>（Recurrent Neural Network，RNN）的一个单元可以应用于多个输入项。</p>
+<p>在调用 <code>loss.backwards()</code> 后，我们已经累加了梯度，现在是优化器执行其任务的时候了——它获取传递给它的参数的所有梯度并应用它们。所有这些都是使用 <code>step()</code> 完成的（第 7 行）。</p>
+<p>训练循环最后且重要的部分是<strong>对参数梯度置零的处理</strong>。可以在网络上调用 <code>zero_grad()</code> 来实现，但是为了方便，优化器还公开了这样一个调用（第 8 行）。有时候 <code>zero_grad()</code> 被放在训练循环的开头，但这并没有什么影响。</p>
+<p>上述方案是一种非常灵活的优化方法，即使在复杂的研究中也可以满足要求。例如，可以用两个优化器在同一份数据上调整不同模型的选项（这是一个来自生成对抗网络（Generative Adversarial Network，GAN）训练的真实场景）。</p>
+<p>我们已经介绍完了训练 NN 所需的 PyTorch 的基本功能。本章以一个实际的场景结束，演示涵盖的所有概念，但在开始之前，我们需要讨论一个重要的主题——监控学习过程——这对NN从业人员来说是必不可少的。</p>
+<h2><span id="6-使用-tensorboard-进行监控">6. 使用 TensorBoard 进行监控</span></h2>
+<p>如果你曾经尝试过自己训练 NN ，那你肯定知道这有多么痛苦和不确定。我不是要谈论根据现有的教程和示例来实现，这种情况已经调整好了所有的超参，现在要讨论的是刚获取一些数据并需要从头开始创建一些东西。即便使用已经包含了一些最佳实践（包括权重的合理初始化，优化器的 beta、gamma 和其他选项均已经设置为默认值，以及隐藏的大量其他东西）的 DL 高级工具包，仍然需要做很多决定，因此很多事情可能出错。因此，这会导致网络首次运行几乎无法成功，你应该习惯这种情况。</p>
+<p>当然，通过实践和经验，你可以对产生问题的可能原因有很强的直觉，但是产生这种直觉需要对有关网络内部发生的情况有更多的了解。因此，需要能够以某种方式观察训练过程以及其变化。即使是小型网络（例如微 MNIST 教程网络）也可能有成千上万个具有非线性动态的参数。</p>
+<p>DL 从业人员已制定出在训练期间应观察的事项清单，通常包括以下内容：</p>
+<ul>
+<li>损失值，通常由基本损失和正则化损失等几部分组成。应该同时观察总损失和各个组成部分。</li>
+<li>训练和测试数据集的验证结果。</li>
+<li>梯度和权重的统计信息。</li>
+<li>网络计算出来的值。例如，如果你正在解决分类问题，肯定要测量所预测的类概率计算出来的熵。在回归问题里，原始预测值，可以提供有关训练的大量数据。</li>
+<li>学习率和其他超参（如果它们也是随时间调整的话）。</li>
+</ul>
+<p>该清单可能更长，并且包含特定领域的度量标准，例如词嵌入投影、音频样本和 GAN 生成的图像。你可能还希望监控与训练速度相关的值（例如一个 epoch 需要多长时间）以查看优化效果或硬件问题。</p>
+<p>长话短说，我们需要一个通用的解决方案来追踪一段时间内的大量值，并将它们表示出来进行分析，最好是专门为 DL 开发的（想象一下在 Excel 电子表格中查看此类统计信息）。幸运的是，已经存在这样的工具，接下来我们将对其进行探索。</p>
+<h3><span id="61-tensorboard">6.1 TensorBoard</span></h3>
+<p>TensorFlow 从第一个公开版本开始，就包含一个名为 TensorBoard 的特殊工具，该工具旨在解决上面讨论的问题：如何在训练中观察和分析NN的各种特性。TensorBoard是一个功能强大的通用解决方案，具有庞大的社区，它看起来非常好用。</p>
+<p>从架构的角度来看，TensorBoard 是一个 Python Web 服务，它可以在计算机上启动，启动时可以给它传入一个目录用于保存训练过程中要分析的数据。然后，将浏览器指向 TensorBoard 的端口（通常为 6006 ），它会显示一个交互式 Web 界面，其中的值会实时更新。它既方便又好用，尤其是在远程计算机上进行训练时。</p>
+<p>TensorBoard 最初是作为 TensorFlow 的一部分进行部署的，但是最近，它变成了一个单独的项目（仍由 Google 维护），并且有自己的名称。但是，TensorBoard 仍使用 TensorFlow 数据格式，因此要在 PyTorch 优化中展示训练的统计信息，需要同时安装 tensorboard 和 tensorflow 软件包。</p>
+<p>从理论上讲，这就是监控网络所需的全部，因为tensorflow软件包提供了一些类来编写TensorBoard能够读取的数据。但是，这不是很实用，因为这些类很底层。为了克服这个问题，有几个第三方开源库提供了方便的高级接口。</p>
+<h3><span id="62-绘图">6.2 绘图</span></h3>
+<p>为了让你了解 tensorboardX 有多简单，我们来考虑一个与 NN 无关的小例子，它只是将内容写入 TensorBoard：</p>
+<pre><code class="language-Python">import math
+from tensorboardX import SummaryWriter
+
+if __name__ == &quot;__main__&quot;:
+    writer = SummaryWriter()
+    funcs = &#123;&quot;sin&quot;: math.sin, &quot;cos&quot;: math.cos, &quot;tan&quot;: math.tan&#125;
+
+    for angle in range(-360, 360):
+        angle_rad = angle * math.pi/100
+        for name, fun in funcs.items():
+            val = fun(angle_rad)
+            writer.add_scalar(name, val, angle)
+    
+    writer.close()
+</code></pre>
+<p>首先导入所需的包，创建数据编写器，并定义需要可视化的函数。默认情况下，<code>SummaryWriter</code> 每次启动都会在 runs 目录下创建一个唯一目录，以便能够比较不同的训练。新目录的名称包括当前日期和时间以及主机名。可以通过将 <code>log_dir</code> 参数传递给 <code>SummaryWriter</code> 来覆盖它。还可以传入注释选项，在目录名称中添加后缀，一般是为了捕获不同实验的语义，如 <code>dropout=0.3</code> 或<code>strong_regularisation</code>。</p>
+<p>此代码遍历以度为单位的角度范围，将其转换为弧度，然后计算函数的值。使用 <code>add_scalar</code> 函数将每个值添加到编写器，<code>add_scalar</code> 函数有三个参数：<strong>参数名称</strong>、<strong>值</strong>和<strong>当前迭代</strong>（必须为整数）。</p>
+<p>循环之后，需要做的最后一件事是关闭编写器。请注意，编写器会定期进行刷新（默认情况下，每两分钟刷新一次），因此即使在优化过程很漫长的情况下，仍可看到值。</p>
+<p>运行此命令的结果不会在控制台输出，但是会在runs目录中创建一个只有一个文件的新目录。要查看结果，需要启动 TensorBoard。</p>
+<p>在 Terminal 中：</p>
+<pre><code class="language-Terminal">tensorboard --logdir runs
+</code></pre>
+<p>在 Notebook 中：</p>
+<pre><code class="language-Python">!tensorboard --logdir runs
+</code></pre>
+<p>如果在远程服务器上运行 TensorBoard，则需要添加<code>--bind_all</code> 命令行选项以使其可以从外部访问。现在，在浏览器中打开 <code>http://localhost:6006</code>，就可以查看内容了：</p>
+<p><img src="./images/pytorch_enter_drl/image.png" alt="tensorboard"></p>
+<p>该图是交互式的，可以将鼠标悬停在图形上查看实际值并选择区域放大来查看详细信息。在图形内部双击可以缩小图片。如果多次运行了程序，那么在左侧的Runs列表中会有多项，可以任意启用和禁用这些项目，从而比较不同优化的动态数据。TensorBoard 不仅可以分析标量值，还可以分析图像、音频、文本数据和嵌入数据，甚至可以显示网络的结构。有关所有这些功能，请参考 tensorboardX 和 tensorboard 的文档。</p>
+<p>现在，是时候结合在本章所学的内容用 PyTorch 实现真实的 NN 优化问题了。</p>
+<h2><span id="7-示例将-gan-应用于-atari-图像">7. 示例：将 GAN 应用于 Atari 图像</span></h2>
+<p>几乎每本有关 DL 的书都使用 MNIST 数据集来展示 DL 功能，多年来，该数据集都变得无聊了，就像遗传研究人员的果蝇一样。为了打破这一传统，并添加更多乐趣，我尝试避免沿用以前的方法，而使用其他方法说明 PyTorch。本示例中将训练 GAN 生成各种 Atari 游戏的屏幕截图，它们是由伊恩·古德费洛（Ian Goodfellow ）发明和推广的。</p>
+<p>最简单的 GAN 架构有两个网络，第一个网络充当“欺骗者”（也称为生成器），另一个网络充当“侦探”（另一个名称是判别器）。两个网络相互竞争，生成器试图生成伪造的数据，这些数据使判别器也难以将它与原数据集区分开，判别器试图检测生成的数据样本。随着时间的流逝，两个网络都提高了技能，生成器生成越来越多的真实数据样本，而判别器发明了更复杂的方法来区分伪造的数据。</p>
+<p>GAN 的实际应用包括改善图像质量、逼真图像生成和特征学习。在本示例中，实用性几乎为零，但这将是一个很好的示例，可以说明对于相当复杂的模型而言，PyTorch 代码可以很简洁。</p>
+<pre><code class="language-Python">class InputWrapper(gym.ObservationWrapper):
+    def __init__(self, *args):
+        super(InputWrapper, self).__init__(*args)
+        assert isinstance(self.observation_space, gym.space.Box)
+        old_space = self.observation
+        self.observation_space = gym.space.Box(
+            self.observation(old_space.low),
+            self.observation(old_space.high),
+            dtype=np.float32
+        )
+    
+    def observation(self, observation):
+        new_obs = cv2.resize(
+            observation, (IMAGE_SIZE, IMAGE_SIZE)
+        )
+        # transform (210, 160, 3) -&gt; (3, 210, 160)
+        new_obs = np.moveaxis(new_obs, 2, 0)
+        return new_obs.astype(np.float32)
+</code></pre>
+<p>此类是 Gym 游戏的包装器，其中包括以下几种转换：</p>
+<ul>
+<li>将输入图像的尺寸从 210×160（标准 Atari 分辨率）调整为正方形尺寸 64×64 。</li>
+<li>将图像的颜色平面从最后一个位置移到第一个位置，以满足 PyTorch 卷积层的约定，该卷积层输入包含形状为通道、高度和宽度的张量。</li>
+<li>将图像从 bytes 转换为 float 。</li>
+</ul>
+<p>然后，定义两个 <code>nn.Module</code> 类：Discriminator 和 Generator 。第一种将经过缩放的彩色图像作为输入，并通过应用五层卷积，再使用 <code>Sigmoid</code> 进行非线性变换将数据转换为数字。<code>Sigmoid</code> 的输出被解释为：判别器认为输入图像来自真实数据集的概率。</p>
+<p>Generator 将随机数向量（隐向量）作为输入，并使用“转置卷积”操作（也称为 deconvolution ）将该向量转换为原始分辨率的彩色图像。</p>
+<p>（施工中🚧）</p>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 张量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.1 创建张量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.2 零维张量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.3 张量操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.4 GPU 张量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 梯度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. NN 构建块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. 自定义层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5. 最终黏合剂：损失函数和优化器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">5.1 损失函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">5.2 优化器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6. 使用 TensorBoard 进行监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">6.1 TensorBoard</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">6.2 绘图</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">7. 示例：将 GAN 应用于 Atari 图像</span></a></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

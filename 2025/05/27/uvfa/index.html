@@ -1,0 +1,557 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>关于 UAFA 算法的笔记 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>关于 UAFA 算法的笔记</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2025/5/27
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                强化学习
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
+                                        强化学习
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <blockquote>
+<p>论文地址：</p>
+</blockquote>
+<h1><span id="1-什么是-universal-value-function-approximatoruvfa">1. 什么是 Universal Value Function Approximator（UVFA）？</span></h1>
+<p>Universal Value Function Approximator（通用值函数逼近器）是强化学习中对传统 <strong>Q函数</strong> 的一个扩展。</p>
+<p>在传统的强化学习中，<strong>Q函数 Q(s, a)</strong> 表示在状态 $s$ 下采取动作 $a$ 能获得的期望回报。但这个函数只能处理<strong>单一任务/目标</strong>。</p>
+<p>而 UVFA 允许我们同时处理 <strong>多个目标（multi-goal）或多个任务（multi-task）</strong> 的问题。</p>
+<hr>
+<h2><span id="11-核心思想">1.1 核心思想</span></h2>
+<h3><span id="从-qs-a-qs-a-g">🔁 从 Q(s, a) → Q(s, a, g)</span></h3>
+<p>UVFA 把“目标 $g$” 作为一个额外的输入引入 Q 函数中：</p>
+<p>$$ Q(s, a, g) = \mathbb{E}[R_t | s_t = s, a_t = a, g] $$</p>
+<p>其中：</p>
+<ul>
+<li>$s$：当前状态；</li>
+<li>$a$：动作；</li>
+<li>$g$：目标（goal）或任务的编码；</li>
+<li>$R_t$：未来累计回报。</li>
+</ul>
+<blockquote>
+<p>✅ 本质上是学习一个可以泛化到多个目标的 Q 函数。</p>
+</blockquote>
+<hr>
+<h2><span id="12-应用场景">1.2 应用场景</span></h2>
+<p>UVFA 非常适合处理 <strong>目标可变的任务</strong>，比如：</p>
+<table>
+<thead>
+<tr>
+<th>任务</th>
+<th>目标 g 表示什么？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>迷宫导航</td>
+<td>终点位置坐标</td>
+</tr>
+<tr>
+<td>抓取物体</td>
+<td>抓取目标物体的 ID</td>
+</tr>
+<tr>
+<td>控制机器人到达某个位置</td>
+<td>目标位置坐标</td>
+</tr>
+</tbody>
+</table>
+<p>在这种情况下，我们可以用一个统一的 Q 函数，训练出能够适应不同目标的策略。</p>
+<hr>
+<h2><span id="13-uvfa-的训练方式">1.3 UVFA 的训练方式</span></h2>
+<p>UVFA 可以和常规的强化学习算法（如 DQN、DDPG）结合使用。其训练方式与标准 Q-learning 类似，只是将目标 $g$ 一并作为输入。</p>
+<h3><span id="bellman-更新形式">Bellman 更新形式：</span></h3>
+<p>$$ Q(s, a, g) \leftarrow r + \gamma \cdot \max_{a’} Q(s’, a’, g) $$</p>
+<p>这里的目标 $g$ 在整个 episode 中保持不变。</p>
+<hr>
+<h2><span id="14-神经网络实现方式">1.4 神经网络实现方式</span></h2>
+<p>你可以将状态 $s$、目标 $g$、动作 $a$ 作为神经网络的输入之一，例如：</p>
+<pre><code class="language-python">input = concat(state, goal)
+Q_value = Q_network(input, action)
+</code></pre>
+<p>目标 $g$ 可以是：</p>
+<ul>
+<li>坐标（如 [x, y, z]）；</li>
+<li>离散编码（如 one-hot）；</li>
+<li>图像（可用 CNN 编码）；</li>
+<li>语言（可用 BERT/Transformer 编码）等。</li>
+</ul>
+<hr>
+<h2><span id="15-uvfa-的优势">1.5 UVFA 的优势</span></h2>
+<table>
+<thead>
+<tr>
+<th>优点</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>多目标统一建模</td>
+<td>一个模型适应多个任务或目标</td>
+</tr>
+<tr>
+<td>目标泛化能力强</td>
+<td>可以学习未见过的新目标</td>
+</tr>
+<tr>
+<td>适用于 sparse reward</td>
+<td>可与 HER 等方法联合使用，提高学习效率</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2><span id="16-与-her-的关系">1.6 与 HER 的关系</span></h2>
+<p>HER（Hindsight Experience Replay）正是构建在 UVFA 之上的。</p>
+<ul>
+<li>HER 的 replay buffer 中，不仅记录状态和动作，还记录每一步的新目标；</li>
+<li>借助 UVFA，HER 可以处理目标变化带来的策略变化；</li>
+<li>因此 HER 能在稀疏奖励中快速学习达成目标的方法。</li>
+</ul>
+<hr>
+<h1><span id="2-示例任务gridworld-多目标导航">2. 示例任务：GridWorld 多目标导航</span></h1>
+<h2><span id="21-环境设定">2.1 环境设定</span></h2>
+<ul>
+<li>
+<p>环境是一个 5×5 的二维网格</p>
+</li>
+<li>
+<p>状态 $s = (x, y)$，表示智能体当前位置</p>
+</li>
+<li>
+<p>目标 $g = (x_g, y_g)$</p>
+</li>
+<li>
+<p>动作空间：上、下、左、右（共 4 个动作）</p>
+</li>
+<li>
+<p>奖励：</p>
+<ul>
+<li>到达目标时：+0（成功）</li>
+<li>其他任何状态：-1（稀疏奖励）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2><span id="22-uvfa-代码结构基于-pytorch">2.2 UVFA 代码结构（基于 PyTorch）</span></h2>
+<h3><span id="1️⃣-状态-目标-合并输入">1️⃣ 状态 + 目标 合并输入</span></h3>
+<pre><code class="language-python">import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class UVFA_QNetwork(nn.Module):
+    def __init__(self, input_dim=4, hidden_dim=64, action_dim=4):
+        super().__init__()
+        self.fc1 = nn.Linear(input_dim, hidden_dim)
+        self.fc2 = nn.Linear(hidden_dim, hidden_dim)
+        self.q_out = nn.Linear(hidden_dim, action_dim)
+
+    def forward(self, state, goal):
+        x = torch.cat([state, goal], dim=-1)  # 拼接 s 和 g
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        q_values = self.q_out(x)
+        return q_values
+</code></pre>
+<p>✅ 输入维度：状态 + 目标 = 2 + 2 = 4<br>
+✅ 输出维度：动作数（4个）</p>
+<hr>
+<h3><span id="2️⃣-示例输入">2️⃣ 示例输入</span></h3>
+<pre><code class="language-python">state = torch.tensor([[1.0, 2.0]])  # 当前在 (1,2)
+goal = torch.tensor([[4.0, 4.0]])   # 目标在 (4,4)
+
+q_net = UVFA_QNetwork()
+q_values = q_net(state, goal)
+
+print(q_values)
+# 输出：tensor([[..., ..., ..., ...]])，代表4个动作的Q值
+</code></pre>
+<hr>
+<h3><span id="3️⃣-q-learning-更新伪代码">3️⃣ Q-Learning 更新（伪代码）</span></h3>
+<pre><code class="language-python"># 假设 transition (s, a, r, s', g)
+q_values = q_net(s, g)
+q_value = q_values.gather(1, a)  # 选中动作a对应的Q值
+
+with torch.no_grad():
+    q_next = q_net(s_next, g).max(1)[0].unsqueeze(1)
+    q_target = r + gamma * q_next
+
+loss = F.mse_loss(q_value, q_target)
+</code></pre>
+<hr>
+<h3><span id="4️⃣-多目标训练示意">4️⃣ 多目标训练示意</span></h3>
+<p>每次 episode：</p>
+<ul>
+<li>随机采样初始位置 $s$</li>
+<li>随机采样目标位置 $g$</li>
+<li>输入网络的是 $s$ 与 $g$，目标是到达 $g$</li>
+</ul>
+<p>训练后：</p>
+<ul>
+<li>给定任意 $g$，都能导出一条通往目标的路径！</li>
+</ul>
+<hr>
+<h3><span id="效果与泛化能力">📈 效果与泛化能力</span></h3>
+<table>
+<thead>
+<tr>
+<th>训练目标数</th>
+<th>泛化目标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5 个目标</td>
+<td>✔ 部分未见目标可成功</td>
+</tr>
+<tr>
+<td>所有位置作为目标</td>
+<td>✔ 全部目标都可导航</td>
+</tr>
+<tr>
+<td>单目标训练</td>
+<td>✖ 无法泛化到其他目标</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>✅ 使用 UVFA 后，模型具备 <strong>目标泛化能力</strong>。</p>
+</blockquote>
+<hr>
+<h3><span id="小结">🚀 小结</span></h3>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>状态输入</td>
+<td>s = (x, y)</td>
+</tr>
+<tr>
+<td>目标输入</td>
+<td>g = (xg, yg)</td>
+</tr>
+<tr>
+<td>网络输入</td>
+<td>[x, y, xg, yg]</td>
+</tr>
+<tr>
+<td>输出</td>
+<td>Q(s, a, g)，每个动作的Q值</td>
+</tr>
+<tr>
+<td>好处</td>
+<td>一套模型，多目标导航、可泛化、支持 HER 等</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2><span id="参考文献">📚 参考文献</span></h2>
+<ul>
+<li>Schaul et al., 2015 — <em>Universal Value Function Approximators</em>, ICML</li>
+<li>Andrychowicz et al., 2017 — <em>Hindsight Experience Replay</em>, NeurIPS</li>
+</ul>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">1. 什么是 Universal Value Function Approximator（UVFA）？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.1 核心思想</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">🔁 从 Q(s, a) → Q(s, a, g)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.2 应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.3 UVFA 的训练方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">Bellman 更新形式：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.4 神经网络实现方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.5 UVFA 的优势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.6 与 HER 的关系</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">2. 示例任务：GridWorld 多目标导航</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.1 环境设定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2.2 UVFA 代码结构（基于 PyTorch）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1️⃣ 状态 + 目标 合并输入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2️⃣ 示例输入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3️⃣ Q-Learning 更新（伪代码）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4️⃣ 多目标训练示意</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">📈 效果与泛化能力</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">🚀 小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">📚 参考文献</span></a></li></ol></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

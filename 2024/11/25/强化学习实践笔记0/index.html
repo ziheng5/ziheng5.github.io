@@ -1,0 +1,563 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>强化学习实战1——交叉熵方法 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>强化学习实战1——交叉熵方法</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2024/11/25
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                强化学习
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/PyTorch/" style="color: #00bcd4">
+                                        PyTorch
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
+                                        强化学习
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ff7d73">
+                                        笔记
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <h1><span id="chapter1-交叉熵方法">Chapter1 交叉熵方法</span></h1>
+<h2><span id="11-rl方法的分类">1.1 RL方法的分类</span></h2>
+<p>交叉熵方法属于 <strong>无模型</strong> 和 <strong>基于策略</strong> 的方法类别。</p>
+<p>所有的 RL 方法可以被分成以下几类：</p>
+<ol>
+<li>无模型 或 基于模型</li>
+<li>基于价值 或 基于策略</li>
+<li>在线策略 或 离线策略</li>
+</ol>
+<p>交叉熵方法是无模型的、基于策略的在线策略的方法，这意味着：</p>
+<ol>
+<li>它不构建环境的任何模型，只告诉智能体每一步需要做什么</li>
+<li>它计算智能体的策略</li>
+<li>它从环境中获取新数据</li>
+</ol>
+<h2><span id="12-交叉熵方法的实践">1.2 交叉熵方法的实践</span></h2>
+<p>交叉熵方法是基于策略的，非线性函数（神经网络）生成策略，它针对每一个观察都告诉智能体应该执行什么动作</p>
+<p>实践中，策略通常表示为动作的概率分布，这和分类问题很像，策略的数量和要执行的动作数量相同</p>
+<p>这种抽象让智能体变得非常简单：</p>
+<p>将从环境中得到的观察传给NN，得到的动作的概率分布，使用概率分布来进行随机采样以获得要执行的动作。</p>
+<p>在智能体的一生中，它的经历被表示成片段，每个片段都由一系列的观察（智能体从环境中获得的）、动作（智能体发出的）和奖励（由动作产生的）组成。</p>
+<p>假设一共有四个片段（注意每个片段都有不同的 $o_i$、$a_i$、$r_i$值），每个单元格表示智能体在片段中的一步。由于环境的随机性以及智能体选择动作的不同方式，某些片段会比其他片段好。交叉熵方法的核心是将差的片段丢掉，并用好的片段来训练。所以，该方法的步骤如下：</p>
+<ol>
+<li>使用当前的模型和环境产生N次片段</li>
+<li>计算每个片段的总奖励，并确定奖励边界。通常使用总奖励的百分位来确定，例如50或70</li>
+<li>将奖励在边界之下的片段去掉</li>
+<li>用观察值作为输入、智能体产生的动作作为目标输出，训练剩余的“精英”片段</li>
+<li>从第一步开始反复，知道得到满意的结果</li>
+</ol>
+<h2><span id="13-交叉熵方法在-cartpole-中的应用">1.3 交叉熵方法在 CartPole 中的应用</span></h2>
+<p>模型的核心是有 1 个隐藏层的NN，带有整流线性函数（Rectified Linear Unit， ReLU）以及 128 个隐藏层神经元。</p>
+<p>其他超参数基本是随机设置的，并没有调优过，因为这个方法本身鲁棒性很好，并且收敛得很快。</p>
+<pre><code class="language-python">HIDDEN_SIZE = 128
+BATCH_SIZE = 16
+PERCENTILE = 70
+</code></pre>
+<p>我们将常量放在文件的最上面，它们包含了隐藏层中神经元的数量、在每次迭代中训练的片段数(16)，以及用来过滤精英片段的奖励边界百分位。这里使用70作为奖励边界，这意味着会留下按奖励排序后前30%的片段</p>
+<pre><code class="language-python">from torch import nn
+
+class Net(nn.Module):
+    def __init__(self, obs_size, hidden_size, n_actions):
+        super(Net, self).__init__()
+        self.net = nn.Sequential(
+            nn.Linear(obs_size, hidden_size),
+            nn.ReLU(),
+            nn.Linear(hidden_size, n_actions)
+        )
+        
+    def forward(self, x):
+        return self.net(x)
+</code></pre>
+<p>NN 并没有什么特别之处，它将从环境中得到的单个观察结果作为输入向量，并输出一个数字作为可以执行的动作。</p>
+<p>NN 的输出是动作的概率分布，所以一个比较直接的方法是在最后一层使用一个非线性的softmax。但是，在前面的 NN 中，我们不使用 softmax 来增加训练过程中数值的稳定性。</p>
+<p>比起先计算 softmax （使用了幂运算）再计算交叉熵损失（使用了对数概率），我们使用pytorch 的 <code>nn.CrossEntropyLoss</code> 类，它将 softmax 和交叉熵合二为一，能够提供更好的数值稳定性。<code>CrossEntropyLoss</code> 要求参数是NN中的原始、未归一化的值。</p>
+<pre><code class="language-python">from collections import namedtuple
+
+Episode = namedtuple('Episode', field_names=['reward', 'steps'])
+EpisodeStep = namedtuple(
+    'EpisodeStep', field_names=['observation', 'action']
+)
+</code></pre>
+<p>在这里，我们定义了两个命名元组类型的帮助类：</p>
+<ol>
+<li><strong>EpisodeStep</strong>：这个用于表示智能体在片段中执行的一步，同时它会保存来自环境的观察和采取的动作。在精英片段的训练中我们会用到它</li>
+<li><strong>Episode</strong>：这是单个片段，它保存了总的无折扣奖励以及EpisodeStep集合</li>
+</ol>
+<pre><code class="language-python"># 用片段生成批的函数
+def iterate_batches(env, net, batch_size):
+    batch = []
+    episode_reward = 0.0
+    episode_steps = []
+    obs = env.reset()
+    sm = nn.Softmax(dim=1)    # 用来将 NN 的输出转换成动作的概率分布
+
+    while True:
+        obs_v = torch.FloatTensor([obs])
+        act_probs_v = sm(net(obs_v))
+        act_probs = act_probs_v.data.numpy()[0]
+
+        action = np.random.choice(len(act_probs), p=act_probs)
+        next_obs, reward, is_done, _ = env.step(action)
+
+        episode_reward += reward
+        step = EpisodeStep(observation=obs, action=action)
+        episode_steps.append(step)
+
+        if is_done:
+            e = Episode(reward=episode_reward, steps=episode_steps)
+            batch.append(e)
+            episode_reward = 0.0
+            episode_steps = []
+            next_obs = env.reset()
+            if len(batch) == batch_size:
+                yield batch
+                batch = []
+
+            obs = next_obs
+</code></pre>
+<p>上述函数接受环境（Gym库中的<code>Env</code>实例）、NN 以及每个迭代需要生成的片段数作为输入</p>
+<p>在每次迭代中，将当前的观察转换成 PyTorch 张量，并将其传入 NN 以获得动作概率分布。有以下几件事需要注意：</p>
+<ol>
+<li>所有 pytorch 中的 <code>nn.Module</code> 实例都接受一批数据，对于 NN 也是一样的，所以我们将观察（在 cartpole 中为一个由 4 个数字组成的向量）转换成 1*4 大小的张量</li>
+<li>由于没有在 NN 的输出使用非线性函数，它会输出一个原始的动作分数，因此需要将其用 <code>softmax</code> 函数处理</li>
+<li>NN 和 softmax 层都返回包含了梯度的张量，所以我们需要通过访问 <code>tensor.data</code> 字段来将其数据取出来，然后将张量转换成 Numpy 数组，该数组和输入一样，有同样的二维结构，0轴是批的维度，所以我们需要获取第一个元素，这样才能得到动作概率的一维向量。</li>
+</ol>
+<p>既然有了动作的概率分布，只需要使用 Numpy 的 <code>random.choice()</code> 函数对分布进行采样，就能获得当前步骤该选择的动作。然后，将动作传给环境来获得下一个观察、奖励以及片段是否结束的标记</p>
+<p>奖励被加入当前片段的总奖励，片段的步骤列表也添加来一个**（observation, action）对**。注意，保存的是用来选择动作的观察，而不是动作执行后从环境返回的观察。这些都是需要牢记的微小但重要的细节。</p>
+<p>在这个函数的逻辑处理中，要理解一个非常重要的方面是：NN 的训练和片段的生成是同时进行的。它们并不是完全并行的，但是每积累了足够（16）的片段之后，控制权将转移到调用方，调用方会用梯度下降来训练 NN。所以，每当 yield 返回时， NN 都会稍微有点进步</p>
+<pre><code class="language-python">def filter_batch(batch, percentile):
+    rewards = list(map(lambda s: s.reward, batch))
+    reward_bound = np.percentile(rewards, percentile)
+    reward_mean = float(np.mean(rewards))
+
+    train_obs = []
+    train_act = []
+    for reward, steps in batch:
+        if reward &lt; reward_bound:
+            continue
+        train_obs.extend(map(lambda step: step.observation, steps))
+        train_act.extend(map(lambda step: step.action, steps))
+
+        train_obs_v = torch.FloatTensor(train_obs)
+        train_act_v = torch.LongTensor(train_act)
+        return train_obs_v, train_act_v, value_bound, reward_mean    # 最后两个值只用于写入 TensorBoard,以检验智能体的性能
+</code></pre>
+<p>这个函数是交叉熵的核心——根据给定的一批片段和百分位值，计算奖励边界，以用于过滤要用于训练的精英片段。</p>
+<p>为了获得奖励边界，我们将使用 Numpy 的 <code>percentile</code> 函数，该函数根据给定的值列表和百分位计算百分位的值。</p>
+<p>然后再计算平均奖励用于监控</p>
+<p>然后过滤片段。针对批中的每个片段，检查其总奖励值是否高于边界，如果高于，则将其观察和动作添加到要训练的列表中。</p>
+<h2><span id="14-完整代码">1.4 完整代码</span></h2>
+<pre><code class="language-python">#!/usr/bin/env python3
+import gym
+from collections import namedtuple
+import numpy as np
+from tensorboardX import SummaryWriter
+
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+
+HIDDEN_SIZE = 128
+BATCH_SIZE = 16
+PERCENTILE = 70
+
+
+class Net(nn.Module):
+    def __init__(self, obs_size, hidden_size, n_actions):
+        super(Net, self).__init__()
+        self.net = nn.Sequential(
+            nn.Linear(obs_size, hidden_size),
+            nn.ReLU(),
+            nn.Linear(hidden_size, n_actions)
+        )
+
+    def forward(self, x):
+        return self.net(x)
+
+
+Episode = namedtuple('Episode', field_names=['reward', 'steps'])
+EpisodeStep = namedtuple('EpisodeStep', field_names=['observation', 'action'])
+
+
+def iterate_batches(env, net, batch_size):
+    batch = []
+    episode_reward = 0.0
+    episode_steps = []
+    obs = env.reset()
+    sm = nn.Softmax(dim=1)
+    while True:
+        obs_v = torch.FloatTensor([obs])
+        act_probs_v = sm(net(obs_v))
+        act_probs = act_probs_v.data.numpy()[0]
+        action = np.random.choice(len(act_probs), p=act_probs)
+        next_obs, reward, is_done, _ = env.step(action)
+        episode_reward += reward
+        step = EpisodeStep(observation=obs, action=action)
+        episode_steps.append(step)
+        if is_done:
+            e = Episode(reward=episode_reward, steps=episode_steps)
+            batch.append(e)
+            episode_reward = 0.0
+            episode_steps = []
+            next_obs = env.reset()
+            if len(batch) == batch_size:
+                yield batch
+                batch = []
+        obs = next_obs
+
+
+def filter_batch(batch, percentile):
+    rewards = list(map(lambda s: s.reward, batch))
+    reward_bound = np.percentile(rewards, percentile)
+    reward_mean = float(np.mean(rewards))
+
+    train_obs = []
+    train_act = []
+    for reward, steps in batch:
+        if reward &lt; reward_bound:
+            continue
+        train_obs.extend(map(lambda step: step.observation, steps))
+        train_act.extend(map(lambda step: step.action, steps))
+
+    train_obs_v = torch.FloatTensor(train_obs)
+    train_act_v = torch.LongTensor(train_act)
+    return train_obs_v, train_act_v, reward_bound, reward_mean
+
+
+if __name__ == &quot;__main__&quot;:
+    env = gym.make(&quot;CartPole-v0&quot;)
+    # env = gym.wrappers.Monitor(env, directory=&quot;mon&quot;, force=True)
+    obs_size = env.observation_space.shape[0]
+    n_actions = env.action_space.n
+
+    net = Net(obs_size, HIDDEN_SIZE, n_actions)
+    objective = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(params=net.parameters(), lr=0.01)
+    writer = SummaryWriter(comment=&quot;-cartpole&quot;)
+
+    for iter_no, batch in enumerate(iterate_batches(
+            env, net, BATCH_SIZE)):
+        obs_v, acts_v, reward_b, reward_m = filter_batch(batch, PERCENTILE)
+        
+        optimizer.zero_grad()
+        action_scores_v = net(obs_v)
+        loss_v = objective(action_scores_v, acts_v)
+        loss_v.backward()
+        optimizer.step()
+        print(&quot;%d: loss=%.3f, reward_mean=%.1f, rw_bound=%.1f&quot; % (
+            iter_no, loss_v.item(), reward_m, reward_b))
+        writer.add_scalar(&quot;loss&quot;, loss_v.item(), iter_no)
+        writer.add_scalar(&quot;reward_bound&quot;, reward_b, iter_no)
+        writer.add_scalar(&quot;reward_mean&quot;, reward_m, iter_no)
+        if reward_m &gt; 199:
+            print(&quot;Solved!&quot;)
+            break
+    writer.close()
+</code></pre>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">Chapter1 交叉熵方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.1 RL方法的分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.2 交叉熵方法的实践</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.3 交叉熵方法在 CartPole 中的应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1.4 完整代码</span></a></li></ol></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

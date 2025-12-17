@@ -1,0 +1,512 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>强化学习理论笔记3——贝尔曼最优公式 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>强化学习理论笔记3——贝尔曼最优公式</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2024/12/2
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                强化学习
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
+                                        强化学习
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00a596">
+                                        笔记
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E7%BA%AF%E7%90%86%E8%AE%BA/" style="color: #ffa2c4">
+                                        纯理论
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <blockquote>
+<p>贝尔曼最优公式是贝尔曼公式的一个特殊情况，是一个很重要的式子<br>
+两个概念：<strong>最优状态值</strong>（optimal state value）、<strong>最优策略</strong>（optimal policy）<br>
+一个工具：<strong>贝尔曼最优公式</strong>（BOE,bellman optimal equation）</p>
+</blockquote>
+<h1><span id="1-引子抛砖引玉">1. 引子——抛砖引玉</span></h1>
+<p><img src="./images/rl_note3/pic1.png" alt="pic1.png"></p>
+<p>上图中所示的例子我们已经很熟悉了，很容易理解。其中，绿色的箭头代表策略 $\pi$。</p>
+<p>接下来，我们需要去做两件事情。</p>
+<p>首先，我们需要求解贝尔曼最优公式得到 <code>state value</code>，进而得到 <code>action value</code> （在此基础上，我们在后面会进一步介绍一个很有意思的现象）</p>
+<p>利用我们之前学到的贝尔曼公式，我们可以对图中的例子得到以下公式：<br>
+$$ v_{\pi}(s_1)=-1+ \gamma v_{\pi}(s_2) $$<br>
+$$ v_{\pi}(s_2)=+1+ \gamma v_{\pi}(s_4) $$<br>
+$$ v_{\pi}(s_3)=+1+ \gamma v_{\pi}(s_4) $$<br>
+$$ v_{\pi}(s_4)=+1+ \gamma v_{\pi}(s_4) $$</p>
+<p>令 $\gamma = 0.9$，我们代入上式计算可得：<br>
+$$ v_{\pi}(s_4)=v_{\pi}(s_3)=v_{\pi}(s_2)=10 $$<br>
+$$ v_{\pi}(s_1)=8 $$<br>
+接下来，我们单独考虑状态 $ s_1 $。$ s_1 $一共有五个动作，我们有下列式子：<br>
+$$ q_{\pi}(s_1,a_1)=-1+ \gamma v_{\pi}(s_1)=6.2 $$<br>
+$$ q_{\pi}(s_1,a_2)=-1+ \gamma v_{\pi}(s_2)=8 $$<br>
+$$ q_{\pi}(s_1,a_3)=0 + \gamma v_{\pi}(s_3)=9 $$<br>
+$$ q_{\pi}(s_1,a_4)=-1+ \gamma v_{\pi}(s_1)=6.2 $$<br>
+$$ q_{\pi}(s_1,a_5)=0 + \gamma v_{\pi}(s_1)=7.2 $$</p>
+<p>有了上面的分析后，我们可以提出一个很有意思的问题：如果我们的策略不太好，我们应该如何去优化策略呢？</p>
+<p>答案是：我们可以依赖 <code>action value</code> 来优化策略。</p>
+<p>比如说，我们在上图中有一个策略 ${\pi}(a|s_1)$：</p>
+<p>$$ {\pi}(a|s_1)= \left \{ \begin{matrix}    1 \quad a=a_2 \\    0 \quad a\neq a_2 \end{matrix}\right. $$</p>
+<p>在这个策略下，我们已经计算出 action value 了：<br>
+$$ q_{\pi}(s_1,a_1)=6.2 $$<br>
+$$ q_{\pi}(s_1,a_2)=8 $$<br>
+$$ q_{\pi}(s_1,a_3)=9 $$<br>
+$$ q_{\pi}(s_1,a_4)=6.2 $$<br>
+$$ q_{\pi}(s_1,a_5)=7.2 $$</p>
+<p>通过观察可以发现 $a_3$ 对应的 action value 是最大的，那么我们能否选择 $a_3$ 作为一个新的策略呢？我们可以先将新的策略表示成下面这个式子：</p>
+<p>$$ {\pi}_{new} (a|s_1)= \left \{ \begin{matrix}    1 \quad a=a^* \\    0 \quad a\neq a^* \end{matrix}\right. $$</p>
+<p>在这个新策略下，智能体一定会选择动作 $a^<em>$ ，而 $a^</em>$ 就对应了当前状态下 action value 最大的那个 action。在我们上面的例子里，$a^*=argmax_a q_{\pi} (s_1,a)=a_3$。</p>
+<p>所以，为什么我们选择 action value 最大的那个 action 就能得到一个比较好的策略呢？从直观上来说，就是因为这个 action value 本身就代表了动作 action 的价值，选择一个较大的 action value 便代表我们可以收获更多的 reward。但是在数学上其实并不是很容易理解，比如如果出现来<strong>全局最优</strong>与<strong>局部最优</strong>问题的时候就很难考虑。</p>
+<p>事实上，从机器学习的角度上来看，只要我们一遍一遍反复迭代，最后一定能得到一个最优的策略。</p>
+<p>这里我们可以先不考虑这些问题，等介绍完所有理论部分的内容后，你或许会有更深入的见解。</p>
+<p>下面我们开始正式介绍贝尔曼最优公式的相关定义。</p>
+<h1><span id="2-最优策略optimal-policy">2. 最优策略optimal policy</span></h1>
+<p>刚才我们反复强调了 <code>state value</code> 的重要性，是因为它能够来衡量一个策略究竟是好还是不好。那么接下来，我们来正式地定义这种说法。</p>
+<p>如果我有两个策略分别为 ${\pi}_1$ 和 ${\pi}_2$，那它们在每一个状态都有自己的 <code>state value</code> ，如果对于所有的状态 $s$ ，${\pi}_1$ 得到的 state value 都是大于 ${\pi}_2$ 得到的 state value ，我们就称 ${\pi}_1$ 是比 ${\pi}_2$ 要好的。进一步，我们就可以来定义 <strong>最优</strong>。</p>
+<blockquote>
+<p>什么是最优呢？</p>
+<p>如果一个策略 ${\pi}^<em>$ 对任意一个状态，其所得的 state value 都大于或等于其他所有的策略 $\pi$，我们便称这个 ${\pi}^</em>$ 是最优的。</p>
+</blockquote>
+<p>其实，给出上述定义并不麻烦，最麻烦的事情是我们现在给出这个定义后，需要去回答一系列问题：</p>
+<ul>
+<li>这个最优的策略是否存在？</li>
+<li>这个最优的策略是唯一的吗？</li>
+<li>这个最优的策略是不确定的还是确定的？</li>
+<li>如何得到最优的策略？</li>
+</ul>
+<p>为了回答上述这些问题，我们需要研究贝尔曼最优公式。</p>
+<h1><span id="3-贝尔曼最优公式-boe">3. 贝尔曼最优公式 BOE</span></h1>
+<h2><span id="31-introduction">3.1 Introduction</span></h2>
+<p>我们首先给出贝尔曼最优公式的数学表达式：</p>
+<p>$$ v(s)= \sum_{a}{\pi}(a|s)(\sum_r p(r|s,a)r + \gamma \sum_{s’}p(s’|s,a)v(s’)),\quad \forall s \in S $$</p>
+<p>我们现在观察上面这个表达式，你会发现这个式子看起来很眼熟——它其实就是当策略 $\pi$ 给定的时候的贝尔曼公式。</p>
+<p>这里我们做一个小改动——在策略 $\pi$ 前加上一个 <code>max</code>：</p>
+<p>$$ v(s)= max_{\pi} \sum_{a}{\pi}(a|s)(\sum_r p(r|s,a)r + \gamma \sum_{s’}p(s’|s,a)v(s’)),\quad \forall s \in S $$</p>
+<p>这个时候策略 $\pi$ 就不再是固定的了，因为其中嵌套了一个优化问题，我们需要先解决优化问题得到 $\pi$，然后再把这个 $\pi$ 代入到式子中去。</p>
+<p>下面我们化简上面的贝尔曼最优公式：</p>
+<p>$$ v(s)= max_{\pi} \sum_{a}{\pi}(a|s)(\sum_r p(r|s,a)r + \gamma \sum_{s’}p(s’|s,a)v(s’)),\quad \forall s \in S $$<br>
+$$ =max_{\pi} \sum_{a} {\pi}(a|s)q(s,a) \quad s\in S $$</p>
+<p>其中，$p(r|s,a)$、$p(s’|s,a)$ 是已知的；$v(s)$、$v(s’)$ 是未知的，需要计算得出。</p>
+<blockquote>
+<p>考虑：$\pi(s)$ 是否已知？</p>
+<p>注意：对于<strong>贝尔曼公式</strong>来说，策略 $\pi$ 一定是给定的，而对<strong>贝尔曼最优公式</strong>来说，$\pi$ 没有给定，我们必须要去求解这个 $\pi$</p>
+</blockquote>
+<p>下面我们给出贝尔曼最优公式的矩阵形式：<br>
+$$ v=max_{ \pi } (r_{\pi} + \gamma P_{\pi}v) $$</p>
+<blockquote>
+<p>这里我们可能要考虑到很多问题：</p>
+<ul>
+<li>如何求出这个公式的解？</li>
+<li>这个公式的解是否存在？</li>
+<li>这个公式的解是否唯一？</li>
+<li>它和 optimal policy 之间有什么联系？</li>
+</ul>
+<p>别担心，我们下面会一一解决这些问题。</p>
+</blockquote>
+<h2><span id="32-基本性质分析">3.2 基本性质分析</span></h2>
+<p><strong>BOE (Elementwise form)：</strong></p>
+<p>$$v(s)= max_{\pi} \sum_{a}{\pi}(a|s)(\sum_r p(r|s,a)r + \gamma \sum_{s’}p(s’|s,a)v(s’)),\quad \forall s \in S$$</p>
+<p><strong>BOE (matrix-vector form)：</strong></p>
+<p>$$v=max_{\pi} (r_{\pi} + \gamma P_{\pi}v)$$</p>
+<p>在矩阵形式的数学表达式中，$v$ 和策略 $\pi$ 均为未知量，相当于我们只有一个式子但需要求解两个未知量。那么我们如何求解这样的问题呢？</p>
+<p>我们先来看一个例子：</p>
+<blockquote>
+<p>考虑两个未知量 $x,a\in \R$，设它们满足：</p>
+<p>$$x={max}_a(2x-1-a^2)$$</p>
+<p>那么在这个式子中，只有当 $a=0$ 时，式子才能取得最大值。</p>
+<p>而当 $a=0$ 的时候，上式就变成了：</p>
+<p>$$x=2x-1$$</p>
+<p>解得x=1。因此，$a=0$ 且 $x=1$ 是这个式子的解。</p>
+</blockquote>
+<p>上面这个例子的思路其实可以放在我们求解贝尔曼最优公式的过程当中。</p>
+<p>我们下面来看一看。</p>
+<p>$$ v(s)= max_{\pi} \sum_{a}{\pi}(a|s)(\sum_r p(r|s,a)r + \gamma \sum_{s’}p(s’|s,a)v(s’)),\quad \forall s \in S $$<br>
+$$ =max_{\pi} \sum_{a} {\pi}(a|s)q(s,a) \quad s\in S $$</p>
+<p>解决思路：先给 $v’(s)$ 一个初始值，然后解出策略 $\pi$。</p>
+<blockquote>
+<p>这里我们先考虑一种简单的情况。</p>
+<p>假设 $q_1, q_2, q_3 \in \R$ 是已知的，我们需要找到 $c_1^<em>, c_2^</em>, c_3^*$ 来解决下面这个式子：</p>
+<p>$$ max_{c_1, c_2, c_3}c_1 q_1 + c_2 q_2 + c_3 q_3$$</p>
+<p>其中 $c_1 + c_2 + c_3 = 1$ 且 $c_1, c_2, c_3 \ge 0$</p>
+<p>我们现在假设 $q_3 \ge q_1, q_2$。 那么这时候，最优的解就是 $c_3^<em>=1$ 且 $c_1^</em>=c_2^*=0$。因为对任意 $c_1 + c_2 + c_3$，有</p>
+<p>$$q_3=(c_1 + c_2 + c_3)q_3=c_1 q_3 + c_2 q_3 + c_3 q_3 \ge c_1 q_1 + c_2 q_2 + c_3 q_3$$</p>
+<p>由此可知：当右侧 $q$ 值确定的时候，那么右侧最大值就等于最大的那个 $q$ 值</p>
+</blockquote>
+<p>由上面这个例子，我们现在考虑 $\sum_a \pi (a|s)=1$，这时我们有：<br>
+$$ max_{\pi} \sum_a \pi (a|s)q(s,a) = max_{a\in A(s)} q(s,a) $$</p>
+<p>其中，当<br>
+$$ {\pi}(a|s)= \left\{ \begin{matrix}    1 \quad a=a^* \\    0 \quad a\neq a^* \end{matrix}\right. $$<br>
+时取得最优值，其中 $a^*=argmax_a q(s,a)$</p>
+<p>到这里，我们已经介绍来如何去处理右边的 $max_\pi$ ，实际上我们可以把它写成一个函数 $f(v)$，如下所示：<br>
+$$ f(v)=max_{\pi}(r_{\pi}+\gamma P_{\pi}v)$$<br>
+然后，贝尔曼最优公式就可以写成<br>
+$$ v= f(v)$$</p>
+<p>$$[f(v)]<em>s = max</em>{\pi} \sum _a {\pi} (a|s) q(s,a),\quad s \in S$$</p>
+<p>那么接下来，我们该如何求解这个等式呢？</p>
+<p>在我们求解这个式子之前，我们先介绍一个好东西：压缩映射定理。在后面我们会用到。</p>
+<h2><span id="33-压缩映射定理">3.3 压缩映射定理</span></h2>
+<p>在介绍压缩映射定理之前，我们首先需要引入两个概念。</p>
+<blockquote>
+<p><strong>不动点</strong></p>
+<p>如果</p>
+<p>$$f(x)=x$$</p>
+<p>我们称 $x\in X$ 是 $f:X\rightarrow X$的不动点。</p>
+<p>（即无论如何映射，x位置都不动）</p>
+</blockquote>
+<blockquote>
+<p><strong>压缩映射</strong></p>
+<p>如果<br>
+$$||f(x_1)-f(x_2)||\le \gamma ||x_1-x_2||$$<br>
+其中 $\gamma \in (0, 1)$</p>
+<p>那么我们称 $f$ 是一个压缩映射。</p>
+<ul>
+<li>$\gamma$ 必须小于1,从而保证 $\gamma^k \rightarrow 0$等条件</li>
+<li>这里的 ||…|| 可以是任何向量的模</li>
+</ul>
+</blockquote>
+<p>有了上面介绍的两个概念，我们就可以引出<strong>压缩映射定理</strong>了。</p>
+<p>（ps：这个定理非常强大，大家除了在强化学习中会用到之外，其实在其他很多领域里，如果你要求解类似与 $x=f(x)$ 这样的一个式子的话，都能用得上。）</p>
+<blockquote>
+<p><strong>压缩映射定理</strong></p>
+<p>对于任意一个类似于 $x=f(x)$ 的等式，如果 $f$ 是一个压缩映射，那么有：</p>
+<ul>
+<li>存在一个不动点 $x^<em>$ 满足 $f(x^</em>)=x^*$</li>
+<li>这个不动点 $x^*$ 是唯一的</li>
+<li>考虑序列 ${x_k}$，其中 $x_{k+1}=f(x_k)$。那么当 $k \rightarrow \infty$ 时有 $x_k \rightarrow x^*$。值得一提的是，这时候的收敛速度非常快快，呈指数收敛。</li>
+</ul>
+</blockquote>
+<p>下面我们通过一个简单的例子来理解这个定理。</p>
+<p>给出 $x=0.5x$ ，其中 $f(x)=0.5x$ 且 $x \in \R$。$x^*=0$ 是唯一的不动点。这个问题还可以用下式解决：<br>
+$$ x_{k+1}=0.5x_{k}$$</p>
+<p>现在我们已经介绍了<strong>压缩映射定理</strong>，那么我们回到最初的问题：如何求解贝尔曼最优公式？这个时候我们就可以利用压缩映射定理来解决这个问题了。</p>
+<p>我们令贝尔曼最优公式的表达式 $v=f(v)$，则有<br>
+$$v=f(v)=max_{\pi}(r_{\pi}+\gamma P_{\pi}v)$$<br>
+为了在这里用上压缩映射定理，我们首先需要证明 $f(v)$ 是一个压缩映射（证明过程略，感兴趣的可以自行查找资料）。</p>
+<p>我们现在已知 $f$ 是一个压缩映射，那么贝尔曼最优公式就立刻可以用压缩映射定理求解出来。</p>
+<p>这里我们有几个结论：</p>
+<ul>
+<li>第一个就是我们知道贝尔曼最优公式它一定是存在一个解的，这个解用 $v^*$ 来表示。</li>
+<li>这个解 $v^*$ 是唯一的。</li>
+<li>这个解可以通过迭代算法来求解出来</li>
+</ul>
+<h2><span id="34-贝尔曼最优公式解的最优性">3.4 贝尔曼最优公式解的最优性</span></h2>
+<p>假设 $v^<em>$ 是贝尔曼最优公式的解，它满足<br>
+$$ v^</em>=max_{\pi}(r_{\pi}+\gamma P_{\pi} v^<em>)$$<br>
+假设<br>
+$$ {\pi}^</em>=argmax_{\pi}(r_{\pi}+\gamma P_{\pi} v^<em>)$$<br>
+于是<br>
+$$ v^</em>=r_{\pi ^<em>} + \gamma P_{\pi ^</em>} v^<em>$$<br>
+因此，$\pi ^</em>$ 是一个策略且 $v^<em>=v_{\pi ^</em>}$ 是对应的状态价值。</p>
+<p>那么这里的 $\pi ^*$ 长什么样子呢？如下所示：</p>
+<blockquote>
+<p>对于任意 $s \in S$，那么已确定的贪心策略<br>
+$$ {\pi ^<em>}(a|s)= \left\{ \begin{matrix}    1 \quad a=a^</em>(s) \\    0 \quad a\neq a^*(s)\end{matrix}\right. $$</p>
+<p>就是贝尔曼最优公式的最优策略。这里<br>
+$$a^<em>(s)=argmax_a q^</em>(a,s)$$<br>
+其中<br>
+$$q^<em>(s,a)=\sum_r p(r|s,a)r+\gamma \sum_{s’} p(s’|s,a)v^</em>(s’)$$</p>
+</blockquote>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">1. 引子——抛砖引玉</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">2. 最优策略optimal policy</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">3. 贝尔曼最优公式 BOE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.1 Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.2 基本性质分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.3 压缩映射定理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3.4 贝尔曼最优公式解的最优性</span></a></li></ol></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

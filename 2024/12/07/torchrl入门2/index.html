@@ -1,0 +1,611 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>TorchRL 入门 2 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>TorchRL 入门 2</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2024/12/7
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                强化学习
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/PyTorch/" style="color: #00a596">
+                                        PyTorch
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                                        强化学习
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/TorchRL/" style="color: #00a596">
+                                        TorchRL
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <h1><span id="开始使用-torchrl-的模块">开始使用 TorchRL 的模块</span></h1>
+<h2><span id="1-tensordict-模块">1. TensorDict 模块</span></h2>
+<p>与环境与实例交互的方式类似 <code>TensorDict</code>，用于表示策略和值函数的模块也执行相同的操作。核心思想很简单：将标准 <code>Module</code> （或任何其他函数）封装在一个类中，该类知道需要读取哪些条目并将其传递给模块，然后使用分配的条目记录结果。为了说明这一点，我们将使用最简单的策略：<strong>从观察空间到动作空间的确定性映射</strong>。为了获得最大的通用性，我们将使用一个带有 <code>LazyLinear</code> 的我们在上一个教程中实例化的 <code>Pendulum</code> 环境的模块。</p>
+<pre><code class="language-Python">import torch
+
+from torchrl.envs import GymEnv
+from tensordict.nn import TensorDictModule
+
+env = GymEnv(&quot;Pendulum-v1&quot;)
+module = torch.nn.LazyLinear(out_features=env.action_spec.shape[-1])
+policy = TensorDictModule(
+    module,
+    in_keys=[&quot;observation&quot;],
+    out_keys=[&quot;action&quot;],
+)
+</code></pre>
+<p>这就是执行我们的策略所需的全部内容！使用惰性模块可以让我们绕过获取观察空间形状的需要，因为模块会自动确定它。此策略现已准备好在环境中运行：</p>
+<pre><code class="language-Python">rollout = env.rollout(max_steps=10, policy=policy)
+print(rollout)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>TensorDict(<br>
+fields={<br>
+action: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+done: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+next: TensorDict(<br>
+fields={<br>
+done: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+observation: Tensor(shape=torch.Size([10, 3]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+reward: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+terminated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+truncated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False)},<br>
+batch_size=torch.Size([10]),<br>
+device=None,<br>
+is_shared=False),<br>
+observation: Tensor(shape=torch.Size([10, 3]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+terminated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+truncated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False)},<br>
+batch_size=torch.Size([10]),<br>
+device=None,<br>
+is_shared=False)</p>
+</blockquote>
+<h2><span id="2-专用的-wrappers">2. 专用的 wrappers</span></h2>
+<p>为了简化 <code>Actor</code> 的创建，我们可以使用 <code>ProbabilisticActor</code>、<code>ActorValueOperator</code> 或者 <code>ActorCriticOperator</code>。例如，<code>Actor</code> 为 <code>in_keys</code> 和 <code>out_keys</code> 提供默认值，从而可以直接与许多常见环境集成：</p>
+<pre><code class="language-Python">from torchrl.modules import Actor
+
+policy = Actor(module)
+rollout = env.rollout(max_steps=10, policy=policy)
+print(rollout)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>TensorDict(<br>
+fields={<br>
+action: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+done: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+next: TensorDict(<br>
+fields={<br>
+done: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+observation: Tensor(shape=torch.Size([10, 3]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+reward: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+terminated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+truncated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False)},<br>
+batch_size=torch.Size([10]),<br>
+device=None,<br>
+is_shared=False),<br>
+observation: Tensor(shape=torch.Size([10, 3]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+terminated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+truncated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False)},<br>
+batch_size=torch.Size([10]),<br>
+device=None,<br>
+is_shared=False)</p>
+</blockquote>
+<p>具体的调用参数可以在 <a target="_blank" rel="noopener" href="https://pytorch.org/rl/stable/reference/modules.html#tdmodules">API文档</a> 中找到。</p>
+<h2><span id="3-network">3. Network</span></h2>
+<p>TorchRL 还提供了常规模块，无需重复使用 <code>tensordict</code> 特征即可使用。您将遇到的两个最常见的网络是 <code>CNN</code> 和 <code>MLP</code> 模块。我们可以用以下之一替换我们的策略模块：</p>
+<pre><code class="language-Python">from torchrl.modules import MLP
+
+module = MLP(
+    out_features=env.action_spec.shape[-1],
+    num_cells=[32, 64],
+    activation_class=torch.nn.Tanh,
+)
+policy = Actor(module)
+rollout = env.rollout(max_steps=10, policy=policy)
+</code></pre>
+<p>这里我们创建了一个简单的 <code>MLP</code> 网络结构，下面我们来具体看一看它的结构：</p>
+<pre><code class="language-Python">print(module)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>MLP(</p>
+<p>(0): Linear(in_features=3, out_features=32, bias=True)</p>
+<p>(1): Tanh()</p>
+<p>(2): Linear(in_features=32, out_features=64, bias=True)</p>
+<p>(3): Tanh()</p>
+<p>(4): Linear(in_features=64, out_features=1, bias=True)</p>
+<p>)</p>
+</blockquote>
+<p>可以看到我们的网络一共有<strong>三层</strong>，<code>num_cells=[32, 64]</code> 代表的是：第一层输出有32个神经元，第二层输出有64个神经元。</p>
+<h2><span id="4-概率策略">4. 概率策略</span></h2>
+<p>策略优化算法（如 <code>PPO</code>）要求策略具有随机性：与上述示例不同，模块现在编码了从观察空间到参数空间的映射，该映射对可能的操作的分布进行了编码。TorchRL 通过将各种操作（例如从参数构建分布、从该分布中采样以及检索对数概率）归入单个类来促进此类模块的设计。在这里，我们将使用三个组件构建一个依赖于常规正态分布的 actor：</p>
+<ul>
+<li>
+<p>一个<code>MLP</code>主干读取大小为3的观测值并输出大小为2的单个张量；</p>
+</li>
+<li>
+<p>NormalParamExtractor将此输出分成两块的模块，即大小为的平均值和标准差[1]；</p>
+</li>
+<li>
+<p>它将ProbabilisticActor读取这些参数in_keys，用它们创建一个分布，并用样本和对数概率填充我们的张量字典。</p>
+</li>
+</ul>
+<pre><code class="language-Python">from tensordict.nn.distributions import NormalParamExtractor
+from torch.distributions import Normal
+from torchrl.modules import ProbabilisticActor
+
+backbone = MLP(in_features=3, out_features=2)   # 默认有4层网络，除了最后一层，每层输出都是32个神经元
+extractor = NormalParamExtractor()
+module = torch.nn.Sequential(backbone, extractor)
+td_module = TensorDictModule(module, in_keys=[&quot;observation&quot;], out_keys=[&quot;loc&quot;, &quot;scale&quot;])
+policy = ProbabilisticActor(
+    td_module,
+    in_keys=[&quot;loc&quot;, &quot;scale&quot;],
+    out_keys=[&quot;action&quot;],
+    distribution_class=Normal,
+    return_log_prob=True,
+)
+
+rollout = env.rollout(max_steps=10, policy=policy)
+print(rollout)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>TensorDict(<br>
+fields={<br>
+action: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+done: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+loc: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+next: TensorDict(<br>
+fields={<br>
+done: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+observation: Tensor(shape=torch.Size([10, 3]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+reward: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+terminated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+truncated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False)},<br>
+batch_size=torch.Size([10]),<br>
+device=None,<br>
+is_shared=False),<br>
+observation: Tensor(shape=torch.Size([10, 3]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+sample_log_prob: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+scale: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+terminated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+truncated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False)},<br>
+batch_size=torch.Size([10]),<br>
+device=None,<br>
+is_shared=False)</p>
+</blockquote>
+<p>这里我们可以查看一下具体参数：</p>
+<pre><code class="language-Python">print(module)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>Sequential(</p>
+<p>(0): MLP(</p>
+<p>(0): Linear(in_features=3, out_features=32, bias=True)</p>
+<p>(1): Tanh()</p>
+<p>(2): Linear(in_features=32, out_features=32, bias=True)</p>
+<p>(3): Tanh()</p>
+<p>(4): Linear(in_features=32, out_features=32, bias=True)</p>
+<p>(5): Tanh()</p>
+<p>(6): Linear(in_features=32, out_features=2, bias=True)</p>
+<p>)</p>
+<p>(1): NormalParamExtractor(</p>
+<p>(scale_mapping): biased_softplus()</p>
+<p>)</p>
+<p>)</p>
+</blockquote>
+<p>这里还有几点需要注意：</p>
+<ul>
+<li>
+<p>由于我们在构建 actor 时就要求这样做，因此还会写入当时分布下<strong>动作的对数概率</strong>。这对于 PPO 之类的算法来说是必要的。</p>
+</li>
+<li>
+<p>分布的参数也在&quot;<code>loc</code>&quot;和&quot;<code>scale</code>&quot;条目下的输出张量字典中返回。</p>
+</li>
+</ul>
+<p>如果应用程序需要，您可以控制操作的采样以使用预期值或分布的其他属性，而不是使用随机样本。这可以通过以下 <code>set_exploration_type()</code> 函数进行控制：</p>
+<pre><code class="language-Python">from torchrl.envs.utils import ExplorationType, set_exploration_type
+
+with set_exploration_type(ExplorationType.DETERMINISTIC):
+    # takes the mean as action
+    rollout = env.rollout(max_steps=10, policy=policy)
+with set_exploration_type(ExplorationType.RANDOM):
+    # Samples actions according to the dist
+    rollout = env.rollout(max_steps=10, policy=policy)
+</code></pre>
+<h2><span id="5-exploration">5. exploration</span></h2>
+<p>像这样的随机策略在某种程度上自然地在探索和利用之间进行权衡，但确定性策略则不会。幸运的是，TorchRL 还可以通过其探索模块来缓解这种情况。我们将以探索 <code>EGreedyModule</code> 模块为例。要查看此模块的实际操作，让我们恢复到确定性策略：</p>
+<pre><code class="language-Python">from tensordict.nn import TensorDictSequential
+from torchrl.modules import EGreedyModule
+
+policy = Actor(MLP(3, 1, num_cells=[32, 64]))
+</code></pre>
+<p>在使用 $\varepsilon$-greedy exploration 模块时，我们需要定义一些退火方法和一个初始值 $\varepsilon$ 参数。值为 $\varepsilon=1$ 的策略意味着采取的每一个行动都是随机的；而值为 $\varepsilon=0$ 的策略意味着根本没有探索，每一个步骤都是固定的。如果需要退火探索因子，<code>step()</code> 需要调用：</p>
+<pre><code class="language-Python">exploration_module = EGreedyModule(
+    spec=env.action_spec, annealing_num_steps=1000, eos_init=0.5
+)
+</code></pre>
+<p>为了构建我们的探索性策略，我们只需要将确定性策略模块与 TensorDictSequential模块内的探索模块连接起来（这类似于Sequential张量字典领域）。</p>
+<pre><code class="language-Python">exploration_policy = TensorDictSequential(policy, exploration_module)
+
+with set_exploration_type(ExplorationType.DETERMINISTIC):
+    # 不探索
+    rollout = env.rollout(max_steps=10, policy=exploration_policy)
+with set_exploration_type(ExplorationType.RANDOM):
+    # 探索
+    rollout = env.rollout(max_steps=10, policy=exploration_policy)
+</code></pre>
+<p>因为它必须能够在动作空间中对随机动作进行采样，所以 <code>EGreedyModule</code> 必须配备来自环境的 <code>action_space</code> 才能知道使用什么策略来随机采样动作。</p>
+<h2><span id="6-q-value-actors">6. Q-Value actors</span></h2>
+<p>在某些情况下，策略不是独立模块，而是构建在另一个模块之上。Q值参与者就是这种情况。简而言之，这些参与者需要估计动作值（大多数时候是离散的），并会贪婪地选择具有最高值的动作。在某些情况下（有限离散动作空间和有限离散状态空间），人们可以只存储一个 2D 状态动作对表并选择具有最高值的动作。DQN 带来的创新 是利用神经网络对值图进行编码，将其扩展到连续状态空间 。为了更清楚地理解，让我们考虑另一个具有离散动作空间的环境：Q(s, a)</p>
+<pre><code class="language-Python">env = GymEnv(&quot;CartPole-v1&quot;)
+print(env.action_spec)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>OneHot(<br>
+shape=torch.Size([2]),<br>
+space=CategoricalBox(n=2),<br>
+device=cpu,<br>
+dtype=torch.int64,<br>
+domain=discrete)</p>
+</blockquote>
+<p>我们构建一个价值网络，当它从环境中读取状态时，每个动作都会产生一个价值：</p>
+<pre><code class="language-Python">num_actions = 2
+value_net = TensorDictModule(
+    MLP(out_features=num_actions, num_cells=[32, 32]),
+    in_keys=[&quot;observation&quot;],
+    out_keys=[&quot;action_value&quot;],
+)
+</code></pre>
+<p><code>QValueModule</code> 我们可以通过在价值网络后添加以下内容来轻松构建我们的 Q-Value actor ：</p>
+<pre><code class="language-Python">from torchrl.modules import QValueModule
+
+policy = TensorDictSequential(
+    value_net,
+    QValueModule(spec=env.action_spec),
+)
+</code></pre>
+<p>让我们检查一下。我们运行该策略几个步骤并查看输出。我们应该在获得的 rollout 中找到一个&quot;action_value&quot;以及一个 条目：“chosen_action_value”</p>
+<pre><code class="language-Python">rollout = env.rollout(max_steps=3, policy=policy)
+print(rollout)
+</code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>TensorDict(<br>
+fields={<br>
+action: Tensor(shape=torch.Size([3, 2]), device=cpu, dtype=torch.int64, is_shared=False),<br>
+action_value: Tensor(shape=torch.Size([3, 2]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+chosen_action_value: Tensor(shape=torch.Size([3, 1]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+done: Tensor(shape=torch.Size([3, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+next: TensorDict(<br>
+fields={<br>
+done: Tensor(shape=torch.Size([3, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+observation: Tensor(shape=torch.Size([3, 4]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+reward: Tensor(shape=torch.Size([3, 1]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+terminated: Tensor(shape=torch.Size([3, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+truncated: Tensor(shape=torch.Size([3, 1]), device=cpu, dtype=torch.bool, is_shared=False)},<br>
+batch_size=torch.Size([3]),<br>
+device=None,<br>
+is_shared=False),<br>
+observation: Tensor(shape=torch.Size([3, 4]), device=cpu, dtype=torch.float32, is_shared=False),<br>
+terminated: Tensor(shape=torch.Size([3, 1]), device=cpu, dtype=torch.bool, is_shared=False),<br>
+truncated: Tensor(shape=torch.Size([3, 1]), device=cpu, dtype=torch.bool, is_shared=False)},<br>
+batch_size=torch.Size([3]),<br>
+device=None,<br>
+is_shared=False)</p>
+</blockquote>
+<p>由于它依赖于 <code>argmax</code> 操作，因此该策略是确定性的。在数据收集期间，我们需要探索环境。为此，我们EGreedyModule 再次使用：</p>
+<pre><code class="language-Python">policy_exploration = TensorDictSequential(policy, EGreedyModule(env.action_spec))
+
+with set_exploration_type(ExplorationType.RANDOM):
+    rollout_explore = env.rollout(max_steps=3, policy=policy_explore)
+</code></pre>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">开始使用 TorchRL 的模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. TensorDict 模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 专用的 wrappers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. Network</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. 概率策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5. exploration</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6. Q-Value actors</span></a></li></ol></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

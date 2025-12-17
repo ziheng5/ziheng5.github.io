@@ -1,0 +1,453 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>Linux 用户的 Windows 改造之旅 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>Linux 用户的 Windows 改造之旅</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2025/8/30
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/Windows/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                Windows
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/Windows/" style="color: #ff7d73">
+                                        Windows
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <blockquote>
+<p>Coldrain 在暑假的尾声里突然有了使用 <code>Windows</code> 进行仿真的需求。但是当 Coldrain 在已经习惯 <code>Linux</code> 的情况下回到阔别已久的 <code>Windows</code> 后，顿时觉得 <code>Windows</code> 的图形化界面操作已经不再适合自己，但又不能不用 <code>Windows</code>，于是 Coldrain 开始改造起自己的 <code>Windows</code>…</p>
+</blockquote>
+<p>注：作为 Linux 用户，小生在本文中的大部分操作、终端配置等都将在终端中进行。如果你没有接触过 Linux，或是对 Windows 终端指令知之甚少的话，建议先学习最基本的终端指令，譬如 <code>ls</code>、<code>cd &lt;path&gt;</code> 等基本指令</p>
+<h2><span id="1-包管理器及其配置">1. 包管理器及其配置</span></h2>
+<h3><span id="11-windows-下常见的包管理器">1.1 Windows 下常见的包管理器</span></h3>
+<p>在 <code>Linux</code> 下已经习惯了使用包管理器来快捷安装并管理应用程序、插件，那么改造 <code>Windows</code>，首先需要的就是一个便捷的软件包管理器。</p>
+<p><code>Windows</code> 下的软件包管理有很多，其中最常用的是 <code>winget</code>、<code>scoop</code> 与 <code>chocolatey</code>：</p>
+<ul>
+<li><code>winget</code>：微软官方的包管理器，由微软官方维护，速度快，且和微软商店联动。</li>
+<li><code>scoop</code>：第三方包管理器，生态灵活，默认安装在用户目录下，不需要管理员权限，似乎很受开发者欢迎。</li>
+<li><code>chocolatey</code>：<code>Windows</code> 上最老牌的包管理器，更偏向系统管理员和 DevOps 场景。</li>
+</ul>
+<p>在本文中，小生将采用 <code>scoop</code> 来安装各种应用程序与插件配置。</p>
+<h3><span id="12-scoop-的安装">1.2 Scoop 的安装</span></h3>
+<blockquote>
+<p>Scoop 官方仓库：<a target="_blank" rel="noopener" href="https://github.com/ScoopInstaller/Scoop#readme">https://github.com/ScoopInstaller/Scoop#readme</a></p>
+</blockquote>
+<p>在 <code>Windows</code> 上安装 <code>scoop</code> 可以在 PowerShell 下执行如下命令：</p>
+<pre><code class="language-PowerShell">Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+</code></pre>
+<blockquote>
+<p><code>scoop</code> 的默认安装位置位于 <code>C:\Users\&lt;USERNAME&gt;\scoop</code></p>
+</blockquote>
+<p>安装完成后，即可使用 <code>Scoop</code> 在终端实现软件包的快速安装了。</p>
+<p><code>Scoop</code> 安装软件包的指令为：</p>
+<pre><code class="language-powershell">scoop install XXX
+</code></pre>
+<h3><span id="13-给-scoop-配置-aria2-以加速下载">1.3 给 Scoop 配置 aria2 以加速下载</span></h3>
+<p>但是实际安装的时候，经常会遇到<strong>下载速度较慢</strong>的情况（比如即便已经打开了代理却依然和没开代理一样慢）</p>
+<p>这个时候，我们可以给 <code>scoop</code> 配置 <code>aria2</code> 来实现<strong>多线程下载</strong>，进而加快下载速度。</p>
+<pre><code class="language-powershell">scoop install aria2
+scoop config aria2-enabled true
+</code></pre>
+<p>配置完成后，再次安装软件的时候会自动启用多线程下载。</p>
+<h3><span id="14-扩展软件清单">1.4 扩展软件清单</span></h3>
+<p>有的时候你想要的软件包并没有被官方仓库登记在册，这时候就需要配置一些扩展仓库了，比如 <code>extra</code> 等。</p>
+<p>首先，查看 <code>scoop</code> 现有的仓库：</p>
+<pre><code class="language-powershell">scoop bucket list
+</code></pre>
+<p>这会显示你已经添加过的仓库。Scoop 官方和社区维护了很多仓库，可以按需添加常用的 bucket：</p>
+<pre><code class="language-powershell"># 官方的扩展仓库
+scoop bucket add extras
+scoop bucket add versions
+scoop bucket add games
+scoop bucket add java
+scoop bucket add nerd-fonts
+
+# 社区大仓库（收录量非常大，极力推荐）
+scoop bucket add dorado https://github.com/chawyehsu/dorado
+</code></pre>
+<p>其中，<code>extra</code> 用于安装各种常见工具（比如 VSCode、7zip 等），<code>dorado</code> 是中文社区维护的大仓库，很多国人常用软件都在里面（比如微信、QQ 等）。</p>
+<p>配置完扩展仓库后，你就可以通过包管理器下载到各种常用软件了，比如 QQ：</p>
+<pre><code class="language-PowerShell">scoop install qq
+</code></pre>
+<p>当然，如果你不确定扩展仓库后，你想要的软件到底存不存在（比如微信），你可以直接搜索：</p>
+<pre><code class="language-PowerShell">scoop search wechat
+</code></pre>
+<h2><span id="2-powertoys-开发者工具箱">2. PowerToys 开发者工具箱</span></h2>
+<blockquote>
+<p>PowerToys 官方文档：<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/powertoys/">https://learn.microsoft.com/zh-cn/windows/powertoys/</a></p>
+</blockquote>
+<p>PowerToys 是微软官方开发的一套 <strong>Windows 实用工具集合</strong>，可以提升生产力和个性化体验。它包含很多模块，例如窗口管理、快捷键映射、文件工具等。</p>
+<p>这里在终端使用 <code>scoop</code> 直接安装：</p>
+<pre><code class="language-powershell">scoop install powertoys
+</code></pre>
+<p>安装完成后，你会看到开始菜单的“最近添加”部分出现了一个 <strong>PowerToys 图标</strong>，可以点开进入设置界面。</p>
+<blockquote>
+<p>绝对路径：<code>C:\Users\&lt;USERNAME&gt;\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Scoop Apps\PowerToys.lnk</code></p>
+</blockquote>
+<p>PowerToys 中包含了各种各样的实用功能：</p>
+<ul>
+<li><strong>高级粘贴</strong>：可以将剪贴板内容转换为所需的任何格式。</li>
+<li><strong>Awake</strong>：使电脑保持唤醒状态，而不会进入睡眠（很适合挂机跑代码）</li>
+<li><strong>命令面板</strong>：快速启动器（和 Linux 很像，再也不需要手动点击了！）</li>
+<li><strong>键盘管理器</strong>：自定义键盘映射，创建快捷键。</li>
+<li><strong>文本提取器</strong>：使用 OCR 将文本从图片中提取出来。</li>
+<li><strong>…</strong></li>
+</ul>
+<p>下面拿<strong>键盘管理器</strong>为例，看看如何用 PowerToys 创建终端启动快捷键：</p>
+<ul>
+<li>打开 PowerToys，在<strong>键盘管理器</strong>一栏下打开设置界面，选择“启用键盘管理器”，接着打开“重新映射快捷键”</li>
+<li>选择“快捷键”，同时键入<code>Win(left)</code>+<code>Enter</code> 两个按键，然后选择“允许组合键”和“精准匹配”。</li>
+<li>接着在“操作”选项中选择“运行程序”</li>
+<li>选择应用路径为 <code>C:\Users\&lt;USERNAME&gt;\AppData\Local\Microsoft\WindowsApps\wt.exe</code></li>
+<li>参数不设置也行</li>
+<li>启动路径可以简单设置为 <code>C:\Users\&lt;USERNAME&gt;</code></li>
+<li>权限级别选择“正常”，如果正在运行选择“启动另一个”，可见性选择“正常”</li>
+<li>点击确定后退出</li>
+</ul>
+<p>接下来，按下 <code>Win</code>+<code>Enter</code> 键就可以快速唤出终端了~</p>
+<h2><span id="3-终端美化">3. 终端美化</span></h2>
+<p>刚才我们已经配置好了快捷键，现在我们按下 <code>Enter</code>+<code>Win</code> 来唤出一个终端界面，可以看到目前的终端界面只有黑白双色，十分单调。该怎么让它变得更好看呢？</p>
+<h3><span id="31-字体-透明背景与高斯模糊">3.1 字体、透明背景与高斯模糊</span></h3>
+<p>点击标签栏上的“<strong>向下箭头</strong>”，打开设置界面，选择 “Windows PowerShell”，接着在“其他设置”中打开外观选项。</p>
+<p>在字体栏中输入 <code>JetBrainsMono Nerd Font</code> 来设置终端字体为 JetBrainsMono。</p>
+<blockquote>
+<p>当然，这里你也可以设置其他你喜欢的字体，前提是你在系统中已经安装。</p>
+<p>什么？你不知道如何安装？自己到设置里面去搜“<strong>字体</strong>”（</p>
+</blockquote>
+<p>接下来，在透明度栏下设置背景不透明度为 <strong>80%</strong>，并选择下面的“<strong>启用亚克力材料</strong>”来开启高斯模糊（个人觉得这样的配置很好看，当然具体如何设置完全看你的喜好）</p>
+<h3><span id="32-oh-my-posh-终端主题的配置">3.2 oh-my-posh 终端主题的配置</span></h3>
+<blockquote>
+<p>oh-my-posh 官方文档：<a target="_blank" rel="noopener" href="https://ohmyposh.dev/docs/">https://ohmyposh.dev/docs/</a></p>
+</blockquote>
+<p>首先，在终端界面使用 <code>scoop</code> 安装 Oh My Posh：</p>
+<pre><code class="language-powershell">scoop install oh-my-posh
+</code></pre>
+<p>安装完成后，前往<a target="_blank" rel="noopener" href="https://ohmyposh.dev/docs/themes">主题文档界面</a>选择你喜欢的主题（当然，如果你有实力的话也可以参照官方文档自己写一套主题配置，只不过比较麻烦）</p>
+<p>比如这里小生选择了 <a target="_blank" rel="noopener" href="https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/themes/catppuccin_mocha.omp.json">catppuccin_mocha</a> 主题，在官方仓库中下载主题文件 <code>catppuccin_mocha.omp.json</code> 至 <code>C:\Users\&lt;USERNAME&gt;\config_dir\</code> 路径下（当然，你也可以随便找一个路径放这个配置文件，只要你下次想修改的时候方便找到它就可以）</p>
+<p>下载完成后，回到终端界面，查找你的 PowerShell 配置文件 <code>Microsoft.PowerShell_profile.ps1</code>：</p>
+<pre><code class="language-powershell">$PROFILE
+</code></pre>
+<p>如果文件不存在的话，使用下面这行命令创建配置文件：</p>
+<pre><code class="language-powershell">if (!(Test-Path -Path $PROFILE)) &#123; New-Item -ItemType File -Path $PROFILE -Force &#125;
+</code></pre>
+<p>接下来编辑配置文件：</p>
+<pre><code class="language-powershell">notepad $PROFILE
+</code></pre>
+<p>然后再文件末尾加入（或修改为）：</p>
+<pre><code class="language-powershell">oh-my-posh init pwsh --config &quot;C:\Users\&lt;USERNAME&gt;\config_dir\catppuccin_mocha.omp.json&quot; | Invoke-Expression
+</code></pre>
+<p>保存并重新打开终端，这时候就会自动加载 Oh My Posh 主题。</p>
+<h2><span id="4-其他终端工具">4. 其他终端工具</span></h2>
+<h3><span id="41-neovim">4.1 neovim</span></h3>
+<blockquote>
+<p>官方网址：<a target="_blank" rel="noopener" href="https://neovim.io/">https://neovim.io/</a></p>
+</blockquote>
+<p>是的，你在 Windows 上也可以使用 neovim 来在终端中编辑文本，方便又快捷。</p>
+<p>直接使用 <code>scoop</code> 安装即可：</p>
+<pre><code class="language-PowerShell">scoop install neovim
+</code></pre>
+<p>配置过程和在 Linux 上一致，详情请参考官方文档，这里不再赘述</p>
+<h3><span id="42-fastfetch">4.2 fastfetch</span></h3>
+<p>快速显示设备信息的便捷工具，安装操作如下：</p>
+<pre><code class="language-PowerShell">scoop install fastfetch
+</code></pre>
+<p>安装完成后，就可以在终端界面使用 <code>fastfetch</code> 命令来快速显示设备信息啦：</p>
+<pre><code class="language-PowerShell">fastfetch
+</code></pre>
+<p>至于更高级的配置，请参考官方文档，这里不再赘述。</p>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 包管理器及其配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.1 Windows 下常见的包管理器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.2 Scoop 的安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.3 给 Scoop 配置 aria2 以加速下载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.4 扩展软件清单</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. PowerToys 开发者工具箱</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. 终端美化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.1 字体、透明背景与高斯模糊</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.2 oh-my-posh 终端主题的配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. 其他终端工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.1 neovim</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.2 fastfetch</span></a></li></ol></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

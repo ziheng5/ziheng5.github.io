@@ -1,0 +1,848 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>常用假设检验方法及 Python 实现 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>常用假设检验方法及 Python 实现</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2025/5/22
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/%E6%95%B0%E5%AD%A6/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                数学
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
+                                        机器学习
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" style="color: #03a9f4">
+                                        统计学
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <blockquote>
+<p>参考文档：<a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/scipy/tutorial/stats/hypothesis_tests.html">https://docs.scipy.org/doc/scipy/tutorial/stats/hypothesis_tests.html</a></p>
+</blockquote>
+<h2><span id="1-什么是假设检验">1. 什么是假设检验？</span></h2>
+<h3><span id="11-概念">1.1 概念</span></h3>
+<p><strong>假设检验（Hypothesis testing）</strong>，又称统计假设检验，是用来判断样本与样本、样本与总体的差异是由抽样误差引起还是本质差别造成的统计推断方法。显著性检验是假设检验中最常用的一种方法，也是一种最基本的统计推断形式，其基本原理是先对总体的特征做出某种假设，然后通过抽样研究的统计推理，对此假设应该被拒绝还是接受做出推断。常用的假设检验方法包括 Z 检验、t 检验、卡方检验、F 检验等。</p>
+<blockquote>
+<p><strong>参数检验与非参数检验</strong></p>
+<ul>
+<li>参数检验
+<ul>
+<li>参数检验，是在总体分布已知的情况下，对总体分布的参数如均值、方差等进行推断的方法。</li>
+<li>常见的参数检验方法有 T 检验、Z 检验、F 检验、二项分布总体的假设检验等。</li>
+</ul>
+</li>
+<li>非参数检验
+<ul>
+<li>由于种种原因，人们往往无法对总体分布形态做简单假定，此时参数检验方法就不适用了。非参数检验，是在总体方差未知或知道甚少的情况下，利用样本数据对总体分布形态等进行推断的方法。非参数检验推断过程中不涉及有关总体分布的参数。</li>
+<li>常用的非参数检验的方法有，两个独立样本的K-S检验、W-W检验、U检验等，多个独立样本的H检验、中位数检验等，卡方检验，二项分布检验、拟合优度检验等。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3><span id="12-步骤">1.2 步骤</span></h3>
+<p>假设检验的步骤如下：</p>
+<ul>
+<li>确定要进行检验的假设，包括原假设 $H_0$ 和备择假设 $H_1$</li>
+<li>选择检验的方法，计算统计量</li>
+<li>根据显著性水平，确定用于做出决策的拒绝域</li>
+<li>查看样本结果是否位于拒绝域内</li>
+<li>做出决策</li>
+</ul>
+<h3><span id="13-其他概念">1.3 其他概念</span></h3>
+<p>假设检验的几个重要概念</p>
+<ul>
+<li>$H_0$（原假设）：即要对其进行检验的断言，除非有足够的证据拒绝，否则将接受原假设</li>
+<li>$H_1$（备择假设）：在拒绝原假设之后将要接受的断言，通常与原假设对立</li>
+<li>$\alpha$（显著性水平）：指当<strong>原假设为正确</strong>时人们却<strong>把它拒绝</strong>了的概率或风险。它是公认的小概率时间的概率值，必须在每一次统计检验之前确定，通常取 $\alpha=0.05$ 或 $\alpha=0.01$</li>
+<li>单尾检验：拒绝域落在可能的数据集的一侧</li>
+<li>双尾检验：拒绝域落在可能的数据集的两侧</li>
+</ul>
+<h3><span id="14-双尾检验与单尾检验">1.4 双尾检验与单尾检验</span></h3>
+<p>使用单位检验还是双尾检验，取决于备择假设的形式：</p>
+<table>
+<thead>
+<tr>
+<th>拒绝域的位置</th>
+<th>原假设 $H_0$</th>
+<th>备择假设 $H_1$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>双尾</td>
+<td>$H_0:\theta = \theta _0$</td>
+<td>$H_1:\theta \ne \theta _0$</td>
+</tr>
+<tr>
+<td>左单尾</td>
+<td>$H_0:\theta \ge \theta _0$</td>
+<td>$H_1:\theta &lt; \theta _0$</td>
+</tr>
+<tr>
+<td>右单尾</td>
+<td>$H_0:\theta \le \theta _0$</td>
+<td>$H_1:\theta &gt; \theta _0$</td>
+</tr>
+</tbody>
+</table>
+<h3><span id="15-假设检验的基本思想">1.5 假设检验的基本思想</span></h3>
+<p>小概率事件在一次实验中是几乎不可能发生的，<strong>假若在一次实验中事件事实上发生了，那只能认为事件不是来自我们假设的总体，也就是认为我们对总体所作的假设不正确</strong>。</p>
+<h3><span id="16-假设检验中的两类错误">1.6 假设检验中的两类错误</span></h3>
+<ul>
+<li><strong>弃真错误</strong>：原假设事实上正确，可是检验统计量的观察值却落入拒绝域，因此否定了本来正确的假设，$p(弃真)=\alpha$</li>
+<li><strong>取伪错误</strong>：原假设事实上不正确，可是检验统计量的观察值却落入了接受域，因为没有否定本来不正确的原假设。</li>
+</ul>
+<h3><span id="17-p-值">1.7 P 值</span></h3>
+<p>当原假设为真时所取得的样本观察结果或极端结果出现的概率。</p>
+<p>如果 P 值很小，说明原假设情况的发生概率很小，而如果出现了，根据<strong>小概率原理</strong>，我们就有理由拒绝原假设，P 值越小，我们拒绝原假设的理由越充分。</p>
+<table>
+<thead>
+<tr>
+<th>P值</th>
+<th>碰巧的概率</th>
+<th>对原假设 $H_0$</th>
+<th>统计学意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$p&gt;0.05$</td>
+<td>碰巧出现的可能性大于 5%</td>
+<td>不能否定原假设 $H_0$</td>
+<td>两组差别无显著意义</td>
+</tr>
+<tr>
+<td>$p&lt;0.05$</td>
+<td>碰巧出现的可能性小于 5%</td>
+<td>可以否定原假设 $H_0$</td>
+<td>两组差别有显著意义</td>
+</tr>
+<tr>
+<td>$p&lt;0.01$</td>
+<td>碰巧出现的可能性小于 1%</td>
+<td>可以否定原假设 $H_0$</td>
+<td>两组差别有非常显著意义</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>P 值</strong>与<strong>显著性水平</strong> $\alpha$ 在假设检验中密切中密切相关，但它们代表不同的概念。</p>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>常见取值</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>p 值</td>
+<td>在原假设（$H_0$）为真时，观测到当前数据（或更极端数据）的概率</td>
+<td>计算得出（如 0.03）</td>
+<td>衡量数据反对原假设的证据强度。</td>
+</tr>
+<tr>
+<td>显著性水平 $\alpha$</td>
+<td>研究者预先设定的阈值，用于判断是否拒绝 $H_0$ （即容忍的假阳性错误率）</td>
+<td>通常取 <strong>0.05</strong></td>
+<td>作为决策边界，控制第一类错误（误拒真）的风险</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<hr>
+<h2><span id="2-卡方检验">2. 卡方检验</span></h2>
+<p>分析变量之间的关联性或差异性</p>
+<h3><span id="21-概念">2.1 概念</span></h3>
+<p>卡方检验的根本思想在于<strong>比较理论频数和实际频数的吻合程度或拟合优度问题</strong>。卡方检验分为卡方拟合度检验和卡方独立性检验。</p>
+<blockquote>
+<p><strong>卡方分布</strong> $\chi^2$：若 $n$ 个相互独立的随机变量 $\zeta_1$，$\zeta_2$，…，$\zeta_n$ 均服从标准正态分布（也称独立同分布于标准正态分布），则这 $n$ 个服从标准正态分布的随机变量的平方和构成一新的随机变量，其分布规律称为卡方分布</p>
+</blockquote>
+<h3><span id="22-核心思想">2.2 核心思想</span></h3>
+<p>卡方检验是以卡方分布为基础的一种常用假设检验方法。</p>
+<p>原假设 $H_0$ 是：观察频数与期望频数没有差别。</p>
+<p>$$\chi^2 = \Sigma \frac{(A-E)^2}{E}=\Sigma^k_{i=1} \frac{(A_i-E_i)^2}{E_i}$$</p>
+<p>$A$：某个类别的观察频数<br>
+$E$：基于原假设 $H_0$ 计算出的期望频数<br>
+$A-E$：残差</p>
+<blockquote>
+<p><strong>求和之前除以期望频数的原因</strong>：观察频数与期望频数的差距是相对较大还是较小，取决于期望频数的大小。例如期望频数为1000，观察频数为1040和期望频数为10，观察频数为50，差值均为40，但是显然后者的期望与实际的差距显然大于前者的期望和实际的差距。</p>
+</blockquote>
+<p>$\chi^2$ 是观察频数与期望频数之间距离的一种度量指标，也是假设成立与否的度量指标。如果 $\chi^2$ 值小，就倾向于不拒绝 $H_0$；如果 $\chi^2$ 值大，就倾向于拒绝 $H_0$。至于 $\chi^2$ 在每个具体研究中究竟要大到什么程度才能拒绝 $H_0$，则要借助于卡方分布求出所对应的 P 值来确定。</p>
+<h3><span id="23-卡方分布的用途">2.3 卡方分布的用途</span></h3>
+<ul>
+<li>检验某个连续变量的分布是否与理论分布一致</li>
+<li>检验某个分类变量各类的出现概率是否等于指定概率</li>
+<li>检验某两个分类变量是否相互独立。如吸烟是否与呼吸道疾病有关、玻璃颜色是否与风化水平有关（2022 年全国大学生数学建模竞赛 C 题）</li>
+<li>检验控制某种或某几种分类因素的作用以后，另两个分类变量是否相互独立</li>
+</ul>
+<blockquote>
+<p>卡方拟合优度检验的自由度为 $df=k-1$，其中 $k$ 代表分类变量数<br>
+卡方独立性检验的自由度为 $df=(R-1)(C-1)$，$R$ 代表行数，$C$ 代表列数。</p>
+</blockquote>
+<h3><span id="24-卡方检验的基本步骤">2.4 卡方检验的基本步骤</span></h3>
+<h4><span id="1提出假设"><strong>（1）提出假设</strong></span></h4>
+<ul>
+<li><strong>原假设（H₀）</strong>：变量之间无关联（或观测分布符合理论分布）。</li>
+<li><strong>备择假设（H₁）</strong>：变量之间有关联（或观测分布不符合理论分布）。</li>
+</ul>
+<h4><span id="2计算卡方统计量"><strong>（2）计算卡方统计量</strong></span></h4>
+<p>公式为：<br>
+$$\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}$$</p>
+<ul>
+<li>$O_i$：实际观测频数</li>
+<li>$E_i$：理论期望频数（在原假设成立时计算得出）。</li>
+</ul>
+<h4><span id="3确定临界值"><strong>（3）确定临界值</strong></span></h4>
+<p>根据**显著性水平（α，通常取0.05）<strong>和</strong>自由度（df）**查卡方分布表：</p>
+<ul>
+<li>拟合优度检验：$df = \text{分类类别数} - 1$</li>
+<li>独立性检验：$df = (行数-1) \times (列数-1)$</li>
+</ul>
+<h4><span id="4做出决策"><strong>（4）做出决策</strong></span></h4>
+<ul>
+<li>若 $\chi^2$ &gt; 临界值，拒绝原假设；</li>
+<li>若 $\chi^2$ ≤ 临界值，不拒绝原假设。</li>
+</ul>
+<blockquote>
+<p><strong>适用条件</strong></p>
+<ul>
+<li><strong>样本量要求</strong>：每个单元格的期望频数 $E_i$ 应 ≥5（若不满足，可用Fisher精确检验）。</li>
+<li><strong>变量类型</strong>：分类变量（名义或有序），不能用于连续变量。</li>
+</ul>
+</blockquote>
+<h3><span id="25-卡方检验实例与-python-实现">2.5 卡方检验实例与 Python 实现</span></h3>
+<blockquote>
+<p>参考 SciPy 文档：<a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/scipy/tutorial/stats/hypothesis_chisquare.html">https://docs.scipy.org/doc/scipy/tutorial/stats/hypothesis_chisquare.html</a></p>
+</blockquote>
+<p>在俄勒冈州的一片古老森林中调查了鸟类的觅食行为。在森林中，44% 的冠层体积是花旗松，24% 是黄松，29% 是大冷杉，3% 是西部落叶松。作者观察了几种鸟类的行为，其中一种是红胸坚果雏。他们对该物种的觅食进行了 189 次观察，记录了 43 次（“23%”）在花旗松中的观察，在黄松中记录了 52 次（“28%”），在大冷杉中记录了 54 次（“29%”）在大冷杉中的观察，在西部落叶松中记录了 40 次（“21%”）的观察。</p>
+<p>使用卡方检验，我们可以检验觅食事件的比例等于树冠体积的比例的原假设。该论文的作者认为 p 值小于 1% 是显著的。</p>
+<p>使用上述冠层体积和观测事件的比例，我们可以推断出预期的频率。</p>
+<pre><code class="language-Python">import numpy as np
+f_exp = np.array([44, 24, 29, 3]) / 100 * 189
+</code></pre>
+<p>观察到的觅食频率为：</p>
+<pre><code class="language-Python">f_obs = np.array([43, 52, 54, 40])
+</code></pre>
+<p>现在，我们可以将观测到的频率与预期频率进行比较：</p>
+<pre><code class="language-Python">from scipy.stats import chisquare
+chisquare(f_obs=f_obs, f_exp=f_exp)
+</code></pre>
+<pre><code class="language-terminal">Power_divergenceResult(statistic=228.23515947653874, pvalue=3.3295585338846486e-49)
+</code></pre>
+<p>p 值远低于所选的显著性水平。因此，作者认为这种差异是显著的，并得出结论，觅食事件的相对比例与树冠体积的相对比例不同。</p>
+<blockquote>
+<p>小生在这里其实更推荐另一种方法，方便快捷：</p>
+<pre><code class="language-python">from scipy.stats import chi2_contingency
+import numpy as np
+
+table = np.array([44, 24, 29, 3], [43, 52, 54, 40])
+chi2_contingency(table, correction=False)
+</code></pre>
+</blockquote>
+<hr>
+<h2><span id="3-z-检验">3. Z 检验</span></h2>
+<p>比较均值差异</p>
+<h3><span id="31-什么是-z-检验">3.1 什么是 Z 检验</span></h3>
+<p><strong>Z 检验</strong>是一种基于<strong>正态分布（Z 分布）<strong>的统计假设检验方法，主要用于在</strong>已知总体标准差（σ）<strong>的情况下，检验</strong>样本均值是否与总体均值存在显著差异</strong>，或者比较<strong>两个独立样本的均值差异</strong>是否显著。它适用于大样本（通常 $ n \geq 30 $）或总体服从正态分布的情况。</p>
+<h3><span id="32-z-检验的核心思想">3.2 Z 检验的核心思想</span></h3>
+<p>Z 检验通过计算 <strong>Z 统计量（Z-Score）</strong>，衡量样本均值与总体均值的差异是否超出了随机波动的范围：</p>
+<p>$$Z = \frac{\text{样本均值} - \text{总体均值}}{\text{标准误差（SE）}}$$</p>
+<p>其中：</p>
+<ul>
+<li><strong>标准误差（SE）</strong> = $ \frac{\sigma}{\sqrt{n}} $（单样本 Z 检验）</li>
+<li>$\sigma$ = 总体标准差（<strong>若未知，可用样本标准差 $ s $ 近似，但严格来说应使用 T 检验</strong>）</li>
+</ul>
+<p><strong>Z值越大</strong>，说明样本均值与总体均值的差异越显著。</p>
+<h3><span id="33-z-检验的适用场景">3.3 Z 检验的适用场景</span></h3>
+<p>Z检验主要用于以下情况：</p>
+<ol>
+<li>
+<p><strong>单样本 Z 检验</strong></p>
+<ul>
+<li>检验<strong>单个样本的均值</strong>是否等于某个已知的总体均值。</li>
+<li>例如：某工厂生产的灯泡寿命声称平均为 1200 小时，抽样检测 30 个灯泡，检验其均值是否真的等于 1200 小时。</li>
+</ul>
+</li>
+<li>
+<p><strong>两独立样本Z检验</strong></p>
+<ul>
+<li>比较<strong>两个独立样本的均值</strong>是否有显著差异。</li>
+<li>例如：比较两种教学方法对学生考试成绩的影响。</li>
+</ul>
+</li>
+<li>
+<p><strong>比例检验（Z检验的变体）</strong></p>
+<ul>
+<li>检验<strong>样本比例</strong>是否等于某个理论比例（如投票支持率是否超过 50%）。</li>
+</ul>
+</li>
+</ol>
+<h3><span id="34-z检验的计算步骤">3.4. Z检验的计算步骤</span></h3>
+<h4><span id="1单样本z检验">（1）单样本Z检验</span></h4>
+<p><strong>假设</strong>：</p>
+<ul>
+<li>$ H_0: \mu = \mu_0 $（样本均值等于总体均值）</li>
+<li>$ H_1: \mu \neq \mu_0 $（双侧检验）或 $ \mu &gt; \mu_0 $ / $ \mu &lt; \mu_0 $（单侧检验）</li>
+</ul>
+<p><strong>计算公式</strong>：<br>
+$$Z = \frac{\bar{X} - \mu_0}{\sigma / \sqrt{n}}$$</p>
+<ul>
+<li>$\bar{X}$ = 样本均值</li>
+<li>$\mu_0$ = 假设的总体均值</li>
+<li>$\sigma$ = 总体标准差</li>
+<li>$n$ = 样本量</li>
+</ul>
+<p><strong>决策</strong>：</p>
+<ul>
+<li>计算得到的Z值与临界Z值（如 $ Z_{0.05} = 1.96 $）比较，或直接看p值：
+<ul>
+<li>若 $ |Z| &gt; Z_{\alpha/2} $，拒绝 $ H_0 $（差异显著）。</li>
+<li>若 p值 &lt; α（如 0.05），拒绝 $ H_0 $。</li>
+</ul>
+</li>
+</ul>
+<h4><span id="2两独立样本z检验">（2）两独立样本Z检验</span></h4>
+<p><strong>假设</strong>：</p>
+<ul>
+<li>$ H_0: \mu_1 = \mu_2 $（两样本均值无差异）</li>
+<li>$ H_1: \mu_1 \neq \mu_2 $（有差异）</li>
+</ul>
+<p><strong>计算公式</strong>：<br>
+$$Z = \frac{(\bar{X}_1 - \bar{X}_2) - 0}{\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}}$$</p>
+<ul>
+<li>$\bar{X}_1, \bar{X}_2$ = 两样本均值</li>
+<li>$\sigma_1, \sigma_2$ = 两总体标准差（若未知，可用样本标准差近似）</li>
+<li>$n_1, n_2$ = 两样本量</li>
+</ul>
+<p><strong>决策</strong>：</p>
+<ul>
+<li>比较Z值与临界值，或看p值是否小于α。</li>
+</ul>
+<hr>
+<h3><span id="35-z检验的python实现scipy">3.5. Z检验的Python实现（SciPy）</span></h3>
+<h4><span id="单样本z检验">单样本Z检验</span></h4>
+<pre><code class="language-python">import numpy as np
+from scipy import stats
+
+# 样本数据
+sample = np.array([102, 105, 98, 97, 100, 103, 99, 101, 104, 102])
+mu0 = 100  # 假设的总体均值
+sigma = 3  # 已知的总体标准差
+
+# 计算Z统计量和p值
+z_score = (np.mean(sample) - mu0) / (sigma / np.sqrt(len(sample)))
+p_value = 2 * (1 - stats.norm.cdf(abs(z_score)))  # 双侧检验
+
+print(f&quot;Z值: &#123;z_score:.4f&#125;, p值: &#123;p_value:.4f&#125;&quot;)
+if p_value &lt; 0.05:
+    print(&quot;拒绝H0，均值显著不同&quot;)
+else:
+    print(&quot;不拒绝H0，均值无显著差异&quot;)
+</code></pre>
+<h3><span id="两独立样本z检验"><strong>两独立样本Z检验</strong></span></h3>
+<pre><code class="language-python"># 两样本数据
+sample1 = np.array([102, 105, 98, 97, 100])
+sample2 = np.array([99, 101, 104, 102, 103])
+sigma1, sigma2 = 3, 3  # 已知两总体标准差
+
+# 计算Z统计量
+mean_diff = np.mean(sample1) - np.mean(sample2)
+se = np.sqrt((sigma1**2 / len(sample1)) + (sigma2**2 / len(sample2)))
+z_score = mean_diff / se
+p_value = 2 * (1 - stats.norm.cdf(abs(z_score)))
+
+print(f&quot;Z值: &#123;z_score:.4f&#125;, p值: &#123;p_value:.4f&#125;&quot;)
+if p_value &lt; 0.05:
+    print(&quot;两样本均值显著不同&quot;)
+else:
+    print(&quot;两样本均值无显著差异&quot;)
+</code></pre>
+<blockquote>
+<p><strong>杂谈：为什么 SciPy 没有专门写 ztest 函数？</strong></p>
+<ul>
+<li><strong>历史原因</strong>：SciPy 早期设计更关注通用科学计算，统计功能由 <code>statsmodels</code> 补充</li>
+<li><strong>实际需求</strong>：Z 检验严格依赖已知总体标准差，但现实中更常见的是<strong>未知</strong> $\sigma$ 的情况（此时 T 检验更合适）</li>
+<li><strong>替代方案</strong>：<code>scipy.stats.ttest_1samp</code> （单样本T检验）在样本量较大时结果接近Z检验</li>
+</ul>
+</blockquote>
+<hr>
+<h2><span id="4-t-检验">4. T 检验</span></h2>
+<p>用于判断样本均值与总体均值是否存在显著差异。</p>
+<h3><span id="41-什么是-t-检验t-test">4.1 什么是 T 检验（T-Test）</span></h3>
+<p>T 检验是一种基于 <strong>t 分布</strong> 的统计假设检验方法，用于判断 <strong>样本均值是否与总体均值（或另一组样本均值）存在显著差异</strong>。与Z检验不同，T检验适用于 <strong>总体标准差未知</strong> 且 <strong>小样本（n &lt; 30）</strong> 的情况，是实际科研和数据分析中最常用的检验之一。</p>
+<h3><span id="42-t检验的核心思想">4.2 T检验的核心思想</span></h3>
+<p>T 检验通过计算 <strong>t 统计量（t-score）</strong>，衡量样本均值与参考值（总体均值或另一组样本均值）的差异是否显著：<br>
+$$t = \frac{\text{样本均值} - \text{参考值}}{\text{标准误差（SE）}}$$<br>
+其中：</p>
+<ul>
+<li><strong>标准误差（SE）</strong> = $ \frac{s}{\sqrt{n}} $（s为样本标准差，n为样本量）</li>
+<li><strong>自由度（df）</strong> = $ n - 1 $（单样本 T 检验）</li>
+</ul>
+<p><strong>t 值越大</strong>，说明差异越显著。</p>
+<h3><span id="43-t检验的适用场景">4.3 T检验的适用场景</span></h3>
+<p>T检验主要分为三类：</p>
+<ol>
+<li>
+<p><strong>单样本T检验（One-Sample T-Test）</strong></p>
+<ul>
+<li>检验 <strong>单个样本的均值</strong> 是否等于某个理论值或已知总体均值。</li>
+<li><strong>示例</strong>：某药物声称能降低血压至120 mmHg，测量10名患者服药后的血压，检验均值是否等于120。</li>
+</ul>
+</li>
+<li>
+<p><strong>独立样本T检验（Independent Two-Sample T-Test）</strong></p>
+<ul>
+<li>比较 <strong>两组独立样本的均值</strong> 是否有显著差异。</li>
+<li><strong>示例</strong>：比较两种教学方法对学生考试成绩的影响（A组 vs. B组）。</li>
+</ul>
+</li>
+<li>
+<p><strong>配对样本T检验（Paired T-Test）</strong></p>
+<ul>
+<li>比较 <strong>同一组样本在不同条件下的均值差异</strong>（如前后测）。</li>
+<li><strong>示例</strong>：10名运动员训练前后的跑步成绩对比。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3><span id="44-t检验-vs-z检验的关键区别">4.4 T检验 vs. Z检验的关键区别</span></h3>
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>T检验</th>
+<th>Z检验</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>总体标准差</strong></td>
+<td>未知（用样本标准差s估计）</td>
+<td>已知</td>
+</tr>
+<tr>
+<td><strong>样本量要求</strong></td>
+<td>小样本（n &lt; 30）或大样本</td>
+<td>大样本（n ≥ 30）</td>
+</tr>
+<tr>
+<td><strong>分布</strong></td>
+<td>t分布（自由度依赖）</td>
+<td>标准正态分布（Z分布）</td>
+</tr>
+<tr>
+<td><strong>应用频率</strong></td>
+<td>更常用（现实σ通常未知）</td>
+<td>较少用（需已知σ）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3><span id="45-t检验的计算步骤">4.5 T检验的计算步骤</span></h3>
+<h4><span id="1单样本t检验最常见">（1）单样本T检验（最常见）</span></h4>
+<p><strong>假设</strong>：</p>
+<ul>
+<li>$ H_0: \mu = \mu_0 $（样本均值等于理论值）</li>
+<li>$ H_1: \mu \neq \mu_0 $（双侧检验）</li>
+</ul>
+<p><strong>公式</strong>：<br>
+$$t = \frac{\bar{X} - \mu_0}{s / \sqrt{n}}$$</p>
+<ul>
+<li>$\bar{X}$：样本均值</li>
+<li>$\mu_0$：理论均值</li>
+<li>$s$：样本标准差</li>
+<li>$n$：样本量</li>
+</ul>
+<p><strong>决策</strong>：</p>
+<ul>
+<li>计算t值后，查t分布表或直接比较p值：
+<ul>
+<li>若 $ |t| &gt; t_{\alpha/2, df} $ 或 p值 &lt; α（如0.05），拒绝H₀。</li>
+</ul>
+</li>
+</ul>
+<h4><span id="2独立样本t检验"><strong>（2）独立样本T检验</strong></span></h4>
+<p><strong>假设</strong>：</p>
+<ul>
+<li>$ H_0: \mu_1 = \mu_2 $（两样本均值无差异）</li>
+<li>$ H_1: \mu_1 \neq \mu_2 $（有差异）</li>
+</ul>
+<p><strong>公式</strong>（假设两总体方差相等）：<br>
+$$t = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\frac{s_p^2}{n_1} + \frac{s_p^2}{n_2}}}, \quad s_p^2 = \frac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1 + n_2 - 2}$$</p>
+<ul>
+<li>$s_p^2$：合并方差</li>
+<li>若方差不齐（需先做 <a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/scipy/tutorial/stats/hypothesis_levene.html">Levene</a> 检验），使用 <strong>Welch’s T检验</strong>（修正自由度）。</li>
+</ul>
+<h4><span id="3配对样本t检验"><strong>（3）配对样本T检验</strong></span></h4>
+<p><strong>假设</strong>：</p>
+<ul>
+<li>$ H_0: \mu_{\text{前}} = \mu_{\text{后}} $（前后无差异）</li>
+<li>$ H_1: \mu_{\text{前}} \neq \mu_{\text{后}} $（有差异）</li>
+</ul>
+<p><strong>公式</strong>：<br>
+$$t = \frac{\bar{D}}{s_D / \sqrt{n}}$$</p>
+<ul>
+<li>$\bar{D}$：配对差异的均值</li>
+<li>$s_D$：配对差异的标准差</li>
+</ul>
+<hr>
+<h3><span id="46-python实现scipy">4.6 Python实现（SciPy）</span></h3>
+<h4><span id="1单样本t检验"><strong>（1）单样本T检验</strong></span></h4>
+<pre><code class="language-python">from scipy.stats import ttest_1samp
+import numpy as np
+
+sample = np.array([102, 105, 98, 97, 100, 103])
+mu0 = 100  # 理论均值
+
+t_stat, p_value = ttest_1samp(sample, mu0)
+print(f&quot;t值: &#123;t_stat:.3f&#125;, p值: &#123;p_value:.3f&#125;&quot;)
+if p_value &lt; 0.05:
+    print(&quot;拒绝H0，均值显著不同&quot;)
+else:
+    print(&quot;不拒绝H0&quot;)
+</code></pre>
+<h4><span id="2独立样本t检验"><strong>（2）独立样本T检验</strong></span></h4>
+<pre><code class="language-python">from scipy.stats import ttest_ind
+
+group1 = np.array([20, 22, 19, 18, 21])
+group2 = np.array([18, 17, 20, 16, 15])
+
+# 默认假设方差齐性（equal_var=True）
+t_stat, p_value = ttest_ind(group1, group2)
+print(f&quot;t值: &#123;t_stat:.3f&#125;, p值: &#123;p_value:.3f&#125;&quot;)
+</code></pre>
+<h4><span id="3配对样本t检验"><strong>（3）配对样本T检验</strong></span></h4>
+<pre><code class="language-python">from scipy.stats import ttest_rel
+
+before = np.array([70, 72, 68, 75, 71])
+after = np.array([68, 70, 65, 73, 69])
+
+t_stat, p_value = ttest_rel(before, after)
+print(f&quot;t值: &#123;t_stat:.3f&#125;, p值: &#123;p_value:.3f&#125;&quot;)
+</code></pre>
+<hr>
+<h3><span id="47-注意事项">4.7 注意事项</span></h3>
+<ol>
+<li>
+<p><strong>正态性假设</strong>：</p>
+<ul>
+<li>小样本时，数据应近似正态分布（可通过<a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/scipy/tutorial/stats/hypothesis_shapiro.html">Shapiro-Wilk</a> 检验或Q-Q图验证）。</li>
+<li>大样本（n ≥ 30）时，因中心极限定理，可放宽正态性要求。</li>
+</ul>
+</li>
+<li>
+<p><strong>方差齐性</strong>：</p>
+<ul>
+<li>独立样本T检验需检验两组方差是否相等（如 <a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/scipy/tutorial/stats/hypothesis_levene.html">Levene</a> 检验），若不等需用 Welch’s T检验（<code>ttest_ind(..., equal_var=False)</code>）。</li>
+</ul>
+</li>
+<li>
+<p><strong>效应量</strong>：</p>
+<ul>
+<li>除了p值，应报告效应量（如 Cohen’s d），衡量差异的实际重要性。</li>
+</ul>
+</li>
+</ol>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 什么是假设检验？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.1 概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.2 步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.3 其他概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.4 双尾检验与单尾检验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.5 假设检验的基本思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.6 假设检验中的两类错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.7 P 值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 卡方检验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.1 概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.2 核心思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.3 卡方分布的用途</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.4 卡方检验的基本步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">（1）提出假设</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">（2）计算卡方统计量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">（3）确定临界值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">（4）做出决策</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.5 卡方检验实例与 Python 实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. Z 检验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.1 什么是 Z 检验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.2 Z 检验的核心思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.3 Z 检验的适用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.4. Z检验的计算步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">（1）单样本Z检验</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">（2）两独立样本Z检验</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.5. Z检验的Python实现（SciPy）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">单样本Z检验</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">两独立样本Z检验</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. T 检验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.1 什么是 T 检验（T-Test）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.2 T检验的核心思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.3 T检验的适用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.4 T检验 vs. Z检验的关键区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.5 T检验的计算步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">（1）单样本T检验（最常见）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">（2）独立样本T检验</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">（3）配对样本T检验</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.6 Python实现（SciPy）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">（1）单样本T检验</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">（2）独立样本T检验</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">（3）配对样本T检验</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.7 注意事项</span></a></li></ol></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

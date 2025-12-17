@@ -1,0 +1,433 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>卡尔曼滤波及 Python 实现 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>卡尔曼滤波及 Python 实现</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2025/5/11
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                机器学习
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
+                                        机器学习
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #00bcd4">
+                                        算法
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <h2><span id="1-卡尔曼滤波是什么">1. 卡尔曼滤波是什么</span></h2>
+<blockquote>
+<p>可以参考油管上的一个视频：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=IFeCIbljreY">https://www.youtube.com/watch?v=IFeCIbljreY</a></p>
+</blockquote>
+<p>想象你在开车时用手机导航：</p>
+<ul>
+<li>GPS 定位（观测值）：有误差（比如显示在车道中间，实际可能偏左）。</li>
+<li>车辆运动模型（预测值）：根据速度推算位置，但不够精确（比如没考虑风速）。</li>
+</ul>
+<p>卡尔曼滤波就是<strong>把不完美的预测（估计）和不完美的观测结合起来，得到更加准确的结果</strong>，比如将 GPS 定位和车辆运动模型结合起来而得到更加准确的结果。</p>
+<h2><span id="2-核心思想-amp-算法流程">2. 核心思想 &amp; 算法流程</span></h2>
+<ul>
+<li>
+<ol>
+<li>预测（猜）</li>
+</ol>
+<ul>
+<li>根据前一秒的位置和速度，预测现在的位置。</li>
+<li>例：车以 10m/s 行驶，1 秒后应前进 10 米。但实际可能有误差（如刹车导致速度变化）。</li>
+</ul>
+</li>
+<li>
+<ol start="2">
+<li>观测（看）</li>
+</ol>
+<ul>
+<li>GPS 告诉你现在的位置。</li>
+<li>例：GPS 显示车在 105 米处，但可能有 $\pm 5$ 米误差。</li>
+</ul>
+</li>
+<li>
+<ol start="3">
+<li>融合（信谁？）</li>
+</ol>
+<ul>
+<li>如果预测更可靠（比如 GPS 信号差），就多相信预测</li>
+<li>如果观测更可靠（比如车突然刹车），就多相信观测。</li>
+<li><strong>卡尔曼滤波自动计算“该信多少”</strong>（即<strong>卡尔曼增益</strong>）</li>
+</ul>
+</li>
+</ul>
+<h2><span id="3-算法细节与公式">3. 算法细节与公式</span></h2>
+<p>卡尔曼滤波分为两个阶段：<strong>预测</strong>（Predict）和<strong>更新</strong>（Update）。</p>
+<p>假设系统状态为 $x_k$，观测值为 $z_k$，过程噪声和观测噪声均为高斯白噪声（符合正态分布）。</p>
+<h3><span id="31-预测阶段先验估计">3.1 预测阶段（先验估计）</span></h3>
+<ul>
+<li>
+<p>状态预测：<br>
+$$\hat{x}<em>k^- = F_k \hat{x}</em>{k-1} + B_k u_k$$</p>
+<ul>
+<li>$\hat{x}_k^-$：先验状态估计（预测值）。</li>
+<li>$F_k$：状态转移矩阵。</li>
+<li>$B_k$：控制输入矩阵（可选，外部控制量 $u_k$ 存在时使用）。</li>
+</ul>
+</li>
+<li>
+<p>协方差预测：<br>
+$$P^-<em>k = F_k P</em>{k-1} F_k^T + Q_k$$</p>
+<ul>
+<li>$P^-_k$：先验估计误差协方差。</li>
+<li>$Q_k$：过程噪声协方差矩阵。</li>
+</ul>
+</li>
+</ul>
+<h3><span id="32-更新阶段后验估计">3.2 更新阶段（后验估计）</span></h3>
+<ul>
+<li>卡尔曼增益计算：<br>
+$$K_k = P_k^- H_k^T (H_k P_k^- H_k^T + R_k)^{-1}$$
+<ul>
+<li>$K_k$：卡尔曼增益（权衡预测与观测的权重）。</li>
+<li>$H_k$：观测矩阵（将状态映射到观测空间）。</li>
+<li>$R_k$：观测噪声协方差矩阵。</li>
+</ul>
+</li>
+<li>状态更新：<br>
+$$\hat{x}_k = \hat{x}_k^- + K_k (z_k - H_k \hat{x}_k^-)$$
+<ul>
+<li>$\hat{x}_k$：后验状态估计（最终输出）</li>
+<li>$z_k - H_k \hat{x}_k^-$：<strong>新息</strong>（观测残差，即预测与实测的差异，系统状态的更新信息）。</li>
+</ul>
+</li>
+<li>协方差更新<br>
+$$P_k = (I-K_k H_k)P_k^-$$
+<ul>
+<li>$P_k$：后验估计误差协方差。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>“<strong>新息</strong>和<strong>残差</strong>这个说法没有固定定义，在不同文献里有不同说辞。有的认为新息和残差是一个东西，见《Estimation with applications to tracking navigation》这本书第 205 页。也有的论文认为是有区别的，如你这篇文章。这个还是要看具体文章里的定义使用。”</p>
+</blockquote>
+<h3><span id="伪代码">伪代码</span></h3>
+<pre><code class="language-python"># 初始化
+x_hat = initial_store         # 状态信息估计
+P = initial_covariance        # 初始化协方差矩阵
+F = state_transition_matrix   # 状态转移矩阵
+H = observation_matrix        # 观测矩阵
+Q = process_noise_cov         # 过程噪声协方差
+R = measurement_noise_cov     # 观测噪声协方差
+
+for epoch new measurement z_k:
+    # 1. 预测阶段
+    x_hat_minus = F @ x_hat + B @ u_k
+    P_minus = F @ P @ F.T + Q
+
+    # 2. 更新阶段
+    K = P_minus @ H.T @ np.linalg.inv(H @ P_minus @ H.T + R)  # 卡尔曼增益
+    x_hat = x_hat_minus + K @ (z_k - H @ x_hat_minus)          # 状态更新
+    P = (np.eye(n) - K @ H) @ P_minus                     # 协方差更新
+</code></pre>
+<h2><span id="4-卡尔曼滤波的应用">4. 卡尔曼滤波的应用</span></h2>
+<blockquote>
+<p>关于卡尔曼滤波，理论上是可以应用在任意形式的信号上的（波、图像、音频等），本文中的代码会以卡尔曼滤波在图像目标检测中的应用为例。</p>
+<p>可以参考某大佬写的一个应用样例：<a target="_blank" rel="noopener" href="https://github.com/liuchangji/kalman-filter-in-single-object-tracking">https://github.com/liuchangji/kalman-filter-in-single-object-tracking</a></p>
+</blockquote>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 卡尔曼滤波是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 核心思想 &amp; 算法流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. 算法细节与公式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.1 预测阶段（先验估计）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">3.2 更新阶段（后验估计）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">伪代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. 卡尔曼滤波的应用</span></a></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

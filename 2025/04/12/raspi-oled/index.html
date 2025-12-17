@@ -1,0 +1,430 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>在树莓派上玩 I2C 接口 oled 显示屏 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>在树莓派上玩 I2C 接口 oled 显示屏</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2025/4/12
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                树莓派
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="color: #ffa2c4">
+                                        树莓派
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <blockquote>
+<p>本文使用 <code>luma.oled</code> 库来对 I2C 接口 oled 显示器进行编辑</p>
+<p><code>luma.oled</code> 支持 <strong>SSD1306 / SSD1309 / SSD1322 / SSD1325 / SSD1327 / SSD1331 / SSD1351 / SSD1362 / SH1106 / WS0010</strong></p>
+<p>安装 <code>luma.oled</code> 只需要在 python 虚拟环境中使用 pip 安装即可：</p>
+<pre><code class="language-bash">pip install luma.oled
+</code></pre>
+<p><strong>PS:</strong> 小生记得这里需要一些基本配置，否则 build 过程会引发报错，按照报错提示来配置即可</p>
+</blockquote>
+<h2><span id="1-硬件连接">1. 硬件连接</span></h2>
+<p>首先贴出树莓派的引脚图：</p>
+<p><img src="../images/raspberrypi/gpio_readall.png" alt="gpio_readall"></p>
+<blockquote>
+<p>可以直接执行以下命令查看 gpio 引脚情况：</p>
+<pre><code class="language-bash">gpio readall
+</code></pre>
+</blockquote>
+<p>在图中找到 <code>3.3v</code>、<code>SDA.1</code>、<code>SCL.1</code>、<code>GND</code> 这四个引脚，分别对应 <strong>1、3、5、6</strong> 号引脚</p>
+<p>接着在 I2C 接口的 oled 显示器上找到四个引脚：</p>
+<ul>
+<li><strong>GND</strong>：电源地线</li>
+<li><strong>VCC</strong>：电源正极，大部分 oled 模块 3.3v 即可驱动</li>
+<li><strong>SCL</strong>：I2C 时钟线</li>
+<li><strong>SDA</strong>：I2C 数据线</li>
+</ul>
+<p>接着用双母头杜邦线连接四对引脚：<code>3.3v-VCC</code>、<code>GND-GND</code>、<code>SDA.1-SDA</code>、<code>SCL.1-SCL</code></p>
+<blockquote>
+<p>⚠️ 注意电源正负极不要接反了，容易把板子烧掉。</p>
+</blockquote>
+<p>根据上文的步骤连接好 oled 模块，查找 oled 的 I2C 地址。每一个 oled 模块的 I2C 地址不一定都相同，需要先查找获取地址，同时也检查以下 oled 模块是否连接正常</p>
+<p>输入以下指令：</p>
+<pre><code class="language-bash">sudo i2cdetect -y 1
+</code></pre>
+<p>输出以下界面：</p>
+<p><img src="../images/raspberrypi/i2cdetect.png" alt="i2cdetect"></p>
+<p>上图中，3c 代表的就是 oled 模块的 I2C 地址。</p>
+<hr>
+<h2><span id="2-代码调试">2. 代码调试</span></h2>
+<blockquote>
+<p>这部分要注意自己的硬件信息，不要盲目 copy</p>
+</blockquote>
+<p>将下面的这段代码复制到 .py 文件中，尝试运行调试：</p>
+<pre><code class="language-Python">from luma.core.interface.serial import i2c, spi
+from luma.core.render import canvas
+from luma.oled.device import ssd1306, ssd1325, ssd1331, sh1106
+from time import sleep
+import random
+
+__version__ = 1.0
+# 初始化端口
+serial = i2c(port=1, address=0x3c)
+# 初始化设备，这里改 ssd1306, ssd1325, ssd1331, sh1106
+device = sh1106(serial)
+
+with canvas(device) as draw:
+    draw.ellipse((44, 32, 84, 60), outline=&quot;white&quot;, fill=&quot;white&quot;)
+    draw.rectangle((44, 32, 84, 46), outline=&quot;black&quot;, fill=&quot;black&quot;)
+    draw.line((54, 46, 54, 60), fill=&quot;black&quot;)
+    draw.line((64, 46, 64, 60), fill=&quot;black&quot;)
+    draw.line((74, 46, 64, 60), fill=&quot;black&quot;)
+    draw.ellipse((24, 12, 44, 32), outline=&quot;white&quot;, fill=&quot;white&quot;)
+    draw.ellipse((84, 12, 104, 32), outline=&quot;white&quot;, fill=&quot;white&quot;)
+
+sleep(10)   # oled 显示器显示 10 秒
+</code></pre>
+<p>如果不出意外的话，oled 显示器上会出现下面这个笑脸 😁：</p>
+<p><img src="../images/raspberrypi/happy_face.png" alt="happy_face"></p>
+<p>下面来具体讲一讲上面这段代码：</p>
+<pre><code class="language-Python"># 初始化设备，这里改 ssd1306, ssd1325, ssd1331, sh1106
+device = sh1106(serial)
+</code></pre>
+<p>这段代码主要作用是初始化设备</p>
+<ul>
+<li>如果 oled 的驱动芯片不是 sh1106，需要更换对应的函数名</li>
+<li>如果 oled 尺寸不同，则需要传不同的参数，例如如果是 0.91 寸的 128*64 的 oled 则代码应修改为 <code>device = ssd1306(serial, width=128, height=64)</code></li>
+</ul>
+<pre><code class="language-python">with canvas(device) as draw:
+    draw.ellipse((44, 32, 84, 60), outline=&quot;white&quot;, fill=&quot;white&quot;)
+    draw.rectangle((44, 32, 84, 46), outline=&quot;black&quot;, fill=&quot;black&quot;)
+</code></pre>
+<ul>
+<li><code>canvas</code> 英文单词含义为画布，意思是可以在这里输入各种需要显示的内容。</li>
+<li>这段代码使用了 <code>with...as...:</code> 语法，关于 with 的详细用法可以暂且不论，这里可以简单地理解为先执行 <code>canvas</code> 函数，然后返回对象赋值给 <code>draw</code> 变量，用此语法创建的对象，会在使用结束后自动释放资源，常用于打开某个文件夹，之后自动关闭文件夹。</li>
+<li><code>draw.ellipse()</code> 为画椭圆的函数。</li>
+<li><code>draw.rectangle()</code> 为画矩形的函数，类似的还有画直线、三角形等。</li>
+</ul>
+<h2><span id="3-显示汉字">3. 显示汉字</span></h2>
+<p>代码如下：</p>
+<pre><code class="language-python">from luma.core.interface.serial import i2c, spi
+from luma.core.render import canvas
+from luma.oled.device import ssd1306, ssd1325, ssd1331, sh1106
+from time import sleep
+from PIL import ImageFont
+
+# 初始化端口
+serial = i2c(port=1, address=0x3c)
+# 初始化设备
+device = sh1106(serial)
+# 调用显示函数
+font = ImageFont.truetype('../source/msyh/msyh.ttf')
+
+with canvas(device) as draw:
+    draw.rectangle(device.bounding_box, outline=&quot;white&quot;, fill=&quot;black&quot;)
+    draw.text((5, 10), &quot;精灵们今天非常开心！他们&quot;, fill=&quot;white&quot;, font=font)
+    draw.text((5, 24), &quot;会尽可能给所有人带来好运&quot;, fill=&quot;white&quot;, font=font)
+    draw.text((5, 38), &quot;的。&quot;, fill=&quot;white&quot;, font=font)
+
+# 显示 5s
+sleep(5)
+</code></pre>
+<p>显示效果如下：</p>
+<p><img src="../images/raspberrypi/oled_text.png" alt="oled_text"></p>
+<p>代码解析：</p>
+<ul>
+<li><code>from PIL import ImageFont</code> 这个是强大的 <code>PIL</code> 库中的字体类，显示汉字，默认字体就不行了，所以需要新增字体文件</li>
+<li><code>font = ImageFont.truetype(&quot;../source/msyh/msyh.ttf&quot;)</code> 这段代码的含义是调用当前目录下的字体文件 <code>msyh.ttf</code> 创建一个字体类，<code>msyh.ttf</code> 是微软雅黑字体，可以上网自行下载，也可以下载安装其他字体。</li>
+<li><code>draw.text((5, 10), &quot;精灵们今天非常开心！他们&quot;, fill=&quot;white&quot;, font=font)</code> 的含义是在 (5, 10) 位置显示汉字</li>
+</ul>
+<h2><span id="4-其他-api">4. 其他 API</span></h2>
+<p>具体参考<a target="_blank" rel="noopener" href="https://luma-oled.readthedocs.io/en/latest/">官方文档</a></p>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 硬件连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 代码调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. 显示汉字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. 其他 API</span></a></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

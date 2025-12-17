@@ -1,0 +1,2180 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>Archives | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+<script src="/js/lib/search.js"></script>
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            
+<div id="archives">
+    
+    <input id="search-bar" class="input" placeholder="🔍 Search" v-model="rawSearch" />
+    
+    <div id="timeline-wrap" ref="timeline">
+        
+        <div class="timeline" data-title="强化学习理论笔记0——引言">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2024/11/25</div>
+                <a href="/2024/11/25/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B00/">
+                    <h3>强化学习理论笔记0——引言</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            强化学习
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
+                                强化学习
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ffa2c4">
+                                笔记
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%BA%AF%E7%90%86%E8%AE%BA/" style="color: #ff7d73">
+                                纯理论
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="强化学习实战1——交叉熵方法">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2024/11/25</div>
+                <a href="/2024/11/25/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B00/">
+                    <h3>强化学习实战1——交叉熵方法</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            强化学习
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/PyTorch/" style="color: #00a596">
+                                PyTorch
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
+                                强化学习
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #00bcd4">
+                                笔记
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="强化学习理论笔记1——基本概念">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2024/11/26</div>
+                <a href="/2024/11/26/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">
+                    <h3>强化学习理论笔记1——基本概念</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            强化学习
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
+                                强化学习
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #03a9f4">
+                                笔记
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%BA%AF%E7%90%86%E8%AE%BA/" style="color: #00bcd4">
+                                纯理论
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="个人简介">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2024/11/26</div>
+                <a href="/2024/11/26/test/">
+                    <h3>个人简介</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E6%9D%82%E8%B0%88/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            杂谈
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%9D%82%E8%B0%88/" style="color: #00a596">
+                                杂谈
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="深度学习与pytorch入门指南">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2024/11/27</div>
+                <a href="/2024/11/27/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA%E7%AC%94%E8%AE%B01-md/">
+                    <h3>深度学习与 PyTorch 入门指南</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            深度学习
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/PyTorch/" style="color: #ff7d73">
+                                PyTorch
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                                深度学习
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="数模美赛备赛指南">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2024/11/28</div>
+                <a href="/2024/11/28/%E6%95%B0%E6%A8%A1%E7%BE%8E%E8%B5%9B%E5%A4%87%E8%B5%9B%E6%8C%87%E5%8D%97/">
+                    <h3>数模美赛备赛指南</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            食用指南
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ff7d73">
+                                数学建模
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="激活函数leakyrelu与relu的区别">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2024/11/29</div>
+                <a href="/2024/11/29/%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0Leaky-ReLu%E4%B8%8EReLu/">
+                    <h3>激活函数 Leaky ReLU 与 ReLU 的区别</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            深度学习
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                                深度学习
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="强化学习理论笔记2——贝尔曼公式">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2024/12/2</div>
+                <a href="/2024/12/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA%E7%AC%94%E8%AE%B02/">
+                    <h3>强化学习理论笔记2——贝尔曼公式</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            强化学习
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
+                                强化学习
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ffa2c4">
+                                笔记
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%BA%AF%E7%90%86%E8%AE%BA/" style="color: #00a596">
+                                纯理论
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="强化学习理论笔记3——贝尔曼最优公式">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2024/12/2</div>
+                <a href="/2024/12/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA%E7%AC%94%E8%AE%B03/">
+                    <h3>强化学习理论笔记3——贝尔曼最优公式</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            强化学习
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
+                                强化学习
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%AC%94%E8%AE%B0/" style="color: #ff7d73">
+                                笔记
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%BA%AF%E7%90%86%E8%AE%BA/" style="color: #ffa2c4">
+                                纯理论
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="torchrl入门1">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2024/12/7</div>
+                <a href="/2024/12/07/torchrl%E5%85%A5%E9%97%A8/">
+                    <h3>TorchRL 入门 1</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            强化学习
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/PyTorch/" style="color: #00bcd4">
+                                PyTorch
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
+                                强化学习
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/TorchRL/" style="color: #00a596">
+                                TorchRL
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="torchrl入门2">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2024/12/7</div>
+                <a href="/2024/12/07/torchrl%E5%85%A5%E9%97%A82/">
+                    <h3>TorchRL 入门 2</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            强化学习
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/PyTorch/" style="color: #00bcd4">
+                                PyTorch
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
+                                强化学习
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/TorchRL/" style="color: #00bcd4">
+                                TorchRL
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="kaggle：playgrounds4e8">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2024/12/9</div>
+                <a href="/2024/12/09/rl-practice2/">
+                    <h3>Kaggle：Playground S4 E8</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/Kaggle-%E7%BB%83%E4%B9%A0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            Kaggle 练习
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/PyTorch/" style="color: #03a9f4">
+                                PyTorch
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
+                                深度学习
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="openaigym的使用">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2024/12/10</div>
+                <a href="/2024/12/10/openai-gym/">
+                    <h3>OpenAI Gym 的使用</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            强化学习
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                                强化学习
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="pytorch深度学习、强化学习入门">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2024/12/11</div>
+                <a href="/2024/12/11/PyTorch%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/">
+                    <h3>PyTorch 深度学习、强化学习入门</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            深度学习
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/PyTorch/" style="color: #00a596">
+                                PyTorch
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
+                                深度学习
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
+                                强化学习
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="lstm原理及其pytorch实现">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2024/12/13</div>
+                <a href="/2024/12/13/LSTM/">
+                    <h3>LSTM 原理及其 PyTorch 实现</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            深度学习
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/PyTorch/" style="color: #03a9f4">
+                                PyTorch
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                                深度学习
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/RNN/" style="color: #ffa2c4">
+                                RNN
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="sus-lstm模型">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2024/12/14</div>
+                <a href="/2024/12/14/sus-lstm/">
+                    <h3>SUS-LSTM 模型</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            深度学习
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
+                                深度学习
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/RNN/" style="color: #ffa2c4">
+                                RNN
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="树莓派的初次尝试">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/1/17</div>
+                <a href="/2025/01/17/respberrypi/">
+                    <h3>树莓派的初次尝试</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            树莓派
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%A1%AC%E4%BB%B6/" style="color: #03a9f4">
+                                硬件
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="color: #ffa2c4">
+                                树莓派
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/Ubuntu/" style="color: #ff7d73">
+                                Ubuntu
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="raspberrypi,start!">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/1/18</div>
+                <a href="/2025/01/18/raspberry2/">
+                    <h3>Raspberry Pi, start!</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            树莓派
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%A1%AC%E4%BB%B6/" style="color: #00a596">
+                                硬件
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="color: #03a9f4">
+                                树莓派
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/Ubuntu/" style="color: #00bcd4">
+                                Ubuntu
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="基于pytorch与gym的ppo算法复现">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/1/19</div>
+                <a href="/2025/01/19/rl-huggingface/">
+                    <h3>基于 PyTorch 与 Gym 的 PPO 算法复现</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            强化学习
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/PyTorch/" style="color: #03a9f4">
+                                PyTorch
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                                强化学习
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="小帮手——基于requests和pyside6的b站视频爬取软件">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/1/21</div>
+                <a href="/2025/01/21/post/">
+                    <h3>小帮手——基于 requests 和 PySide6 的B站视频爬取软件</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E7%88%AC%E8%99%AB/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            爬虫
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/requests/" style="color: #ff7d73">
+                                requests
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/PyQt/" style="color: #03a9f4">
+                                PyQt
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="校园网未登录情况下pacman滚包引发的问题与解决方案">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/2/25</div>
+                <a href="/2025/02/25/arch-pacman-error/">
+                    <h3>校园网未登录情况下 Pacman 滚包引发的问题与解决方案</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/Archlinux/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            Archlinux
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/Archlinux/" style="color: #ff7d73">
+                                Archlinux
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%A0%A1%E5%9B%AD%E7%BD%91/" style="color: #03a9f4">
+                                校园网
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="在深度神经网络中常用的激活函数及其性质">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/2/26</div>
+                <a href="/2025/02/26/all-activation-functions/">
+                    <h3>在深度神经网络中常用的激活函数及其性质</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            深度学习
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
+                                深度学习
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="在树莓派的ubuntu系统上安装raspberrypios上硬件相关的配置">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/3/10</div>
+                <a href="/2025/03/10/raspi-on-ubuntu/">
+                    <h3>在树莓派的 Ubuntu 系统上安装 RaspberryPi OS 上硬件相关的配置</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            树莓派
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%A1%AC%E4%BB%B6/" style="color: #ffa2c4">
+                                硬件
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="color: #ff7d73">
+                                树莓派
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/Ubuntu/" style="color: #00bcd4">
+                                Ubuntu
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="关于梯度爆炸的思考与应对策略">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/3/20</div>
+                <a href="/2025/03/20/maddpg/">
+                    <h3>关于梯度爆炸的思考与应对策略</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            深度学习
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
+                                深度学习
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00a596">
+                                强化学习
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="linux终端美化：oh-my-posh">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/4/11</div>
+                <a href="/2025/04/11/llm-deepseek/">
+                    <h3>Linux 终端美化：oh-my-posh</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/Archlinux/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            Archlinux
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/Archlinux/" style="color: #00a596">
+                                Archlinux
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="在树莓派上玩i2c接口oled显示屏">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/4/12</div>
+                <a href="/2025/04/12/raspi-oled/">
+                    <h3>在树莓派上玩 I2C 接口 oled 显示屏</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            树莓派
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="color: #00bcd4">
+                                树莓派
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="airsim笔记：pythonapi总结">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/4/13</div>
+                <a href="/2025/04/13/arisim-api/">
+                    <h3>Airsim 笔记：Python API 总结</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            食用指南
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E4%BB%BF%E7%9C%9F/" style="color: #ffa2c4">
+                                仿真
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="dbscan密度聚类分析算法">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/4/15</div>
+                <a href="/2025/04/15/dbscan/">
+                    <h3>DBSCAN 密度聚类分析算法</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            机器学习
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">
+                                机器学习
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="fcitx5输入法的配置与美化">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/4/20</div>
+                <a href="/2025/04/20/fcitx5-theme/">
+                    <h3>Fcitx5 输入法的配置与美化</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/Archlinux/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            Archlinux
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/Archlinux/" style="color: #ffa2c4">
+                                Archlinux
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="jgauroraa5s3d打印机零基础食用指南">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/4/21</div>
+                <a href="/2025/04/21/jgaurora-a3s-usage/">
+                    <h3>JGAurora A5S 3D 打印机零基础食用指南</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            食用指南
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%A1%AC%E4%BB%B6/" style="color: #03a9f4">
+                                硬件
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%9D%82%E8%B0%88/" style="color: #ff7d73">
+                                杂谈
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="用python时遇到的奇怪modulenotfounderror及解决方案">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/4/22</div>
+                <a href="/2025/04/22/py-module-error/">
+                    <h3>用 Python 时遇到的奇怪 ModuleNotFoundError 及解决方案</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/Archlinux/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            Archlinux
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/Archlinux/" style="color: #ff7d73">
+                                Archlinux
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/Python/" style="color: #00a596">
+                                Python
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="基于airsim仿真平台与yolov8s的无人机目标检测仿真样例">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/5/5</div>
+                <a href="/2025/05/05/airsim-yolo/">
+                    <h3>基于 AirSim 仿真平台与 YOLOv8s 的无人机目标检测仿真样例</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/CV/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            CV
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
+                                深度学习
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E4%BB%BF%E7%9C%9F/" style="color: #00bcd4">
+                                仿真
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/CV/" style="color: #ff7d73">
+                                CV
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="卡尔曼滤波及python实现">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/5/11</div>
+                <a href="/2025/05/11/notes-on-target-state-calculate/">
+                    <h3>卡尔曼滤波及 Python 实现</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            机器学习
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="color: #00bcd4">
+                                机器学习
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #03a9f4">
+                                算法
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="常用假设检验方法及python实现">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/5/22</div>
+                <a href="/2025/05/22/hypothesis-testing/">
+                    <h3>常用假设检验方法及 Python 实现</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E6%95%B0%E5%AD%A6/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            数学
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">
+                                机器学习
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" style="color: #ff7d73">
+                                统计学
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="关于uafa算法的笔记">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/5/27</div>
+                <a href="/2025/05/27/uvfa/">
+                    <h3>关于 UAFA 算法的笔记</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            强化学习
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
+                                强化学习
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="利用python绘制环形热力图">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/7/8</div>
+                <a href="/2025/07/08/ring-heat-map/">
+                    <h3>利用 Python 绘制环形热力图</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E7%BB%98%E5%9B%BE/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            绘图
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" style="color: #ff7d73">
+                                统计学
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00a596">
+                                数学建模
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%BB%98%E5%9B%BE/" style="color: #00bcd4">
+                                绘图
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="相关性分析与常用相关系数">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/7/10</div>
+                <a href="/2025/07/10/pearson-spearman/">
+                    <h3>相关性分析与常用相关系数</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E6%95%B0%E5%AD%A6/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            数学
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" style="color: #00a596">
+                                统计学
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ffa2c4">
+                                数学建模
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="在archlinux上安装并配置liteloaderqqnt插件">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/8/4</div>
+                <a href="/2025/08/04/archlinux-qqnt/">
+                    <h3>在 Archlinux 上安装并配置 LiteLoaderQQNT 插件</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/Archlinux/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            Archlinux
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/Archlinux/" style="color: #ffa2c4">
+                                Archlinux
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="hyprland折腾记">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/8/17</div>
+                <a href="/2025/08/17/hyprland-configuration/">
+                    <h3>Hyprland 折腾记</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/Archlinux/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            Archlinux
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/Archlinux/" style="color: #03a9f4">
+                                Archlinux
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="linux用户的windows改造之旅">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/8/30</div>
+                <a href="/2025/08/30/windows-configuration/">
+                    <h3>Linux 用户的 Windows 改造之旅</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/Windows/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            Windows
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/Windows/" style="color: #ffa2c4">
+                                Windows
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="hyprland常见问题">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/10/18</div>
+                <a href="/2025/10/18/hyprland-problems/">
+                    <h3>Hyprland 常见问题</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/Archlinux/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            Archlinux
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/Archlinux/" style="color: #ff7d73">
+                                Archlinux
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="记录某一次linux向u盘传输大文件失败的问题">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/11/10</div>
+                <a href="/2025/11/10/u-disk-problem/">
+                    <h3>记录某一次 Linux 向 U 盘传输大文件失败的问题</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/Archlinux/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            Archlinux
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/Archlinux/" style="color: #00a596">
+                                Archlinux
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="终端转义序列与osc：把“乱码”看懂的那一刻">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/11/12</div>
+                <a href="/2025/11/12/terminal-control-transform-list/">
+                    <h3>终端转义序列与 OSC：把“乱码”看懂的那一刻</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/Archlinux/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            Archlinux
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/Archlinux/" style="color: #03a9f4">
+                                Archlinux
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline" data-title="词频统计与分析">
+            <div class="timeline-tail"></div>
+            <div class="timeline-content">
+                <div class="item-time">2025/12/17</div>
+                <a href="/2025/12/17/word-frequency-statistics/">
+                    <h3>词频统计与分析</h3>
+                </a>
+                <div class="info">
+                    
+                    <span class="category">
+                        <a href="/categories/%E6%95%B0%E5%AD%A6/">
+                            <span class="icon">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </span>
+                            数学
+                        </a>
+                    </span>
+                    
+                    
+                    <span class="tags">
+                        <span class="icon">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </span>
+                        
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" style="color: #ff7d73">
+                                统计学
+                            </a>
+                        </span>
+                        
+                        <span class="tag">
+                            
+                            <a href="/tags/NLP/" style="color: #00a596">
+                                NLP
+                            </a>
+                        </span>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

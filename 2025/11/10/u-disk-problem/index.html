@@ -1,0 +1,358 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>记录某一次 Linux 向 U 盘传输大文件失败的问题 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>记录某一次 Linux 向 U 盘传输大文件失败的问题</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2025/11/10
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/Archlinux/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                Archlinux
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/Archlinux/" style="color: #ff7d73">
+                                        Archlinux
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <h2><span id="0-案发现场">0. 案发现场</span></h2>
+<p>Coldrain 的同学最近刚刚接触 Linux，想要安装 Ubuntu 操作系统，然而苦于网速太慢而难以下载 4.4 GB 大小的镜像文件，身旁的 Coldrain 见状后，便准备用 U 盘将自己硬盘里的 Ubuntu 镜像拷给同学，结果在将文件传输给 U 盘并插入到同学的电脑上时，U 盘里并没有出现系统镜像文件…</p>
+<p>注：</p>
+<ul>
+<li>使用的操作系统：<code>Arch Linux</code></li>
+<li>U 盘文件系统：<code>exFAT</code></li>
+<li>U 盘挂载点：<code>/data/usb_tmp_port1/</code></li>
+<li>传输的文件：<code>ubuntu-22.04.5-desktop-amd64.iso</code>，大小 4.4 GB</li>
+</ul>
+<h2><span id="1-问题分析">1. 问题分析</span></h2>
+<blockquote>
+<p>省流：是 Linux 缓存机制的问题，想节约时间可以<strong>直接移步至 1.3 部分</strong></p>
+</blockquote>
+<h3><span id="11-文件系统">1.1 文件系统</span></h3>
+<p>U 盘上常用的文件系统有 <code>FAT32</code>、<code>exFAT</code>、<code>NTFS</code>、<code>ext4</code>，而这四种文件系统的特点如下：</p>
+<ul>
+<li><strong>FAT32</strong>：兼容性极好，各大操作系统均支持，最高支持存储容量为 8TB，然而单个文件最大不能超过 4 GB</li>
+<li><strong>exFAT</strong>：兼容性较好，支持 Windows、Linux、Mac 等现代操作系统，但不支持较老的操作系统。最高支持存储容量可达 16 EB，单个文件可以大于 4 GB</li>
+<li><strong>NTFS</strong>：兼任性一般，主要用于 Windows，如果想在 Linux 和 Mac 上使用的话需要自行安装驱动。存储容量与单文件大小理论上均可达到 16 EB</li>
+<li><strong>ext4</strong>：兼容性差，主要用于 Linux，不支持 Windows 与 Mac</li>
+</ul>
+<p>考虑到 U 盘使用的文件系统为 <code>exFAT</code>，单个文件大小可以超过 4GB，所以应该不是文件系统的问题</p>
+<h3><span id="12-硬件损坏">1.2 硬件损坏</span></h3>
+<p>考虑到硬件问题，Coldrain 尝试在 Windows 上将 U 盘格式化为 <code>NTFS</code> 格式，发现 U 盘可以正常通过 Windows 操作系统传入任意文件。</p>
+<p>所以 U 盘并没有损坏。</p>
+<h3><span id="13-linux-缓存机制">1.3 Linux 缓存机制</span></h3>
+<blockquote>
+<p>具体来说，操作系统会将数据先写入内存中的缓冲区，然后定期或在某些特定条件下将这些数据写入磁盘，这样可以提高性能。</p>
+</blockquote>
+<p>现代操作系统（包括 Linux）通常会使用 文件系统缓存 来提高文件操作的效率。也就是说，当你写入一个文件时，操作系统并不会立即将文件内容写入磁盘，而是先将它存储在内存中的缓存区域。这是为了提高磁盘写入的速度，因为磁盘操作相对较慢，直接每次写入都会降低性能。</p>
+<p>这也意味着，虽然文件已经通过系统接口写入文件系统，但它实际上仍然存储在内存中的缓存区，直到缓存被刷新到磁盘。操作系统会定期或者在某些特定时机（例如卸载设备或调用 sync 命令时）将这些缓存数据写入磁盘。</p>
+<p>大多数文件系统（包括 <code>exFAT</code>）采用<code>异步写入</code>模式，这意味着文件数据在内存缓存区中可以等待一段时间再写入磁盘。这种方法可以减少写入操作的次数，提高性能，特别是在进行大量小文件写入时。然而，这也带来了一个问题：如果在缓存数据被写入磁盘之前，系统发生了故障或设备被强制拔出，那么部分数据就可能丢失。</p>
+<p>接下来，Coldrain 复现了这个问题。</p>
+<p>首先，执行 <code>free -h</code> 查看缓存情况：</p>
+<p><img src="../images/u_disk_problem/pic1.png" alt="pic1"></p>
+<p>从上图中可以看出，此时的 <code>buff/cache</code> 一栏显示 <code>3.4Gi</code></p>
+<p>接下来，Coldrain 将 U 盘插入电脑 USB 接口，并执行 <code>sudo mount /dev/sda /data/usb_tmp_port1</code> 将 U 盘挂载到 <code>/data/usb_tmp_port1</code> 目录下，结果如下：</p>
+<p><img src="../images/u_disk_problem/pic2.png" alt="pic2"></p>
+<p>然后，将大小为 <code>4.4Gi</code> 的 <code>ubuntu-22.04.5-desktop-amd64.iso</code> 文件复制到 U 盘所在的挂载点：</p>
+<p><img src="../images/u_disk_problem/pic3.png" alt="pic3"></p>
+<p>再次查看缓存（好吧其实上面 Coldrain 为了截图，将文件多复制了一次，所以这里缓存多了 <code>9Gi</code> 左右）：</p>
+<p><img src="../images/u_disk_problem/pic4.png" alt="pic4"></p>
+<p>这个时候，根据 <code>ls /data/usb_tmp_port1</code> 的结果，你也许会认为文件已经复制进去了，那么当你将 U 盘取消挂载、拔出，然后再次插入、挂载后，会发现刚才“复制进去”的 <code>ubuntu-22.04.5-desktop-amd64.iso</code> 文件消失不见了！</p>
+<h2><span id="2-解决方案">2. 解决方案</span></h2>
+<p>对文件执行 <code>cp</code> 命令复制到 U 盘之后，先检查文件是否留存在缓存区，比如可以使用 <code>free -h</code> 对比操作前后的缓存变化。</p>
+<p>若文件暂存在缓存区，使用 <code>sync</code> 即可强制将文件写入 U 盘，如下图所示：</p>
+<p><img src="../images/u_disk_problem/pic6.png" alt="pic6"></p>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">0. 案发现场</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 问题分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.1 文件系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.2 硬件损坏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.3 Linux 缓存机制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 解决方案</span></a></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

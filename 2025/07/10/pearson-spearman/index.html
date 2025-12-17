@@ -1,0 +1,433 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>相关性分析与常用相关系数 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>相关性分析与常用相关系数</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2025/7/10
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/%E6%95%B0%E5%AD%A6/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                数学
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" style="color: #00bcd4">
+                                        统计学
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ffa2c4">
+                                        数学建模
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <blockquote>
+<p>Coldrain 在做 <a target="_blank" rel="noopener" href="https://www.mcm.edu.cn/problem/2012/2012.html">2012 年全国大学生数学建模竞赛 A 题</a>时遇到了相关性分析，遂作此篇，以为学习。</p>
+</blockquote>
+<h2><span id="1-相关性的定义">1. 相关性的定义</span></h2>
+<p>相关性是两个变量线性相关的程度。从广义上讲，相关性实际上是双变量数据中两个随机变量之间的任何统计关系，无论是否因果关系。</p>
+<blockquote>
+<p><strong>相关性并不意味着因果关系！</strong></p>
+<p>例如：</p>
+<ol>
+<li>夏季，冰淇淋的消费量会增加。冰淇淋销售额与夏天之间存在很强的相关性。在这个特殊的例子中，存在因果关系，因为极热的夏季确实推动了冰淇淋的销售。</li>
+<li>冰淇淋的销售也与鲨鱼袭击有很强的相关性。我们非常清楚，鲨鱼袭击绝对不是因为冰淇淋造成的。所以，这里没有因果关系，但是他们仍然相关。</li>
+</ol>
+</blockquote>
+<hr>
+<h2><span id="2-相关系数">2. 相关系数</span></h2>
+<p>在统计学中，相关的意义是：用来衡量两个变量相对于其相互独立的距离。</p>
+<p>在这个广义的定义下，有许多根据数据特点来衡量数据相关性而定义的系数，称作<strong>相关系数</strong>。</p>
+<p>相关系数是对两个变量的相对运动之间关系强度的统计量度。</p>
+<p>相关系数的<strong>值范围在 -1.0 和 1.0 之间</strong>。-1.0 的相关性表示完全的<strong>负相关</strong>，而 1.0 的相关性表示完全的<strong>正相关</strong>。0.0 的相关性表明两个变量的移动之间没有线性关系。</p>
+<p>对于<strong>不同测量尺度的变量</strong>，有不同的相关系数可用：</p>
+<ul>
+<li>Pearson 相关系数</li>
+<li>Spearman 相关系数</li>
+<li>Kendall 相关系数</li>
+<li>…</li>
+</ul>
+<p>上面提到的这三种相关系数各有优势和适用范围：</p>
+<ul>
+<li><strong>Pearson 系数</strong> 适用于<strong>线性关系</strong>的测量，对数据要求较高。</li>
+<li><strong>Spearman 秩相关系数</strong> 适用于<strong>单调关系</strong>的测量，对数据分布没有假设要求，并且对异常值较为稳定（即鲁棒性更高）。</li>
+<li><strong>Kendall 秩相关系数</strong>适用于<strong>顺序关系</strong>的测量，同样对数据分布没有假设要求，并且对异常值较为稳定。</li>
+</ul>
+<hr>
+<h2><span id="3-pearson-相关系数">3. Pearson 相关系数</span></h2>
+<blockquote>
+<p>也就是概率论课本 [1] 上讲述的相关系数 $\rho$</p>
+</blockquote>
+<p>Pearson相关系数是用于衡量两个变量之间<strong>线性关系强度</strong>的指标。</p>
+<p>它计算的是两个变量的协方差与各自标准差的比值，<strong>取值范围在-1到1之间</strong>。</p>
+<ul>
+<li>当 $\rho_{X,Y}&gt;0$ 时，表示两个变量呈正相关</li>
+<li>当 $\rho_{X,Y}&lt;0$ 时，表示两个变量呈负相关</li>
+<li>当 $\rho_{X,Y}$ 接近 0 时，表示两个变量没有线性关系。</li>
+</ul>
+<p>Pearson 相关系数公式如下：</p>
+<p>$$\rho_{X,Y} = \frac{cov(X, Y)}{\sigma_X \sigma_Y} = \frac{E((X-\mu_X)(Y-\mu_Y))}{\sigma_X \sigma_Y}$$</p>
+<p>其中，$E$ 是数学期望，cov 表示协方差，$\sigma_X$ 和 $\sigma_Y$ 是标准差。</p>
+<p>因为 $\mu_X = E(X)$，$\sigma^2_X = E(X^2)-E^2(X)$，同样之与 $Y$，那么上式也可以写成：</p>
+<p>$$\rho_{X, Y} = \frac{E(XY)-E(X)E(Y)}{\sqrt{E(X^2)-E^2(X)} \sqrt{E(Y^2)-E^2{Y}}}$$</p>
+<p>$|\rho_{X,Y}|(\le1)$ 越大，表示两个变量的线性相关程度越高。</p>
+<p>需要注意的是，Pearson 相关系数<strong>只能测量线性关系，对于非线性关系无法准确捕捉</strong>。</p>
+<p>利用 Python 计算 Pearson 相关系数：</p>
+<pre><code class="language-python">from scipy.stats import pearsonr
+import numpy as np
+
+X = np.array([1, 2, 3, 4, 5, 6, 7])
+Y = np.array([9, 8, 7, 6, 5, 4, 3])
+
+# 计算 Pearson 系数
+r, p = pearsonr(X, Y)    # r 为系数
+</code></pre>
+<hr>
+<h2><span id="4-spearman-秩相关系数">4. Spearman 秩相关系数</span></h2>
+<p>当 $X$ 和 $Y$ 具有某种单调关系时， $X$ 和 $Y$ 是完全相关的（-1 或 1）</p>
+<p>对 Pearson 系数来说，只有当 $X$ 和 $Y$ 有完全的线性关系时，才是完全相关的（-1 或 1）</p>
+<p>也就是说，当我们需要刻画变量之间<strong>是否具有单调关系</strong>时，我们就需要用到 Spearman 秩相关系数了。</p>
+<blockquote>
+<ul>
+<li><strong>单调关系</strong>
+<ul>
+<li>随着一个变量的值增加，另一个变量的值增加 or 减小。</li>
+<li>不限制恒定的速率</li>
+</ul>
+</li>
+<li><strong>线性关系</strong>
+<ul>
+<li>梯度为常数</li>
+<li>增加/减少的速率是恒定的</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>Spearman秩相关系数的计算步骤如下：</p>
+<ol>
+<li>对每个变量的观测值进行排序，得到每个观测值的秩次（从小到大排列）。如果有相同的观测值，则取它们的平均秩次。</li>
+<li>计算每个观测值的秩次差，即第一个变量的秩次减去第二个变量的秩次。</li>
+<li>计算秩次差的平方和，并除以样本大小减一（n-1）得到Spearman秩相关系数。</li>
+</ol>
+<p>Spearman秩相关系数的取值范围在-1到1之间，其中1表示完全的正相关，-1表示完全的负相关，0表示无相关性。</p>
+<p>Python 计算 Spearman 秩相关系数：</p>
+<pre><code class="language-python">from scipy.stats import spearmanr
+import numpy as np
+
+X = np.array([1, 2, 3, 4, 5, 6, 7])
+Y = np.array([9, 8, 7, 6, 5, 4, 3])
+
+# 计算 Spearman 系数
+r, p = spearmanr(X, Y)    # r 为系数
+</code></pre>
+<hr>
+<h2><span id="5-差异与选择">5. 差异与选择</span></h2>
+<ul>
+<li>Pearson 适用于两个变量之间的线性关系，而Spearman适用于单调关系。</li>
+<li>Pearson 处理变量的数据原始值，而 Spearman 处理数据排序值（需要先做变换，transform）</li>
+</ul>
+<p>Pearson 相关系数只适用于线性关系且正态分布。</p>
+<p>此外，如果散点图表明“可能是单调的，可能是线性的”关系，最好的选择是 Spearman 而不是 Pearson。即使数据证明是完全线性的，用 Spearman 也不会造成信息丢失。但是，如果不是完全线性但使用 Pearson 系数，会丢失 Spearman 可以捕获的信息，是否单调。</p>
+<hr>
+<h2><span id="6-参考资料">6. 参考资料</span></h2>
+<ul>
+<li>[1] 石爱菊，丁秀梅，孔告化. 概率统计与随机过程. 3版. 北京：人民邮电出版社， 2024.2</li>
+<li>[2] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/465213120">https://zhuanlan.zhihu.com/p/465213120</a></li>
+<li>[3] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/664287775">https://zhuanlan.zhihu.com/p/664287775</a></li>
+<li>[4] <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%9B%B8%E5%85%B3_(%E6%A6%82%E7%8E%87%E8%AE%BA)">维基百科</a></li>
+</ul>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 相关性的定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 相关系数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. Pearson 相关系数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. Spearman 秩相关系数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5. 差异与选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6. 参考资料</span></a></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>

@@ -1,0 +1,536 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>基于 AirSim 仿真平台与 YOLOv8s 的无人机目标检测仿真样例 | Cold Rain&#39;s Blog</title>
+    <meta name="author" content="ColdRain" />
+    <meta name="description" content="銀の龍の背に乗って..." />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/head.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>COLD RAIN&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Homepage</span>
+        </a>
+        
+        <a href="/2024/11/26/test">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags/%E6%9D%82%E8%B0%88">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/friends">
+            <i class="fa-solid fa-link fa-fw"></i>
+            <span>&ensp;Links</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;COLD RAIN&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div>
+                    </div>
+                </a>
+                
+                <a href="/2024/11/26/test">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E6%9D%82%E8%B0%88">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/friends">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-link fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
+
+        <div class="article-wrap">
+
+            
+            <div class="article-content">
+                
+                <div>
+                    <h1>基于 AirSim 仿真平台与 YOLOv8s 的无人机目标检测仿真样例</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2025/5/5
+                    </span>
+
+                    
+                        <span class="category">
+                            <a href="/categories/CV/">
+                                <span class="icon">
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                </span>
+                                CV
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="tags">
+                            <span class="icon">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </span>
+                            
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">
+                                        深度学习
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/%E4%BB%BF%E7%9C%9F/" style="color: #03a9f4">
+                                        仿真
+                                    </a>
+                                </span>
+                            
+                                <span class="tag">
+                                    
+                                    <a href="/tags/CV/" style="color: #00a596">
+                                        CV
+                                    </a>
+                                </span>
+                            
+                        </span>
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <blockquote>
+<p>经过一段时间的筹备，Coldrain 花了 <strong>1.2k</strong> 把电脑的内存从 16G 扩充到了 <strong>64G</strong>，于是终于有了在电脑上同时进行实时渲染调试和模型运算的信心 💪（这个月要开始吃土了 🪨）</p>
+<p>于是趁着五一假期，Coldrain 写了一个小程序，实现了在 <strong>AirSim</strong> 插件中使用键盘控制无人机自由飞行，同时利用 <strong>YOLOv8s</strong> 模型实现无人机的实时目标检测</p>
+<p>PS：你问为什么不用厉害点的模型？买不起 <strong>Jetson Nano</strong> 这种档次的设备，就算仿真有效，硬件条件也不支持迁移啊 😭（而且目前 Coldrain 也没有正式学过<strong>边缘计算</strong>）</p>
+</blockquote>
+<h2><span id="1-实机演示">1. 实机演示</span></h2>
+<hr>
+<p>先放实机演示：</p>
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=114450778562285&bvid=BV1BSVNzhEy9&cid=25795433892&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="1000" height="480"></iframe>
+<p>（因为第一次给 blog 嵌入视频，折腾了一晚上，这里先把代码贴上，具体解释等到第二天再写 💦）</p>
+<blockquote>
+<p>🔗 项目地址：<a target="_blank" rel="noopener" href="https://github.com/ziheng5/Sharp-Eyes-target-tracking-algorithm">https://github.com/ziheng5/Sharp-Eyes-target-tracking-algorithm</a></p>
+<p><strong>注</strong>：项目持续更新中，后续会不断加入新功能</p>
+</blockquote>
+<h2><span id="2-代码详解">2. 代码详解</span></h2>
+<hr>
+<h3><span id="21-导入必要的包">2.1 导入必要的包</span></h3>
+<pre><code class="language-python">from matplotlib.pyplot import annotate
+from ultralytics import YOLO
+from multiprocessing import Process
+import numpy as np
+import sys
+import pygame
+import airsim
+import time
+import cv2
+</code></pre>
+<ul>
+<li><code>matplotlib</code> 用于处理无人机摄像头获取到的图像</li>
+<li><code>ultralytics</code> 用于调用 YOLO 模型</li>
+<li><code>multiprocessing</code> 用于处理多进程任务</li>
+<li><code>numpy</code> 用于数值计算</li>
+<li><code>sys</code> 用于进程控制</li>
+<li><code>pygame</code> 用于设计 AirSim 中无人机的键盘控制</li>
+<li><code>airsim</code> 用于调用 AirSim 的 API</li>
+<li><code>time</code> 用来控制无人机摄像头帧率</li>
+<li><code>cv2</code> 用于处理无人机摄像头获取到的图像</li>
+</ul>
+<h3><span id="22-设计程序框架">2.2 设计程序框架</span></h3>
+<pre><code class="language-python">def keyboard_control():
+    # 用于实现键盘控制
+    vehicle_name = &quot;Drone1&quot; # 这里注意切换为自己的无人机名称
+    AirSim_client = airsim.MultirotorClient()
+    AirSim_client.confirmConnection()
+    AirSim_client.enableApiControl(True, vehicle_name=vehicle_name)
+    AirSim_client.armDisarm(True, vehicle_name=vehicle_name)
+
+def yolo_cv():
+    # 用于实现调用 YOLO 模型进行实时目标检测
+    vehicle_name = &quot;Drone1&quot; # 这里注意切换为自己的无人机名称
+    AirSim_client = airsim.MultirotorClient()
+    AirSim_client.confirmConnection()
+    AirSim_client.enableApiControl(True, vehicle_name=vehicle_name)
+    AirSim_client.armDisarm(True, vehicle_name=vehicle_name)
+
+if __name__ == &quot;__main__&quot;:
+    # 多进程控制，避免两个任务互相干扰
+    process = [Process(target=keyboard_control, args=()),
+               Process(target=yolo_cv, args=())]
+
+    [p.start() for p in process]
+    [p.join() for p in process]
+</code></pre>
+<ul>
+<li>在 <code>if __name__ == &quot;__main__&quot;:</code> 后面，通过 <code>multiprocessing</code> 中的 <code>Process</code> 模块，实现不同的功能函数多进程同时进行，从而提高运行效率。</li>
+<li>每一个功能函数中(<code>keyboard_control()</code> 和 <code>yolo_cv()</code>) 开头都需要建立独立的 <code>client</code>，因为使用多线程的时候，无法在 <code>if __name__ == &quot;__main__&quot;:</code> 下建立一个 <code>client</code> 并同时共享给多个进程使用。</li>
+</ul>
+<h3><span id="23-无人机键盘控制设计">2.3 无人机键盘控制设计</span></h3>
+<pre><code class="language-python">def keyboard_control():
+    # pygame settings
+    pygame.init()   # pygame 初始化
+    screen = pygame.display.set_mode((400, 300))    # 设置控制窗口大小
+    pygame.display.set_caption(&quot;Keyboard Control&quot;)  # 设置控制窗口名称
+    screen.fill((0, 0, 0))  # 用黑色 (0, 0, 0) 来填充控制窗口的背景
+
+    # airsim settings
+    ## 这里改为你要控制的无人机名称
+    vehicle_name = &quot;Drone1&quot;
+    AirSim_client = airsim.MultirotorClient()
+    AirSim_client.confirmConnection()
+    AirSim_client.enableApiControl(True, vehicle_name=vehicle_name)
+    AirSim_client.armDisarm(True, vehicle_name=vehicle_name)
+    AirSim_client.takeoffAsync(vehicle_name=vehicle_name).join()
+
+    ## 基础的控制速度(m/s)
+    vehicle_velocity = 2.0
+    ## 设置临时加速度比例
+    speedup_ratio = 10.0
+    ## 用来设置临时加速
+    speedup_flag = False
+    ## 基础的偏航速率
+    vehicle_yaw_rate = 5.0
+
+    while True:
+        # 主循环
+        yaw_rate = 0.0
+        velocity_x = 0.0
+        velocity_y = 0.0
+        velocity_z = 0.0
+
+        time.sleep(0.02)    # 间隔 0.02 秒，用于减轻 CPU 负担
+
+        # 如果关闭窗口，则进程结束
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+
+        scan_wrapper = pygame.key.get_pressed()
+
+        # 按下空格键加速 10 倍
+        if scan_wrapper[pygame.K_SPACE]:
+            scale_ratio = speedup_ratio
+        else:
+            scale_ratio = 1.0
+
+        # 根据 &quot;A&quot; 和 &quot;D&quot; 按键来设置偏航速率变量
+        if scan_wrapper[pygame.K_a] or scan_wrapper[pygame.K_d]:
+            yaw_rate = (scan_wrapper[pygame.K_d] - scan_wrapper[pygame.K_a]) * scale_ratio * vehicle_yaw_rate
+
+        # 根据 &quot;UP&quot; 和 &quot;DOWN&quot; 按键来设置 pitch 轴速度变量（NED 坐标系，x 为机头向前）
+        if scan_wrapper[pygame.K_UP] or scan_wrapper[pygame.K_DOWN]:
+            velocity_x = (scan_wrapper[pygame.K_UP] - scan_wrapper[pygame.K_DOWN]) * scale_ratio
+
+        # 根据 &quot;LEFT&quot; 和 &quot;RIGHT&quot; 按键来设置 roll 轴速度变量（NED 坐标系，y 为正右方）
+        if scan_wrapper[pygame.K_LEFT] or scan_wrapper[pygame.K_RIGHT]:
+            velocity_y = (scan_wrapper[pygame.K_RIGHT] - scan_wrapper[pygame.K_LEFT]) * scale_ratio
+
+        # 根据 &quot;W&quot; 和 &quot;S&quot; 按键来设置 z 轴速度变量（NED 坐标系，z 轴向上为负）
+        if scan_wrapper[pygame.K_w] or scan_wrapper[pygame.K_s]:
+            velocity_z = (scan_wrapper[pygame.K_s] - scan_wrapper[pygame.K_w]) * scale_ratio
+
+        # 设置速度控制以及设置偏航控制
+        AirSim_client.moveByVelocityBodyFrameAsync(vx=velocity_x, vy=velocity_y, vz=velocity_z, duration=0.02,
+                                                   yaw_mode=airsim.YawMode(True, yaw_or_rate=yaw_rate), vehicle_name=vehicle_name)
+
+        # press &quot;Esc&quot; to quit
+        if scan_wrapper[pygame.K_ESCAPE]:
+            AirSim_client.enableApiControl(False, vehicle_name=vehicle_name)
+            AirSim_client.armDisarm(False, vehicle_name=vehicle_name)
+            pygame.quit()
+            sys.exit()
+</code></pre>
+<h3><span id="24-目标实时检测设计">2.4 目标实时检测设计</span></h3>
+<pre><code class="language-python">def yolo_cv():
+    # 初始化 YOLOv8 模型
+    model = YOLO('yolov8s.pt')
+
+    # 初始化 client
+    client = airsim.MultirotorClient()
+    client.confirmConnection()
+    client.enableApiControl(True)
+    client.armDisarm(True)
+
+    # 设置图像类型（可以是Scene, Depth, Segmentation等）
+    image_type = airsim.ImageType.Scene
+
+    # 设置摄像头名称
+    camera_name = &quot;front_center&quot;
+
+    # 设置显示窗口
+    cv2.namedWindow(&quot;Drone FPV View&quot;, cv2.WINDOW_NORMAL)
+    cv2.resizeWindow(&quot;Drone FPV View&quot;, 1000, 600)
+
+    # FPS 计算变量
+    frame_count = 0
+    start_time = time.time()
+
+    try:
+        while True:
+            # 获取前端摄像头图像
+            responses = client.simGetImages([
+                # 不返回浮点数，不压缩
+                airsim.ImageRequest(camera_name=camera_name, image_type=image_type,
+                                    pixels_as_float=False, compress=False)
+            ])
+
+            response = responses[0]
+
+            # 将图像数据转为 numpy 数组
+            img1d = np.frombuffer(response.image_data_uint8, dtype=np.uint8)
+
+            # 重塑数组为 3 通道图像
+            frame = img1d.reshape(response.height, response.width, 3)
+
+            # 使用 YOLOv8 模型来进行目标检测
+            results = model.predict(frame, classes=[2])
+
+            for result in results:
+                # 绘制目标检测的 bounding box
+                annotated_frame = result.plot()
+
+                # 计算并显示FPS
+                frame_count += 1
+                if frame_count &gt;= 30:  # 每30帧计算一次FPS
+                    fps = frame_count / (time.time() - start_time)
+                    cv2.putText(annotated_frame, f&quot;FPS: &#123;fps:.2f&#125;&quot;, (10, 30),
+                                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                    frame_count = 0
+                    start_time = time.time()
+
+                # 显示图像
+                cv2.imshow(&quot;Drone FPV View&quot;, annotated_frame)
+
+                if cv2.waitKey(1) &amp; 0xFF == ord('q'):
+                    break
+
+    finally:
+        client.armDisarm(False)
+        client.enableApiControl(False)
+        cv2.destroyAllWindows()
+</code></pre>
+
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
+            
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 实机演示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 代码详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.1 导入必要的包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.2 设计程序框架</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.3 无人机键盘控制设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2.4 目标实时检测设计</span></a></li></ol></li></ol>
+        </div>
+    
+        </div>
+    </div>
+</div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <!-- 这里插入评论区和页脚 -->
+        
+            
+            
+            
+            
+        
+
+
+    
+
+</div>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Cold Rain&#39;s Blog
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;ColdRain
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+
+<canvas
+    id="background"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+></canvas>
+<script src="/js/background.min.js"></script>
+
+</html>
