@@ -215,14 +215,14 @@
                             
                                 <span class="tag">
                                     
-                                    <a href="/tags/Archlinux/" style="color: #ff7d73">
+                                    <a href="/tags/Archlinux/" style="color: #00bcd4">
                                         Archlinux
                                     </a>
                                 </span>
                             
                                 <span class="tag">
                                     
-                                    <a href="/tags/Python/" style="color: #00a596">
+                                    <a href="/tags/Python/" style="color: #ffa2c4">
                                         Python
                                     </a>
                                 </span>
@@ -259,7 +259,7 @@ python
 </li>
 </ul>
 <p>结果如下图所示：</p>
-<p><img src="../images/py_error/pic3.png" alt="pic1"></p>
+<p><img src="/images/py_error/pic3.png" alt="pic1"></p>
 <p>果不其然，结果显示两种运行方式下使用的 Python 解释器信息不同！</p>
 <p>接下来，coldrain 进一步确认 Python 解释器路径</p>
 <pre><code class="language-bash"># 在 conda 虚拟环境中运行下面的命令
@@ -268,7 +268,7 @@ which python
 sudo which python
 </code></pre>
 <p>输出如下图所示：</p>
-<p><img src="../images/py_error/pic4.png" alt="pic2"></p>
+<p><img src="/images/py_error/pic4.png" alt="pic2"></p>
 <h2><span id="问题原因">问题原因</span></h2>
 <p>Linux 系统下，由于管理员身份和用户身份下环境变量有所不同，在 <code>conda</code> 虚拟环境中直接使用 Python 解释器和用 <code>sudo</code> 使用 Python 解释器，两者路径并不相同。</p>
 <h2><span id="解决方案">解决方案</span></h2>

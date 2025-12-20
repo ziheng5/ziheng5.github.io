@@ -215,7 +215,7 @@
                             
                                 <span class="tag">
                                     
-                                    <a href="/tags/Archlinux/" style="color: #ff7d73">
+                                    <a href="/tags/Archlinux/" style="color: #00bcd4">
                                         Archlinux
                                     </a>
                                 </span>
@@ -262,19 +262,19 @@
 <p>大多数文件系统（包括 <code>exFAT</code>）采用<code>异步写入</code>模式，这意味着文件数据在内存缓存区中可以等待一段时间再写入磁盘。这种方法可以减少写入操作的次数，提高性能，特别是在进行大量小文件写入时。然而，这也带来了一个问题：如果在缓存数据被写入磁盘之前，系统发生了故障或设备被强制拔出，那么部分数据就可能丢失。</p>
 <p>接下来，Coldrain 复现了这个问题。</p>
 <p>首先，执行 <code>free -h</code> 查看缓存情况：</p>
-<p><img src="../images/u_disk_problem/pic1.png" alt="pic1"></p>
+<p><img src="/images/u_disk_problem/pic1.png" alt="pic1"></p>
 <p>从上图中可以看出，此时的 <code>buff/cache</code> 一栏显示 <code>3.4Gi</code></p>
 <p>接下来，Coldrain 将 U 盘插入电脑 USB 接口，并执行 <code>sudo mount /dev/sda /data/usb_tmp_port1</code> 将 U 盘挂载到 <code>/data/usb_tmp_port1</code> 目录下，结果如下：</p>
-<p><img src="../images/u_disk_problem/pic2.png" alt="pic2"></p>
+<p><img src="/images/u_disk_problem/pic2.png" alt="pic2"></p>
 <p>然后，将大小为 <code>4.4Gi</code> 的 <code>ubuntu-22.04.5-desktop-amd64.iso</code> 文件复制到 U 盘所在的挂载点：</p>
-<p><img src="../images/u_disk_problem/pic3.png" alt="pic3"></p>
+<p><img src="/images/u_disk_problem/pic3.png" alt="pic3"></p>
 <p>再次查看缓存（好吧其实上面 Coldrain 为了截图，将文件多复制了一次，所以这里缓存多了 <code>9Gi</code> 左右）：</p>
-<p><img src="../images/u_disk_problem/pic4.png" alt="pic4"></p>
+<p><img src="/images/u_disk_problem/pic4.png" alt="pic4"></p>
 <p>这个时候，根据 <code>ls /data/usb_tmp_port1</code> 的结果，你也许会认为文件已经复制进去了，那么当你将 U 盘取消挂载、拔出，然后再次插入、挂载后，会发现刚才“复制进去”的 <code>ubuntu-22.04.5-desktop-amd64.iso</code> 文件消失不见了！</p>
 <h2><span id="2-解决方案">2. 解决方案</span></h2>
 <p>对文件执行 <code>cp</code> 命令复制到 U 盘之后，先检查文件是否留存在缓存区，比如可以使用 <code>free -h</code> 对比操作前后的缓存变化。</p>
 <p>若文件暂存在缓存区，使用 <code>sync</code> 即可强制将文件写入 U 盘，如下图所示：</p>
-<p><img src="../images/u_disk_problem/pic6.png" alt="pic6"></p>
+<p><img src="/images/u_disk_problem/pic6.png" alt="pic6"></p>
 
                     </div>
                 

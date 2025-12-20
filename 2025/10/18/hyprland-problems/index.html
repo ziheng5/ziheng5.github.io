@@ -265,7 +265,7 @@
 <p>ArchWiki 有相关讨论与解决方案：<a target="_blank" rel="noopener" href="https://wiki.archlinux.org/title/Steam/Troubleshooting#Blurry_text_and_graphics_with_Xwayland_and_HiDPI">Blurry text and graphics with Xwayland and HiDPI</a></p>
 </blockquote>
 <p>当 Steam 作为 Xwayland 客户端在一个使用 HiDPI 缩放的合成器下运行时，你可能会发现 Steam 和游戏以一半的分辨率渲染，然后缩放以适应 HiDPI 屏幕。这会导致图形模糊，如下图所示：</p>
-<p><img src="../images/hypr_problems/steam_blur.png" alt="Steam Blur"></p>
+<p><img src="/images/hypr_problems/steam_blur.png" alt="Steam Blur"></p>
 <p>在 Hyprland 下如果遇到这个问题，可以在 <code>~/.config/hypr/hyprland.conf</code> 文件（或者你的其他 Hyprland 配置文件中）添加如下内容：</p>
 <pre><code class="language-json">xwayland &#123;
     force_zero_scaling = true

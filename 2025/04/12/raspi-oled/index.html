@@ -215,7 +215,7 @@
                             
                                 <span class="tag">
                                     
-                                    <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="color: #ffa2c4">
+                                    <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="color: #03a9f4">
                                         树莓派
                                     </a>
                                 </span>
@@ -238,7 +238,7 @@
 </blockquote>
 <h2><span id="1-硬件连接">1. 硬件连接</span></h2>
 <p>首先贴出树莓派的引脚图：</p>
-<p><img src="../images/raspberrypi/gpio_readall.png" alt="gpio_readall"></p>
+<p><img src="/images/raspberrypi/gpio_readall.png" alt="gpio_readall"></p>
 <blockquote>
 <p>可以直接执行以下命令查看 gpio 引脚情况：</p>
 <pre><code class="language-bash">gpio readall
@@ -261,7 +261,7 @@
 <pre><code class="language-bash">sudo i2cdetect -y 1
 </code></pre>
 <p>输出以下界面：</p>
-<p><img src="../images/raspberrypi/i2cdetect.png" alt="i2cdetect"></p>
+<p><img src="/images/raspberrypi/i2cdetect.png" alt="i2cdetect"></p>
 <p>上图中，3c 代表的就是 oled 模块的 I2C 地址。</p>
 <hr>
 <h2><span id="2-代码调试">2. 代码调试</span></h2>
@@ -293,7 +293,7 @@ with canvas(device) as draw:
 sleep(10)   # oled 显示器显示 10 秒
 </code></pre>
 <p>如果不出意外的话，oled 显示器上会出现下面这个笑脸 😁：</p>
-<p><img src="../images/raspberrypi/happy_face.png" alt="happy_face"></p>
+<p><img src="/images/raspberrypi/happy_face.png" alt="happy_face"></p>
 <p>下面来具体讲一讲上面这段代码：</p>
 <pre><code class="language-Python"># 初始化设备，这里改 ssd1306, ssd1325, ssd1331, sh1106
 device = sh1106(serial)
@@ -338,7 +338,7 @@ with canvas(device) as draw:
 sleep(5)
 </code></pre>
 <p>显示效果如下：</p>
-<p><img src="../images/raspberrypi/oled_text.png" alt="oled_text"></p>
+<p><img src="/images/raspberrypi/oled_text.png" alt="oled_text"></p>
 <p>代码解析：</p>
 <ul>
 <li><code>from PIL import ImageFont</code> 这个是强大的 <code>PIL</code> 库中的字体类，显示汉字，默认字体就不行了，所以需要新增字体文件</li>

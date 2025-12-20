@@ -215,7 +215,7 @@
                             
                                 <span class="tag">
                                     
-                                    <a href="/tags/Archlinux/" style="color: #00bcd4">
+                                    <a href="/tags/Archlinux/" style="color: #00a596">
                                         Archlinux
                                     </a>
                                 </span>
@@ -278,7 +278,7 @@ ninja -C build install --tags runtime,man
 </code></pre>
 <h2><span id="3-安装第三方-hyprland-主题">3. 安装第三方 Hyprland 主题</span></h2>
 <p>这里小生采用的是 <a target="_blank" rel="noopener" href="https://github.com/end-4/dots-hyprland">end-4 主题</a>，效果图如下：</p>
-<p><img src="../images/hyprland/end4_theme.png" alt="end4-pic"></p>
+<p><img src="/images/hyprland/end4_theme.png" alt="end4-pic"></p>
 <p>话不多说，接下来直接开始安装，这里小生依然采用手动构建的方案（<strong>安装前请先开启代理</strong>）：</p>
 <pre><code class="language-bash"># 随便找一个路径
 git clone https://github.com/end-4/dots-hyprland
@@ -336,7 +336,7 @@ ip(geoip:cn)-&gt;direct
 </code></pre>
 <p>然后点击保存，注意此时这些规则并不会生肖，因为 <code>V2raya</code> 为 <code>socks</code> 协议和 <code>http</code> 协议设置了<strong>带分流规则的端口</strong>（该端口进来的流量会按照分流规则分流）和<strong>不带分流规则的端口</strong>（该端口进来的流量并不会按照规则分流），而且默认只设置了 <code>http</code> 的分流端口，因此需要我们下面手动设置带分流规则的端口。</p>
 <p>我们可以点开设置界面左下角的<code>地址与端口</code>选项，然后填写 <code>带分流规则的 socks 端口</code> 并保存，如下所示：</p>
-<p><img src="../images/hyprland/v2raya.png" alt="v2raya"></p>
+<p><img src="/images/hyprland/v2raya.png" alt="v2raya"></p>
 <h3><span id="43-编辑-~confighyprhyprlandconf-配置文件">4.3 编辑 <code>~/.config/hypr/hyprland.conf</code> 配置文件</span></h3>
 <p>在 <code>~/.config/hypr/hyprland.conf</code> 配置文件中写入如下内容以配置代理端口：</p>
 <pre><code class="language-conf">env = ALL_PROXY=socks5://127.0.0.1:20168

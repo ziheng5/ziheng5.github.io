@@ -215,14 +215,14 @@
                             
                                 <span class="tag">
                                     
-                                    <a href="/tags/%E7%A1%AC%E4%BB%B6/" style="color: #00a596">
+                                    <a href="/tags/%E7%A1%AC%E4%BB%B6/" style="color: #03a9f4">
                                         硬件
                                     </a>
                                 </span>
                             
                                 <span class="tag">
                                     
-                                    <a href="/tags/%E6%9D%82%E8%B0%88/" style="color: #ffa2c4">
+                                    <a href="/tags/%E6%9D%82%E8%B0%88/" style="color: #00a596">
                                         杂谈
                                     </a>
                                 </span>
@@ -243,7 +243,7 @@
 <li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/DJKIi99eGjai1Nu09lgsNQ">https://mp.weixin.qq.com/s/DJKIi99eGjai1Nu09lgsNQ</a></li>
 </ul>
 </blockquote>
-<p><img src="../images/3d_printer/printer.png" alt="printer"></p>
+<p><img src="/images/3d_printer/printer.png" alt="printer"></p>
 <h2><span id="1-打印前的硬件调试">1. 打印前的硬件调试</span></h2>
 <hr>
 <h3><span id="11-调平">1.1 调平</span></h3>
@@ -262,8 +262,8 @@
 <h3><span id="13-检查上料情况">1.3 检查上料情况</span></h3>
 <p><strong>预热完成后</strong>，需要检查耗材是否正确进料。</p>
 <p>如果耗材并没有连接到<strong>进料器</strong>上，需要手动连接一下，如下图所示：</p>
-<p><img src="../images/3d_printer/install2.png" alt="install2"></p>
-<p><img src="../images/3d_printer/install.png" alt="install"></p>
+<p><img src="/images/3d_printer/install2.png" alt="install2"></p>
+<p><img src="/images/3d_printer/install.png" alt="install"></p>
 <p><strong>用力</strong>将耗材插入进料器，再退出 <code>预热</code> 界面，点击 <code>挤出</code> 按钮，使得进料器不停吸入耗材，待 3D 打印机可以稳定挤出后，即为进料成功。</p>
 <blockquote>
 <p>⚠️ 如果喷嘴位置过低，记得调高一点，否则点击 <code>挤出</code> 的时候喷嘴可能会被堵住（</p>
@@ -280,7 +280,7 @@
 </blockquote>
 <h4><span id="windows">Windows</span></h4>
 <p>Windows 系统下安装 Cura 可以直接从官网上获取安装包：<a target="_blank" rel="noopener" href="https://ultimaker.com/software/ultimaker-cura/">https://ultimaker.com/software/ultimaker-cura/</a></p>
-<p><img src="../images/3d_printer/pic2.png" alt="cura_website"></p>
+<p><img src="/images/3d_printer/pic2.png" alt="cura_website"></p>
 <h4><span id="ubuntu">Ubuntu</span></h4>
 <p>Ubuntu 系统下执行以下命令以安装：</p>
 <pre><code class="language-bash">sudo apt-get install cura
@@ -298,7 +298,7 @@
 <h3><span id="22-注册-cura-账号并登陆">2.2 注册 Cura 账号并登陆</span></h3>
 <p>使用邮箱注册即可（小生用的是 <strong>Gmail</strong>），然后填写必要信息即可。</p>
 <p>注册完成后，可以先去激活<strong>教育认证</strong>（即 <code>Free EDU</code>），激活教育认证后即可<strong>免费</strong>使用 Cura</p>
-<p><img src="../images/3d_printer/pic3.png" alt="free_edu"></p>
+<p><img src="/images/3d_printer/pic3.png" alt="free_edu"></p>
 <h3><span id="23-添加打印设备add-printer">2.3 添加打印设备（Add printer）</span></h3>
 <ul>
 <li>选择 <code>Non UltiMaker printer</code></li>
@@ -306,18 +306,18 @@
 <li>选择 <code>JGAurora</code> → <code>JGAurora A5 &amp; A5S</code></li>
 <li>点击 <code>Add</code></li>
 </ul>
-<p><img src="../images/3d_printer/pic4.png" alt="add_printer"></p>
+<p><img src="/images/3d_printer/pic4.png" alt="add_printer"></p>
 <h3><span id="24-切片-stl-文件">2.4 切片 .STL 文件</span></h3>
 <p>点击文件夹图标后，选择自己的 <code>.STL</code> 模型文件，导入后点击 <code>Slice</code> 按钮即可进行切片操作。</p>
 <p>切片完成后可以选择 SD 卡导出。</p>
 <blockquote>
 <p>⚠️ 注意：如果想将文件导出到 SD 卡上，需要先将 SD 卡插到读卡器上，然后再将读卡器插入电脑的 USB 接口，如下所示：</p>
-<p><img src="../images/3d_printer/sd_card.png" alt="sd_card"></p>
+<p><img src="/images/3d_printer/sd_card.png" alt="sd_card"></p>
 </blockquote>
 <h2><span id="3-导入切片文件-amp-开始打印">3. 导入切片文件 &amp; 开始打印</span></h2>
 <hr>
 <p>从上文中的读卡器中取出 SD 卡，将 SD 卡插入到<strong>大号读卡器</strong>（小生也不知道应该叫什么💦）上，如下所示：</p>
-<p><img src="../images/3d_printer/big_reader.png" alt="reader"></p>
+<p><img src="/images/3d_printer/big_reader.png" alt="reader"></p>
 <p>再将这个大号读卡器插到 3D 打印机上，点击 <code>打印</code> 按钮，正常情况下应该就可以看到 <code>.gcode</code> 文件了，选择对应文件即可开始打印～</p>
 
                     </div>
