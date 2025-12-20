@@ -66,7 +66,7 @@ exec /opt/QQ/qq ${QQ_USER_FLAGS[@]} "$@" --ozone-platform-hint=x11 --enable-wayl
 
 当 Steam 作为 Xwayland 客户端在一个使用 HiDPI 缩放的合成器下运行时，你可能会发现 Steam 和游戏以一半的分辨率渲染，然后缩放以适应 HiDPI 屏幕。这会导致图形模糊，如下图所示：
 
-![Steam Blur](../images/hypr_problems/steam_blur.png)
+![Steam Blur](/images/hypr_problems/steam_blur.png)
 
 在 Hyprland 下如果遇到这个问题，可以在 `~/.config/hypr/hyprland.conf` 文件（或者你的其他 Hyprland 配置文件中）添加如下内容：
 

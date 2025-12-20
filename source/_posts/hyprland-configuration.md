@@ -76,7 +76,7 @@ paru -S qt5-wayland qt6-wayland
 ## 3. 安装第三方 Hyprland 主题
 这里小生采用的是 [end-4 主题](https://github.com/end-4/dots-hyprland)，效果图如下：
 
-![end4-pic](../images/hyprland/end4_theme.png)
+![end4-pic](/images/hyprland/end4_theme.png)
 
 话不多说，接下来直接开始安装，这里小生依然采用手动构建的方案（**安装前请先开启代理**）：
 
@@ -168,7 +168,7 @@ ip(geoip:cn)->direct
 
 我们可以点开设置界面左下角的`地址与端口`选项，然后填写 `带分流规则的 socks 端口` 并保存，如下所示：
 
-![v2raya](../images/hyprland/v2raya.png)
+![v2raya](/images/hyprland/v2raya.png)
 
 ### 4.3 编辑 `~/.config/hypr/hyprland.conf` 配置文件
 在 `~/.config/hypr/hyprland.conf` 配置文件中写入如下内容以配置代理端口：

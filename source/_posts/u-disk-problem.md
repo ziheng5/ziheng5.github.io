@@ -49,21 +49,21 @@ U 盘上常用的文件系统有 `FAT32`、`exFAT`、`NTFS`、`ext4`，而这四
 
 首先，执行 `free -h` 查看缓存情况：
 
-![pic1](../images/u_disk_problem/pic1.png)
+![pic1](/images/u_disk_problem/pic1.png)
 
 从上图中可以看出，此时的 `buff/cache` 一栏显示 `3.4Gi`
 
 接下来，Coldrain 将 U 盘插入电脑 USB 接口，并执行 `sudo mount /dev/sda /data/usb_tmp_port1` 将 U 盘挂载到 `/data/usb_tmp_port1` 目录下，结果如下：
 
-![pic2](../images/u_disk_problem/pic2.png)
+![pic2](/images/u_disk_problem/pic2.png)
 
 然后，将大小为 `4.4Gi` 的 `ubuntu-22.04.5-desktop-amd64.iso` 文件复制到 U 盘所在的挂载点：
 
-![pic3](../images/u_disk_problem/pic3.png)
+![pic3](/images/u_disk_problem/pic3.png)
 
 再次查看缓存（好吧其实上面 Coldrain 为了截图，将文件多复制了一次，所以这里缓存多了 `9Gi` 左右）：
 
-![pic4](../images/u_disk_problem/pic4.png)
+![pic4](/images/u_disk_problem/pic4.png)
 
 这个时候，根据 `ls /data/usb_tmp_port1` 的结果，你也许会认为文件已经复制进去了，那么当你将 U 盘取消挂载、拔出，然后再次插入、挂载后，会发现刚才“复制进去”的 `ubuntu-22.04.5-desktop-amd64.iso` 文件消失不见了！
 
@@ -73,4 +73,4 @@ U 盘上常用的文件系统有 `FAT32`、`exFAT`、`NTFS`、`ext4`，而这四
 
 若文件暂存在缓存区，使用 `sync` 即可强制将文件写入 U 盘，如下图所示：
 
-![pic6](../images/u_disk_problem/pic6.png)
+![pic6](/images/u_disk_problem/pic6.png)

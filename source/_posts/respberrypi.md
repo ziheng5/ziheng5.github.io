@@ -40,7 +40,7 @@ description: |
 
 将 Raspberry Pi Imager 下载下来之后，点击运行，出现以下界面：
 
-![raspberrypiimager](../images/raspberrypi/pic1.png)
+![raspberrypiimager](/images/raspberrypi/pic1.png)
 
 - 点击 "CHOOSE DEVICE" 后，选择 "Raspberry Pi 4"。
 - 点击 "CHOOSE OS" 后，选择 "Other general-purpose OS"，接着选择 "Ubuntu"，再选择 "Ubuntu Desktop 24.04.1 LTS(64-bit)"

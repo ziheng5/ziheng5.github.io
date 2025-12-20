@@ -9,7 +9,7 @@ categories:
 description: |
     🔍 一款非常好用的终端美化工具，值得折腾喵
 ---
-![oh-my-posh](../images/oh-my-posh/pic0.png)
+![oh-my-posh](/images/oh-my-posh/pic0.png)
 
 > oh-my-posh 官方网址：https://ohmyposh.dev/
 >

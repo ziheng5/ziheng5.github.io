@@ -94,7 +94,7 @@ sudo apt-get -y install python3-rpi.gpio
 
 这里直接附上一张图
 
-![gpio_encode](../images/raspberrypi/pic3.png)
+![gpio_encode](/images/raspberrypi/pic3.png)
 
 三种编码方式的不同主要体现在代码中。Python 采用的是 BCM 编码，而 C 采用的是 wiringpi 编码。今天小生主要讲讲如何用 Python 脚本控制 GPIO。
 

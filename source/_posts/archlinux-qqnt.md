@@ -34,7 +34,7 @@ paru -S liteloader-qqnt-bin
 require(String.raw`/home/USER/.config/QQ/LiteLoaderQQNT`)
 ```
 
-接着修改 `app/package.json` 文件，将 `main` 后值修改为 `./app_launcher/LiteLoader.js`。
+接着修改 `app/package.json` 文件，将 `main` 后的 `"./application.asar/app_launcher/index.js"` （或者其他值）修改为 `./app_launcher/LiteLoader.js`。
 
 然后，执行下面的命令将 `/opt/LiteLoaderQQNT` 目录下的所有内容迁移到 `/home/USER/.config/QQ/LiteLoaderQQNT` 目录下：
 
@@ -51,7 +51,7 @@ cp -r /opt/LiteLoaderQQNT/* /home/USER/.config/QQ/LiteLoaderQQNT/
 
 此时，当你打开 QQ，点开设置界面，将会发现你的设置界面出现了 LiteLoaderQQNT 这一栏：
 
-![liteloaderqqntpage](../images/qqnt/liteloaderqqntpage.png)
+![liteloaderqqntpage](/images/qqnt/liteloaderqqntpage.png)
 
 ## 2. 配置插件
 

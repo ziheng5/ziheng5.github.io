@@ -19,7 +19,7 @@ description: |
 >
 > （本文里的代码是小生重新手打的，未复制粘贴，可能存在拼写错误，望见谅）
 
-![pic1](../images/rl_practice/pic1)
+![pic1](/images/rl_practice/pic1)
 
 # 1. 📦 导入必要的包
 ```Python

@@ -26,7 +26,7 @@ $$ \sigma(x) = \frac{1}{1 + e^{-x}} $$
 
 - **图像**：S 型曲线，输出范围为 (0, 1)。（如下所示）
 
-![sigmoid](../images/activation_functions/sigmoid.png)
+![sigmoid](/images/activation_functions/sigmoid.png)
 
 - **优点**：
   - 输出可解释为概率。
@@ -44,7 +44,7 @@ $$ tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}} $$
 
 - **图像**：S 型曲线，输出范围 (-1, 1)。（如下所示）
 
-![tanh](../images/activation_functions/tanh.png)
+![tanh](/images/activation_functions/tanh.png)
 
 - **优点**：
   - 零中心化：输出均值为 0, 梯度更新更高效。
@@ -58,7 +58,7 @@ $$ tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}} $$
 $$ ReLU(x) = max(0, x)$$
 - **图像**：左半轴恒为 0，右半轴恒为线性。（如下所示）
 
-![relu](../images/activation_functions/relu.png)
+![relu](/images/activation_functions/relu.png)
 
 - **优点**：
   - 计算高效：无指数运算。
@@ -80,7 +80,7 @@ $$LeakyReLU(x) = \left\{\begin{matrix} x \text{ if x>0} \\ \alpha x \text{ other
 
 - **图像**：（如下所示）
 
-![leaky_relu](../images/activation_functions/leaky_relu.png)
+![leaky_relu](/images/activation_functions/leaky_relu.png)
 
 - **改进**：负区间引入小斜率 $\alpha$，缓解 Dead ReLU。
 - **优点**：
@@ -104,7 +104,7 @@ $$ELU(x) = \left\{\begin{matrix} x \text{ if x>0} \\ \alpha(e^x - 1) \text{other
 
 - **图像**：（如下所示）
 
-![elu](../images/activation_functions/elu.png)
+![elu](/images/activation_functions/elu.png)
 
 （通常 $\alpha = 1$）
 - **优点**：
@@ -126,7 +126,7 @@ $$Softmax(x_i) = \frac{e^{x_i}}{\Sigma^n_{j=1} e^{x_j}}$$
 $$Swish(x) = x \cdot \sigma(\beta x) $$
 ($\sigma$ 为 Sigmoid，$\beta$ 常设为 1 或可学习)
 
-![swish](../images/activation_functions/swish.png)
+![swish](/images/activation_functions/swish.png)
 
 - **优点**：
   - 平滑且非单调，实验显示优于 ReLU。
@@ -137,7 +137,7 @@ $$Swish(x) = x \cdot \sigma(\beta x) $$
 - **公式**：
 $$Mish(x) = x \cdot \tanh(\ln(1+e^x))$$
 
-![mish](../images/activation_functions/mish.png)
+![mish](/images/activation_functions/mish.png)
 
 - **优点**：
   - 更平滑的梯度，缓解 Dead ReLU。

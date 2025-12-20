@@ -36,7 +36,7 @@ coldrain 上网查阅相关资料后，开始怀疑文件是否正确在虚拟�
 
 结果如下图所示：
 
-![pic1](../images/py_error/pic3.png)
+![pic1](/images/py_error/pic3.png)
 
 果不其然，结果显示两种运行方式下使用的 Python 解释器信息不同！
 
@@ -51,7 +51,7 @@ sudo which python
 
 输出如下图所示：
 
-![pic2](../images/py_error/pic4.png)
+![pic2](/images/py_error/pic4.png)
 
 ## 问题原因
 Linux 系统下，由于管理员身份和用户身份下环境变量有所不同，在 `conda` 虚拟环境中直接使用 Python 解释器和用 `sudo` 使用 Python 解释器，两者路径并不相同。

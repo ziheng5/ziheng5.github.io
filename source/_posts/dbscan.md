@@ -21,7 +21,7 @@ DBSCAN 的基本思想是：
 
 > 可以前往 [DBSCAN 数据可视化网站](https://www.naftaliharris.com/blog/visualizing-dbscan-clustering/)来了解执行的流程。
 
-![dbscan_example](../images/machine_learning/dbscan1.png)
+![dbscan_example](/images/machine_learning/dbscan1.png)
 
 ## 2. DBSCAN 的基本概念
 ---
@@ -86,7 +86,7 @@ expandCluster(P, Neighbors, C, epsilon, minPts):
 ---
 
 ### 方法一：使用 scikit-learn
-![cluster](../images/machine_learning/scatter_plot.png)
+![cluster](/images/machine_learning/scatter_plot.png)
 
 聚类代码如下
 

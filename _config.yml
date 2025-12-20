@@ -40,10 +40,18 @@ external_link:
   exclude: ''
 filename_case: 0
 render_drafts: false
-post_asset_folder: false
+post_asset_folder: true
 relative_link: false
 future: true
 syntax_highlighter: 
+
+markdown:
+  anchors:
+    permalink: true
+    permalinkSide: right
+    case: 0
+    separator: '-'
+
 # syntax_highlighter: highlight.js
 highlight:
   line_number: true

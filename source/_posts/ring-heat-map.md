@@ -18,7 +18,7 @@ description: |
 
 网络上找到的环形热力图 be like：
 
-![ring_heat_map_exp](../images/mathematic_maps/ring_heat_map_exp.png)
+![ring_heat_map_exp](/images/mathematic_maps/ring_heat_map_exp.png)
 
 这种图片究竟是如何绘制出来的呢？
 
@@ -29,7 +29,7 @@ description: |
 ## 1. 嵌套饼图（Nested Pie Charts）
 一开始，Coldrain 并无一点头绪，于是在 **matplotlib 官网上提供的千奇百怪的图表样例**里翻找，找到了一个叫做 **Nested Pie Charts** 的东西，翻译过来叫做嵌套饼图，官网给的嵌套饼图长这个样子：
 
-![nested_pie_charts](../images/mathematic_maps/nested_pie_charts.png)
+![nested_pie_charts](/images/mathematic_maps/nested_pie_charts.png)
 
 官网给出的第一份案例代码如下：
 
@@ -369,7 +369,7 @@ plt.savefig("my_figure2.png", dpi=300, bbox_inches='tight')
 ```
 
 运行之后，得到的效果图如下所示：
-![final_work](../images/mathematic_maps/ring_heat_map_works.png)
+![final_work](/images/mathematic_maps/ring_heat_map_works.png)
 
 效果图的配色等设计可能有欠缺的地方，但由于时间紧迫，并没有太多时间用于色彩、样式设计...
 

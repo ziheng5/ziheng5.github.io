@@ -467,7 +467,7 @@ tensorboard --logdir runs
 !tensorboard --logdir runs
 ```
 
-如果在远程服务器上运行 TensorBoard，则需要添加`--bind_all` 命令行选项以使其可以从外部访问。现在，在浏览器中打开http://localhost:6006，就可以查看内容了：
+如果在远程服务器上运行 TensorBoard，则需要添加`--bind_all` 命令行选项以使其可以从外部访问。现在，在浏览器中打开 `http://localhost:6006`，就可以查看内容了：
 
 ![tensorboard](./images/pytorch_enter_drl/image.png)
 

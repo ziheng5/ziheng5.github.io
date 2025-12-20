@@ -24,7 +24,7 @@ description: |
 ## 1. 硬件连接
 首先贴出树莓派的引脚图：
 
-![gpio_readall](../images/raspberrypi/gpio_readall.png)
+![gpio_readall](/images/raspberrypi/gpio_readall.png)
 
 > 可以直接执行以下命令查看 gpio 引脚情况：
 >
@@ -54,7 +54,7 @@ sudo i2cdetect -y 1
 
 输出以下界面：
 
-![i2cdetect](../images/raspberrypi/i2cdetect.png)
+![i2cdetect](/images/raspberrypi/i2cdetect.png)
 
 上图中，3c 代表的就是 oled 模块的 I2C 地址。
 
@@ -93,7 +93,7 @@ sleep(10)   # oled 显示器显示 10 秒
 
 如果不出意外的话，oled 显示器上会出现下面这个笑脸 😁：
 
-![happy_face](../images/raspberrypi/happy_face.png)
+![happy_face](/images/raspberrypi/happy_face.png)
 
 下面来具体讲一讲上面这段代码：
 
@@ -146,7 +146,7 @@ sleep(5)
 
 显示效果如下：
 
-![oled_text](../images/raspberrypi/oled_text.png)
+![oled_text](/images/raspberrypi/oled_text.png)
 
 代码解析：
 

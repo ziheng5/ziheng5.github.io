@@ -16,7 +16,7 @@ description: |
 > 本指南参考教程：
 > - https://mp.weixin.qq.com/s/DJKIi99eGjai1Nu09lgsNQ
 
-![printer](../images/3d_printer/printer.png)
+![printer](/images/3d_printer/printer.png)
 
 ## 1. 打印前的硬件调试
 ---
@@ -38,9 +38,9 @@ description: |
 如果耗材并没有连接到**进料器**上，需要手动连接一下，如下图所示：
 
 
-![install2](../images/3d_printer/install2.png)
+![install2](/images/3d_printer/install2.png)
 
-![install](../images/3d_printer/install.png)
+![install](/images/3d_printer/install.png)
 
 **用力**将耗材插入进料器，再退出 `预热` 界面，点击 `挤出` 按钮，使得进料器不停吸入耗材，待 3D 打印机可以稳定挤出后，即为进料成功。
 
@@ -58,7 +58,7 @@ description: |
 #### Windows
 Windows 系统下安装 Cura 可以直接从官网上获取安装包：https://ultimaker.com/software/ultimaker-cura/
 
-![cura_website](../images/3d_printer/pic2.png)
+![cura_website](/images/3d_printer/pic2.png)
 
 #### Ubuntu
 Ubuntu 系统下执行以下命令以安装：
@@ -86,7 +86,7 @@ sudo paru -S cura
 
 注册完成后，可以先去激活**教育认证**（即 `Free EDU`），激活教育认证后即可**免费**使用 Cura
 
-![free_edu](../images/3d_printer/pic3.png)
+![free_edu](/images/3d_printer/pic3.png)
 
 ### 2.3 添加打印设备（Add printer）
 - 选择 `Non UltiMaker printer`
@@ -94,7 +94,7 @@ sudo paru -S cura
 - 选择 `JGAurora` → `JGAurora A5 & A5S`
 - 点击 `Add`
 
-![add_printer](../images/3d_printer/pic4.png)
+![add_printer](/images/3d_printer/pic4.png)
 
 ### 2.4 切片 .STL 文件
 点击文件夹图标后，选择自己的 `.STL` 模型文件，导入后点击 `Slice` 按钮即可进行切片操作。
@@ -103,13 +103,13 @@ sudo paru -S cura
 
 > ⚠️ 注意：如果想将文件导出到 SD 卡上，需要先将 SD 卡插到读卡器上，然后再将读卡器插入电脑的 USB 接口，如下所示：
 >
-> ![sd_card](../images/3d_printer/sd_card.png)
+> ![sd_card](/images/3d_printer/sd_card.png)
 
 
 ## 3. 导入切片文件 & 开始打印
 ---
 从上文中的读卡器中取出 SD 卡，将 SD 卡插入到**大号读卡器**（小生也不知道应该叫什么💦）上，如下所示：
 
-![reader](../images/3d_printer/big_reader.png)
+![reader](/images/3d_printer/big_reader.png)
 
 再将这个大号读卡器插到 3D 打印机上，点击 `打印` 按钮，正常情况下应该就可以看到 `.gcode` 文件了，选择对应文件即可开始打印～

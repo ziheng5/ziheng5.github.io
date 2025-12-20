@@ -44,7 +44,7 @@ sudo raspi-config
 
 出现 raspi-config 配置界面后即为安装成功：
 
-![raspi-config](../images/raspberrypi/raspi_config.png)
+![raspi-config](/images/raspberrypi/raspi_config.png)
 
 ## 2. GPIO 权限配置
 首先更新 apt：

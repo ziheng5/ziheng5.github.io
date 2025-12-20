@@ -43,7 +43,7 @@ SDL_IM_MODULE DEFAULT=fcitx
 ---
 事实上，Fcitx5 是支持输入法皮肤的，就像这样：
 
-![pic0](../images/linux/fcitx5_appearance2.png)
+![pic0](/images/linux/fcitx5_appearance2.png)
 
 皮肤的来源是**搜狗输入法**，从[搜狗输入法官网](https://pinyin.sogou.com/skins/)下载到的皮肤文件格式为 `.ssf`，该文件格式无法直接被 Fcitx5 使用，需要拆解成图片后做成文件夹丢到 `/home/coldrain/.local/share/fcitx5/themes` 里。
 
@@ -138,10 +138,10 @@ tree
 
 接下来在设置界面设置皮肤即可，如下所示：
 
-![pic1](../images/linux/fcitx5_setting1.png)
+![pic1](/images/linux/fcitx5_setting1.png)
 
-![pic2](../images/linux/fcitx5_setting2.png)
+![pic2](/images/linux/fcitx5_setting2.png)
 
-![pic3](../images/linux/fcitx5_setting3.png)
+![pic3](/images/linux/fcitx5_setting3.png)
 
 接下来试一下你的输入法，应该可以变成你设置的皮肤了！

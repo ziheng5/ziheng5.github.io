@@ -24,7 +24,7 @@ description: |
 
 比如说，在 RNN 中，梯度反向传播时需计算多个时间步的雅可比矩阵乘积。假设循环权重矩阵 $W_{rec}$ 的最大特征值 $|\lambda_1| > 1$，那么梯度范数（Norm）将呈指数增长：
 
-![grad_explosion](../images/deeplearning/grad_explosion.png)
+![grad_explosion](/images/deeplearning/grad_explosion.png)
 
 ---
 
