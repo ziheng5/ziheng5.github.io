@@ -46,7 +46,7 @@ paru -Ql liteloader-qqnt-bin
 
 这里我们查找到的安装路径如下所示（实际位置可能随着版本更新而变动）：
 
-![path2liteloader](/image/qqnt/path2liteloader.png)
+![path2liteloader](/images/qqnt/path2liteloader.png)
 
 
 查到安装路径后，我们执行下面的命令将 `/usr/lib/node_modules/LiteLoaderQQNT` 目录下的所有内容迁移到 `/home/USER/.config/QQ/LiteLoaderQQNT` 目录下：
