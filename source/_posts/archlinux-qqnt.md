@@ -33,18 +33,31 @@ paru -S liteloader-qqnt-bin
 ```js
 require(String.raw`/home/USER/.config/QQ/LiteLoaderQQNT`)
 ```
+> 如果你不确定在哪里修改，使用 `pwd` 命令确定你的 linuxqq 所在路径，然后在其中进行配置即可
+
 
 接着修改 `app/package.json` 文件，将 `main` 后的 `"./application.asar/app_launcher/index.js"` （或者其他值）修改为 `./app_launcher/LiteLoader.js`。
 
-然后，执行下面的命令将 `/opt/LiteLoaderQQNT` 目录下的所有内容迁移到 `/home/USER/.config/QQ/LiteLoaderQQNT` 目录下：
+然后，查找你的 LiteLoaderQQNT 安装位置：
 
 ```bash
-cp -r /opt/LiteLoaderQQNT/* /home/USER/.config/QQ/LiteLoaderQQNT/
+paru -Ql liteloader-qqnt-bin
+```
+
+这里我们查找到的安装路径如下所示（实际位置可能随着版本更新而变动）：
+
+![path2liteloader](/image/qqnt/path2liteloader.png)
+
+
+查到安装路径后，我们执行下面的命令将 `/usr/lib/node_modules/LiteLoaderQQNT` 目录下的所有内容迁移到 `/home/USER/.config/QQ/LiteLoaderQQNT` 目录下：
+
+```bash
+cp -r /usr/lib/node_modules/LiteLoaderQQNT/* /home/USER/.config/QQ/LiteLoaderQQNT/
 ```
 
 > 上面的这步迁移，原因在于：
-> - `/opt` 是系统目录，需要 sudo 权限，普通用户会遇到无法写入的问题。
-> - 安装多个用户时共享 `/opt/LiteLoaderQQNT` 不安全。
+> - `/usr` 是系统目录，需要 sudo 权限，普通用户会遇到无法写入的问题。
+> - 安装多个用户时共享 `/usr/lib/node_modules/LiteLoaderQQNT` 不安全。
 > - 遵循 `XDG` 标准能够让桌面环境、应用更一致，便于清理与迁移。
 
 然后，在 `/home/USER/.config/QQ/LiteLoaderQQMT` 目录下创建 `data`、`plugins` 两个文件夹，用于后续配置插件。

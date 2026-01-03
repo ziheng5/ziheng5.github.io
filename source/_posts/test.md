@@ -24,6 +24,7 @@ description: |
 ### Contact Me
 - Gmail：[zihengye02@gmail.com](mailto:zihengye02@gmail.com)
 - QQ：[2199325776](http://wpa.qq.com/msgrd?v=3&uin=2199325776&site=qq&menu=yes)
+- WeChat：coldrain04
 
 
 ### Something else
