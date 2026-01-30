@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>Cold Rain&#39;s Blog</title>
+    <title>Arch Linux 运行 AUR 版腾讯会议（wemeet）踩坑复盘：ZLIB_1.2.9 / Qt_5 / segfault 一条龙 | Cold Rain&#39;s Blog</title>
     <meta name="author" content="ColdRain" />
     <meta name="description" content="銀の龍の背に乗って..." />
     <meta name="keywords" content="" />
@@ -47,7 +47,9 @@
 
 
 
-<script src="/js/lib/home.js"></script>
+
+
+
 
 <link rel="stylesheet" href="/css/main.css" />
 
@@ -171,54 +173,38 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="home-head">
-    <div
-        id="home-background"
-        ref="homeBackground"
-        data-images="/images/background3.jpg"
-    ></div>
-    <div id="home-info" @click="homeClick">
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="info">
-            <div class="wrap">
-                <h1>Cold Rain&#39;s Blog</h1>
-                <h3>冷雨的博客</h3>
-                <h5>銀の龍の背に乗って...</h5>
-            </div>
-        </span>
-    </div>
-</div>
+            <div class="article">
+    
+    
+        <!-- post 部分设计 -->
 
-<div
-    id="home-posts-wrap"
-    ref="homePostsWrap"
-    true
->
-    <div id="home-posts">
-        
+        <div class="article-wrap">
 
-<div class="post">
-    <a href="/2026/01/30/wemeet-on-arch/">
-        <h2 class="post-title">Arch Linux 运行 AUR 版腾讯会议（wemeet）踩坑复盘：ZLIB_1.2.9 / Qt_5 / segfault 一条龙</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/1/30
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
             
-            <blockquote>
+            <div class="article-content">
+                
+                <div>
+                    <h1>Arch Linux 运行 AUR 版腾讯会议（wemeet）踩坑复盘：ZLIB_1.2.9 / Qt_5 / segfault 一条龙</h1>
+                </div>
+
+                <div class="info">
+                    <span class="date">
+                        <span class="icon">
+                            <i class="fa-solid fa-calendar fa-fw"></i>
+                        </span>
+                        2026/1/30
+                    </span>
+
+                    
+
+                    
+                </div>
+
+                
+                    <!-- 显示文章特有的模块（如标签、分类） -->
+                    <div class="content" v-pre>
+                        
+                        <blockquote>
 <p>故事背景：</p>
 <p>Coldrain 在 Arch Linux 上装了 AUR 版腾讯会议 wemeet，本来想开个会，结果被一条“工具链抢库”给按在地上摩擦。最后 Coldrain 用一种<strong>不污染系统</strong>、但又非常 “Linux 现实主义” 的办法把它救活了。</p>
 </blockquote>
@@ -395,567 +381,42 @@ ldconfig -p | grep -E &quot;opt/wch|libz\.so\.1&quot;
 <h2><span id="9-参考文献">9. 参考文献</span></h2>
 <p>[1] <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/48306849/lib-x86-64-linux-gnu-libz-so-1-version-zlib-1-2-9-not-found">https://stackoverflow.com/questions/48306849/lib-x86-64-linux-gnu-libz-so-1-version-zlib-1-2-9-not-found</a></p>
 
+                    </div>
+                
+            </div>
+
+            <div class="article-toc">
+                
+                    <div id="post-toc-card">
+                        <div id="toc-card-style">
+    <div id="toc-card-div">
+        <div class="the-toc">
             
+        <div id='toc'>
+            <strong class="sidebar-title"> 目录 </strong>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">0. 开局暴击：会议软件为什么会去读 RISC-V 工具链的库？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 第一轮推理：是不是 LD_LIBRARY_PATH &#x2F; LD_PRELOAD 的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 第二轮踩坑：强行 preload 系统 zlib，Qt 直接炸给Coldrain 看</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. 第三轮定位：它不是随机崩，是 Qt 自己 qFatal() 然后 abort()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. 最终解法：不去和系统抢，直接在 wemeet 的私有目录里“放一个它要的 zlib”</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.1 Coldrain 踩的坑：复制后 chmod 失败，提示 dangling symlink</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.2 正确姿势：复制“真实文件”到 wemeet 目录，再重建 symlink</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5. 验证：Coldrain 不是碰巧跑起来，而是真的把抢库路线改掉了</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6. 硬核解释：这类问题本质是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">7. 后记：最建议做的“根治”检查（可选）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">8. 结语：Linux 的浪漫就是——你总能找到一个让它听话的方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">9. 参考文献</span></a></li></ol>
         </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2026/01/30/wemeet-on-arch/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/11/12/terminal-control-transform-list/">
-        <h2 class="post-title">终端转义序列与 OSC：把“乱码”看懂的那一刻</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="category">
-            <a href="/categories/Archlinux/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                Archlinux
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/11/12
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>一篇关于终端转义序列、xterm 与现代终端的深入理解喵</p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/Archlinux/" style="color: #ff7d73">Archlinux</a>
-        </span>
-        
-    </div>
-    <a href="/2025/11/12/terminal-control-transform-list/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/11/10/u-disk-problem/">
-        <h2 class="post-title">记录某一次 Linux 向 U 盘传输大文件失败的问题</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="category">
-            <a href="/categories/Archlinux/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                Archlinux
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/11/10
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>传输失败？其实是缓存机制，sync 一下就好了（</p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/Archlinux/" style="color: #00bcd4">Archlinux</a>
-        </span>
-        
-    </div>
-    <a href="/2025/11/10/u-disk-problem/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/10/18/hyprland-problems/">
-        <h2 class="post-title">Hyprland 常见问题</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="category">
-            <a href="/categories/Archlinux/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                Archlinux
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/10/18
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>🔍 记录配置 Hyprland 时遇到的问题及其解决方案</p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/Archlinux/" style="color: #ff7d73">Archlinux</a>
-        </span>
-        
-    </div>
-    <a href="/2025/10/18/hyprland-problems/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/08/30/windows-configuration/">
-        <h2 class="post-title">Linux 用户的 Windows 改造之旅</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="category">
-            <a href="/categories/Windows/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                Windows
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/8/30
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>🔍 如何让你的 Windows 变得像你的 Linux 一样便捷、高效且美观</p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/Windows/" style="color: #ff7d73">Windows</a>
-        </span>
-        
-    </div>
-    <a href="/2025/08/30/windows-configuration/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/08/17/hyprland-configuration/">
-        <h2 class="post-title">Hyprland 折腾记</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="category">
-            <a href="/categories/Archlinux/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                Archlinux
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/8/17
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>🔍 记录暑假里配置 Hyprland 的流程与遇到的问题及其解决方案</p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/Archlinux/" style="color: #00bcd4">Archlinux</a>
-        </span>
-        
-    </div>
-    <a href="/2025/08/17/hyprland-configuration/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/08/04/archlinux-qqnt/">
-        <h2 class="post-title">在 Archlinux 上安装并配置 LiteLoaderQQNT 插件</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="category">
-            <a href="/categories/Archlinux/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                Archlinux
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/8/4
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>用惯了官方的 QQ？想要体验各种各样的 QQ 插件？想要尝试自制 QQ 机器人？快来试试 LiteLoaderQQNT…</p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/Archlinux/" style="color: #ffa2c4">Archlinux</a>
-        </span>
-        
-    </div>
-    <a href="/2025/08/04/archlinux-qqnt/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/07/10/pearson-spearman/">
-        <h2 class="post-title">相关性分析与常用相关系数</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="category">
-            <a href="/categories/%E6%95%B0%E5%AD%A6/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                数学
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/7/10
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>📊 关于相关性及 Pearson、Spearman 系数的解读</p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" style="color: #03a9f4">统计学</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00bcd4">数学建模</a>
-        </span>
-        
-    </div>
-    <a href="/2025/07/10/pearson-spearman/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/07/08/ring-heat-map/">
-        <h2 class="post-title">利用 Python 绘制环形热力图</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="category">
-            <a href="/categories/%E7%BB%98%E5%9B%BE/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                绘图
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/7/8
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>📊 如何用 Python 绘制环形热力图呢？</p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" style="color: #ff7d73">统计学</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ffa2c4">数学建模</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BB%98%E5%9B%BE/" style="color: #00bcd4">绘图</a>
-        </span>
-        
-    </div>
-    <a href="/2025/07/08/ring-heat-map/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/05/27/uvfa/">
-        <h2 class="post-title">关于 UAFA 算法的笔记</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="category">
-            <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                强化学习
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/5/27
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>📚 对 Q 函数的优化</p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #00a596">强化学习</a>
-        </span>
-        
-    </div>
-    <a href="/2025/05/27/uvfa/" class="go-post">阅读全文</a>
-</div>
-
-
-        <div class="page-current">
     
-    <span class="current">1</span>
-    
-    <a class="page-num" href="/page/2">
-        2
-    </a>
-    
-    
-    <a class="page-num" href="/page/3">
-        3
-    </a>
-    
-    
-    <span class="page-omit">...</span>
-    <a class="page-num" href="/page/5">5</a>
-    
-    
-    <a class="page-num" href="/page/2/">
-        <i class="fa-solid fa-caret-right fa-fw"></i>
-    </a>
-    
-</div>
-
+        </div>
     </div>
-    
-    <div id="home-card">
-        <div id="card-style">
-    <div id="card-div">
-        <div class="avatar">
-            <img src="/images/head.jpg" alt="avatar" />
+</div>
+                    </div>
+                
+            </div>
         </div>
-        <div class="name">ColdRain</div>
-        <div class="description">
-            <p>理想主义重症患者</p>
 
-        </div>
+        <!-- 这里插入评论区和页脚 -->
         
-        <div class="icon-links">
             
-            <span class="icon-link">
-                <a target="_blank" rel="noopener" href="https://github.com/ziheng5">
-                    <i
-                        class="fa-brands fa-github fa-fw"
-                    ></i>
-                </a>
-            </span>
             
-            <span class="icon-link">
-                <a target="_blank" rel="noopener" href="https://space.bilibili.com/3546747278198798">
-                    <i
-                        class="fa-brands fa-bilibili fa-fw"
-                    ></i>
-                </a>
-            </span>
             
-            <span class="icon-link">
-                <a href="qq://2199325776">
-                    <i
-                        class="fa-brands fa-qq fa-fw"
-                    ></i>
-                </a>
-            </span>
             
-            <span class="icon-link">
-                <a target="_blank" rel="noopener" href="https://discord.gg/htf5PNEX">
-                    <i
-                        class="fa-brands fa-discord fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a target="_blank" rel="noopener" href="https://www.kaggle.com/ziheng4">
-                    <i
-                        class="fa-brands fa-kaggle fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-        </div>
-        
-
         
 
 
-    </div>
-</div>
-
-    </div>
     
-</div>
 
+</div>
             <footer id="footer">
     <div id="footer-wrap">
         <div>
@@ -984,6 +445,12 @@ ldconfig -p | grep -E &quot;opt/wch|libz\.so\.1&quot;
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 
