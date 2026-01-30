@@ -2,6 +2,12 @@
 title: Arch Linux 运行 AUR 版腾讯会议（wemeet）踩坑复盘：ZLIB_1.2.9 / Qt_5 / segfault 一条龙
 date: 2026-01-30 19:02:09
 tags:
+    - Archlinux
+categories:
+    - Archlinux
+description: |
+    ✍ 一篇关于 Arch Linux 下工具链错误调用的记录
+
 ---
 
 > 故事背景：
