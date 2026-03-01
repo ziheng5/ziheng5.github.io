@@ -215,7 +215,7 @@
                             
                                 <span class="tag">
                                     
-                                    <a href="/tags/Archlinux/" style="color: #03a9f4">
+                                    <a href="/tags/Archlinux/" style="color: #00a596">
                                         Archlinux
                                     </a>
                                 </span>
@@ -251,7 +251,7 @@ version `ZLIB_1.2.9' not found (required by /usr/lib/wemeet/libQt5Gui.so.5)
 </blockquote>
 <p><strong>第一反应：库路径被污染了。</strong></p>
 <hr>
-<h2><span id="1-第一轮推理是不是-ld_library_path-ld_preload-的问题">1. 第一轮推理：是不是 LD_LIBRARY_PATH / LD_PRELOAD 的问题</span></h2>
+<h2><span id="1-第一轮推理">1. 第一轮推理</span></h2>
 <p>动态链接器（<a target="_blank" rel="noopener" href="http://ld.so">ld.so</a>）找库时，最常见的“邪路”就是：</p>
 <ul>
 <li><code>LD_LIBRARY_PATH</code></li>
@@ -265,10 +265,10 @@ version `ZLIB_1.2.9' not found (required by /usr/lib/wemeet/libQt5Gui.so.5)
 问题不只是 “当前 shell 环境变量污染”。它可能来自更深的层（比如启动脚本、系统 ld 缓存、RPATH/RUNPATH、甚至某些全局 profile）。</p>
 <p>但Coldrain 当时没急着去大拆系统；Coldrain 先想的是：<strong>先让它跑起来。</strong></p>
 <hr>
-<h2><span id="2-第二轮踩坑强行-preload-系统-zlibqt-直接炸给coldrain-看">2. 第二轮踩坑：强行 preload 系统 zlib，Qt 直接炸给Coldrain 看</span></h2>
+<h2><span id="2-第二轮踩坑">2. 第二轮踩坑</span></h2>
 <p>Coldrain 的想法很直接：</p>
 <blockquote>
-<p>你老是加载错 zlib？那 Coldrain 用 <code>LD_PRELOAD</code> 把正确的 zlib 先塞进去，抢占符号解析优先级。</p>
+<p>老是加载错 zlib？那 Coldrain 就用 <code>LD_PRELOAD</code> 把正确的 zlib 先塞进去，抢占符号解析优先级。</p>
 </blockquote>
 <p>于是Coldrain 尝试：</p>
 <pre><code class="language-bash">env LD_LIBRARY_PATH=/usr/lib:/lib \
@@ -288,7 +288,7 @@ Qt 这种体系一旦混用（QtCore/QtGui/QtWidgets 或 plugins 版本不一致
 <p><strong>桌面闭源软件的自带 Qt：要么全用它那套，要么全不用。最怕“掺着来”。</strong></p>
 </blockquote>
 <hr>
-<h2><span id="3-第三轮定位它不是随机崩是-qt-自己-qfatal-然后-abort">3. 第三轮定位：它不是随机崩，是 Qt 自己 <code>qFatal()</code> 然后 <code>abort()</code></span></h2>
+<h2><span id="3-第三轮定位">3. 第三轮定位</span></h2>
 <p>Coldrain 后来还遇到了 segfault，于是用 gdb 抓 backtrace。关键栈长这样：</p>
 <pre><code>QMessageLogger::fatal(...)
 QGuiApplicationPrivate::createPlatformIntegration()
@@ -305,13 +305,13 @@ abort()
 <p>到这 Coldrain 基本确认：<br>
 <strong>Coldrain 不能用粗暴的 LD_LIBRARY_PATH=/usr/lib 这种方式。否则 Qt 混用必炸。</strong></p>
 <hr>
-<h2><span id="4-最终解法不去和系统抢直接在-wemeet-的私有目录里放一个它要的-zlib">4. 最终解法：不去和系统抢，直接在 wemeet 的私有目录里“放一个它要的 zlib”</span></h2>
+<h2><span id="4-解决方案">4. 解决方案</span></h2>
 <p>核心矛盾一直没变：</p>
 <blockquote>
 <p>wemeet 总能“莫名其妙”加载到 <code>/opt/wch/.../libz.so.1</code>（老的），然后找不到 <code>ZLIB_1.2.9</code>。</p>
 </blockquote>
 <p>所以 Coldrain 反向操作：<br>
-既然它喜欢从自己的库目录（<code>/usr/lib/wemeet</code>）加载东西，那Coldrain 就把“正确版本的 zlib”放进 <code>/usr/lib/wemeet</code>，让它<strong>优先命中正确库</strong>，从而绕开 <code>/opt/wch</code> 的抢库。</p>
+既然它喜欢从自己的库目录（<code>/usr/lib/wemeet</code>）加载东西，那 Coldrain 就把“正确版本的 zlib”放进 <code>/usr/lib/wemeet</code>，让它<strong>优先命中正确库</strong>，从而绕开 <code>/opt/wch</code> 的抢库。</p>
 <p>这招的好处是：</p>
 <ul>
 <li>不动系统 <code>/usr/lib/libz.so.1</code>（不污染系统）</li>
@@ -359,7 +359,7 @@ ls -l /usr/lib/wemeet/libz.so.1
 <p><strong>成功启动。</strong></p>
 <p>那一刻非常舒爽，属于“你可以和闭源软件讲道理，但最好还是用 <a target="_blank" rel="noopener" href="http://ld.so">ld.so</a> 能听懂的语言”。</p>
 <hr>
-<h2><span id="5-验证coldrain-不是碰巧跑起来而是真的把抢库路线改掉了">5. 验证：Coldrain 不是碰巧跑起来，而是真的把抢库路线改掉了</span></h2>
+<h2><span id="5-验证猜想">5. 验证猜想</span></h2>
 <p>为了确保不是侥幸（比如某次恰好没撞上工具链库），Coldrain 用 <code>LD_DEBUG=libs</code> 看动态链接器到底加载了谁：</p>
 <pre><code class="language-bash">LD_DEBUG=libs wemeet 2&gt;&amp;1 | grep -E &quot;libz\.so\.1|wch|/usr/lib/wemeet&quot; | head -n 60
 </code></pre>
@@ -370,12 +370,9 @@ ls -l /usr/lib/wemeet/libz.so.1
 </ul>
 <p>只要这两点成立，就说明问题从“路径抢库”层面被稳稳解决。</p>
 <hr>
-<h2><span id="6-硬核解释这类问题本质是什么">6. 硬核解释：这类问题本质是什么？</span></h2>
-<p>一句话：</p>
-<blockquote>
-<p><strong>动态链接器按规则找库，但你机器上“库太多、路径太脏”。</strong></p>
-</blockquote>
-<p>你的工具链（WCH RISC-V）里带了 <code>libz.so.1</code>，而且它在某种路径优先级上压过了系统 zlib。</p>
+<h2><span id="6-问题本质">6. 问题本质</span></h2>
+<p>动态链接器按规则找库，但 Coldrain 系统里“库太多、路径太脏”。</p>
+<p>Coldrain 的工具链（WCH RISC-V）里带了 <code>libz.so.1</code>，而且它在某种路径优先级上压过了系统 zlib。</p>
 <p>当软件需要 <code>ZLIB_1.2.9</code> 的符号版本时：</p>
 <ul>
 <li>系统 zlib：有</li>
@@ -383,18 +380,17 @@ ls -l /usr/lib/wemeet/libz.so.1
 <li>于是报错</li>
 </ul>
 <p>而 Qt 那个阶段的崩溃，属于次生灾害：<br>
-你为了救 zlib 改了 <code>LD_LIBRARY_PATH</code>，结果 Qt 自带库和系统 Qt 插件/依赖混在一起，直接 fatal/abort。</p>
+Coldrain 为了救 zlib 改了 <code>LD_LIBRARY_PATH</code>，结果 Qt 自带库和系统 Qt 插件/依赖混在一起，直接 fatal/abort。</p>
 <hr>
-<h2><span id="7-后记最建议做的根治检查可选">7. 后记：最建议做的“根治”检查（可选）</span></h2>
+<h2><span id="7-后记">7. 后记</span></h2>
 <p>Coldrain 这次用“往 <code>/usr/lib/wemeet/</code> 塞依赖”救活了 wemeet，但从系统健康角度，最好还是查一下 <strong>为什么 <code>/opt/wch</code> 会被拿来当动态库搜索路径</strong>。</p>
 <p>建议跑：</p>
 <pre><code class="language-bash">sudo grep -R &quot;/opt/wch&quot; /etc/ld.so.conf /etc/ld.so.conf.d 2&gt;/dev/null
 ldconfig -p | grep -E &quot;opt/wch|libz\.so\.1&quot;
 </code></pre>
-<p>如果你真看到 <code>/opt/wch/...</code> 被写进了 <code>ld.so.conf.d</code>，那就意味着未来别的软件也可能被它抢库。<br>
-这时候把它从系统 ld 配置里移走、再 <code>sudo ldconfig</code>，才是更“长期”的清爽方案。</p>
+<p>如果你真看到 <code>/opt/wch/...</code> 被写进了 <code>ld.so.conf.d</code>，那就意味着未来别的软件也可能被它抢库。这时候把它从系统 ld 配置里移走、再 <code>sudo ldconfig</code>，才是更“长期”的清爽方案。</p>
 <hr>
-<h2><span id="8-结语linux-的浪漫就是你总能找到一个让它听话的方式">8. 结语：Linux 的浪漫就是——你总能找到一个让它听话的方式</span></h2>
+<h2><span id="8-结语">8. 结语</span></h2>
 <p>这次的最终解法并不花哨，就是一句话：</p>
 <blockquote>
 <p><strong>不要替换系统库；把正确库放进应用自己的库目录，让它优先命中。</strong></p>
@@ -418,7 +414,7 @@ ldconfig -p | grep -E &quot;opt/wch|libz\.so\.1&quot;
             
         <div id='toc'>
             <strong class="sidebar-title"> 目录 </strong>
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">0. 开局暴击：会议软件为什么会去读 RISC-V 工具链的库？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 第一轮推理：是不是 LD_LIBRARY_PATH &#x2F; LD_PRELOAD 的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 第二轮踩坑：强行 preload 系统 zlib，Qt 直接炸给Coldrain 看</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. 第三轮定位：它不是随机崩，是 Qt 自己 qFatal() 然后 abort()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. 最终解法：不去和系统抢，直接在 wemeet 的私有目录里“放一个它要的 zlib”</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.1 Coldrain 踩的坑：复制后 chmod 失败，提示 dangling symlink</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.2 正确姿势：复制“真实文件”到 wemeet 目录，再重建 symlink</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5. 验证：Coldrain 不是碰巧跑起来，而是真的把抢库路线改掉了</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6. 硬核解释：这类问题本质是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">7. 后记：最建议做的“根治”检查（可选）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">8. 结语：Linux 的浪漫就是——你总能找到一个让它听话的方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">9. 参考文献</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">0. 开局暴击：会议软件为什么会去读 RISC-V 工具链的库？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1. 第一轮推理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2. 第二轮踩坑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">3. 第三轮定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">4. 解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.1 Coldrain 踩的坑：复制后 chmod 失败，提示 dangling symlink</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">4.2 正确姿势：复制“真实文件”到 wemeet 目录，再重建 symlink</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">5. 验证猜想</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">6. 问题本质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">7. 后记</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">8. 结语</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">9. 参考文献</span></a></li></ol>
         </div>
     
         </div>
