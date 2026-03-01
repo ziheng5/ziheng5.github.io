@@ -40,7 +40,7 @@ version `ZLIB_1.2.9' not found (required by /usr/lib/wemeet/libQt5Gui.so.5)
 
 ---
 
-## 1. 第一轮推理：是不是 LD_LIBRARY_PATH / LD_PRELOAD 的问题
+## 1. 第一轮推理
 
 动态链接器（ld.so）找库时，最常见的“邪路”就是：
 
@@ -62,11 +62,11 @@ env -u LD_LIBRARY_PATH -u LD_PRELOAD wemeet
 
 ---
 
-## 2. 第二轮踩坑：强行 preload 系统 zlib，Qt 直接炸给Coldrain 看
+## 2. 第二轮踩坑
 
 Coldrain 的想法很直接：
 
-> 你老是加载错 zlib？那 Coldrain 用 `LD_PRELOAD` 把正确的 zlib 先塞进去，抢占符号解析优先级。
+> 老是加载错 zlib？那 Coldrain 就用 `LD_PRELOAD` 把正确的 zlib 先塞进去，抢占符号解析优先级。
 
 于是Coldrain 尝试：
 
@@ -95,7 +95,7 @@ Qt 这种体系一旦混用（QtCore/QtGui/QtWidgets 或 plugins 版本不一致
 
 ---
 
-## 3. 第三轮定位：它不是随机崩，是 Qt 自己 `qFatal()` 然后 `abort()`
+## 3. 第三轮定位
 
 Coldrain 后来还遇到了 segfault，于是用 gdb 抓 backtrace。关键栈长这样：
 
@@ -119,14 +119,14 @@ abort()
 
 ---
 
-## 4. 最终解法：不去和系统抢，直接在 wemeet 的私有目录里“放一个它要的 zlib”
+## 4. 解决方案
 
 核心矛盾一直没变：
 
 > wemeet 总能“莫名其妙”加载到 `/opt/wch/.../libz.so.1`（老的），然后找不到 `ZLIB_1.2.9`。
 
 所以 Coldrain 反向操作：
-既然它喜欢从自己的库目录（`/usr/lib/wemeet`）加载东西，那Coldrain 就把“正确版本的 zlib”放进 `/usr/lib/wemeet`，让它**优先命中正确库**，从而绕开 `/opt/wch` 的抢库。
+既然它喜欢从自己的库目录（`/usr/lib/wemeet`）加载东西，那 Coldrain 就把“正确版本的 zlib”放进 `/usr/lib/wemeet`，让它**优先命中正确库**，从而绕开 `/opt/wch` 的抢库。
 
 这招的好处是：
 
@@ -190,7 +190,7 @@ ls -l /usr/lib/wemeet/libz.so.1
 
 ---
 
-## 5. 验证：Coldrain 不是碰巧跑起来，而是真的把抢库路线改掉了
+## 5. 验证猜想
 
 为了确保不是侥幸（比如某次恰好没撞上工具链库），Coldrain 用 `LD_DEBUG=libs` 看动态链接器到底加载了谁：
 
@@ -207,13 +207,11 @@ LD_DEBUG=libs wemeet 2>&1 | grep -E "libz\.so\.1|wch|/usr/lib/wemeet" | head -n 
 
 ---
 
-## 6. 硬核解释：这类问题本质是什么？
+## 6. 问题本质
 
-一句话：
+动态链接器按规则找库，但 Coldrain 系统里“库太多、路径太脏”。
 
-> **动态链接器按规则找库，但你机器上“库太多、路径太脏”。**
-
-你的工具链（WCH RISC-V）里带了 `libz.so.1`，而且它在某种路径优先级上压过了系统 zlib。
+Coldrain 的工具链（WCH RISC-V）里带了 `libz.so.1`，而且它在某种路径优先级上压过了系统 zlib。
 
 当软件需要 `ZLIB_1.2.9` 的符号版本时：
 
@@ -222,11 +220,11 @@ LD_DEBUG=libs wemeet 2>&1 | grep -E "libz\.so\.1|wch|/usr/lib/wemeet" | head -n 
 * 于是报错
 
 而 Qt 那个阶段的崩溃，属于次生灾害：
-你为了救 zlib 改了 `LD_LIBRARY_PATH`，结果 Qt 自带库和系统 Qt 插件/依赖混在一起，直接 fatal/abort。
+Coldrain 为了救 zlib 改了 `LD_LIBRARY_PATH`，结果 Qt 自带库和系统 Qt 插件/依赖混在一起，直接 fatal/abort。
 
 ---
 
-## 7. 后记：最建议做的“根治”检查（可选）
+## 7. 后记
 
 Coldrain 这次用“往 `/usr/lib/wemeet/` 塞依赖”救活了 wemeet，但从系统健康角度，最好还是查一下 **为什么 `/opt/wch` 会被拿来当动态库搜索路径**。
 
@@ -237,12 +235,11 @@ sudo grep -R "/opt/wch" /etc/ld.so.conf /etc/ld.so.conf.d 2>/dev/null
 ldconfig -p | grep -E "opt/wch|libz\.so\.1"
 ```
 
-如果你真看到 `/opt/wch/...` 被写进了 `ld.so.conf.d`，那就意味着未来别的软件也可能被它抢库。
-这时候把它从系统 ld 配置里移走、再 `sudo ldconfig`，才是更“长期”的清爽方案。
+如果你真看到 `/opt/wch/...` 被写进了 `ld.so.conf.d`，那就意味着未来别的软件也可能被它抢库。这时候把它从系统 ld 配置里移走、再 `sudo ldconfig`，才是更“长期”的清爽方案。
 
 ---
 
-## 8. 结语：Linux 的浪漫就是——你总能找到一个让它听话的方式
+## 8. 结语
 
 这次的最终解法并不花哨，就是一句话：
 
