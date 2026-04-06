@@ -3,7 +3,6 @@ title: 校园网未登录情况下 Pacman 滚包引发的问题与解决方案
 date: 2025-02-25 08:30:03
 tags:
     - Archlinux
-    - 校园网
 categories:
     - Archlinux
 description: |

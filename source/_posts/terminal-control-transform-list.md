@@ -1,5 +1,5 @@
 ---
-title: 终端转义序列与 OSC：把“乱码”看懂的那一刻
+title: 终端转义序列与 OSC
 date: 2025-11-12 00:12:40
 tags:
     - Archlinux

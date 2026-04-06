@@ -3,7 +3,6 @@ title: JGAurora A5S 3D 打印机零基础食用指南
 date: 2025-04-21 16:29:02
 tags:
     - 硬件
-    - 杂谈
 categories:
     - 食用指南
 description: |
