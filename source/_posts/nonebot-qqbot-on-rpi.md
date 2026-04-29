@@ -16,7 +16,15 @@ description: |
 > - SD 卡一张（存储最好大一点）
 > - USB-SD 卡转接器（用于在 SD 卡上安装操作系统）
 
-## 1. 操作系统选择与安装
+## 1. 方案总览
+
+基于 NapCat + NoneBot 的 QQ 机器人通信链路如下图所示（AI 画图真好用啊💦）：
+
+![communication](/images/raspberrypi/qqbot_communication.png)
+
+
+
+## 2. 操作系统选择与安装
 我们的需求目前只是将一个机器人服务跑在树莓派上，因此操作系统最好使用**无桌面**的版本以减轻树莓派负担。
 
 由于[树莓派官方](https://www.raspberrypi.com/documentation/computers/os.html)明确写了，**Raspberry Pi OS 是官方支持、并且“推荐用于大多数树莓派场景”的系统**；它本身又是**基于 Debian、并针对树莓派硬件做了优化**。同时官方提供了 **64 位 Lite 版**，并明确说明 Lite 没有图形桌面，非常适合 **headless servers（无头服务器）**这种用途。
@@ -45,11 +53,11 @@ paru -S rpi-imager
 
 等待安装完成后，将 SD 卡插入树莓派，再给树莓派接上外接显示器，接下来就可以开始操作系统的简单配置了。
 
-## 2. 服务器的简单配置
+## 3. 服务器的简单配置
 
 由于通过 rpi-imager 安装的 Raspberry Pi OS Lite 系统本身就已经具有了一定的配置，所以我们需要配的并不多
 
-### 2.1 更新系统
+### 3.1 更新系统
 
 ```bash
 sudo apt update
@@ -59,7 +67,7 @@ sudo apt full-upgrade -y
 reboot
 ```
 
-### 2.2 安装常用工具
+### 3.2 安装常用工具
 虽然这些不是树莓派官方强制要求，但是后面部署 NoneBot 的时候会用上：
 
 ```bash
@@ -72,7 +80,7 @@ pipx ensurepath
 ```
 
 
-### 2.3 安装 zsh
+### 3.3 安装 zsh
 相比于 bash，zsh 的优点如下：
 - 命令补全体验更好
 - 提示符更灵活
@@ -95,7 +103,7 @@ zsh 的配置建议写在 `~/.zshrc` 里
 > 此外，也可以尝试一下 Coldrain Dotfiles 里的 `.zshrc` 配置喵～
 > 地址：https://github.com/ziheng5/dotfiles/blob/master/dotfiles/zsh/.zshrc
 
-### 2.4 终端美化（可选）
+### 3.4 终端美化（可选）
 这里主要是使用 **oh-my-posh** 对终端 prompt 进行美化，具体操作参考 Coldrain 的[这篇文章](https://coldrain.top/2025/04/11/llm-deepseek/)
 
 当然，oh-my-posh 的配置 Coldrain 也有一套（[在这里](https://github.com/ziheng5/dotfiles/blob/master/dotfiles/oh-my-posh/catppuccin_coldrain.omp.json)），配置文件为 `catppuccin_coldrain.omp.json`，将这个文件塞到你的 `~/.config/oh-my-posh/themes/` 路径下面
@@ -107,7 +115,7 @@ eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/themes/catppuccin_cold
 ```
 
 
-### 2.5 Neovim + LazyVim
+### 3.5 Neovim + LazyVim
 我们后续需要通过 SSH 远程连接到树莓派上进行开发，那么使用终端集成开发环境会很方便，这里我们选择使用 **Neovim + LazyVim**。Neovim 是 vim 的升级版，极大扩展了 vim 的可配置性，而 LazyVim 是 Neovim 的一套第三方个性化配置方案，其配置程度差不多是将整个 VSCode 塞进终端里。
 
 ⚠️ 安装的时候要注意：Raspberry Pi OS Lite 上通过 `apt` 从仓库里安装到的 neovim 版本过低，似乎很久没有更新了，需要从 Neovim 官方的 Github 仓库下载最新版本：
@@ -169,7 +177,7 @@ nvim
 ![lazyvim](/images/raspberrypi/lazy.png)
 
 
-### 2.6 SSH 配置与连接
+### 3.6 SSH 配置与连接
 
 > SSH 之前，建议在 [Tailscale](https://login.tailscale.com) 上为树莓派搞一个虚拟 IP，这样以后即使没有局域网，也可以走 Tailscale 远程 SSH 连接到你的树莓派。
 > 具体操作请参考官方文档，这里不作展开
@@ -241,7 +249,7 @@ sudo systemctl restart ssh
 > sudo apt install -y kitty-terminfo
 > ```
 
-## 3. Python 工具链配置
+## 4. Python 工具链配置
 在这个项目里，我们使用 `pipx` 命令行工具来配置 Python 环境，且每个项目单独配置一个 `venv`
 
 首先，我们将项目的工作区建立好：
@@ -293,7 +301,7 @@ pipx install nb-cli
 > ```
 > 该配置可以让 pip 不总是提示版本检查，且网络慢一点的时候更“宽容”
 
-## 4. 创建最小 NoneBot 项目
+## 5. 创建最小 NoneBot 项目
 
 先创建 `.env`：
 
@@ -355,7 +363,7 @@ async def _(event: MessageEvent):
 
 ```
 
-## 5. 接入 NapCat
+## 6. 接入 NapCat
 [NapCat 官方文档](https://napneko.github.io/guide/napcat)当前给出的 WebUI 基础操作是：
 - 启动 NapCat
 - 访问 `http://ip:port/webui/`
@@ -401,8 +409,8 @@ bash ~/launcher.sh
 当 NapCat 成功连接上后，`python bot.py` 那个终端应该会开始出现连接日志，此时你去 QQ 里向你的机器人账号发送 `/ping`，如果返回 `/pong`，那么恭喜！🎉 你的整条机器人服务链路已经全通了！
 
 
-## 6. 优化服务链路
-### 6.1 将 NoneBot 做成 systemd 服务
+## 7. 优化服务链路
+### 7.1 将 NoneBot 做成 systemd 服务
 如果你确认 `/ping` 已经成功，那么就接着往下面看吧～
 
 首先创建服务文件：
@@ -441,7 +449,7 @@ sudo systemctl start nonebot-qqbot
 sudo systemctl status nonebot-qqbot --no-pager
 ```
 
-### 6.2 最小 NoneBot 项目改进
+### 7.2 最小 NoneBot 项目改进
 
 由于：
 - NoneBot 支持用 `SUPERUSERS` 配置超级用户；权限控制里也直接提供了 `SUPERUSER` 权限。
@@ -595,7 +603,7 @@ sudo systemctl status nonebot-qqbot --no-pager
 
 接下来在 QQ 里尝试向机器人发送 `/whoami`、`/status`、`/paths` 指令试试看吧！😀
 
-### 6.3 将 NapCat 做成 systemd 服务
+### 7.3 将 NapCat 做成 systemd 服务
 
 首先我们新建服务文件：
 
