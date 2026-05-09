@@ -1,0 +1,4 @@
+---
+title: Favorites
+type: favorites
+---

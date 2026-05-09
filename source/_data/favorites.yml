@@ -1,0 +1,25 @@
+# Favorites
+# 按分类维护收藏网页，页面会自动渲染到 /favorites/。
+#
+ - name: 工具文档
+   items:
+     - name: Hexo 文档
+       url: https://hexo.io/
+       desc: 快速、简洁且高效的博客框架
+       icon: book
+     - name: NapCatQQ 文档
+       url: https://napneko.github.io/
+       desc: 现代化的基于 NTQQ 的 Bot 协议端实现
+       icon: qq
+     - name: NoneBot
+       url: https://nonebot.dev/
+       desc: 跨平台 Python 异步机器人框架
+       icon: qq
+
+ - name: 实用工具
+   items:
+     - name: AnyRouter
+       url: https://anyrouter.top/
+       desc: 公益中转站
+       icon: car
+
