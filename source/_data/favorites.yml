@@ -10,11 +10,11 @@
      - name: NapCatQQ 文档
        url: https://napneko.github.io/
        desc: 现代化的基于 NTQQ 的 Bot 协议端实现
-       icon: qq
+       icon: book
      - name: NoneBot
        url: https://nonebot.dev/
        desc: 跨平台 Python 异步机器人框架
-       icon: qq
+       icon: book
 
  - name: 实用工具
    items:
