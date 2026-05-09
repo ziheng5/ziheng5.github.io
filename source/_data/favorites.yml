@@ -15,6 +15,10 @@
        url: https://nonebot.dev/
        desc: 跨平台 Python 异步机器人框架
        icon: book
+     - name: LangChain
+       url: https://docs.langchain.com/
+       desc: 强大的代理工程平台
+       icon: book
 
  - name: 实用工具
    items:
