@@ -198,11 +198,14 @@
         </div>
 
         
-            <!-- 其他 page 部分 -->
+            <div class="content" v-pre>
+                
+            </div>
         
     
 
 </div>
+
             <footer id="footer">
     <div id="footer-wrap">
         <div>
@@ -238,12 +241,11 @@
 
 
     
+
+    <canvas
+        id="background"
+        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+    ></canvas>
+    <script src="/js/background.min.js"></script>
 </body>
-
-<canvas
-    id="background"
-    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
-></canvas>
-<script src="/js/background.min.js"></script>
-
 </html>

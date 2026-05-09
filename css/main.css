@@ -956,7 +956,7 @@ ol li {
   .friend-card {
     display: flex;
     height: 140px;
-    width: 360;
+    width: 100%;
     text-decoration: none; /* 移除链接下划线 */
     color: inherit; /* 继承文字颜色 */
     border: 4px solid #eaeaea;
@@ -972,16 +972,16 @@ ol li {
   
   /* 头像区域（固定宽度） */
   .friend-avatar {
+    align-items: center;
+    display: flex;
+    justify-content: center;
     width: 140px;
     flex-shrink: 0;
   }
   
   .friend-avatar img {
-    position: absolute;
-    width: 60%;
-    height: 60%;
-    top: 10%; /* 50% - (60%/2) */
-    left: calc(50% - 30%);
+    width: 86px;
+    height: 86px;
     object-fit: contain;
     background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
     background-size: 200% 100%;
@@ -1038,14 +1038,14 @@ ol li {
         .friend-card {
         display: flex;
         height: 140px;
-        width: 400px;
+        width: 100%;
         text-decoration: none; /* 移除链接下划线 */
         color: inherit; /* 继承文字颜色 */
         border: 4px solid #eaeaea;
         border-radius: 10px;
         transition: all 0.3s ease;
         background-color: rgba(255, 255, 255, 0.85);
-        margin-left: 10px;
+        margin-left: 0;
         }
     }
 

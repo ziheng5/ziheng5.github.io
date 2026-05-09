@@ -233,7 +233,7 @@
                             
                                 <span class="tag">
                                     
-                                    <a href="/tags/PyTorch/" style="color: #03a9f4">
+                                    <a href="/tags/PyTorch/" style="color: #ff7d73">
                                         PyTorch
                                     </a>
                                 </span>
@@ -800,6 +800,7 @@ submission.loc[(submission['class'] == '1'), 'class'] = 'p'
     
 
 </div>
+
             <footer id="footer">
     <div id="footer-wrap">
         <div>
@@ -835,12 +836,11 @@ submission.loc[(submission['class'] == '1'), 'class'] = 'p'
 
 
     
+
+    <canvas
+        id="background"
+        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
+    ></canvas>
+    <script src="/js/background.min.js"></script>
 </body>
-
-<canvas
-    id="background"
-    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"
-></canvas>
-<script src="/js/background.min.js"></script>
-
 </html>
