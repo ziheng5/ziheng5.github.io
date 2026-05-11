@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><title>Raspberry Pi, start! | Cold Rain&#39;s Blog</title><meta name="author" content="ColdRain"><meta name="description" content="銀の龍の背に乗って..."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="/images/head.jpg"><link rel="preconnect" href="https://s4.zstatic.net"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"><link rel="preconnect" href="https://fonts.googleapis.cn"><link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/css/astro-overrides.css"></head> <body data-page-type="post"> <div id="layout"> <div id="loading"> <div id="loading-circle"> <h2>LOADING</h2> <p>加载过慢请开启缓存 浏览器默认开启</p> <img src="/images/loading.gif" alt=""> </div> </div> <div id="menu" class="menu-color"> <nav id="desktop-menu"> <a class="title" href="/"> <span>COLD RAIN&#39;S BLOG</span> </a> <a href="/"> <i class="fa-solid fa-house fa-fw"></i> <span>&ensp;Homepage</span> </a><a href="/2024/11/26/test/"> <i class="fa-solid fa-id-card fa-fw"></i> <span>&ensp;About</span> </a><a href="/archives/"> <i class="fa-solid fa-box-archive fa-fw"></i> <span>&ensp;Archives</span> </a><a href="/categories/杂谈/"> <i class="fa-solid fa-bookmark fa-fw"></i> <span>&ensp;Categories</span> </a><a href="/tags/杂谈/"> <i class="fa-solid fa-tags fa-fw"></i> <span>&ensp;Tags</span> </a><a href="/friends/"> <i class="fa-solid fa-link fa-fw"></i> <span>&ensp;Links</span> </a><a href="/favorites/"> <i class="fa-solid fa-star fa-fw"></i> <span>&ensp;Favorites</span> </a> </nav> <nav id="mobile-menu"> <button class="title" type="button" aria-expanded="false" aria-controls="mobile-menu-items"> <i class="fa-solid fa-bars fa-fw"></i> <span>&emsp;COLD RAIN&#39;S BLOG</span> </button> <div id="mobile-menu-items" class="items" hidden> <a href="/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-house fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div> </div> </a><a href="/2024/11/26/test/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-id-card fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">About</div> </div> </a><a href="/archives/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-box-archive fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div> </div> </a><a href="/categories/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-bookmark fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div> </div> </a><a href="/tags/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-tags fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div> </div> </a><a href="/friends/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-link fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div> </div> </a><a href="/favorites/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-star fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Favorites</div> </div> </a> </div> </nav> </div> <div id="menu-curtain" hidden></div> <main id="main" class="into-enter-from">  <article class="article"> <div class="article-wrap"> <div class="article-content"> <h1>Raspberry Pi, start!</h1> <div class="info"> <span class="date"> <span class="icon"><i class="fa-solid fa-calendar fa-fw"></i></span> 2025/1/18 </span> <span class="category"> <a href="/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/"> <span class="icon"><i class="fa-solid fa-bookmark fa-fw"></i></span> 树莓派 </a> </span> <span class="tags"> <span class="icon"><i class="fa-solid fa-tags fa-fw"></i></span> <span class="tag"> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="color: #ffa2c4">树莓派</a> </span><span class="tag"> <a href="/tags/%E7%A1%AC%E4%BB%B6/" style="color: #00bcd4">硬件</a> </span><span class="tag"> <a href="/tags/Ubuntu/" style="color: #03a9f4">Ubuntu</a> </span> </span> </div> <div class="content"> <p>继上一次小生在树莓派上安装完操作系统并进行了相关配置后，小生开始准备折腾树莓派上的 GPIO 了。</p>
+<h1 id="1--前置准备">1. 📦 前置准备</h1>
+<h2 id="11-wiringpi">1.1 WiringPi</h2>
+<h3 id="方法一b站教程其实不推荐">方法一（B站教程，其实不推荐）</h3>
+<p>在树莓派上写 C 语言代码，最重要的就是安装 WiringPi 这个库</p>
+<p>安装指令如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> apt</span><span style="color:#032F62"> install</span><span style="color:#032F62"> wiringpi</span></span></code></pre>
+<p>然而，对于高版本的树莓派（比如 4B），按照上面指令下载到的 wiringpi，运行 <code>gpio readall</code> 指令会报错，原因是作者已经很久没有更新这个库了</p>
+<p>那么我们需要另寻他法。解决方案如下。</p>
+<p><code>cd</code> 想要下载安装包的位置，然后运行下面的命令：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">wget</span><span style="color:#032F62"> https://gitee.com/LJYSCIENTIST/raspberry-pi-software-storage/raw/master/wiringpi-2.60-1_arm64.deb</span></span></code></pre>
+<p>接着安装上面下载到的安装包：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> apt-get</span><span style="color:#032F62"> install</span><span style="color:#032F62">  ./wiringpi-2.60-1_arm64.deb</span></span></code></pre>
+<p>安装完成后，可以运行 <code>gpio -v</code> 和 <code>gpio readall</code> 来检查是否正确安装</p>
+<blockquote>
+<p>⚠️ 注意：Ubuntu 24 版本过新，上述方法均无法正确安装，小生也没有找到合适的安装包。这里建议大家 Ubuntu 安装为旧版本，比如 22 系列的。</p>
+</blockquote>
+<h3 id="方法二用-git推荐">方法二（用 git，推荐）</h3>
+<blockquote>
+<p>如果没有事先安装好 git 的话，可以执行以下命令安装 git</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> apt</span><span style="color:#032F62"> install</span><span style="color:#032F62"> git</span></span></code></pre>
+<p>等待安装完成即可</p>
+</blockquote>
+<p>首先克隆仓库：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> clone</span><span style="color:#032F62"> https://github.com/WiringPi/WiringPi</span></span>
+<span class="line"><span style="color:#005CC5">cd</span><span style="color:#032F62"> WiringPi</span></span></code></pre>
+<p>然后编译并安装：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">./build</span></span></code></pre>
+<p>安装完成后，执行下面的命令验证安装：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">gpio</span><span style="color:#005CC5"> -v</span></span>
+<span class="line"><span style="color:#6F42C1">gpio</span><span style="color:#032F62"> readall</span></span></code></pre>
+<p>若正常输出，则安装成功</p>
+<h2 id="12-pythonrpigpio">1.2 python——RPi.GPIO</h2>
+<p>先给树莓派上的 python 配置硬件操作相关的包</p>
+<blockquote>
+<p>这里不需要激活 conda 环境，直接使用系统内置的 python3 即可</p>
+<p>（你问为什么？其实小生用 conda 无论如何都没法把 <code>RPi.GPIO</code> 配置下来，各位巨佬有兴趣的话可以去折腾折腾 💦）</p>
+</blockquote>
+<p>我们直接在终端运行下面的指令：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> apt-get</span><span style="color:#005CC5"> -y</span><span style="color:#032F62"> install</span><span style="color:#032F62"> python3-rpi.gpio</span></span></code></pre>
+<p>等待下载完成即可在 python3 中使用 <code>RPi.GPIO</code></p>
+<h1 id="2-关于树莓派的-gpio">2. 关于树莓派的 GPIO</h1>
+<p>树莓派的 GPIO 有三种编码方式，分别是板载编码、BCM 编码、Wiringpi 编码</p>
+<p>这里直接附上一张图</p>
+<p><img src="/images/raspberrypi/pic3.png" alt="gpio_encode"></p>
+<p>三种编码方式的不同主要体现在代码中。Python 采用的是 BCM 编码，而 C 采用的是 wiringpi 编码。今天小生主要讲讲如何用 Python 脚本控制 GPIO。</p>
+<h1 id="3-树莓派-gpio-点灯">3. 树莓派 GPIO ——点灯</h1>
+<p>准备好面包板、杜邦线和发光二极管，完成接线后，小生便准备开始点灯了。</p>
+<p>这里直接附上 Python 脚本代码：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> RPi.</span><span style="color:#005CC5">GPIO</span><span style="color:#D73A49"> as</span><span style="color:#005CC5"> GPIO</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> time </span><span style="color:#D73A49">import</span><span style="color:#24292E"> sleep</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#005CC5">GPIO</span><span style="color:#24292E">.setmode(</span><span style="color:#005CC5">GPIO</span><span style="color:#24292E">.</span><span style="color:#005CC5">BCM</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#005CC5">GPIO</span><span style="color:#24292E">.setup(</span><span style="color:#005CC5">26</span><span style="color:#24292E">, </span><span style="color:#005CC5">GPIO</span><span style="color:#24292E">.</span><span style="color:#005CC5">OUT</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(</span><span style="color:#005CC5">10</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#005CC5">    GPIO</span><span style="color:#24292E">.output(</span><span style="color:#005CC5">26</span><span style="color:#24292E">, </span><span style="color:#005CC5">GPIO</span><span style="color:#24292E">.</span><span style="color:#005CC5">HIGH</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">    sleep(</span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#005CC5">    GPIO</span><span style="color:#24292E">.output(</span><span style="color:#005CC5">26</span><span style="color:#24292E">, </span><span style="color:#005CC5">GPIO</span><span style="color:#24292E">.</span><span style="color:#005CC5">LOW</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">    sleep(</span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#005CC5">GPIO</span><span style="color:#24292E">.cleanup()</span></span></code></pre>
+<p>利用 vim 编辑器创建 led.py 文件后，将上述代码输入其中，保存退出。</p>
+<p>运行 <code>sudo su</code> 进入管理员模式，然后直接运行 led.py：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">python3</span><span style="color:#032F62"> led.py</span></span></code></pre>
+<p>运行命令后，Led 灯开始闪烁，点灯成功 ✌</p> </div> </div> <aside class="article-toc"> <div id="post-toc-card"> <div id="toc-card-style" class="toc-card"> <div id="toc-card-div"> <nav id="toc"> <span class="sidebar-title">目录</span> <ol class="toc"></ol> </nav> </div> </div> </div> </aside> </div> </article>  <footer id="footer"> <div id="footer-wrap"> <div>
+&copy; 2022 - 2026 ColdRain <span id="footer-icon"><i class="fa-solid fa-cloud-rain fa-fw"></i></span>
+Powered by Astro
+</div> </div> </footer> </main> <div id="preview" hidden> <img id="preview-content" alt=""> </div> </div> <canvas id="background" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"></canvas> <script src="/js/background.min.js"></script> <script src="/js/site.js"></script> </body> </html>

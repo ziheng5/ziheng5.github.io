@@ -1,0 +1,450 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><title>从零开始在树莓派上部署 Nonebot2 QQ Bot | Cold Rain&#39;s Blog</title><meta name="author" content="ColdRain"><meta name="description" content="銀の龍の背に乗って..."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="/images/head.jpg"><link rel="preconnect" href="https://s4.zstatic.net"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"><link rel="preconnect" href="https://fonts.googleapis.cn"><link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/css/astro-overrides.css"></head> <body data-page-type="post"> <div id="layout"> <div id="loading"> <div id="loading-circle"> <h2>LOADING</h2> <p>加载过慢请开启缓存 浏览器默认开启</p> <img src="/images/loading.gif" alt=""> </div> </div> <div id="menu" class="menu-color"> <nav id="desktop-menu"> <a class="title" href="/"> <span>COLD RAIN&#39;S BLOG</span> </a> <a href="/"> <i class="fa-solid fa-house fa-fw"></i> <span>&ensp;Homepage</span> </a><a href="/2024/11/26/test/"> <i class="fa-solid fa-id-card fa-fw"></i> <span>&ensp;About</span> </a><a href="/archives/"> <i class="fa-solid fa-box-archive fa-fw"></i> <span>&ensp;Archives</span> </a><a href="/categories/杂谈/"> <i class="fa-solid fa-bookmark fa-fw"></i> <span>&ensp;Categories</span> </a><a href="/tags/杂谈/"> <i class="fa-solid fa-tags fa-fw"></i> <span>&ensp;Tags</span> </a><a href="/friends/"> <i class="fa-solid fa-link fa-fw"></i> <span>&ensp;Links</span> </a><a href="/favorites/"> <i class="fa-solid fa-star fa-fw"></i> <span>&ensp;Favorites</span> </a> </nav> <nav id="mobile-menu"> <button class="title" type="button" aria-expanded="false" aria-controls="mobile-menu-items"> <i class="fa-solid fa-bars fa-fw"></i> <span>&emsp;COLD RAIN&#39;S BLOG</span> </button> <div id="mobile-menu-items" class="items" hidden> <a href="/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-house fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div> </div> </a><a href="/2024/11/26/test/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-id-card fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">About</div> </div> </a><a href="/archives/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-box-archive fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div> </div> </a><a href="/categories/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-bookmark fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div> </div> </a><a href="/tags/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-tags fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div> </div> </a><a href="/friends/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-link fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div> </div> </a><a href="/favorites/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-star fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Favorites</div> </div> </a> </div> </nav> </div> <div id="menu-curtain" hidden></div> <main id="main" class="into-enter-from">  <article class="article"> <div class="article-wrap"> <div class="article-content"> <h1>从零开始在树莓派上部署 Nonebot2 QQ Bot</h1> <div class="info"> <span class="date"> <span class="icon"><i class="fa-solid fa-calendar fa-fw"></i></span> 2026/4/4 </span> <span class="category"> <a href="/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/"> <span class="icon"><i class="fa-solid fa-bookmark fa-fw"></i></span> 树莓派 </a> </span> <span class="tags"> <span class="icon"><i class="fa-solid fa-tags fa-fw"></i></span> <span class="tag"> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="color: #ffa2c4">树莓派</a> </span><span class="tag"> <a href="/tags/Bot/" style="color: #00bcd4">Bot</a> </span> </span> </div> <div class="content"> <blockquote>
+<p><strong>硬件准备</strong>：</p>
+<ul>
+<li>树莓派 4B（<code>8GB</code> 内存）</li>
+<li>散热片 + 小风扇（考虑到 Bot 服务需要长时间运行）</li>
+<li>SD 卡一张（存储最好大一点）</li>
+<li>USB-SD 卡转接器（用于在 SD 卡上安装操作系统）</li>
+</ul>
+</blockquote>
+<h2 id="1-方案总览">1. 方案总览</h2>
+<p>基于 NapCat + NoneBot 的 QQ 机器人通信链路如下图所示（AI 画图真好用啊💦）：</p>
+<p><img src="/images/raspberrypi/qqbot_communication.png" alt="communication"></p>
+<h2 id="2-操作系统选择与安装">2. 操作系统选择与安装</h2>
+<p>我们的需求目前只是将一个机器人服务跑在树莓派上，因此操作系统最好使用<strong>无桌面</strong>的版本以减轻树莓派负担。</p>
+<p>由于<a href="https://www.raspberrypi.com/documentation/computers/os.html">树莓派官方</a>明确写了，<strong>Raspberry Pi OS 是官方支持、并且“推荐用于大多数树莓派场景”的系统</strong>；它本身又是<strong>基于 Debian、并针对树莓派硬件做了优化</strong>。同时官方提供了 <strong>64 位 Lite 版</strong>，并明确说明 Lite 没有图形桌面，非常适合 **headless servers（无头服务器）**这种用途。</p>
+<p>于是这里我们选择 <strong>Raspberry Pi OS Lite (64-bit)</strong> 作为我们使用的操作系统。</p>
+<p>接下来，我们将采用树莓派官方的 <strong>Raspberry Pi Imager</strong> 软件包来安装操作系统。</p>
+<p>对于 <strong>Archlinux</strong> 用户，包管理器仓库里的软件包如下所示：</p>
+<p><img src="/images/raspberrypi/rpi-imager.png" alt="rpi-imager"></p>
+<p>执行下方指令安装 <strong>rpi-imager</strong>：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 使用 pacman 安装</span></span>
+<span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> pacman</span><span style="color:#005CC5"> -S</span><span style="color:#032F62"> rpi-imager</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 或者 paru</span></span>
+<span class="line"><span style="color:#6F42C1">paru</span><span style="color:#005CC5"> -S</span><span style="color:#032F62"> rpi-imager</span></span></code></pre>
+<p>安装完成后，先将 SD 卡插入转接器，再将转接器插入电脑 USB 接口，打开 Raspberry Pi Imager，按照提示在 SD 卡中安装 Raspberry Pi OS Lite (64-bit)，如下所示：</p>
+<p><img src="/images/raspberrypi/install-system.png" alt="install-system"></p>
+<p>等待安装完成后，将 SD 卡插入树莓派，再给树莓派接上外接显示器，接下来就可以开始操作系统的简单配置了。</p>
+<h2 id="3-服务器的简单配置">3. 服务器的简单配置</h2>
+<p>由于通过 rpi-imager 安装的 Raspberry Pi OS Lite 系统本身就已经具有了一定的配置，所以我们需要配的并不多</p>
+<h3 id="31-更新系统">3.1 更新系统</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> apt</span><span style="color:#032F62"> update</span></span>
+<span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> apt</span><span style="color:#032F62"> full-upgrade</span><span style="color:#005CC5"> -y</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 更新完之后重新启动</span></span>
+<span class="line"><span style="color:#6F42C1">reboot</span></span></code></pre>
+<h3 id="32-安装常用工具">3.2 安装常用工具</h3>
+<p>虽然这些不是树莓派官方强制要求，但是后面部署 NoneBot 的时候会用上：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> apt</span><span style="color:#032F62"> update</span></span>
+<span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> apt</span><span style="color:#032F62"> install</span><span style="color:#005CC5"> -y</span><span style="color:#005CC5"> \</span></span>
+<span class="line"><span style="color:#24292E">git </span><span style="color:#032F62">curl</span><span style="color:#032F62"> wget</span><span style="color:#032F62"> vim</span><span style="color:#032F62"> nano</span><span style="color:#032F62"> tmux</span><span style="color:#032F62"> htop</span><span style="color:#032F62"> tree</span><span style="color:#032F62"> unzip</span><span style="color:#032F62"> zip</span><span style="color:#032F62"> ca-certificates</span><span style="color:#005CC5"> \</span></span>
+<span class="line"><span style="color:#24292E">python3-venv </span><span style="color:#032F62">python3-pip</span><span style="color:#032F62"> pipx</span><span style="color:#032F62"> sqlite3</span><span style="color:#032F62"> jq</span><span style="color:#032F62"> lsof</span><span style="color:#032F62"> rsync</span><span style="color:#032F62"> dnsutils</span><span style="color:#032F62"> net-tools</span><span style="color:#005CC5"> \</span></span>
+<span class="line"><span style="color:#24292E">build-essential </span><span style="color:#032F62">ufw</span></span>
+<span class="line"><span style="color:#6F42C1">pipx</span><span style="color:#032F62"> ensurepath</span></span></code></pre>
+<h3 id="33-安装-zsh">3.3 安装 zsh</h3>
+<p>相比于 bash，zsh 的优点如下：</p>
+<ul>
+<li>命令补全体验更好</li>
+<li>提示符更灵活</li>
+<li>历史记录和自动建议更舒服</li>
+<li>交互使用更顺手</li>
+<li>脚本配置语言和 bash 几乎一致</li>
+</ul>
+<p>话不多说，直接安装：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> apt</span><span style="color:#032F62"> update</span></span>
+<span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> apt</span><span style="color:#032F62"> install</span><span style="color:#005CC5"> -y</span><span style="color:#032F62"> zsh</span></span>
+<span class="line"><span style="color:#6F42C1">chsh</span><span style="color:#005CC5"> -s</span><span style="color:#032F62"> /usr/bin/zsh</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 退出重新登录</span></span>
+<span class="line"><span style="color:#6F42C1">reboot</span></span></code></pre>
+<p>zsh 的配置建议写在 <code>~/.zshrc</code> 里</p>
+<blockquote>
+<p>此外，也可以尝试一下 Coldrain Dotfiles 里的 <code>.zshrc</code> 配置喵～
+地址：<a href="https://github.com/ziheng5/dotfiles/blob/master/dotfiles/zsh/.zshrc">https://github.com/ziheng5/dotfiles/blob/master/dotfiles/zsh/.zshrc</a></p>
+</blockquote>
+<h3 id="34-终端美化可选">3.4 终端美化（可选）</h3>
+<p>这里主要是使用 <strong>oh-my-posh</strong> 对终端 prompt 进行美化，具体操作参考 Coldrain 的<a href="https://coldrain.top/2025/04/11/llm-deepseek/">这篇文章</a></p>
+<p>当然，oh-my-posh 的配置 Coldrain 也有一套（<a href="https://github.com/ziheng5/dotfiles/blob/master/dotfiles/oh-my-posh/catppuccin_coldrain.omp.json">在这里</a>），配置文件为 <code>catppuccin_coldrain.omp.json</code>，将这个文件塞到你的 <code>~/.config/oh-my-posh/themes/</code> 路径下面</p>
+<p>如果你使用的是 Coldrain 的 <code>~/.zshrc</code>，那么接下来就没有什么配置了，否则需要在你的 <code>~/.zshrc</code> 中添加如下配置：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#005CC5">eval</span><span style="color:#032F62"> "$(</span><span style="color:#6F42C1">oh-my-posh</span><span style="color:#032F62"> init zsh </span><span style="color:#005CC5">--config</span><span style="color:#032F62"> ~/.config/oh-my-posh/themes/catppuccin_coldrain.omp.json)"</span></span></code></pre>
+<h3 id="35-neovim--lazyvim">3.5 Neovim + LazyVim</h3>
+<p>我们后续需要通过 SSH 远程连接到树莓派上进行开发，那么使用终端集成开发环境会很方便，这里我们选择使用 <strong>Neovim + LazyVim</strong>。Neovim 是 vim 的升级版，极大扩展了 vim 的可配置性，而 LazyVim 是 Neovim 的一套第三方个性化配置方案，其配置程度差不多是将整个 VSCode 塞进终端里。</p>
+<p>⚠️ 安装的时候要注意：Raspberry Pi OS Lite 上通过 <code>apt</code> 从仓库里安装到的 neovim 版本过低，似乎很久没有更新了，需要从 Neovim 官方的 Github 仓库下载最新版本：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 注意，要下载 arm64 版的，因为树莓派是 arm64</span></span>
+<span class="line"><span style="color:#6F42C1">curl</span><span style="color:#005CC5"> -LO</span><span style="color:#032F62"> https://github.com/neovim/neovim/releases/latest/download/nvim-linux-arm64.appimage</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 赋予 appimage 可执行权限</span></span>
+<span class="line"><span style="color:#6F42C1">chmod</span><span style="color:#032F62"> u+x</span><span style="color:#032F62"> nvim-linux-x86_64.appimage</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 运行安装</span></span>
+<span class="line"><span style="color:#6F42C1">./nvim-linux-x86_64.appimage</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 全局配置</span></span>
+<span class="line"><span style="color:#6F42C1">mkdir</span><span style="color:#005CC5"> -p</span><span style="color:#032F62"> /opt/nvim</span></span>
+<span class="line"><span style="color:#6F42C1">mv</span><span style="color:#032F62"> nvim-linux-x86_64.appimage</span><span style="color:#032F62"> /opt/nvim/nvim</span></span></code></pre>
+<p>然后接下来将下面这一行配置添加到 <code>~/.bashrc</code> 或 <code>~/.zshrc</code>里（看你使用哪一个 sh 了）：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#D73A49">export</span><span style="color:#24292E"> PATH</span><span style="color:#D73A49">=</span><span style="color:#032F62">"</span><span style="color:#24292E">$PATH</span><span style="color:#032F62">:/opt/nvim/"</span></span></code></pre>
+<p>Neovim 安装完成！接下来给 Neovim 安装 LazyVim 配置（也可以参考<a href="https://www.lazyvim.org/installation">官方文档</a>）</p>
+<p>首先对原有的 Neovim 配置进行备份（如果你有的话，否则没必要）：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># required</span></span>
+<span class="line"><span style="color:#6F42C1">mv</span><span style="color:#032F62"> ~/.config/nvim{,.bak}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># optional but recommended</span></span>
+<span class="line"><span style="color:#6F42C1">mv</span><span style="color:#032F62"> ~/.local/share/nvim{,.bak}</span></span>
+<span class="line"><span style="color:#6F42C1">mv</span><span style="color:#032F62"> ~/.local/state/nvim{,.bak}</span></span>
+<span class="line"><span style="color:#6F42C1">mv</span><span style="color:#032F62"> ~/.cache/nvim{,.bak}</span></span></code></pre>
+<p>接着从 Github 上 clone 配置文件：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> clone</span><span style="color:#032F62"> https://github.com/LazyVim/starter</span><span style="color:#032F62"> ~/.config/nvim</span></span></code></pre>
+<p>接着删除克隆文件夹下的 <code>.git</code> 文件：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">rm</span><span style="color:#005CC5"> -rf</span><span style="color:#032F62"> ~/.config/nvim/git</span></span></code></pre>
+<p>此时启动 Neovim，你会发现你的 Neovim 界面发生巨变：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">nvim</span></span></code></pre>
+<p>试试看编辑当前文件夹（<code>nvim ./</code>），你会发现它长得和 VSCode 几乎一模一样：</p>
+<p><img src="/images/raspberrypi/lazy.png" alt="lazyvim"></p>
+<h3 id="36-ssh-配置与连接">3.6 SSH 配置与连接</h3>
+<blockquote>
+<p>SSH 之前，建议在 <a href="https://login.tailscale.com">Tailscale</a> 上为树莓派搞一个虚拟 IP，这样以后即使没有局域网，也可以走 Tailscale 远程 SSH 连接到你的树莓派。
+具体操作请参考官方文档，这里不作展开</p>
+</blockquote>
+<p>首先，先在自己的设备上生成密钥：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 这里也可以换成你自己的名字</span></span>
+<span class="line"><span style="color:#6F42C1">ssh-keygen</span><span style="color:#005CC5"> -t</span><span style="color:#032F62"> ed25519</span><span style="color:#005CC5"> -C</span><span style="color:#032F62"> "coldrain-to-pi"</span></span></code></pre>
+<p>一路回车即可，接下来上传公钥：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 这里要换成你树莓派上的用户名和你树莓派的局域网 IP 或 Tailscale 虚拟 IP</span></span>
+<span class="line"><span style="color:#6F42C1">ssh-copy-id</span><span style="color:#032F62"> coldrain@192.169.101.240</span></span></code></pre>
+<p>接下来测试能否免密登录：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 依旧替换成你自己的用户名和 IP</span></span>
+<span class="line"><span style="color:#6F42C1">ssh</span><span style="color:#032F62"> coldrain@192.168.101.240</span></span></code></pre>
+<p>如果可以登录进去，则回到树莓派上备份 SSH 配置：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> cp</span><span style="color:#032F62"> /etc/ssh/sshd_config</span><span style="color:#032F62"> /etc/ssh/ssh_config.bak.</span><span style="color:#24292E">$(</span><span style="color:#6F42C1">date</span><span style="color:#032F62"> +%F-%H%M%S</span><span style="color:#24292E">)</span></span></code></pre>
+<p>然后修改 SSH 配置：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> nvim</span><span style="color:#032F62"> /etc/ssh/sshd_config</span></span></code></pre>
+<p>确认这几项存在且为下面的值：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#6F42C1">PubkeyAuthentication</span><span style="color:#032F62"> yes</span></span>
+<span class="line"><span style="color:#6F42C1">PasswordAuthentication</span><span style="color:#032F62"> no</span></span>
+<span class="line"><span style="color:#6F42C1">PermitRootLogin</span><span style="color:#032F62"> no</span></span>
+<span class="line"><span style="color:#6F42C1">ChallengeResponseAuthentication</span><span style="color:#032F62"> no</span></span>
+<span class="line"><span style="color:#6F42C1">UsePAM</span><span style="color:#032F62"> yes</span></span></code></pre>
+<p>接下来检查配置语法：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> sshd</span><span style="color:#005CC5"> -t</span></span></code></pre>
+<p>如果没有任何输出，则可以说明配置语法没有问题，接下来我们重启 SSH 服务即可完成配置：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> systemctl</span><span style="color:#032F62"> restart</span><span style="color:#032F62"> ssh</span></span></code></pre>
+<blockquote>
+<p>此外，如果你在自己的设备上通过 <strong>kitty</strong> SSH 到树莓派，则可能会出现下述情况：
+“kitty 默认把 <code>TERM</code> 设置为 <code>xterm-kitty</code>，但你在终端里 SSH 到树莓派上时，树莓派一端没有正确识别 <code>xterm-kitty</code> 对应的 terminfo 能力描述，导致 zsh 的行编辑变成退格键、光标移动到行为解释出错，进而按下删除键可能反而打出空格”
+有两种解决方案：</p>
+<ul>
+<li>
+<ol>
+<li>将树莓派端更改为 <code>xterm-256color</code></li>
+</ol>
+</li>
+</ul>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 这个配置远端是一定能认识的通用终端类型</span></span>
+<span class="line"><span style="color:#D73A49">export</span><span style="color:#24292E"> TERM</span><span style="color:#D73A49">=</span><span style="color:#24292E">xterm-256color</span></span></code></pre>
+<ul>
+<li>
+<ol start="2">
+<li>在树莓派上补上 <code>kitty-terminfo</code>（推荐）</li>
+</ol>
+</li>
+</ul>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> apt</span><span style="color:#032F62"> update</span></span>
+<span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> apt</span><span style="color:#032F62"> install</span><span style="color:#005CC5"> -y</span><span style="color:#032F62"> kitty-terminfo</span></span></code></pre>
+</blockquote>
+<h2 id="4-python-工具链配置">4. Python 工具链配置</h2>
+<p>在这个项目里，我们使用 <code>pipx</code> 命令行工具来配置 Python 环境，且每个项目单独配置一个 <code>venv</code></p>
+<p>首先，我们将项目的工作区建立好：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">mkdir</span><span style="color:#005CC5"> -p</span><span style="color:#032F62"> ~/apps</span><span style="color:#032F62"> ~/apps/qqbot</span><span style="color:#032F62"> ~/src</span><span style="color:#032F62"> ~/venvs</span></span></code></pre>
+<p>其中，</p>
+<ul>
+<li><code>~/apps/qqbot</code> 用作 NoneBot 项目路径</li>
+<li><code>~/src</code> 作为平时测试脚本、拉代码的路径</li>
+<li><code>~/venvs</code> 放置独立虚拟环境</li>
+</ul>
+<p>接下来，我们先创建一个虚拟环境并激活它：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#005CC5">cd</span><span style="color:#032F62"> ~/apps/qqbot</span></span>
+<span class="line"><span style="color:#6F42C1">python3</span><span style="color:#005CC5"> -m</span><span style="color:#032F62"> venv</span><span style="color:#032F62"> .venv</span></span>
+<span class="line"><span style="color:#005CC5">source</span><span style="color:#032F62"> ~/apps/qqbot/.venv/bin/activate</span></span></code></pre>
+<p>激活后，升级虚拟环境里的打包工具：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">python</span><span style="color:#005CC5"> -m</span><span style="color:#032F62"> pip</span><span style="color:#032F62"> install</span><span style="color:#005CC5"> --upgrade</span><span style="color:#032F62"> pip</span><span style="color:#032F62"> setuptools</span><span style="color:#032F62"> wheel</span></span></code></pre>
+<p>接下来安装我们的项目运行依赖，以及全局 CLI 工具：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">pip</span><span style="color:#032F62"> install</span><span style="color:#032F62"> nonebot2</span><span style="color:#032F62"> nonebot-adapter-onebot</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1">pipx</span><span style="color:#032F62"> install</span><span style="color:#032F62"> nb-cli</span></span></code></pre>
+<blockquote>
+<p>💡 上述工作完成后，可以顺手改一下 pip 配置：
+先创建配置目录：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">mkdir</span><span style="color:#005CC5"> -p</span><span style="color:#032F62"> ~/.config/pip</span></span></code></pre>
+<p>接着写配置文件</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">cat</span><span style="color:#D73A49"> ></span><span style="color:#032F62"> ~/.config/pip/pip.conf</span><span style="color:#D73A49"> &#x3C;&#x3C;</span><span style="color:#032F62">'EOF'</span></span>
+<span class="line"><span style="color:#032F62">[global]</span></span>
+<span class="line"><span style="color:#032F62">disable-pip-version-check = true</span></span>
+<span class="line"><span style="color:#032F62">timeout = 120</span></span>
+<span class="line"><span style="color:#032F62">EOF</span></span></code></pre>
+<p>该配置可以让 pip 不总是提示版本检查，且网络慢一点的时候更“宽容”</p>
+</blockquote>
+<h2 id="5-创建最小-nonebot-项目">5. 创建最小 NoneBot 项目</h2>
+<p>先创建 <code>.env</code>：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">cat</span><span style="color:#D73A49"> ></span><span style="color:#032F62"> ~/apps/qqbot/.env</span><span style="color:#D73A49"> &#x3C;&#x3C;</span><span style="color:#032F62">'EOF'</span></span>
+<span class="line"><span style="color:#032F62">DRIVER=~fastapi+~websockets</span></span>
+<span class="line"><span style="color:#032F62">HOST=127.0.0.1</span></span>
+<span class="line"><span style="color:#032F62">PORT=8080</span></span>
+<span class="line"><span style="color:#032F62">LOG_LEVEL=INFO</span></span>
+<span class="line"><span style="color:#032F62">COMMAND_START=["/"]</span></span>
+<span class="line"><span style="color:#032F62">COMMAND_SEP=["."]</span></span>
+<span class="line"><span style="color:#032F62">ONEBOT_ACCESS_TOKEN=改成你自己的长随机字符串</span></span>
+<span class="line"><span style="color:#032F62">EOF</span></span></code></pre>
+<p>其中，</p>
+<ul>
+<li><code>HOST</code> 默认是 <code>127.0.0.1</code></li>
+<li><code>PORT</code> 默认是 <code>8080</code></li>
+<li><code>COMMAND_START</code> 默认是 <code>["/"]</code></li>
+<li><code>COMMAND_SEP</code> 默认是 <code>["."]</code></li>
+<li><code>DRIVER</code> 可以通过 <code>.env</code> 来指定</li>
+<li><code>ONEBOT_ACCESS_TOKEN</code> 改成一串自己的随机字符串，比如 <code>ONEBOT_ACCESS_TOKEN=9sYw4mR2Pq7XcK8nF5uL1aZ6tH3vB0</code></li>
+</ul>
+<p>接下来，创建入口文件 <code>~/apps/qqbot/bot.py</code>：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> nonebot</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> nonebot.adapters.onebot.v11 </span><span style="color:#D73A49">import</span><span style="color:#24292E"> Adapter</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">nonebot.init()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">driver </span><span style="color:#D73A49">=</span><span style="color:#24292E"> nonebot.get_driver()</span></span>
+<span class="line"><span style="color:#24292E">driver.register_adapter(Adapter)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">nonebot.load_plugins(</span><span style="color:#032F62">"plugins"</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">if</span><span style="color:#005CC5"> __name__</span><span style="color:#D73A49"> ==</span><span style="color:#032F62"> "__main__"</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">    nonebot.run()</span></span></code></pre>
+<p>接下来我们创建插件目录：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">mkdir</span><span style="color:#005CC5"> -p</span><span style="color:#032F62"> ~/apps/qqbot/plugins</span></span>
+<span class="line"><span style="color:#6F42C1">touch</span><span style="color:#032F62"> ~/apps/qqbot/plugins/__init__.py</span></span></code></pre>
+<p>然后创建一个最小测试插件 <code>~/apps/qqbot/plugins/ping.py</code>：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> nonebot </span><span style="color:#D73A49">import</span><span style="color:#24292E"> on_command</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> nonebot.adapters.onebot.v11 </span><span style="color:#D73A49">import</span><span style="color:#24292E"> MessageEvent</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">ping </span><span style="color:#D73A49">=</span><span style="color:#24292E"> on_command(</span><span style="color:#032F62">"ping"</span><span style="color:#24292E">, </span><span style="color:#E36209">priority</span><span style="color:#D73A49">=</span><span style="color:#005CC5">5</span><span style="color:#24292E">, </span><span style="color:#E36209">block</span><span style="color:#D73A49">=</span><span style="color:#005CC5">True</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1">@ping.handle</span><span style="color:#24292E">()</span></span>
+<span class="line"><span style="color:#D73A49">async</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> _</span><span style="color:#24292E">(event: MessageEvent):</span></span>
+<span class="line"><span style="color:#D73A49">    await</span><span style="color:#24292E"> ping.finish(</span><span style="color:#032F62">"pong"</span><span style="color:#24292E">)</span></span>
+<span class="line"></span></code></pre>
+<h2 id="6-接入-napcat">6. 接入 NapCat</h2>
+<p><a href="https://napneko.github.io/guide/napcat">NapCat 官方文档</a>当前给出的 WebUI 基础操作是：</p>
+<ul>
+<li>启动 NapCat</li>
+<li>访问 <code>http://ip:port/webui/</code></li>
+<li>进入 QQ 登陆</li>
+<li>用 QRCode 扫码</li>
+<li>登陆后进入<strong>网络配置</strong></li>
+<li>点击新建</li>
+<li>建立对应的服务器或客户端</li>
+</ul>
+<blockquote>
+<p>此外，文档还特别提醒：如果是公网部署，务必启用 Token</p>
+</blockquote>
+<p>话不多说，这里我们再开启一个终端进程，先安装一下 NapCat</p>
+<p>NapNeko 的 <code>napcat-linux-installer</code> <a href="https://github.com/NapNeko/napcat-linux-installer">仓库</a>当前给出了 Linux 的一键安装命令；Napcat 另一个安装器仓库也写明 Linux 支持 Debian/Ubuntu 这类发行版，并提供 <code>ws / reverse_ws / reverse_http</code> 这些模式</p>
+<p>接下来我们在终端里执行安装：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#005CC5">cd</span><span style="color:#032F62"> ~</span></span>
+<span class="line"><span style="color:#6F42C1">curl</span><span style="color:#005CC5"> -o</span><span style="color:#032F62"> napcat.sh</span><span style="color:#032F62"> https://raw.githubusercontent.com/NapNeko/napcat-linux-installer/refs/heads/main/install.sh</span><span style="color:#24292E"> &#x26;&#x26; </span><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> bash</span><span style="color:#032F62"> napcat.sh</span></span></code></pre>
+<p>安装完成后，使用 <code>bash</code> 运行安装目录下的 <code>launcher.sh</code>：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 具体路径看你安装在哪</span></span>
+<span class="line"><span style="color:#6F42C1">bash</span><span style="color:#032F62"> ~/launcher.sh</span></span></code></pre>
+<p>运行成功之后，按照终端给出的提示，我们需要登录 WebUI，在浏览器中访问 <code>http://你的服务器 IP:6099/webui/</code>，然后进入 QQ 登录</p>
+<blockquote>
+<p>这里注意 ⚠️：请使用你想要用来作为机器人的 QQ 号登录 WebUI！</p>
+</blockquote>
+<p>登录完成后，按照页面提示更新 WebUI Token / 修改密码，然后接下来我们在 NapCat WebUI 里配置 <strong>OneBot 反向 WebSocket</strong>：</p>
+<ul>
+<li>进入 “网络配置”</li>
+<li>点击 “新建”</li>
+<li>选择 WebSocket 客户端</li>
+<li>URL 填：<code>ws://127.0.0.1:8080/onebot/v11/ws</code></li>
+<li>Token 里填写你在 <code>.env</code> 里随便创建的 <code>ONEBOT_ACCESS_TOKEN</code></li>
+<li>勾选 “保存时启用”</li>
+</ul>
+<p>当 NapCat 成功连接上后，<code>python bot.py</code> 那个终端应该会开始出现连接日志，此时你去 QQ 里向你的机器人账号发送 <code>/ping</code>，如果返回 <code>/pong</code>，那么恭喜！🎉 你的整条机器人服务链路已经全通了！</p>
+<h2 id="7-优化服务链路">7. 优化服务链路</h2>
+<h3 id="71-将-nonebot-做成-systemd-服务">7.1 将 NoneBot 做成 systemd 服务</h3>
+<p>如果你确认 <code>/ping</code> 已经成功，那么就接着往下面看吧～</p>
+<p>首先创建服务文件：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> nvim</span><span style="color:#032F62"> /etc/systemd/system/nonebot-qqbot.service</span></span></code></pre>
+<p>写入下面的内容：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="ini"><code><span class="line"><span style="color:#6F42C1">[Unit]</span></span>
+<span class="line"><span style="color:#D73A49">Description</span><span style="color:#24292E">=NoneBot QQ Bot</span></span>
+<span class="line"><span style="color:#D73A49">After</span><span style="color:#24292E">=network-online.target</span></span>
+<span class="line"><span style="color:#D73A49">Wants</span><span style="color:#24292E">=network-online.target</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1">[Service]</span></span>
+<span class="line"><span style="color:#D73A49">Type</span><span style="color:#24292E">=simple</span></span>
+<span class="line"><span style="color:#D73A49">User</span><span style="color:#24292E">=你的用户名</span></span>
+<span class="line"><span style="color:#D73A49">WorkingDirectory</span><span style="color:#24292E">=/home/你的用户名/apps/qqbot</span></span>
+<span class="line"><span style="color:#D73A49">Environment</span><span style="color:#24292E">=</span><span style="color:#D73A49">PATH</span><span style="color:#24292E">=/home/你的用户名/apps/qqbot/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</span></span>
+<span class="line"><span style="color:#D73A49">ExecStart</span><span style="color:#24292E">=/home/你的用户名/apps/qqbot/.venv/bin/python /home/coldrain/apps/qqbot/bot.py</span></span>
+<span class="line"><span style="color:#D73A49">Restart</span><span style="color:#24292E">=always</span></span>
+<span class="line"><span style="color:#D73A49">RestartSec</span><span style="color:#24292E">=5</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1">[Install]</span></span>
+<span class="line"><span style="color:#D73A49">WantedBy</span><span style="color:#24292E">=multi-user.target</span></span></code></pre>
+<p>然后启用：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> systemctl</span><span style="color:#032F62"> daemon-reload</span></span>
+<span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> systemctl</span><span style="color:#032F62"> enable</span><span style="color:#032F62"> nonebot-qqbot</span></span>
+<span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> systemctl</span><span style="color:#032F62"> start</span><span style="color:#032F62"> nonebot-qqbot</span></span>
+<span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> systemctl</span><span style="color:#032F62"> status</span><span style="color:#032F62"> nonebot-qqbot</span><span style="color:#005CC5"> --no-pager</span></span></code></pre>
+<h3 id="72-最小-nonebot-项目改进">7.2 最小 NoneBot 项目改进</h3>
+<p>由于：</p>
+<ul>
+<li>NoneBot 支持用 <code>SUPERUSERS</code> 配置超级用户；权限控制里也直接提供了 <code>SUPERUSER</code> 权限。</li>
+<li>NoneBot 官方建议，本地文件存储统一用 <code>nonebot-plugin-localstore</code> 管理。</li>
+<li>NapCat 当前也明确建议把 <code>message_id / user_id / group_id</code> 这类 ID 按字符串处理；而 NoneBot 配置里的 <code>SUPERUSERS</code> 也是 <code>set[str]</code>。</li>
+</ul>
+<p>所以接下来我们可以改进一下我们之前创建的最小 NoneBot 项目</p>
+<p>首先补充一下 <code>~/apps/qqbot/.env</code> 配置为下面的样子：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="dotenv"><code><span class="line"><span style="color:#E36209">DRIVER</span><span style="color:#D73A49">=</span><span style="color:#24292E">~fastapi+~websockets</span></span>
+<span class="line"><span style="color:#E36209">HOST</span><span style="color:#D73A49">=</span><span style="color:#24292E">127.0.0.1</span></span>
+<span class="line"><span style="color:#E36209">PORT</span><span style="color:#D73A49">=</span><span style="color:#24292E">8080</span></span>
+<span class="line"><span style="color:#E36209">LOG_LEVEL</span><span style="color:#D73A49">=</span><span style="color:#24292E">INFO</span></span>
+<span class="line"><span style="color:#E36209">COMMAND_START</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#032F62">"/"</span><span style="color:#24292E">]</span></span>
+<span class="line"><span style="color:#E36209">COMMAND_SEP</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#032F62">"."</span><span style="color:#24292E">]</span></span>
+<span class="line"><span style="color:#E36209">ONEBOT_ACCESS_TOKEN</span><span style="color:#D73A49">=</span><span style="color:#24292E">abc123456</span></span>
+<span class="line"><span style="color:#E36209">SUPERUSERS</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#032F62">"你的 QQ 号"</span><span style="color:#24292E">]</span></span>
+<span class="line"><span style="color:#E36209">NICKNAME</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#032F62">"小雨","机器人"</span><span style="color:#24292E">]</span></span></code></pre>
+<p>接下来我们安装两个依赖包：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#005CC5">cd</span><span style="color:#032F62"> ~/apps/qqbot</span></span>
+<span class="line"><span style="color:#005CC5">source</span><span style="color:#032F62"> ./.venv/bin/activate</span></span>
+<span class="line"><span style="color:#6F42C1">pip</span><span style="color:#032F62"> install</span><span style="color:#032F62"> psutil</span><span style="color:#032F62"> nonebot-plugin-localstore</span></span></code></pre>
+<p>其中，<code>psutil</code> 用来读取 CPU / 内存 / 进程信息，<code>nonebot-plugin-localstore</code> 是 NoneBot 官方推荐的本地数据目录管理方案</p>
+<p>接下来我们将入口文件 <code>~/apps/qqbot/bot.py</code> 修改如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> nonebot</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> nonebot.adapters.onebot.v11 </span><span style="color:#D73A49">import</span><span style="color:#24292E"> Adapter</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> nonebot </span><span style="color:#D73A49">import</span><span style="color:#24292E"> require</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">nonebot.init()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">driver </span><span style="color:#D73A49">=</span><span style="color:#24292E"> nonebot.get_driver()</span></span>
+<span class="line"><span style="color:#24292E">driver.register_adapter(Adapter)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># require 和 load_plugins 都是 NoneBot 官方提供的插件加载方式</span></span>
+<span class="line"><span style="color:#24292E">require(</span><span style="color:#032F62">"nonebot_plugin_localstore"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">nonebot.load_plugins(</span><span style="color:#032F62">"plugins"</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">if</span><span style="color:#005CC5"> __name__</span><span style="color:#D73A49"> ==</span><span style="color:#032F62"> "__main__"</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">    nonebot.run()</span></span></code></pre>
+<p>修改完成之后，我们可以在此基础上，试试为我们的机器人添加一个<strong>管理员插件</strong></p>
+<p>首先我们新建文件：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">nvim</span><span style="color:#032F62"> ~/apps/qqbot/plugins/admin.py</span></span></code></pre>
+<p>在其中写入如下内容：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> platform</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> time</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> pathlib </span><span style="color:#D73A49">import</span><span style="color:#24292E"> Path</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> subprocess</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> psutil</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> nonebot </span><span style="color:#D73A49">import</span><span style="color:#24292E"> on_command, require</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> nonebot.permission </span><span style="color:#D73A49">import</span><span style="color:#005CC5"> SUPERUSER</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> nonebot.plugin </span><span style="color:#D73A49">import</span><span style="color:#24292E"> PluginMetadata</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> nonebot.adapters.onebot.v11 </span><span style="color:#D73A49">import</span><span style="color:#24292E"> MessageEvent, GroupMessageEvent</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> pathlib </span><span style="color:#D73A49">import</span><span style="color:#24292E"> Path</span></span>
+<span class="line"><span style="color:#24292E">require(</span><span style="color:#032F62">"nonebot_plugin_localstore"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> nonebot_plugin_localstore </span><span style="color:#D73A49">as</span><span style="color:#24292E"> store</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">__plugin_meta__ </span><span style="color:#D73A49">=</span><span style="color:#24292E"> PluginMetadata(</span></span>
+<span class="line"><span style="color:#E36209">    name</span><span style="color:#D73A49">=</span><span style="color:#032F62">"基础管理"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#E36209">    description</span><span style="color:#D73A49">=</span><span style="color:#032F62">"提供 whoami / status / paths 三个基础命令"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#E36209">    usage</span><span style="color:#D73A49">=</span><span style="color:#24292E">(</span></span>
+<span class="line"><span style="color:#032F62">        "/whoami 查看自己的 user_id 和当前群号</span><span style="color:#005CC5">\n</span><span style="color:#032F62">"</span></span>
+<span class="line"><span style="color:#032F62">        "/status 查看机器人运行状态（超级用户）</span><span style="color:#005CC5">\n</span><span style="color:#032F62">"</span></span>
+<span class="line"><span style="color:#032F62">        "/paths 查看本地存储目录（超级用户）"</span></span>
+<span class="line"><span style="color:#24292E">    ),</span></span>
+<span class="line"><span style="color:#E36209">    type</span><span style="color:#D73A49">=</span><span style="color:#032F62">"application"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#E36209">    supported_adapters</span><span style="color:#D73A49">=</span><span style="color:#24292E">{</span><span style="color:#032F62">"~onebot.v11"</span><span style="color:#24292E">},</span></span>
+<span class="line"><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#005CC5">START_TIME</span><span style="color:#D73A49"> =</span><span style="color:#24292E"> time.time()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">whoami </span><span style="color:#D73A49">=</span><span style="color:#24292E"> on_command(</span><span style="color:#032F62">"whoami"</span><span style="color:#24292E">, </span><span style="color:#E36209">priority</span><span style="color:#D73A49">=</span><span style="color:#005CC5">5</span><span style="color:#24292E">, </span><span style="color:#E36209">block</span><span style="color:#D73A49">=</span><span style="color:#005CC5">True</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">status </span><span style="color:#D73A49">=</span><span style="color:#24292E"> on_command(</span><span style="color:#032F62">"status"</span><span style="color:#24292E">, </span><span style="color:#E36209">permission</span><span style="color:#D73A49">=</span><span style="color:#005CC5">SUPERUSER</span><span style="color:#24292E">, </span><span style="color:#E36209">priority</span><span style="color:#D73A49">=</span><span style="color:#005CC5">5</span><span style="color:#24292E">, </span><span style="color:#E36209">block</span><span style="color:#D73A49">=</span><span style="color:#005CC5">True</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">paths </span><span style="color:#D73A49">=</span><span style="color:#24292E"> on_command(</span><span style="color:#032F62">"paths"</span><span style="color:#24292E">, </span><span style="color:#E36209">permission</span><span style="color:#D73A49">=</span><span style="color:#005CC5">SUPERUSER</span><span style="color:#24292E">, </span><span style="color:#E36209">priority</span><span style="color:#D73A49">=</span><span style="color:#005CC5">5</span><span style="color:#24292E">, </span><span style="color:#E36209">block</span><span style="color:#D73A49">=</span><span style="color:#005CC5">True</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1">@whoami.handle</span><span style="color:#24292E">()</span></span>
+<span class="line"><span style="color:#D73A49">async</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> handle_whoami</span><span style="color:#24292E">(event: MessageEvent):</span></span>
+<span class="line"><span style="color:#24292E">    user_id </span><span style="color:#D73A49">=</span><span style="color:#24292E"> event.get_user_id()</span></span>
+<span class="line"><span style="color:#D73A49">    if</span><span style="color:#005CC5"> isinstance</span><span style="color:#24292E">(event, GroupMessageEvent):</span></span>
+<span class="line"><span style="color:#24292E">        msg </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> f</span><span style="color:#032F62">"user_id=</span><span style="color:#005CC5">{</span><span style="color:#24292E">user_id</span><span style="color:#005CC5">}\n</span><span style="color:#032F62">group_id=</span><span style="color:#005CC5">{</span><span style="color:#24292E">event.group_id</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span></span>
+<span class="line"><span style="color:#D73A49">    else</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">        msg </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> f</span><span style="color:#032F62">"user_id=</span><span style="color:#005CC5">{</span><span style="color:#24292E">user_id</span><span style="color:#005CC5">}\n</span><span style="color:#032F62">private_chat=true"</span></span>
+<span class="line"><span style="color:#D73A49">    await</span><span style="color:#24292E"> whoami.finish(msg)</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1">@status.handle</span><span style="color:#24292E">()</span></span>
+<span class="line"><span style="color:#D73A49">async</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> handle_status</span><span style="color:#24292E">():</span></span>
+<span class="line"><span style="color:#24292E">    proc </span><span style="color:#D73A49">=</span><span style="color:#24292E"> psutil.Process()</span></span>
+<span class="line"><span style="color:#24292E">    uptime </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> int</span><span style="color:#24292E">(time.time() </span><span style="color:#D73A49">-</span><span style="color:#005CC5"> START_TIME</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">    mem_mb </span><span style="color:#D73A49">=</span><span style="color:#24292E"> proc.memory_info().rss </span><span style="color:#D73A49">/</span><span style="color:#005CC5"> 1024</span><span style="color:#D73A49"> /</span><span style="color:#005CC5"> 1024</span></span>
+<span class="line"><span style="color:#24292E">    cpu_percent </span><span style="color:#D73A49">=</span><span style="color:#24292E"> psutil.cpu_percent(</span><span style="color:#E36209">interval</span><span style="color:#D73A49">=</span><span style="color:#005CC5">0.2</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">    load_avg </span><span style="color:#D73A49">=</span><span style="color:#032F62"> " / "</span><span style="color:#24292E">.join(</span><span style="color:#D73A49">f</span><span style="color:#032F62">"</span><span style="color:#005CC5">{</span><span style="color:#24292E">x</span><span style="color:#D73A49">:.2f</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#D73A49"> for</span><span style="color:#24292E"> x </span><span style="color:#D73A49">in</span><span style="color:#24292E"> psutil.getloadavg())</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">    temp_path </span><span style="color:#D73A49">=</span><span style="color:#24292E"> Path(</span><span style="color:#032F62">"/sys/class/thermal/thermal_zone0/temp"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">    temp_c </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> int</span><span style="color:#24292E">(temp_path.read_text().strip()) </span><span style="color:#D73A49">/</span><span style="color:#005CC5"> 1000.0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">    msg </span><span style="color:#D73A49">=</span><span style="color:#24292E"> (</span></span>
+<span class="line"><span style="color:#032F62">        "机器人状态：</span><span style="color:#005CC5">\n</span><span style="color:#032F62">"</span></span>
+<span class="line"><span style="color:#D73A49">        f</span><span style="color:#032F62">"Python: </span><span style="color:#005CC5">{</span><span style="color:#24292E">platform.python_version()</span><span style="color:#005CC5">}\n</span><span style="color:#032F62">"</span></span>
+<span class="line"><span style="color:#D73A49">        f</span><span style="color:#032F62">"平台: </span><span style="color:#005CC5">{</span><span style="color:#24292E">platform.platform()</span><span style="color:#005CC5">}\n</span><span style="color:#032F62">"</span></span>
+<span class="line"><span style="color:#D73A49">        f</span><span style="color:#032F62">"运行时长: </span><span style="color:#005CC5">{</span><span style="color:#24292E">uptime</span><span style="color:#005CC5">}</span><span style="color:#032F62">s</span><span style="color:#005CC5">\n</span><span style="color:#032F62">"</span></span>
+<span class="line"><span style="color:#D73A49">        f</span><span style="color:#032F62">"CPU 温度: </span><span style="color:#005CC5">{</span><span style="color:#24292E">temp_c</span><span style="color:#D73A49">:.2f</span><span style="color:#005CC5">}</span><span style="color:#032F62"> °C</span><span style="color:#005CC5">\n</span><span style="color:#032F62">"</span></span>
+<span class="line"><span style="color:#D73A49">        f</span><span style="color:#032F62">"进程内存: </span><span style="color:#005CC5">{</span><span style="color:#24292E">mem_mb</span><span style="color:#D73A49">:.1f</span><span style="color:#005CC5">}</span><span style="color:#032F62"> MB</span><span style="color:#005CC5">\n</span><span style="color:#032F62">"</span></span>
+<span class="line"><span style="color:#D73A49">        f</span><span style="color:#032F62">"系统 CPU: </span><span style="color:#005CC5">{</span><span style="color:#24292E">cpu_percent</span><span style="color:#D73A49">:.1f</span><span style="color:#005CC5">}</span><span style="color:#032F62">%</span><span style="color:#005CC5">\n</span><span style="color:#032F62">"</span></span>
+<span class="line"><span style="color:#D73A49">        f</span><span style="color:#032F62">"LoadAvg: </span><span style="color:#005CC5">{</span><span style="color:#24292E">load_avg</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span></span>
+<span class="line"><span style="color:#24292E">    )</span></span>
+<span class="line"><span style="color:#D73A49">    await</span><span style="color:#24292E"> status.finish(msg)</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1">@paths.handle</span><span style="color:#24292E">()</span></span>
+<span class="line"><span style="color:#D73A49">async</span><span style="color:#D73A49"> def</span><span style="color:#6F42C1"> handle_paths</span><span style="color:#24292E">():</span></span>
+<span class="line"><span style="color:#24292E">    data_dir: Path </span><span style="color:#D73A49">=</span><span style="color:#24292E"> store.get_plugin_data_dir()</span></span>
+<span class="line"><span style="color:#24292E">    cache_dir: Path </span><span style="color:#D73A49">=</span><span style="color:#24292E"> store.get_plugin_cache_dir()</span></span>
+<span class="line"><span style="color:#24292E">    config_dir: Path </span><span style="color:#D73A49">=</span><span style="color:#24292E"> store.get_plugin_config_dir()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">    msg </span><span style="color:#D73A49">=</span><span style="color:#24292E"> (</span></span>
+<span class="line"><span style="color:#032F62">        "localstore 路径：</span><span style="color:#005CC5">\n</span><span style="color:#032F62">"</span></span>
+<span class="line"><span style="color:#D73A49">        f</span><span style="color:#032F62">"data: </span><span style="color:#005CC5">{</span><span style="color:#24292E">data_dir</span><span style="color:#005CC5">}\n</span><span style="color:#032F62">"</span></span>
+<span class="line"><span style="color:#D73A49">        f</span><span style="color:#032F62">"cache: </span><span style="color:#005CC5">{</span><span style="color:#24292E">cache_dir</span><span style="color:#005CC5">}\n</span><span style="color:#032F62">"</span></span>
+<span class="line"><span style="color:#D73A49">        f</span><span style="color:#032F62">"config: </span><span style="color:#005CC5">{</span><span style="color:#24292E">config_dir</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span></span>
+<span class="line"><span style="color:#24292E">    )</span></span>
+<span class="line"><span style="color:#D73A49">    await</span><span style="color:#24292E"> paths.finish(msg)</span></span></code></pre>
+<p>接下来重启服务，即可让我们刚才做的更改生效：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> systemctl</span><span style="color:#032F62"> restart</span><span style="color:#032F62"> nonebot-qqbot</span></span>
+<span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> systemctl</span><span style="color:#032F62"> status</span><span style="color:#032F62"> nonebot-qqbot</span><span style="color:#005CC5"> --no-pager</span></span></code></pre>
+<p>接下来在 QQ 里尝试向机器人发送 <code>/whoami</code>、<code>/status</code>、<code>/paths</code> 指令试试看吧！😀</p>
+<h3 id="73-将-napcat-做成-systemd-服务">7.3 将 NapCat 做成 systemd 服务</h3>
+<p>首先我们新建服务文件：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> nvim</span><span style="color:#032F62"> /etc/systemd/system/napcat.service</span></span></code></pre>
+<p>写入服务内容：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="ini"><code><span class="line"><span style="color:#6F42C1">[Unit]</span></span>
+<span class="line"><span style="color:#D73A49">Description</span><span style="color:#24292E">=NapCat QQ Server</span></span>
+<span class="line"><span style="color:#D73A49">Documentation</span><span style="color:#24292E">=https://napneko.github.io/guide</span></span>
+<span class="line"><span style="color:#D73A49">After</span><span style="color:#24292E">=network.target</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1">[Service]</span></span>
+<span class="line"><span style="color:#D73A49">Type</span><span style="color:#24292E">=simple</span></span>
+<span class="line"><span style="color:#D73A49">User</span><span style="color:#24292E">=coldrain</span></span>
+<span class="line"><span style="color:#D73A49">WorkingDirectory</span><span style="color:#24292E">=/home/coldrain</span></span>
+<span class="line"><span style="color:#D73A49">Restart</span><span style="color:#24292E">=on-failure</span></span>
+<span class="line"><span style="color:#D73A49">ExecStart</span><span style="color:#24292E">=/bin/bash /home/你的用户名/你的 NapCat 安装路径/launcher.sh</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1">[Install]</span></span>
+<span class="line"><span style="color:#D73A49">WantedBy</span><span style="color:#24292E">=multi-user.target</span></span></code></pre>
+<p>启用服务并启动：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> systemctl</span><span style="color:#032F62"> daemon-reload</span></span>
+<span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> systemctl</span><span style="color:#032F62"> enable</span><span style="color:#032F62"> napcat.service</span><span style="color:#005CC5"> --now</span></span>
+<span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> systemctl</span><span style="color:#032F62"> status</span><span style="color:#032F62"> napcat.service</span><span style="color:#005CC5"> --no-pager</span></span></code></pre>
+<p>做成服务之后，每次开启服务器就不需要手动启动 NapCat 了，而只需要在 WebUI 中登录你的机器人 QQ 号即可！</p>
+<hr>
+<p>截至目前，我们已经部署好了一个基础的 NoneBot + NapCat 的 QQ 机器人项目！ 🎉</p> </div> </div> <aside class="article-toc"> <div id="post-toc-card"> <div id="toc-card-style" class="toc-card"> <div id="toc-card-div"> <nav id="toc"> <span class="sidebar-title">目录</span> <ol class="toc"></ol> </nav> </div> </div> </div> </aside> </div> </article>  <footer id="footer"> <div id="footer-wrap"> <div>
+&copy; 2022 - 2026 ColdRain <span id="footer-icon"><i class="fa-solid fa-cloud-rain fa-fw"></i></span>
+Powered by Astro
+</div> </div> </footer> </main> <div id="preview" hidden> <img id="preview-content" alt=""> </div> </div> <canvas id="background" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"></canvas> <script src="/js/background.min.js"></script> <script src="/js/site.js"></script> </body> </html>

@@ -1,0 +1,24 @@
+---
+const { currentPage, totalPages, base = "/" } = Astro.props as {
+  currentPage: number;
+  totalPages: number;
+  base?: string;
+};
+
+function pageHref(page: number): string {
+  if (page <= 1) return "/";
+  return `${base.replace(/\/$/, "")}/page/${page}/`;
+}
+---
+
+{totalPages > 1 && (
+  <div class="page-current">
+    {currentPage > 1 && <a class="page-num" href={pageHref(currentPage - 1)}>&lt;</a>}
+    {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+      page === currentPage
+        ? <span class="current">{page}</span>
+        : <a class="page-num" href={pageHref(page)}>{page}</a>
+    ))}
+    {currentPage < totalPages && <a class="page-num" href={pageHref(currentPage + 1)}>&gt;</a>}
+  </div>
+)}

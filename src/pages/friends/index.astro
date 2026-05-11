@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { friends } from "../../lib/site";
+
+function host(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+}
+---
+
+<BaseLayout title="Here are my friends~" type="post">
+  <article class="article page-content friends-page">
+    <header class="friends-header">
+      <h1>Here are my friends~</h1>
+    </header>
+    <div class="friends-container">
+      {friends.map((friend) => (
+        <a class="friend-card" href={friend.url} target="_blank" rel="noopener">
+          <span class="friend-avatar">
+            <img src={friend.avatar} alt={friend.name} loading="lazy" />
+          </span>
+          <span class="friend-info">
+            <span class="friend-title-row">
+              <h3>{friend.name}</h3>
+              <span class="friend-host">{host(friend.url)}</span>
+            </span>
+            <p>{friend.desc}</p>
+          </span>
+          <span class="friend-arrow" aria-hidden="true">
+            <i class="fa-solid fa-arrow-up-right-from-square fa-fw"></i>
+          </span>
+        </a>
+      ))}
+    </div>
+  </article>
+</BaseLayout>

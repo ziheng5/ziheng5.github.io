@@ -1,0 +1,165 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><title>Arch Linux 运行 AUR 版腾讯会议（wemeet）踩坑复盘 | Cold Rain&#39;s Blog</title><meta name="author" content="ColdRain"><meta name="description" content="銀の龍の背に乗って..."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="/images/head.jpg"><link rel="preconnect" href="https://s4.zstatic.net"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"><link rel="preconnect" href="https://fonts.googleapis.cn"><link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/css/astro-overrides.css"></head> <body data-page-type="post"> <div id="layout"> <div id="loading"> <div id="loading-circle"> <h2>LOADING</h2> <p>加载过慢请开启缓存 浏览器默认开启</p> <img src="/images/loading.gif" alt=""> </div> </div> <div id="menu" class="menu-color"> <nav id="desktop-menu"> <a class="title" href="/"> <span>COLD RAIN&#39;S BLOG</span> </a> <a href="/"> <i class="fa-solid fa-house fa-fw"></i> <span>&ensp;Homepage</span> </a><a href="/2024/11/26/test/"> <i class="fa-solid fa-id-card fa-fw"></i> <span>&ensp;About</span> </a><a href="/archives/"> <i class="fa-solid fa-box-archive fa-fw"></i> <span>&ensp;Archives</span> </a><a href="/categories/杂谈/"> <i class="fa-solid fa-bookmark fa-fw"></i> <span>&ensp;Categories</span> </a><a href="/tags/杂谈/"> <i class="fa-solid fa-tags fa-fw"></i> <span>&ensp;Tags</span> </a><a href="/friends/"> <i class="fa-solid fa-link fa-fw"></i> <span>&ensp;Links</span> </a><a href="/favorites/"> <i class="fa-solid fa-star fa-fw"></i> <span>&ensp;Favorites</span> </a> </nav> <nav id="mobile-menu"> <button class="title" type="button" aria-expanded="false" aria-controls="mobile-menu-items"> <i class="fa-solid fa-bars fa-fw"></i> <span>&emsp;COLD RAIN&#39;S BLOG</span> </button> <div id="mobile-menu-items" class="items" hidden> <a href="/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-house fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div> </div> </a><a href="/2024/11/26/test/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-id-card fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">About</div> </div> </a><a href="/archives/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-box-archive fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div> </div> </a><a href="/categories/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-bookmark fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div> </div> </a><a href="/tags/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-tags fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div> </div> </a><a href="/friends/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-link fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div> </div> </a><a href="/favorites/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-star fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Favorites</div> </div> </a> </div> </nav> </div> <div id="menu-curtain" hidden></div> <main id="main" class="into-enter-from">  <article class="article"> <div class="article-wrap"> <div class="article-content"> <h1>Arch Linux 运行 AUR 版腾讯会议（wemeet）踩坑复盘</h1> <div class="info"> <span class="date"> <span class="icon"><i class="fa-solid fa-calendar fa-fw"></i></span> 2026/1/30 </span> <span class="category"> <a href="/categories/Archlinux/"> <span class="icon"><i class="fa-solid fa-bookmark fa-fw"></i></span> Archlinux </a> </span> <span class="tags"> <span class="icon"><i class="fa-solid fa-tags fa-fw"></i></span> <span class="tag"> <a href="/tags/Archlinux/" style="color: #ffa2c4">Archlinux</a> </span> </span> </div> <div class="content"> <blockquote>
+<p>故事背景：</p>
+<p>Coldrain 在 Arch Linux 上装了 AUR 版腾讯会议 wemeet，本来想开个会，结果被一条“工具链抢库”给按在地上摩擦。最后 Coldrain 用一种<strong>不污染系统</strong>、但又非常 “Linux 现实主义” 的办法把它救活了。</p>
+</blockquote>
+<hr>
+<h2 id="0-开局暴击会议软件为什么会去读-risc-v-工具链的库">0. 开局暴击：会议软件为什么会去读 RISC-V 工具链的库？</h2>
+<p>Coldrain 在终端里敲下 <code>wemeet</code>，它回敬 Coldrain 一条极其具有 “Linux 真实感” 的报错：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>/opt/wemeet/bin/wemeetapp: /opt/wch/Toolchain/RISC-V Embedded GCC/bin/libz.so.1:</span></span>
+<span class="line"><span>version `ZLIB_1.2.9' not found (required by /usr/lib/wemeet/libQt5Gui.so.5)</span></span></code></pre>
+<p>这句话信息量很大：</p>
+<ul>
+<li>wemeet 需要 <code>ZLIB_1.2.9</code></li>
+<li>需求来自它的 Qt 库：<code>/usr/lib/wemeet/libQt5Gui.so.5</code></li>
+<li>但它实际加载到的 <code>libz.so.1</code> 居然来自：
+<strong><code>/opt/wch/Toolchain/RISC-V Embedded GCC/bin/libz.so.1</code></strong></li>
+</ul>
+<p>这就离谱了：一个桌面会议软件，为什么要去吃Coldrain  <strong>RISC-V 嵌入式工具链</strong>里的 zlib？</p>
+<blockquote>
+<p>事后 Coldrain 才反应过来 RISC-V 这玩意好像是上个月自己玩沁恒的板子时装的 💦</p>
+</blockquote>
+<p><strong>第一反应：库路径被污染了。</strong></p>
+<hr>
+<h2 id="1-第一轮推理">1. 第一轮推理</h2>
+<p>动态链接器（ld.so）找库时，最常见的“邪路”就是：</p>
+<ul>
+<li><code>LD_LIBRARY_PATH</code></li>
+<li><code>LD_PRELOAD</code></li>
+</ul>
+<p>所以 Coldrain 第一步尝试最简单的 “清空环境变量启动”：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">env</span><span style="color:#005CC5"> -u</span><span style="color:#032F62"> LD_LIBRARY_PATH</span><span style="color:#005CC5"> -u</span><span style="color:#032F62"> LD_PRELOAD</span><span style="color:#032F62"> wemeet</span></span></code></pre>
+<p>结果——<strong>完全没用</strong>，还是同样的 <code>ZLIB_1.2.9 not found</code>，还在命中 <code>/opt/wch/.../libz.so.1</code>。</p>
+<p>这就说明：
+问题不只是 “当前 shell 环境变量污染”。它可能来自更深的层（比如启动脚本、系统 ld 缓存、RPATH/RUNPATH、甚至某些全局 profile）。</p>
+<p>但Coldrain 当时没急着去大拆系统；Coldrain 先想的是：<strong>先让它跑起来。</strong></p>
+<hr>
+<h2 id="2-第二轮踩坑">2. 第二轮踩坑</h2>
+<p>Coldrain 的想法很直接：</p>
+<blockquote>
+<p>老是加载错 zlib？那 Coldrain 就用 <code>LD_PRELOAD</code> 把正确的 zlib 先塞进去，抢占符号解析优先级。</p>
+</blockquote>
+<p>于是Coldrain 尝试：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">env</span><span style="color:#032F62"> LD_LIBRARY_PATH=/usr/lib:/lib</span><span style="color:#005CC5"> \</span></span>
+<span class="line"><span style="color:#032F62">    LD_PRELOAD=/usr/lib/libz.so.1</span><span style="color:#005CC5"> \</span></span>
+<span class="line"><span style="color:#032F62">    /opt/wemeet/bin/wemeetapp</span></span></code></pre>
+<p>结果新错误来了：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>symbol lookup error: /usr/lib/wemeet/libwemeet_framework.so:</span></span>
+<span class="line"><span>undefined symbol: _ZN7QWidget11eventFilterEP7QObjectP6QEvent, version Qt_5</span></span></code></pre>
+<p>这行属于 Qt 用户的噩梦：<code>version Qt_5</code> + <code>undefined symbol</code>。</p>
+<p><strong>翻译成人话：</strong>
+Coldrain 为了救 zlib，把 <code>LD_LIBRARY_PATH</code> 指向系统库路径，结果导致 wemeet 的 Qt（它自带一套 Qt）和系统 Qt 混用了。
+Qt 这种体系一旦混用（QtCore/QtGui/QtWidgets 或 plugins 版本不一致），要么直接 <code>abort</code>，要么 segfault，基本没救。</p>
+<p>这时候 Coldrain 意识到一个非常重要的原则：</p>
+<blockquote>
+<p><strong>桌面闭源软件的自带 Qt：要么全用它那套，要么全不用。最怕“掺着来”。</strong></p>
+</blockquote>
+<hr>
+<h2 id="3-第三轮定位">3. 第三轮定位</h2>
+<p>Coldrain 后来还遇到了 segfault，于是用 gdb 抓 backtrace。关键栈长这样：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>QMessageLogger::fatal(...)</span></span>
+<span class="line"><span>QGuiApplicationPrivate::createPlatformIntegration()</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>abort()</span></span></code></pre>
+<p>这不是“内存乱飞”那种随机崩，这是 Qt <strong>明确判定环境不对，直接 fatal 退出</strong>。</p>
+<p><code>createPlatformIntegration()</code> 这一步典型对应：</p>
+<ul>
+<li>平台插件加载失败（<code>xcb</code> / <code>wayland</code>）</li>
+<li>插件依赖缺失</li>
+<li>插件来自系统 Qt，但 Qt 库来自 wemeet 自带（或反过来）</li>
+</ul>
+<p>到这 Coldrain 基本确认：
+<strong>Coldrain 不能用粗暴的 LD_LIBRARY_PATH=/usr/lib 这种方式。否则 Qt 混用必炸。</strong></p>
+<hr>
+<h2 id="4-解决方案">4. 解决方案</h2>
+<p>核心矛盾一直没变：</p>
+<blockquote>
+<p>wemeet 总能“莫名其妙”加载到 <code>/opt/wch/.../libz.so.1</code>（老的），然后找不到 <code>ZLIB_1.2.9</code>。</p>
+</blockquote>
+<p>所以 Coldrain 反向操作：
+既然它喜欢从自己的库目录（<code>/usr/lib/wemeet</code>）加载东西，那 Coldrain 就把“正确版本的 zlib”放进 <code>/usr/lib/wemeet</code>，让它<strong>优先命中正确库</strong>，从而绕开 <code>/opt/wch</code> 的抢库。</p>
+<p>这招的好处是：</p>
+<ul>
+<li>不动系统 <code>/usr/lib/libz.so.1</code>（不污染系统）</li>
+<li>不改工具链目录（不破坏开发环境）</li>
+<li>只影响 wemeet 自己</li>
+</ul>
+<h3 id="41-coldrain-踩的坑复制后-chmod-失败提示-dangling-symlink">4.1 Coldrain 踩的坑：复制后 chmod 失败，提示 dangling symlink</h3>
+<p>Coldrain 一开始把 <code>/usr/lib/libz.so.1</code> “复制”过去，然后：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> chmod</span><span style="color:#005CC5"> 755</span><span style="color:#032F62"> /usr/lib/wemeet/libz.so.1</span></span></code></pre>
+<p>结果报：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>chmod: cannot operate on dangling symlink '/usr/lib/wemeet/libz.so.1'</span></span></code></pre>
+<p>这个坑非常典型，也很“Linux”：</p>
+<ul>
+<li>在 Arch 上，<code>/usr/lib/libz.so.1</code> 往往是个 <strong>符号链接</strong>
+指向真实文件，比如 <code>libz.so.1.3.1</code>（版本可能不同）</li>
+<li>Coldrain 如果用 <code>cp -a</code> 把它复制过去，复制的是 <strong>symlink 本身</strong></li>
+<li>但它指向的真实文件并没被复制到 <code>/usr/lib/wemeet</code></li>
+<li>所以 <code>/usr/lib/wemeet/libz.so.1</code> 变成了<strong>断链</strong>（dangling symlink）</li>
+<li>断链当然 chmod 不动</li>
+</ul>
+<h3 id="42-正确姿势复制真实文件到-wemeet-目录再重建-symlink">4.2 正确姿势：复制“真实文件”到 wemeet 目录，再重建 symlink</h3>
+<p>最终可复现、不会断链的做法如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 删除断链（如果存在）</span></span>
+<span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> rm</span><span style="color:#005CC5"> -f</span><span style="color:#032F62"> /usr/lib/wemeet/libz.so.1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 找到系统 zlib 的真实文件路径（不是 symlink）</span></span>
+<span class="line"><span style="color:#24292E">real</span><span style="color:#D73A49">=</span><span style="color:#24292E">$(</span><span style="color:#6F42C1">readlink</span><span style="color:#005CC5"> -f</span><span style="color:#032F62"> /usr/lib/libz.so.1</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#005CC5">echo</span><span style="color:#032F62"> "real zlib = </span><span style="color:#24292E">$real</span><span style="color:#032F62">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 复制真实文件进 wemeet 私有目录</span></span>
+<span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> cp</span><span style="color:#005CC5"> -v</span><span style="color:#032F62"> "</span><span style="color:#24292E">$real</span><span style="color:#032F62">"</span><span style="color:#032F62"> /usr/lib/wemeet/</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 给真实文件正确权限</span></span>
+<span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> chmod</span><span style="color:#005CC5"> 755</span><span style="color:#032F62"> "/usr/lib/wemeet/$(</span><span style="color:#6F42C1">basename</span><span style="color:#032F62"> "</span><span style="color:#24292E">$real</span><span style="color:#032F62">")"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 在 wemeet 目录里重建 libz.so.1 软链接</span></span>
+<span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> ln</span><span style="color:#005CC5"> -s</span><span style="color:#032F62"> "$(</span><span style="color:#6F42C1">basename</span><span style="color:#032F62"> "</span><span style="color:#24292E">$real</span><span style="color:#032F62">")"</span><span style="color:#032F62"> /usr/lib/wemeet/libz.so.1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 验证</span></span>
+<span class="line"><span style="color:#6F42C1">ls</span><span style="color:#005CC5"> -l</span><span style="color:#032F62"> /usr/lib/wemeet/libz.so.1</span></span></code></pre>
+<p>然后—— Coldrain 直接运行 <code>wemeet</code>：</p>
+<p><strong>成功启动。</strong></p>
+<p>那一刻非常舒爽，属于“你可以和闭源软件讲道理，但最好还是用 ld.so 能听懂的语言”。</p>
+<hr>
+<h2 id="5-验证猜想">5. 验证猜想</h2>
+<p>为了确保不是侥幸（比如某次恰好没撞上工具链库），Coldrain 用 <code>LD_DEBUG=libs</code> 看动态链接器到底加载了谁：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#24292E">LD_DEBUG</span><span style="color:#D73A49">=</span><span style="color:#032F62">libs</span><span style="color:#6F42C1"> wemeet</span><span style="color:#D73A49"> 2>&#x26;1</span><span style="color:#D73A49"> |</span><span style="color:#6F42C1"> grep</span><span style="color:#005CC5"> -E</span><span style="color:#032F62"> "libz\.so\.1|wch|/usr/lib/wemeet"</span><span style="color:#D73A49"> |</span><span style="color:#6F42C1"> head</span><span style="color:#005CC5"> -n</span><span style="color:#005CC5"> 60</span></span></code></pre>
+<p>理想结果是能看到类似：</p>
+<ul>
+<li><code>libz.so.1 => /usr/lib/wemeet/libz.so.1</code></li>
+<li>不再出现 <code>/opt/wch/Toolchain/.../libz.so.1</code></li>
+</ul>
+<p>只要这两点成立，就说明问题从“路径抢库”层面被稳稳解决。</p>
+<hr>
+<h2 id="6-问题本质">6. 问题本质</h2>
+<p>动态链接器按规则找库，但 Coldrain 系统里“库太多、路径太脏”。</p>
+<p>Coldrain 的工具链（WCH RISC-V）里带了 <code>libz.so.1</code>，而且它在某种路径优先级上压过了系统 zlib。</p>
+<p>当软件需要 <code>ZLIB_1.2.9</code> 的符号版本时：</p>
+<ul>
+<li>系统 zlib：有</li>
+<li>工具链 zlib：没有</li>
+<li>于是报错</li>
+</ul>
+<p>而 Qt 那个阶段的崩溃，属于次生灾害：
+Coldrain 为了救 zlib 改了 <code>LD_LIBRARY_PATH</code>，结果 Qt 自带库和系统 Qt 插件/依赖混在一起，直接 fatal/abort。</p>
+<hr>
+<h2 id="7-后记">7. 后记</h2>
+<p>Coldrain 这次用“往 <code>/usr/lib/wemeet/</code> 塞依赖”救活了 wemeet，但从系统健康角度，最好还是查一下 <strong>为什么 <code>/opt/wch</code> 会被拿来当动态库搜索路径</strong>。</p>
+<p>建议跑：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> grep</span><span style="color:#005CC5"> -R</span><span style="color:#032F62"> "/opt/wch"</span><span style="color:#032F62"> /etc/ld.so.conf</span><span style="color:#032F62"> /etc/ld.so.conf.d</span><span style="color:#D73A49"> 2></span><span style="color:#032F62">/dev/null</span></span>
+<span class="line"><span style="color:#6F42C1">ldconfig</span><span style="color:#005CC5"> -p</span><span style="color:#D73A49"> |</span><span style="color:#6F42C1"> grep</span><span style="color:#005CC5"> -E</span><span style="color:#032F62"> "opt/wch|libz\.so\.1"</span></span></code></pre>
+<p>如果你真看到 <code>/opt/wch/...</code> 被写进了 <code>ld.so.conf.d</code>，那就意味着未来别的软件也可能被它抢库。这时候把它从系统 ld 配置里移走、再 <code>sudo ldconfig</code>，才是更“长期”的清爽方案。</p>
+<hr>
+<h2 id="8-结语">8. 结语</h2>
+<p>这次的最终解法并不花哨，就是一句话：</p>
+<blockquote>
+<p><strong>不要替换系统库；把正确库放进应用自己的库目录，让它优先命中。</strong></p>
+</blockquote>
+<p>它不优雅，但很有效；
+它不抽象，但很现实；
+它不需要争论“哪个包该负责”，只需要让 ld.so 在运行时做出正确选择。</p>
+<h2 id="9-参考文献">9. 参考文献</h2>
+<p>[1] <a href="https://stackoverflow.com/questions/48306849/lib-x86-64-linux-gnu-libz-so-1-version-zlib-1-2-9-not-found">https://stackoverflow.com/questions/48306849/lib-x86-64-linux-gnu-libz-so-1-version-zlib-1-2-9-not-found</a></p> </div> </div> <aside class="article-toc"> <div id="post-toc-card"> <div id="toc-card-style" class="toc-card"> <div id="toc-card-div"> <nav id="toc"> <span class="sidebar-title">目录</span> <ol class="toc"></ol> </nav> </div> </div> </div> </aside> </div> </article>  <footer id="footer"> <div id="footer-wrap"> <div>
+&copy; 2022 - 2026 ColdRain <span id="footer-icon"><i class="fa-solid fa-cloud-rain fa-fw"></i></span>
+Powered by Astro
+</div> </div> </footer> </main> <div id="preview" hidden> <img id="preview-content" alt=""> </div> </div> <canvas id="background" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"></canvas> <script src="/js/background.min.js"></script> <script src="/js/site.js"></script> </body> </html>

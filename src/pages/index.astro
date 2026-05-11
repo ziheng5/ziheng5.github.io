@@ -1,0 +1,42 @@
+---
+import Pagination from "../components/Pagination.astro";
+import PostCard from "../components/PostCard.astro";
+import ProfileCard from "../components/ProfileCard.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getPosts } from "../lib/posts";
+import { site } from "../lib/site";
+
+const posts = getPosts();
+const pageSize = 10;
+const pagePosts = posts.slice(0, pageSize);
+const totalPages = Math.ceil(posts.length / pageSize);
+---
+
+<BaseLayout title={site.title} type="index">
+  <div id="home-head">
+    <div id="home-background" data-images={site.background.join(",")} style={`background-image: url(${site.background[0]})`}></div>
+    <a id="home-info" href="#home-posts-wrap" aria-label="进入文章列表">
+      <span class="loop"></span>
+      <span class="loop"></span>
+      <span class="loop"></span>
+      <span class="loop"></span>
+      <span class="info">
+        <span class="wrap">
+          <h1>{site.title}</h1>
+          <h3>{site.subtitle}</h3>
+          <h5>{site.description}</h5>
+        </span>
+      </span>
+    </a>
+  </div>
+
+  <div id="home-posts-wrap">
+    <div id="home-posts">
+      {pagePosts.map((post) => <PostCard post={post} />)}
+      <Pagination currentPage={1} totalPages={totalPages} />
+    </div>
+    <aside id="home-card">
+      <ProfileCard />
+    </aside>
+  </div>
+</BaseLayout>

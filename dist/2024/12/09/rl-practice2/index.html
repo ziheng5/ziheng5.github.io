@@ -1,0 +1,481 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><title>Kaggle：Playground S4 E8 | Cold Rain&#39;s Blog</title><meta name="author" content="ColdRain"><meta name="description" content="銀の龍の背に乗って..."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="/images/head.jpg"><link rel="preconnect" href="https://s4.zstatic.net"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"><link rel="preconnect" href="https://fonts.googleapis.cn"><link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/css/astro-overrides.css"></head> <body data-page-type="post"> <div id="layout"> <div id="loading"> <div id="loading-circle"> <h2>LOADING</h2> <p>加载过慢请开启缓存 浏览器默认开启</p> <img src="/images/loading.gif" alt=""> </div> </div> <div id="menu" class="menu-color"> <nav id="desktop-menu"> <a class="title" href="/"> <span>COLD RAIN&#39;S BLOG</span> </a> <a href="/"> <i class="fa-solid fa-house fa-fw"></i> <span>&ensp;Homepage</span> </a><a href="/2024/11/26/test/"> <i class="fa-solid fa-id-card fa-fw"></i> <span>&ensp;About</span> </a><a href="/archives/"> <i class="fa-solid fa-box-archive fa-fw"></i> <span>&ensp;Archives</span> </a><a href="/categories/杂谈/"> <i class="fa-solid fa-bookmark fa-fw"></i> <span>&ensp;Categories</span> </a><a href="/tags/杂谈/"> <i class="fa-solid fa-tags fa-fw"></i> <span>&ensp;Tags</span> </a><a href="/friends/"> <i class="fa-solid fa-link fa-fw"></i> <span>&ensp;Links</span> </a><a href="/favorites/"> <i class="fa-solid fa-star fa-fw"></i> <span>&ensp;Favorites</span> </a> </nav> <nav id="mobile-menu"> <button class="title" type="button" aria-expanded="false" aria-controls="mobile-menu-items"> <i class="fa-solid fa-bars fa-fw"></i> <span>&emsp;COLD RAIN&#39;S BLOG</span> </button> <div id="mobile-menu-items" class="items" hidden> <a href="/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-house fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div> </div> </a><a href="/2024/11/26/test/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-id-card fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">About</div> </div> </a><a href="/archives/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-box-archive fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div> </div> </a><a href="/categories/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-bookmark fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div> </div> </a><a href="/tags/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-tags fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div> </div> </a><a href="/friends/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-link fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div> </div> </a><a href="/favorites/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-star fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Favorites</div> </div> </a> </div> </nav> </div> <div id="menu-curtain" hidden></div> <main id="main" class="into-enter-from">  <article class="article"> <div class="article-wrap"> <div class="article-content"> <h1>Kaggle：Playground S4 E8</h1> <div class="info"> <span class="date"> <span class="icon"><i class="fa-solid fa-calendar fa-fw"></i></span> 2024/12/9 </span> <span class="category"> <a href="/categories/Kaggle%20%E7%BB%83%E4%B9%A0/"> <span class="icon"><i class="fa-solid fa-bookmark fa-fw"></i></span> Kaggle 练习 </a> </span> <span class="tags"> <span class="icon"><i class="fa-solid fa-tags fa-fw"></i></span> <span class="tag"> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">深度学习</a> </span><span class="tag"> <a href="/tags/PyTorch/" style="color: #00bcd4">PyTorch</a> </span> </span> </div> <div class="content"> <blockquote>
+<p>🔗比赛链接：<a href="https://www.kaggle.com/competitions/playground-series-s4e8">https://www.kaggle.com/competitions/playground-series-s4e8</a></p>
+<p>训练数据集、测试数据集和提交样例都需要自行从比赛页面下载。</p>
+</blockquote>
+<h2 id="一导入必要的包">一、📦导入必要的包</h2>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># 数据处理</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> numpy </span><span style="color:#D73A49">as</span><span style="color:#24292E"> np</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> pandas </span><span style="color:#D73A49">as</span><span style="color:#24292E"> pd</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 搭建模型</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> sklearn.model_selection </span><span style="color:#D73A49">import</span><span style="color:#24292E"> train_test_split, StratifiedKFold</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> sklearn.metrics </span><span style="color:#D73A49">import</span><span style="color:#24292E"> accuracy_score, matthews_corrcoef</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># PyTorch</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> copy</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> torch</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> torch.nn </span><span style="color:#D73A49">as</span><span style="color:#24292E"> nn</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> torch.optim </span><span style="color:#D73A49">as</span><span style="color:#24292E"> optim</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> tqdm</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 探索特征</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> sklearn.preprocessing </span><span style="color:#D73A49">import</span><span style="color:#24292E"> LabelEncoder</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> sklearn.preprocessing </span><span style="color:#D73A49">import</span><span style="color:#24292E"> OrdinalEncoder</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> sklearn.feature_selection </span><span style="color:#D73A49">import</span><span style="color:#24292E"> SelectKBest</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> sklearn.feature_selection </span><span style="color:#D73A49">import</span><span style="color:#24292E"> chi2</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> matplotlib </span><span style="color:#D73A49">import</span><span style="color:#24292E"> pyplot</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> os</span></span></code></pre>
+<h2 id="二导入训练数据与测试数据">二、🪵导入训练数据与测试数据</h2>
+<h3 id="1-导入训练数据">1. 导入训练数据</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># 导入训练数据</span></span>
+<span class="line"><span style="color:#24292E">train </span><span style="color:#D73A49">=</span><span style="color:#24292E"> pd.read_csv(</span><span style="color:#032F62">"train.csv"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">train.head()</span></span></code></pre>
+<p>输出如下（由于 categories 过长，这里展示一部分结果）：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">   id</span><span style="color:#032F62"> class</span><span style="color:#032F62">  cap-diameter</span><span style="color:#032F62"> cap-shape</span><span style="color:#032F62">  ...</span><span style="color:#032F62"> ring-type</span><span style="color:#032F62"> spore-print-color</span><span style="color:#032F62"> habitat</span><span style="color:#032F62"> season</span></span>
+<span class="line"><span style="color:#6F42C1">0</span><span style="color:#005CC5">   0</span><span style="color:#032F62">     e</span><span style="color:#005CC5">          8.80</span><span style="color:#032F62">         f</span><span style="color:#032F62">  ...</span><span style="color:#032F62">         f</span><span style="color:#032F62">               NaN</span><span style="color:#032F62">       d</span><span style="color:#032F62">      a</span></span>
+<span class="line"><span style="color:#6F42C1">1</span><span style="color:#005CC5">   1</span><span style="color:#032F62">     p</span><span style="color:#005CC5">          4.51</span><span style="color:#032F62">         x</span><span style="color:#032F62">  ...</span><span style="color:#032F62">         z</span><span style="color:#032F62">               NaN</span><span style="color:#032F62">       d</span><span style="color:#032F62">      w</span></span>
+<span class="line"><span style="color:#6F42C1">2</span><span style="color:#005CC5">   2</span><span style="color:#032F62">     e</span><span style="color:#005CC5">          6.94</span><span style="color:#032F62">         f</span><span style="color:#032F62">  ...</span><span style="color:#032F62">         f</span><span style="color:#032F62">               NaN</span><span style="color:#032F62">       l</span><span style="color:#032F62">      w</span></span>
+<span class="line"><span style="color:#6F42C1">3</span><span style="color:#005CC5">   3</span><span style="color:#032F62">     e</span><span style="color:#005CC5">          3.88</span><span style="color:#032F62">         f</span><span style="color:#032F62">  ...</span><span style="color:#032F62">         f</span><span style="color:#032F62">               NaN</span><span style="color:#032F62">       d</span><span style="color:#032F62">      u</span></span>
+<span class="line"><span style="color:#6F42C1">4</span><span style="color:#005CC5">   4</span><span style="color:#032F62">     e</span><span style="color:#005CC5">          5.85</span><span style="color:#032F62">         x</span><span style="color:#032F62">  ...</span><span style="color:#032F62">         f</span><span style="color:#032F62">               NaN</span><span style="color:#032F62">       g</span><span style="color:#032F62">      a</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">[</span><span style="color:#005CC5">5</span><span style="color:#24292E"> rows x </span><span style="color:#005CC5">22</span><span style="color:#24292E"> columns]</span></span></code></pre>
+<h3 id="2-导入测试数据">2. 导入测试数据</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># 导入测试数据</span></span>
+<span class="line"><span style="color:#24292E">test </span><span style="color:#D73A49">=</span><span style="color:#24292E"> pd.read_csv(</span><span style="color:#032F62">"test.csv"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">test.head()</span></span></code></pre>
+<p>输出如下（由于 categories 过长，这里展示一部分结果）：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">        id</span><span style="color:#032F62">  cap-diameter</span><span style="color:#032F62"> cap-shape</span><span style="color:#032F62">  ...</span><span style="color:#032F62"> spore-print-color</span><span style="color:#032F62"> habitat</span><span style="color:#032F62"> season</span></span>
+<span class="line"><span style="color:#6F42C1">0</span><span style="color:#005CC5">  3116945</span><span style="color:#005CC5">          8.64</span><span style="color:#032F62">         x</span><span style="color:#032F62">  ...</span><span style="color:#032F62">               NaN</span><span style="color:#032F62">       d</span><span style="color:#032F62">      a</span></span>
+<span class="line"><span style="color:#6F42C1">1</span><span style="color:#005CC5">  3116946</span><span style="color:#005CC5">          6.90</span><span style="color:#032F62">         o</span><span style="color:#032F62">  ...</span><span style="color:#032F62">               NaN</span><span style="color:#032F62">       d</span><span style="color:#032F62">      a</span></span>
+<span class="line"><span style="color:#6F42C1">2</span><span style="color:#005CC5">  3116947</span><span style="color:#005CC5">          2.00</span><span style="color:#032F62">         b</span><span style="color:#032F62">  ...</span><span style="color:#032F62">               NaN</span><span style="color:#032F62">       d</span><span style="color:#032F62">      s</span></span>
+<span class="line"><span style="color:#6F42C1">3</span><span style="color:#005CC5">  3116948</span><span style="color:#005CC5">          3.47</span><span style="color:#032F62">         x</span><span style="color:#032F62">  ...</span><span style="color:#032F62">               NaN</span><span style="color:#032F62">       d</span><span style="color:#032F62">      u</span></span>
+<span class="line"><span style="color:#6F42C1">4</span><span style="color:#005CC5">  3116949</span><span style="color:#005CC5">          6.17</span><span style="color:#032F62">         x</span><span style="color:#032F62">  ...</span><span style="color:#032F62">               NaN</span><span style="color:#032F62">       d</span><span style="color:#032F62">      u</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">[</span><span style="color:#005CC5">5</span><span style="color:#24292E"> rows x </span><span style="color:#005CC5">21</span><span style="color:#24292E"> columns]</span></span></code></pre>
+<blockquote>
+<p>观察数据内容发现 test.csv 中没一行没有 “class”，即 test.csv 是需要被分类的数据。</p>
+</blockquote>
+<h2 id="三数据分析">三、🔍数据分析</h2>
+<h3 id="1-数据信息">1. 数据信息</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">train.info(</span><span style="color:#E36209">verbose</span><span style="color:#D73A49">=</span><span style="color:#005CC5">True</span><span style="color:#24292E">, </span><span style="color:#E36209">show_counts</span><span style="color:#D73A49">=</span><span style="color:#005CC5">True</span><span style="color:#24292E">)</span></span></code></pre>
+<p>输出如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#D73A49">&#x3C;</span><span style="color:#24292E">class </span><span style="color:#032F62">'pandas.core.frame.DataFrame'</span><span style="color:#D73A49">></span></span>
+<span class="line"><span style="color:#6F42C1">RangeIndex:</span><span style="color:#005CC5"> 3116945</span><span style="color:#032F62"> entries,</span><span style="color:#005CC5"> 0</span><span style="color:#032F62"> to</span><span style="color:#005CC5"> 3116944</span></span>
+<span class="line"><span style="color:#6F42C1">Data</span><span style="color:#032F62"> columns</span><span style="color:#24292E"> (total </span><span style="color:#005CC5">22</span><span style="color:#032F62"> columns</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#6A737D"> #   Column                Non-Null Count    Dtype  </span></span>
+<span class="line"><span style="color:#6F42C1">---</span><span style="color:#005CC5">  ------</span><span style="color:#005CC5">                --------------</span><span style="color:#005CC5">    -----</span><span style="color:#24292E">  </span></span>
+<span class="line"><span style="color:#6F42C1"> 0</span><span style="color:#032F62">   id</span><span style="color:#005CC5">                    3116945</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  int64</span><span style="color:#24292E">  </span></span>
+<span class="line"><span style="color:#6F42C1"> 1</span><span style="color:#032F62">   class</span><span style="color:#005CC5">                 3116945</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 2</span><span style="color:#032F62">   cap-diameter</span><span style="color:#005CC5">          3116941</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  float64</span></span>
+<span class="line"><span style="color:#6F42C1"> 3</span><span style="color:#032F62">   cap-shape</span><span style="color:#005CC5">             3116905</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 4</span><span style="color:#032F62">   cap-surface</span><span style="color:#005CC5">           2445922</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 5</span><span style="color:#032F62">   cap-color</span><span style="color:#005CC5">             3116933</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 6</span><span style="color:#032F62">   does-bruise-or-bleed</span><span style="color:#005CC5">  3116937</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 7</span><span style="color:#032F62">   gill-attachment</span><span style="color:#005CC5">       2593009</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 8</span><span style="color:#032F62">   gill-spacing</span><span style="color:#005CC5">          1858510</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 9</span><span style="color:#032F62">   gill-color</span><span style="color:#005CC5">            3116888</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 10</span><span style="color:#032F62">  stem-height</span><span style="color:#005CC5">           3116945</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  float64</span></span>
+<span class="line"><span style="color:#6F42C1"> 11</span><span style="color:#032F62">  stem-width</span><span style="color:#005CC5">            3116945</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  float64</span></span>
+<span class="line"><span style="color:#6F42C1"> 12</span><span style="color:#032F62">  stem-root</span><span style="color:#005CC5">             359922</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">   object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 13</span><span style="color:#032F62">  stem-surface</span><span style="color:#005CC5">          1136084</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 14</span><span style="color:#032F62">  stem-color</span><span style="color:#005CC5">            3116907</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 15</span><span style="color:#032F62">  veil-type</span><span style="color:#005CC5">             159452</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">   object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 16</span><span style="color:#032F62">  veil-color</span><span style="color:#005CC5">            375998</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">   object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 17</span><span style="color:#032F62">  has-ring</span><span style="color:#005CC5">              3116921</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 18</span><span style="color:#032F62">  ring-type</span><span style="color:#005CC5">             2988065</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 19</span><span style="color:#032F62">  spore-print-color</span><span style="color:#005CC5">     267263</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">   object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 20</span><span style="color:#032F62">  habitat</span><span style="color:#005CC5">               3116900</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 21</span><span style="color:#032F62">  season</span><span style="color:#005CC5">                3116945</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1">dtypes:</span><span style="color:#032F62"> float64</span><span style="color:#24292E">(</span><span style="color:#6F42C1">3</span><span style="color:#24292E">)</span><span style="color:#032F62">,</span><span style="color:#032F62"> int64</span><span style="color:#24292E">(</span><span style="color:#6F42C1">1</span><span style="color:#24292E">)</span><span style="color:#032F62">,</span><span style="color:#032F62"> object</span><span style="color:#24292E">(</span><span style="color:#6F42C1">18</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#6F42C1">memory</span><span style="color:#032F62"> usage:</span><span style="color:#032F62"> 523.2+</span><span style="color:#032F62"> MB</span></span></code></pre>
+<p>从上面的输出可以看到，训练数据中，第 0 个 column 是 id，第 1 个 column 是 class，后面的 columns 均为详细参数。</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">test.info(</span><span style="color:#E36209">verbose</span><span style="color:#D73A49">=</span><span style="color:#005CC5">True</span><span style="color:#24292E">, </span><span style="color:#E36209">show_counts</span><span style="color:#D73A49">=</span><span style="color:#005CC5">True</span><span style="color:#24292E">)</span></span></code></pre>
+<p>输出如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#D73A49">&#x3C;</span><span style="color:#24292E">class </span><span style="color:#032F62">'pandas.core.frame.DataFrame'</span><span style="color:#D73A49">></span></span>
+<span class="line"><span style="color:#6F42C1">RangeIndex:</span><span style="color:#005CC5"> 2077964</span><span style="color:#032F62"> entries,</span><span style="color:#005CC5"> 0</span><span style="color:#032F62"> to</span><span style="color:#005CC5"> 2077963</span></span>
+<span class="line"><span style="color:#6F42C1">Data</span><span style="color:#032F62"> columns</span><span style="color:#24292E"> (total </span><span style="color:#005CC5">21</span><span style="color:#032F62"> columns</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#6A737D"> #   Column                Non-Null Count    Dtype  </span></span>
+<span class="line"><span style="color:#6F42C1">---</span><span style="color:#005CC5">  ------</span><span style="color:#005CC5">                --------------</span><span style="color:#005CC5">    -----</span><span style="color:#24292E">  </span></span>
+<span class="line"><span style="color:#6F42C1"> 0</span><span style="color:#032F62">   id</span><span style="color:#005CC5">                    2077964</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  int64</span><span style="color:#24292E">  </span></span>
+<span class="line"><span style="color:#6F42C1"> 1</span><span style="color:#032F62">   cap-diameter</span><span style="color:#005CC5">          2077957</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  float64</span></span>
+<span class="line"><span style="color:#6F42C1"> 2</span><span style="color:#032F62">   cap-shape</span><span style="color:#005CC5">             2077933</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 3</span><span style="color:#032F62">   cap-surface</span><span style="color:#005CC5">           1631060</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 4</span><span style="color:#032F62">   cap-color</span><span style="color:#005CC5">             2077951</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 5</span><span style="color:#032F62">   does-bruise-or-bleed</span><span style="color:#005CC5">  2077954</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 6</span><span style="color:#032F62">   gill-attachment</span><span style="color:#005CC5">       1728143</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 7</span><span style="color:#032F62">   gill-spacing</span><span style="color:#005CC5">          1238369</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 8</span><span style="color:#032F62">   gill-color</span><span style="color:#005CC5">            2077915</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 9</span><span style="color:#032F62">   stem-height</span><span style="color:#005CC5">           2077963</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  float64</span></span>
+<span class="line"><span style="color:#6F42C1"> 10</span><span style="color:#032F62">  stem-width</span><span style="color:#005CC5">            2077964</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  float64</span></span>
+<span class="line"><span style="color:#6F42C1"> 11</span><span style="color:#032F62">  stem-root</span><span style="color:#005CC5">             239952</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">   object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 12</span><span style="color:#032F62">  stem-surface</span><span style="color:#005CC5">          756476</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">   object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 13</span><span style="color:#032F62">  stem-color</span><span style="color:#005CC5">            2077943</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 14</span><span style="color:#032F62">  veil-type</span><span style="color:#005CC5">             106419</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">   object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 15</span><span style="color:#032F62">  veil-color</span><span style="color:#005CC5">            251840</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">   object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 16</span><span style="color:#032F62">  has-ring</span><span style="color:#005CC5">              2077945</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 17</span><span style="color:#032F62">  ring-type</span><span style="color:#005CC5">             1991769</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 18</span><span style="color:#032F62">  spore-print-color</span><span style="color:#005CC5">     178347</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">   object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 19</span><span style="color:#032F62">  habitat</span><span style="color:#005CC5">               2077939</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1"> 20</span><span style="color:#032F62">  season</span><span style="color:#005CC5">                2077964</span><span style="color:#032F62"> non-null</span><span style="color:#032F62">  object</span><span style="color:#24292E"> </span></span>
+<span class="line"><span style="color:#6F42C1">dtypes:</span><span style="color:#032F62"> float64</span><span style="color:#24292E">(</span><span style="color:#6F42C1">3</span><span style="color:#24292E">)</span><span style="color:#032F62">,</span><span style="color:#032F62"> int64</span><span style="color:#24292E">(</span><span style="color:#6F42C1">1</span><span style="color:#24292E">)</span><span style="color:#032F62">,</span><span style="color:#032F62"> object</span><span style="color:#24292E">(</span><span style="color:#6F42C1">17</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#6F42C1">memory</span><span style="color:#032F62"> usage:</span><span style="color:#032F62"> 332.9+</span><span style="color:#032F62"> MB</span></span></code></pre>
+<h3 id="2-去除-nan">2. 去除 NaN</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># 下面的这些 columns 基本上没有有用信息（全是 NaN）</span></span>
+<span class="line"><span style="color:#24292E">mostly_nan_cols </span><span style="color:#D73A49">=</span><span style="color:#24292E"> [</span><span style="color:#032F62">'stem-root'</span><span style="color:#24292E">, </span><span style="color:#032F62">'stem-surface'</span><span style="color:#24292E">, </span><span style="color:#032F62">'veil-type'</span><span style="color:#24292E">, </span><span style="color:#032F62">'veil-color'</span><span style="color:#24292E">, </span><span style="color:#032F62">'spore-print-color'</span><span style="color:#24292E">]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 这些是含有大量 NaN 的 columns </span></span>
+<span class="line"><span style="color:#24292E">many_nan_cols </span><span style="color:#D73A49">=</span><span style="color:#24292E"> [</span><span style="color:#032F62">'gill-spacing'</span><span style="color:#24292E">, </span><span style="color:#032F62">'cap-surface'</span><span style="color:#24292E">, </span><span style="color:#032F62">'gill-attachment'</span><span style="color:#24292E">, </span><span style="color:#032F62">'ring-type'</span><span style="color:#24292E">]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 去掉全是 NaN 的 columns</span></span>
+<span class="line"><span style="color:#24292E">train.drop(mostly_nan_cols, </span><span style="color:#E36209">axis</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#E36209">inplace</span><span style="color:#D73A49">=</span><span style="color:#005CC5">True</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">test.drop(mostly_nan_cols, </span><span style="color:#E36209">axis</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#E36209">inplace</span><span style="color:#D73A49">=</span><span style="color:#005CC5">True</span><span style="color:#24292E">)</span></span></code></pre>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># 查看 NaN 的数量</span></span>
+<span class="line"><span style="color:#24292E">pd.DataFrame([train.isna().sum(), test.isna().sum()]).T</span></span></code></pre>
+<p>输出如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">                              0</span><span style="color:#005CC5">         1</span></span>
+<span class="line"><span style="color:#6F42C1">id</span><span style="color:#005CC5">                          0.0</span><span style="color:#005CC5">       0.0</span></span>
+<span class="line"><span style="color:#6F42C1">class</span><span style="color:#005CC5">                       0.0</span><span style="color:#032F62">       NaN</span></span>
+<span class="line"><span style="color:#6F42C1">cap-diameter</span><span style="color:#005CC5">                4.0</span><span style="color:#005CC5">       7.0</span></span>
+<span class="line"><span style="color:#6F42C1">cap-shape</span><span style="color:#005CC5">                  40.0</span><span style="color:#005CC5">      31.0</span></span>
+<span class="line"><span style="color:#6F42C1">cap-surface</span><span style="color:#005CC5">            671023.0</span><span style="color:#005CC5">  446904.0</span></span>
+<span class="line"><span style="color:#6F42C1">cap-color</span><span style="color:#005CC5">                  12.0</span><span style="color:#005CC5">      13.0</span></span>
+<span class="line"><span style="color:#6F42C1">does-bruise-or-bleed</span><span style="color:#005CC5">        8.0</span><span style="color:#005CC5">      10.0</span></span>
+<span class="line"><span style="color:#6F42C1">gill-attachment</span><span style="color:#005CC5">        523936.0</span><span style="color:#005CC5">  349821.0</span></span>
+<span class="line"><span style="color:#6F42C1">gill-spacing</span><span style="color:#005CC5">          1258435.0</span><span style="color:#005CC5">  839595.0</span></span>
+<span class="line"><span style="color:#6F42C1">gill-color</span><span style="color:#005CC5">                 57.0</span><span style="color:#005CC5">      49.0</span></span>
+<span class="line"><span style="color:#6F42C1">stem-height</span><span style="color:#005CC5">                 0.0</span><span style="color:#005CC5">       1.0</span></span>
+<span class="line"><span style="color:#6F42C1">stem-width</span><span style="color:#005CC5">                  0.0</span><span style="color:#005CC5">       0.0</span></span>
+<span class="line"><span style="color:#6F42C1">stem-color</span><span style="color:#005CC5">                 38.0</span><span style="color:#005CC5">      21.0</span></span>
+<span class="line"><span style="color:#6F42C1">has-ring</span><span style="color:#005CC5">                   24.0</span><span style="color:#005CC5">      19.0</span></span>
+<span class="line"><span style="color:#6F42C1">ring-type</span><span style="color:#005CC5">              128880.0</span><span style="color:#005CC5">   86195.0</span></span>
+<span class="line"><span style="color:#6F42C1">habitat</span><span style="color:#005CC5">                    45.0</span><span style="color:#005CC5">      25.0</span></span>
+<span class="line"><span style="color:#6F42C1">season</span><span style="color:#005CC5">                      0.0</span><span style="color:#005CC5">       0.0</span></span></code></pre>
+<h3 id="3-删除离谱数值">3. 删除离谱数值</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># 查看每一个 column 中的元素类别有多少</span></span>
+<span class="line"><span style="color:#24292E">train.nunique()</span></span></code></pre>
+<p>输出如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">id</span><span style="color:#005CC5">                      3116945</span></span>
+<span class="line"><span style="color:#6F42C1">class</span><span style="color:#005CC5">                         2</span></span>
+<span class="line"><span style="color:#6F42C1">cap-diameter</span><span style="color:#005CC5">               3913</span></span>
+<span class="line"><span style="color:#6F42C1">cap-shape</span><span style="color:#005CC5">                    74</span></span>
+<span class="line"><span style="color:#6F42C1">cap-surface</span><span style="color:#005CC5">                  83</span></span>
+<span class="line"><span style="color:#6F42C1">cap-color</span><span style="color:#005CC5">                    78</span></span>
+<span class="line"><span style="color:#6F42C1">does-bruise-or-bleed</span><span style="color:#005CC5">         26</span></span>
+<span class="line"><span style="color:#6F42C1">gill-attachment</span><span style="color:#005CC5">              78</span></span>
+<span class="line"><span style="color:#6F42C1">gill-spacing</span><span style="color:#005CC5">                 48</span></span>
+<span class="line"><span style="color:#6F42C1">gill-color</span><span style="color:#005CC5">                   63</span></span>
+<span class="line"><span style="color:#6F42C1">stem-height</span><span style="color:#005CC5">                2749</span></span>
+<span class="line"><span style="color:#6F42C1">stem-width</span><span style="color:#005CC5">                 5836</span></span>
+<span class="line"><span style="color:#6F42C1">stem-color</span><span style="color:#005CC5">                   59</span></span>
+<span class="line"><span style="color:#6F42C1">has-ring</span><span style="color:#005CC5">                     23</span></span>
+<span class="line"><span style="color:#6F42C1">ring-type</span><span style="color:#005CC5">                    40</span></span>
+<span class="line"><span style="color:#6F42C1">habitat</span><span style="color:#005CC5">                      52</span></span>
+<span class="line"><span style="color:#6F42C1">season</span><span style="color:#005CC5">                        4</span></span>
+<span class="line"><span style="color:#6F42C1">dtype:</span><span style="color:#032F62"> int64</span></span></code></pre>
+<p>发现有的 columns 中<strong>元素类别特别多</strong>，所以有必要对数据做一些修剪。</p>
+<p>接着运行：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># 所有 columns</span></span>
+<span class="line"><span style="color:#24292E">categorical_cols </span><span style="color:#D73A49">=</span><span style="color:#24292E"> many_nan_cols </span><span style="color:#D73A49">+</span><span style="color:#24292E"> [</span><span style="color:#032F62">'cap-shape'</span><span style="color:#24292E">, </span><span style="color:#032F62">'cap-color'</span><span style="color:#24292E">, </span><span style="color:#032F62">'does-bruise-or-bleed'</span><span style="color:#24292E">, </span><span style="color:#032F62">'gill-color'</span><span style="color:#24292E">, </span><span style="color:#032F62">'stem-color'</span><span style="color:#24292E">, </span><span style="color:#032F62">'has-ring'</span><span style="color:#24292E">, </span><span style="color:#032F62">'habitat'</span><span style="color:#24292E">, </span><span style="color:#032F62">'season'</span><span style="color:#24292E">]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 由于过小的数据对我们训练结果的影响微乎其微，所以我们可以将小于100的值全部用 “rare” 替换掉</span></span>
+<span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> c </span><span style="color:#D73A49">in</span><span style="color:#24292E"> categorical_cols:</span></span>
+<span class="line"><span style="color:#24292E">    col_count </span><span style="color:#D73A49">=</span><span style="color:#24292E"> train[c].value_counts()</span></span>
+<span class="line"><span style="color:#24292E">    rare_keys </span><span style="color:#D73A49">=</span><span style="color:#24292E"> col_count[col_count</span><span style="color:#D73A49">&#x3C;</span><span style="color:#005CC5">100</span><span style="color:#24292E">].index</span></span>
+<span class="line"><span style="color:#24292E">    train[c] </span><span style="color:#D73A49">=</span><span style="color:#24292E"> train[c].replace(rare_keys, </span><span style="color:#032F62">'rare'</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">    </span></span>
+<span class="line"><span style="color:#24292E">    col_count </span><span style="color:#D73A49">=</span><span style="color:#24292E"> test[c].value_counts()</span></span>
+<span class="line"><span style="color:#24292E">    rare_keys </span><span style="color:#D73A49">=</span><span style="color:#24292E"> col_count[col_count</span><span style="color:#D73A49">&#x3C;</span><span style="color:#005CC5">100</span><span style="color:#24292E">].index</span></span>
+<span class="line"><span style="color:#24292E">    test[c] </span><span style="color:#D73A49">=</span><span style="color:#24292E"> test[c].replace(rare_keys, </span><span style="color:#032F62">'rare'</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 再次查看每一个 column 中元素类别数</span></span>
+<span class="line"><span style="color:#24292E">train.nunique()</span></span></code></pre>
+<p>输出如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">id</span><span style="color:#005CC5">                      3116945</span></span>
+<span class="line"><span style="color:#6F42C1">class</span><span style="color:#005CC5">                         2</span></span>
+<span class="line"><span style="color:#6F42C1">cap-diameter</span><span style="color:#005CC5">               3913</span></span>
+<span class="line"><span style="color:#6F42C1">cap-shape</span><span style="color:#005CC5">                     8</span></span>
+<span class="line"><span style="color:#6F42C1">cap-surface</span><span style="color:#005CC5">                  12</span></span>
+<span class="line"><span style="color:#6F42C1">cap-color</span><span style="color:#005CC5">                    13</span></span>
+<span class="line"><span style="color:#6F42C1">does-bruise-or-bleed</span><span style="color:#005CC5">          3</span></span>
+<span class="line"><span style="color:#6F42C1">gill-attachment</span><span style="color:#005CC5">               8</span></span>
+<span class="line"><span style="color:#6F42C1">gill-spacing</span><span style="color:#005CC5">                  4</span></span>
+<span class="line"><span style="color:#6F42C1">gill-color</span><span style="color:#005CC5">                   13</span></span>
+<span class="line"><span style="color:#6F42C1">stem-height</span><span style="color:#005CC5">                2749</span></span>
+<span class="line"><span style="color:#6F42C1">stem-width</span><span style="color:#005CC5">                 5836</span></span>
+<span class="line"><span style="color:#6F42C1">stem-color</span><span style="color:#005CC5">                   14</span></span>
+<span class="line"><span style="color:#6F42C1">has-ring</span><span style="color:#005CC5">                      3</span></span>
+<span class="line"><span style="color:#6F42C1">ring-type</span><span style="color:#005CC5">                     9</span></span>
+<span class="line"><span style="color:#6F42C1">habitat</span><span style="color:#005CC5">                       9</span></span>
+<span class="line"><span style="color:#6F42C1">season</span><span style="color:#005CC5">                        4</span></span>
+<span class="line"><span style="color:#6F42C1">dtype:</span><span style="color:#032F62"> int64</span></span></code></pre>
+<p>通过上述操作，类别数减少了一部分</p>
+<h3 id="4-填充-nans">4. 填充 NaNs</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> c </span><span style="color:#D73A49">in</span><span style="color:#24292E"> train.columns:</span></span>
+<span class="line"><span style="color:#24292E">    train[c] </span><span style="color:#D73A49">=</span><span style="color:#24292E"> train[c].fillna(train[c].mode().values[</span><span style="color:#005CC5">0</span><span style="color:#24292E">])</span></span>
+<span class="line"><span style="color:#24292E">train.isna().sum()</span></span></code></pre>
+<p>输出如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">id</span><span style="color:#005CC5">                      0</span></span>
+<span class="line"><span style="color:#6F42C1">class</span><span style="color:#005CC5">                   0</span></span>
+<span class="line"><span style="color:#6F42C1">cap-diameter</span><span style="color:#005CC5">            0</span></span>
+<span class="line"><span style="color:#6F42C1">cap-shape</span><span style="color:#005CC5">               0</span></span>
+<span class="line"><span style="color:#6F42C1">cap-surface</span><span style="color:#005CC5">             0</span></span>
+<span class="line"><span style="color:#6F42C1">cap-color</span><span style="color:#005CC5">               0</span></span>
+<span class="line"><span style="color:#6F42C1">does-bruise-or-bleed</span><span style="color:#005CC5">    0</span></span>
+<span class="line"><span style="color:#6F42C1">gill-attachment</span><span style="color:#005CC5">         0</span></span>
+<span class="line"><span style="color:#6F42C1">gill-spacing</span><span style="color:#005CC5">            0</span></span>
+<span class="line"><span style="color:#6F42C1">gill-color</span><span style="color:#005CC5">              0</span></span>
+<span class="line"><span style="color:#6F42C1">stem-height</span><span style="color:#005CC5">             0</span></span>
+<span class="line"><span style="color:#6F42C1">stem-width</span><span style="color:#005CC5">              0</span></span>
+<span class="line"><span style="color:#6F42C1">stem-color</span><span style="color:#005CC5">              0</span></span>
+<span class="line"><span style="color:#6F42C1">has-ring</span><span style="color:#005CC5">                0</span></span>
+<span class="line"><span style="color:#6F42C1">ring-type</span><span style="color:#005CC5">               0</span></span>
+<span class="line"><span style="color:#6F42C1">habitat</span><span style="color:#005CC5">                 0</span></span>
+<span class="line"><span style="color:#6F42C1">season</span><span style="color:#005CC5">                  0</span></span>
+<span class="line"><span style="color:#6F42C1">dtype:</span><span style="color:#032F62"> int64</span></span></code></pre>
+<p>再对 test 数据进行上述操作：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> c </span><span style="color:#D73A49">in</span><span style="color:#24292E"> test.columns:</span></span>
+<span class="line"><span style="color:#24292E">    test[c] </span><span style="color:#D73A49">=</span><span style="color:#24292E"> test[c].fillna(test[c].mode().values[</span><span style="color:#005CC5">0</span><span style="color:#24292E">])</span></span>
+<span class="line"><span style="color:#24292E">test.isna().sum()</span></span></code></pre>
+<p>输出如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">id</span><span style="color:#005CC5">                      0</span></span>
+<span class="line"><span style="color:#6F42C1">cap-diameter</span><span style="color:#005CC5">            0</span></span>
+<span class="line"><span style="color:#6F42C1">cap-shape</span><span style="color:#005CC5">               0</span></span>
+<span class="line"><span style="color:#6F42C1">cap-surface</span><span style="color:#005CC5">             0</span></span>
+<span class="line"><span style="color:#6F42C1">cap-color</span><span style="color:#005CC5">               0</span></span>
+<span class="line"><span style="color:#6F42C1">does-bruise-or-bleed</span><span style="color:#005CC5">    0</span></span>
+<span class="line"><span style="color:#6F42C1">gill-attachment</span><span style="color:#005CC5">         0</span></span>
+<span class="line"><span style="color:#6F42C1">gill-spacing</span><span style="color:#005CC5">            0</span></span>
+<span class="line"><span style="color:#6F42C1">gill-color</span><span style="color:#005CC5">              0</span></span>
+<span class="line"><span style="color:#6F42C1">stem-height</span><span style="color:#005CC5">             0</span></span>
+<span class="line"><span style="color:#6F42C1">stem-width</span><span style="color:#005CC5">              0</span></span>
+<span class="line"><span style="color:#6F42C1">stem-color</span><span style="color:#005CC5">              0</span></span>
+<span class="line"><span style="color:#6F42C1">has-ring</span><span style="color:#005CC5">                0</span></span>
+<span class="line"><span style="color:#6F42C1">ring-type</span><span style="color:#005CC5">               0</span></span>
+<span class="line"><span style="color:#6F42C1">habitat</span><span style="color:#005CC5">                 0</span></span>
+<span class="line"><span style="color:#6F42C1">season</span><span style="color:#005CC5">                  0</span></span>
+<span class="line"><span style="color:#6F42C1">dtype:</span><span style="color:#032F62"> int64</span></span></code></pre>
+<h2 id="四模型">四、🧠模型</h2>
+<h3 id="1-数据分割">1. 数据分割</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># 将原始 train 数据分割为 values 和 labels</span></span>
+<span class="line"><span style="color:#24292E">X </span><span style="color:#D73A49">=</span><span style="color:#24292E"> train.drop([</span><span style="color:#032F62">'class'</span><span style="color:#24292E">, </span><span style="color:#032F62">'id'</span><span style="color:#24292E">], </span><span style="color:#E36209">axis</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">y </span><span style="color:#D73A49">=</span><span style="color:#24292E"> train[</span><span style="color:#032F62">'class'</span><span style="color:#24292E">]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 将 70% 的 train 数据用于训练，30% 的数据用于测试（不是待测数据集 test.csv）</span></span>
+<span class="line"><span style="color:#24292E">X_train, X_test, y_train, y_test </span><span style="color:#D73A49">=</span><span style="color:#24292E"> train_test_split(X, y, </span><span style="color:#E36209">test_size</span><span style="color:#D73A49">=</span><span style="color:#005CC5">.3</span><span style="color:#24292E">, </span><span style="color:#E36209">random_state</span><span style="color:#D73A49">=</span><span style="color:#005CC5">4</span><span style="color:#24292E">)</span></span></code></pre>
+<h3 id="2-将-categories-转变为整型数据">2. 将 categories 转变为整型数据</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">oe </span><span style="color:#D73A49">=</span><span style="color:#24292E"> OrdinalEncoder()</span></span>
+<span class="line"><span style="color:#24292E">oe.fit(X_train[categorical_cols])</span></span>
+<span class="line"><span style="color:#24292E">X_train[categorical_cols] </span><span style="color:#D73A49">=</span><span style="color:#24292E"> oe.transform(X_train[categorical_cols])</span></span>
+<span class="line"><span style="color:#24292E">X_test[categorical_cols] </span><span style="color:#D73A49">=</span><span style="color:#24292E"> oe.transform(X_test[categorical_cols])</span></span>
+<span class="line"><span style="color:#24292E">test[categorical_cols] </span><span style="color:#D73A49">=</span><span style="color:#24292E"> oe.transform(test[categorical_cols])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">encoder </span><span style="color:#D73A49">=</span><span style="color:#24292E"> LabelEncoder()</span></span>
+<span class="line"><span style="color:#24292E">encoder.fit(y_train)</span></span>
+<span class="line"><span style="color:#24292E">y_train </span><span style="color:#D73A49">=</span><span style="color:#24292E"> encoder.transform(y_train)</span></span>
+<span class="line"><span style="color:#24292E">y_test </span><span style="color:#D73A49">=</span><span style="color:#24292E"> encoder.transform(y_test)</span></span></code></pre>
+<h3 id="3-特征选择">3. 特征选择</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> select_features</span><span style="color:#24292E">(X_train, y_train):</span></span>
+<span class="line"><span style="color:#24292E">    fs </span><span style="color:#D73A49">=</span><span style="color:#24292E"> SelectKBest(</span><span style="color:#E36209">score_func</span><span style="color:#D73A49">=</span><span style="color:#24292E">chi2, </span><span style="color:#E36209">k</span><span style="color:#D73A49">=</span><span style="color:#032F62">'all'</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">    fs.fit(X_train, y_train)</span></span>
+<span class="line"><span style="color:#24292E">    X_train_fs </span><span style="color:#D73A49">=</span><span style="color:#24292E"> fs.transform(X_train)</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#24292E"> X_train_fs, fs</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># applying feature selection on the training data</span></span>
+<span class="line"><span style="color:#24292E">X_train_fs, fs </span><span style="color:#D73A49">=</span><span style="color:#24292E"> select_features(X_train[categorical_cols], y_train)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># what are scores for the features</span></span>
+<span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(</span><span style="color:#005CC5">len</span><span style="color:#24292E">(fs.scores_)):</span></span>
+<span class="line"><span style="color:#005CC5">    print</span><span style="color:#24292E">(</span><span style="color:#032F62">'Feature </span><span style="color:#005CC5">%d</span><span style="color:#032F62">: </span><span style="color:#005CC5">%f</span><span style="color:#032F62">'</span><span style="color:#D73A49"> %</span><span style="color:#24292E"> (i, fs.scores_[i]))</span></span>
+<span class="line"><span style="color:#24292E">    </span></span>
+<span class="line"><span style="color:#6A737D"># plot the scores</span></span>
+<span class="line"><span style="color:#24292E">pyplot.bar([i </span><span style="color:#D73A49">for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(</span><span style="color:#005CC5">len</span><span style="color:#24292E">(fs.scores_))], fs.scores_)</span></span>
+<span class="line"><span style="color:#24292E">pyplot.show()</span></span></code></pre>
+<p>输出如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">Feature</span><span style="color:#032F62"> 0:</span><span style="color:#005CC5"> 20197.118520</span></span>
+<span class="line"><span style="color:#6F42C1">Feature</span><span style="color:#032F62"> 1:</span><span style="color:#005CC5"> 10012.712954</span></span>
+<span class="line"><span style="color:#6F42C1">Feature</span><span style="color:#032F62"> 2:</span><span style="color:#005CC5"> 50523.701865</span></span>
+<span class="line"><span style="color:#6F42C1">Feature</span><span style="color:#032F62"> 3:</span><span style="color:#005CC5"> 39612.848786</span></span>
+<span class="line"><span style="color:#6F42C1">Feature</span><span style="color:#032F62"> 4:</span><span style="color:#005CC5"> 32995.118490</span></span>
+<span class="line"><span style="color:#6F42C1">Feature</span><span style="color:#032F62"> 5:</span><span style="color:#005CC5"> 8665.637682</span></span>
+<span class="line"><span style="color:#6F42C1">Feature</span><span style="color:#032F62"> 6:</span><span style="color:#005CC5"> 5011.635136</span></span>
+<span class="line"><span style="color:#6F42C1">Feature</span><span style="color:#032F62"> 7:</span><span style="color:#005CC5"> 20938.868347</span></span>
+<span class="line"><span style="color:#6F42C1">Feature</span><span style="color:#032F62"> 8:</span><span style="color:#005CC5"> 22027.600984</span></span>
+<span class="line"><span style="color:#6F42C1">Feature</span><span style="color:#032F62"> 9:</span><span style="color:#005CC5"> 8278.886174</span></span>
+<span class="line"><span style="color:#6F42C1">Feature</span><span style="color:#032F62"> 10:</span><span style="color:#005CC5"> 4959.358699</span></span>
+<span class="line"><span style="color:#6F42C1">Feature</span><span style="color:#032F62"> 11:</span><span style="color:#005CC5"> 10198.071977</span></span></code></pre>
+<p><img src="/images/kaggle_s4e8/figure1.png" alt="figure1"></p>
+<h3 id="4-准备好-pytorch-需要用到的数据">4. 准备好 PyTorch 需要用到的数据</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># 使用 GPU</span></span>
+<span class="line"><span style="color:#24292E">device </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.device(</span><span style="color:#032F62">"cuda:0"</span><span style="color:#D73A49"> if</span><span style="color:#24292E"> torch.cuda.is_available() </span><span style="color:#D73A49">else</span><span style="color:#032F62"> "cpu"</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Convert your training and test data to tensors and move them to the correct device</span></span>
+<span class="line"><span style="color:#24292E">X_train </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.tensor(X_train.values, </span><span style="color:#E36209">dtype</span><span style="color:#D73A49">=</span><span style="color:#24292E">torch.float32).to(device)</span></span>
+<span class="line"><span style="color:#24292E">X_test </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.tensor(X_test.values, </span><span style="color:#E36209">dtype</span><span style="color:#D73A49">=</span><span style="color:#24292E">torch.float32).to(device)</span></span>
+<span class="line"><span style="color:#24292E">y_train </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.tensor(y_train, </span><span style="color:#E36209">dtype</span><span style="color:#D73A49">=</span><span style="color:#24292E">torch.float32).reshape(</span><span style="color:#D73A49">-</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">).to(device)</span></span>
+<span class="line"><span style="color:#24292E">y_test </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.tensor(y_test, </span><span style="color:#E36209">dtype</span><span style="color:#D73A49">=</span><span style="color:#24292E">torch.float32).reshape(</span><span style="color:#D73A49">-</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">).to(device)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># size of training data</span></span>
+<span class="line"><span style="color:#24292E">X_train.shape</span></span></code></pre>
+<p>输出如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">torch.Size([2181861,</span><span style="color:#032F62"> 15]</span><span style="color:#24292E">)</span></span></code></pre>
+<h3 id="5-模型搭建">5. 模型搭建</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># Notes:</span></span>
+<span class="line"><span style="color:#6A737D"># dropout 设置为 0.5 时效果不佳，0.2 时效果较好</span></span>
+<span class="line"><span style="color:#6A737D"># `self.layers.append(nn.Dropout(dropout_rate))`</span></span>
+<span class="line"><span style="color:#D73A49">class</span><span style="color:#6F42C1"> Deep</span><span style="color:#24292E">(</span><span style="color:#6F42C1">nn</span><span style="color:#24292E">.</span><span style="color:#6F42C1">Module</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#D73A49">    def</span><span style="color:#005CC5"> __init__</span><span style="color:#24292E">(self, input_size</span><span style="color:#D73A49">=</span><span style="color:#24292E">X_train.shape[</span><span style="color:#005CC5">1</span><span style="color:#24292E">], hidden_size</span><span style="color:#D73A49">=</span><span style="color:#005CC5">128</span><span style="color:#24292E">, num_layers</span><span style="color:#D73A49">=</span><span style="color:#005CC5">5</span><span style="color:#24292E">, dropout_rate</span><span style="color:#D73A49">=</span><span style="color:#005CC5">0.2</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#005CC5">        super</span><span style="color:#24292E">(Deep, </span><span style="color:#005CC5">self</span><span style="color:#24292E">).</span><span style="color:#005CC5">__init__</span><span style="color:#24292E">()</span></span>
+<span class="line"><span style="color:#24292E">        </span></span>
+<span class="line"><span style="color:#6A737D">        # Create a list of layers</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.layers </span><span style="color:#D73A49">=</span><span style="color:#24292E"> nn.ModuleList()</span></span>
+<span class="line"><span style="color:#24292E">        </span></span>
+<span class="line"><span style="color:#6A737D">        # Input layer</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.layers.append(nn.Linear(input_size, hidden_size</span><span style="color:#D73A49">*</span><span style="color:#005CC5">2</span><span style="color:#24292E">))</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.layers.append(nn.ReLU())</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.layers.append(nn.BatchNorm1d(hidden_size</span><span style="color:#D73A49">*</span><span style="color:#005CC5">2</span><span style="color:#24292E">))</span></span>
+<span class="line"><span style="color:#24292E">        </span></span>
+<span class="line"><span style="color:#6A737D">        # Wide hidden layer</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.layers.append(nn.Linear(hidden_size</span><span style="color:#D73A49">*</span><span style="color:#005CC5">2</span><span style="color:#24292E">, hidden_size))</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.layers.append(nn.ReLU())</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.layers.append(nn.BatchNorm1d(hidden_size))</span></span>
+<span class="line"><span style="color:#24292E">        </span></span>
+<span class="line"><span style="color:#6A737D">        # Hidden layers</span></span>
+<span class="line"><span style="color:#D73A49">        for</span><span style="color:#24292E"> _ </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(num_layers </span><span style="color:#D73A49">-</span><span style="color:#005CC5"> 3</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#005CC5">            self</span><span style="color:#24292E">.layers.append(nn.Linear(hidden_size, hidden_size))</span></span>
+<span class="line"><span style="color:#005CC5">            self</span><span style="color:#24292E">.layers.append(nn.ReLU())</span></span>
+<span class="line"><span style="color:#005CC5">            self</span><span style="color:#24292E">.layers.append(nn.BatchNorm1d(hidden_size))</span></span>
+<span class="line"><span style="color:#24292E">        </span></span>
+<span class="line"><span style="color:#24292E">        hiddent_last </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> int</span><span style="color:#24292E">(hidden_size</span><span style="color:#D73A49">/</span><span style="color:#005CC5">2</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">        </span></span>
+<span class="line"><span style="color:#6A737D">        # Smaller Hidden layer</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.layers.append(nn.Linear(hidden_size, hiddent_last))</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.layers.append(nn.ReLU())</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.layers.append(nn.BatchNorm1d(hiddent_last))</span></span>
+<span class="line"><span style="color:#24292E">        </span></span>
+<span class="line"><span style="color:#6A737D">        # Output layer</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.output </span><span style="color:#D73A49">=</span><span style="color:#24292E"> nn.Linear(hiddent_last, </span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">        </span></span>
+<span class="line"><span style="color:#6A737D">        # Apply Xavier initialization</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">._initialize_weights()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    def</span><span style="color:#6F42C1"> _initialize_weights</span><span style="color:#24292E">(self):</span></span>
+<span class="line"><span style="color:#D73A49">        for</span><span style="color:#24292E"> layer </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> self</span><span style="color:#24292E">.layers:</span></span>
+<span class="line"><span style="color:#D73A49">            if</span><span style="color:#005CC5"> isinstance</span><span style="color:#24292E">(layer, nn.Linear):</span></span>
+<span class="line"><span style="color:#24292E">                nn.init.xavier_uniform_(layer.weight)</span></span>
+<span class="line"><span style="color:#24292E">        nn.init.xavier_uniform_(</span><span style="color:#005CC5">self</span><span style="color:#24292E">.output.weight)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    def</span><span style="color:#6F42C1"> forward</span><span style="color:#24292E">(self, x):</span></span>
+<span class="line"><span style="color:#D73A49">        for</span><span style="color:#24292E"> layer </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> self</span><span style="color:#24292E">.layers:</span></span>
+<span class="line"><span style="color:#24292E">            x </span><span style="color:#D73A49">=</span><span style="color:#24292E"> layer(x)</span></span>
+<span class="line"><span style="color:#24292E">        x </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.sigmoid(</span><span style="color:#005CC5">self</span><span style="color:#24292E">.output(x))</span></span>
+<span class="line"><span style="color:#D73A49">        return</span><span style="color:#24292E"> x</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> model_train</span><span style="color:#24292E">(model, X_train, y_train, X_val, y_val):</span></span>
+<span class="line"><span style="color:#6A737D">    # Defining the loss function and optimizer</span></span>
+<span class="line"><span style="color:#24292E">    loss_fn </span><span style="color:#D73A49">=</span><span style="color:#24292E"> nn.BCELoss()  </span><span style="color:#6A737D"># Binary cross-entropy</span></span>
+<span class="line"><span style="color:#24292E">    optimizer </span><span style="color:#D73A49">=</span><span style="color:#24292E"> optim.Adam(model.parameters(), </span><span style="color:#E36209">lr</span><span style="color:#D73A49">=</span><span style="color:#005CC5">0.0001</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">    n_epochs </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 250</span><span style="color:#6A737D">  # Number of epochs to run</span></span>
+<span class="line"><span style="color:#24292E">    batch_size </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 1024</span><span style="color:#D73A49">*</span><span style="color:#005CC5">10</span><span style="color:#6A737D">  # Size of each batch</span></span>
+<span class="line"><span style="color:#24292E">    batch_start </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.arange(</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">len</span><span style="color:#24292E">(X_train), batch_size)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    # Hold the best model</span></span>
+<span class="line"><span style="color:#24292E">    best_acc </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> -</span><span style="color:#24292E">np.inf  </span><span style="color:#6A737D"># Initialize to negative infinity</span></span>
+<span class="line"><span style="color:#24292E">    best_weights </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> None</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    for</span><span style="color:#24292E"> epoch </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(n_epochs):</span></span>
+<span class="line"><span style="color:#24292E">        model.train()</span></span>
+<span class="line"><span style="color:#D73A49">        with</span><span style="color:#24292E"> tqdm.tqdm(batch_start, </span><span style="color:#E36209">unit</span><span style="color:#D73A49">=</span><span style="color:#032F62">"batch"</span><span style="color:#24292E">, </span><span style="color:#E36209">mininterval</span><span style="color:#D73A49">=</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#E36209">disable</span><span style="color:#D73A49">=</span><span style="color:#005CC5">True</span><span style="color:#24292E">) </span><span style="color:#D73A49">as</span><span style="color:#24292E"> bar:</span></span>
+<span class="line"><span style="color:#24292E">            bar.set_description(</span><span style="color:#D73A49">f</span><span style="color:#032F62">"Epoch </span><span style="color:#005CC5">{</span><span style="color:#24292E">epoch</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">            for</span><span style="color:#24292E"> start </span><span style="color:#D73A49">in</span><span style="color:#24292E"> bar:</span></span>
+<span class="line"><span style="color:#6A737D">                # Take a batch</span></span>
+<span class="line"><span style="color:#24292E">                X_batch </span><span style="color:#D73A49">=</span><span style="color:#24292E"> X_train[start:start</span><span style="color:#D73A49">+</span><span style="color:#24292E">batch_size].to(device)</span></span>
+<span class="line"><span style="color:#24292E">                y_batch </span><span style="color:#D73A49">=</span><span style="color:#24292E"> y_train[start:start</span><span style="color:#D73A49">+</span><span style="color:#24292E">batch_size].to(device)</span></span>
+<span class="line"><span style="color:#6A737D">                # Forward pass</span></span>
+<span class="line"><span style="color:#24292E">                y_pred </span><span style="color:#D73A49">=</span><span style="color:#24292E"> model(X_batch)</span></span>
+<span class="line"><span style="color:#24292E">                loss </span><span style="color:#D73A49">=</span><span style="color:#24292E"> loss_fn(y_pred, y_batch)</span></span>
+<span class="line"><span style="color:#6A737D">                # Backward pass</span></span>
+<span class="line"><span style="color:#24292E">                optimizer.zero_grad()</span></span>
+<span class="line"><span style="color:#24292E">                loss.backward()</span></span>
+<span class="line"><span style="color:#6A737D">                # Update weights</span></span>
+<span class="line"><span style="color:#24292E">                optimizer.step()</span></span>
+<span class="line"><span style="color:#6A737D">                # Print progress</span></span>
+<span class="line"><span style="color:#24292E">                acc </span><span style="color:#D73A49">=</span><span style="color:#24292E"> (y_pred.round() </span><span style="color:#D73A49">==</span><span style="color:#24292E"> y_batch).float().mean()</span></span>
+<span class="line"><span style="color:#24292E">                bar.set_postfix(</span></span>
+<span class="line"><span style="color:#E36209">                    loss</span><span style="color:#D73A49">=</span><span style="color:#005CC5">float</span><span style="color:#24292E">(loss),</span></span>
+<span class="line"><span style="color:#E36209">                    acc</span><span style="color:#D73A49">=</span><span style="color:#005CC5">float</span><span style="color:#24292E">(acc)</span></span>
+<span class="line"><span style="color:#24292E">                )</span></span>
+<span class="line"><span style="color:#6A737D">        # Evaluate accuracy at the end of each epoch</span></span>
+<span class="line"><span style="color:#24292E">        model.eval()</span></span>
+<span class="line"><span style="color:#24292E">        y_pred </span><span style="color:#D73A49">=</span><span style="color:#24292E"> model(X_val.to(device))</span></span>
+<span class="line"><span style="color:#24292E">        acc </span><span style="color:#D73A49">=</span><span style="color:#24292E"> (y_pred.round() </span><span style="color:#D73A49">==</span><span style="color:#24292E"> y_val.to(device)).float().mean()</span></span>
+<span class="line"><span style="color:#24292E">        acc </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> float</span><span style="color:#24292E">(acc)</span></span>
+<span class="line"><span style="color:#D73A49">        if</span><span style="color:#24292E"> acc </span><span style="color:#D73A49">></span><span style="color:#24292E"> best_acc:</span></span>
+<span class="line"><span style="color:#24292E">            best_acc </span><span style="color:#D73A49">=</span><span style="color:#24292E"> acc</span></span>
+<span class="line"><span style="color:#24292E">            best_weights </span><span style="color:#D73A49">=</span><span style="color:#24292E"> copy.deepcopy(model.state_dict())</span></span>
+<span class="line"><span style="color:#6A737D">    # Restore the best model and return the best accuracy</span></span>
+<span class="line"><span style="color:#24292E">    model.load_state_dict(best_weights)</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#24292E"> best_acc</span></span></code></pre>
+<p>下面开始训练：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># 定义 5 倍交叉验证测试工具</span></span>
+<span class="line"><span style="color:#24292E">kfold </span><span style="color:#D73A49">=</span><span style="color:#24292E"> StratifiedKFold(</span><span style="color:#E36209">n_splits</span><span style="color:#D73A49">=</span><span style="color:#005CC5">5</span><span style="color:#24292E">, </span><span style="color:#E36209">shuffle</span><span style="color:#D73A49">=</span><span style="color:#005CC5">True</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">cv_scores_wide </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> train_idx, test_idx </span><span style="color:#D73A49">in</span><span style="color:#24292E"> kfold.split(X_train.cpu(), y_train.cpu()):  </span><span style="color:#6A737D"># Note: sklearn needs CPU-based numpy arrays</span></span>
+<span class="line"><span style="color:#6A737D">    # Create model, train, and get accuracy</span></span>
+<span class="line"><span style="color:#24292E">    model </span><span style="color:#D73A49">=</span><span style="color:#24292E"> Deep().to(device)</span></span>
+<span class="line"><span style="color:#24292E">    acc </span><span style="color:#D73A49">=</span><span style="color:#24292E"> model_train(model, X_train[train_idx], y_train[train_idx], X_train[test_idx], y_train[test_idx])</span></span>
+<span class="line"><span style="color:#005CC5">    print</span><span style="color:#24292E">(</span><span style="color:#032F62">"Accuracy (deep): </span><span style="color:#005CC5">%.4f</span><span style="color:#032F62">"</span><span style="color:#D73A49"> %</span><span style="color:#24292E"> acc)</span></span>
+<span class="line"><span style="color:#24292E">    cv_scores_wide.append(acc)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 评估训练效果</span></span>
+<span class="line"><span style="color:#24292E">acc </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.mean(cv_scores_wide)</span></span>
+<span class="line"><span style="color:#24292E">std </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.std(cv_scores_wide)</span></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(</span><span style="color:#032F62">"Model accuracy: </span><span style="color:#005CC5">%.4f%%</span><span style="color:#032F62"> (+/- </span><span style="color:#005CC5">%.4f%%</span><span style="color:#032F62">)"</span><span style="color:#D73A49"> %</span><span style="color:#24292E"> (acc </span><span style="color:#D73A49">*</span><span style="color:#005CC5"> 100</span><span style="color:#24292E">, std </span><span style="color:#D73A49">*</span><span style="color:#005CC5"> 100</span><span style="color:#24292E">))</span></span></code></pre>
+<p>输出如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">Accuracy</span><span style="color:#24292E"> (deep): 0.9879</span></span>
+<span class="line"><span style="color:#6F42C1">Accuracy</span><span style="color:#24292E"> (deep): 0.9880</span></span>
+<span class="line"><span style="color:#6F42C1">Accuracy</span><span style="color:#24292E"> (deep): 0.9882</span></span>
+<span class="line"><span style="color:#6F42C1">Accuracy</span><span style="color:#24292E"> (deep): 0.9879</span></span>
+<span class="line"><span style="color:#6F42C1">Accuracy</span><span style="color:#24292E"> (deep): 0.9880</span></span>
+<span class="line"><span style="color:#6F42C1">Model</span><span style="color:#032F62"> accuracy:</span><span style="color:#032F62"> 98.8006%</span><span style="color:#24292E"> (+/- </span><span style="color:#032F62">0.0103%</span><span style="color:#24292E">)</span></span></code></pre>
+<h3 id="6-训练效果检验">6. 训练效果检验</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">model </span><span style="color:#D73A49">=</span><span style="color:#24292E"> Deep().to(device)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">model.load_state_dict(torch.load(</span><span style="color:#032F62">"model.pth"</span><span style="color:#24292E">))</span></span>
+<span class="line"><span style="color:#24292E">model.eval()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">threshold </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.5</span></span>
+<span class="line"><span style="color:#24292E">y_pred </span><span style="color:#D73A49">=</span><span style="color:#24292E"> model(X_test)</span></span>
+<span class="line"><span style="color:#24292E">y_pred </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.array((y_pred </span><span style="color:#D73A49">></span><span style="color:#24292E"> threshold).float().cpu()) </span><span style="color:#6A737D"># 0.0 or 1.0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(</span><span style="color:#D73A49">f</span><span style="color:#032F62">"Accuracy Score: </span><span style="color:#005CC5">{</span><span style="color:#24292E">accuracy_score(y_test.cpu(), y_pred)</span><span style="color:#D73A49">*</span><span style="color:#005CC5">100</span><span style="color:#D73A49">:.3f</span><span style="color:#005CC5">}</span><span style="color:#032F62"> %"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(</span><span style="color:#D73A49">f</span><span style="color:#032F62">"Matthews Correlation Coefficient (MCC): </span><span style="color:#005CC5">{</span><span style="color:#24292E">matthews_corrcoef(y_test.cpu(), y_pred)</span><span style="color:#D73A49">:.5f</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">)</span></span></code></pre>
+<p>输出如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">Accuracy</span><span style="color:#032F62"> Score:</span><span style="color:#005CC5"> 98.810</span><span style="color:#032F62"> %</span></span>
+<span class="line"><span style="color:#6F42C1">Matthews</span><span style="color:#032F62"> Correlation</span><span style="color:#032F62"> Coefficient</span><span style="color:#24292E"> (MCC): 0.97598</span></span></code></pre>
+<h3 id="7-处理待测数据成为待提交文件">7. 处理待测数据成为待提交文件</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">X_real </span><span style="color:#D73A49">=</span><span style="color:#24292E"> test.drop([</span><span style="color:#032F62">'id'</span><span style="color:#24292E">], </span><span style="color:#E36209">axis</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">X_real </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.tensor(X_real.values, </span><span style="color:#E36209">dtype</span><span style="color:#D73A49">=</span><span style="color:#24292E">torch.float32).to(device)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">y_real </span><span style="color:#D73A49">=</span><span style="color:#24292E"> model(X_real)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">y_real </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.array((y_real </span><span style="color:#D73A49">></span><span style="color:#24292E"> threshold).int().cpu())</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># getting the prepared submission file to edit on it</span></span>
+<span class="line"><span style="color:#24292E">submission </span><span style="color:#D73A49">=</span><span style="color:#24292E"> pd.read_csv(</span><span style="color:#032F62">"sample_submission.csv"</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># replacing the results with the new one</span></span>
+<span class="line"><span style="color:#24292E">submission[</span><span style="color:#032F62">'class'</span><span style="color:#24292E">] </span><span style="color:#D73A49">=</span><span style="color:#24292E"> y_real</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># converting the 0s and 1s into e-or-p class</span></span>
+<span class="line"><span style="color:#24292E">submission[</span><span style="color:#032F62">'class'</span><span style="color:#24292E">] </span><span style="color:#D73A49">=</span><span style="color:#24292E"> submission[</span><span style="color:#032F62">'class'</span><span style="color:#24292E">].astype(</span><span style="color:#032F62">'str'</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">submission.loc[(submission[</span><span style="color:#032F62">'class'</span><span style="color:#24292E">] </span><span style="color:#D73A49">==</span><span style="color:#032F62"> '0'</span><span style="color:#24292E">), </span><span style="color:#032F62">'class'</span><span style="color:#24292E">] </span><span style="color:#D73A49">=</span><span style="color:#032F62"> 'e'</span></span>
+<span class="line"><span style="color:#24292E">submission.loc[(submission[</span><span style="color:#032F62">'class'</span><span style="color:#24292E">] </span><span style="color:#D73A49">==</span><span style="color:#032F62"> '1'</span><span style="color:#24292E">), </span><span style="color:#032F62">'class'</span><span style="color:#24292E">] </span><span style="color:#D73A49">=</span><span style="color:#032F62"> 'p'</span></span></code></pre>
+<h2 id="五提交检验成果">五、提交检验成果</h2>
+<p>最后拿到了 0.975 的准确率💪</p> </div> </div> <aside class="article-toc"> <div id="post-toc-card"> <div id="toc-card-style" class="toc-card"> <div id="toc-card-div"> <nav id="toc"> <span class="sidebar-title">目录</span> <ol class="toc"></ol> </nav> </div> </div> </div> </aside> </div> </article>  <footer id="footer"> <div id="footer-wrap"> <div>
+&copy; 2022 - 2026 ColdRain <span id="footer-icon"><i class="fa-solid fa-cloud-rain fa-fw"></i></span>
+Powered by Astro
+</div> </div> </footer> </main> <div id="preview" hidden> <img id="preview-content" alt=""> </div> </div> <canvas id="background" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"></canvas> <script src="/js/background.min.js"></script> <script src="/js/site.js"></script> </body> </html>

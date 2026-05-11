@@ -1,0 +1,50 @@
+---
+import Footer from "../components/Footer.astro";
+import Menu from "../components/Menu.astro";
+import { site } from "../lib/site";
+
+const { title = site.title, type = "post" } = Astro.props as { title?: string; type?: string };
+const pageTitle = title === site.title ? site.title : `${title} | ${site.title}`;
+---
+
+<!doctype html>
+<html lang={site.language}>
+  <head>
+    <meta charset="utf-8" />
+    <title>{pageTitle}</title>
+    <meta name="author" content={site.author} />
+    <meta name="description" content={site.description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href={site.avatar} />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+    <link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.cn" />
+    <link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+    <link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/astro-overrides.css" />
+  </head>
+  <body data-page-type={type}>
+    <div id="layout">
+      <div id="loading">
+        <div id="loading-circle">
+          <h2>LOADING</h2>
+          <p>加载过慢请开启缓存 浏览器默认开启</p>
+          <img src={site.loading} alt="" />
+        </div>
+      </div>
+      <Menu />
+      <main id="main" class="into-enter-from">
+        <slot />
+        <Footer />
+      </main>
+      <div id="preview" hidden>
+        <img id="preview-content" alt="" />
+      </div>
+    </div>
+    <canvas id="background" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"></canvas>
+    <script is:inline src="/js/background.min.js"></script>
+    <script is:inline src="/js/site.js"></script>
+  </body>
+</html>

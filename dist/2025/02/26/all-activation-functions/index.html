@@ -1,0 +1,211 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><title>在深度神经网络中常用的激活函数及其性质 | Cold Rain&#39;s Blog</title><meta name="author" content="ColdRain"><meta name="description" content="銀の龍の背に乗って..."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="/images/head.jpg"><link rel="preconnect" href="https://s4.zstatic.net"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"><link rel="preconnect" href="https://fonts.googleapis.cn"><link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/css/astro-overrides.css"></head> <body data-page-type="post"> <div id="layout"> <div id="loading"> <div id="loading-circle"> <h2>LOADING</h2> <p>加载过慢请开启缓存 浏览器默认开启</p> <img src="/images/loading.gif" alt=""> </div> </div> <div id="menu" class="menu-color"> <nav id="desktop-menu"> <a class="title" href="/"> <span>COLD RAIN&#39;S BLOG</span> </a> <a href="/"> <i class="fa-solid fa-house fa-fw"></i> <span>&ensp;Homepage</span> </a><a href="/2024/11/26/test/"> <i class="fa-solid fa-id-card fa-fw"></i> <span>&ensp;About</span> </a><a href="/archives/"> <i class="fa-solid fa-box-archive fa-fw"></i> <span>&ensp;Archives</span> </a><a href="/categories/杂谈/"> <i class="fa-solid fa-bookmark fa-fw"></i> <span>&ensp;Categories</span> </a><a href="/tags/杂谈/"> <i class="fa-solid fa-tags fa-fw"></i> <span>&ensp;Tags</span> </a><a href="/friends/"> <i class="fa-solid fa-link fa-fw"></i> <span>&ensp;Links</span> </a><a href="/favorites/"> <i class="fa-solid fa-star fa-fw"></i> <span>&ensp;Favorites</span> </a> </nav> <nav id="mobile-menu"> <button class="title" type="button" aria-expanded="false" aria-controls="mobile-menu-items"> <i class="fa-solid fa-bars fa-fw"></i> <span>&emsp;COLD RAIN&#39;S BLOG</span> </button> <div id="mobile-menu-items" class="items" hidden> <a href="/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-house fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div> </div> </a><a href="/2024/11/26/test/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-id-card fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">About</div> </div> </a><a href="/archives/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-box-archive fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div> </div> </a><a href="/categories/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-bookmark fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div> </div> </a><a href="/tags/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-tags fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div> </div> </a><a href="/friends/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-link fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div> </div> </a><a href="/favorites/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-star fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Favorites</div> </div> </a> </div> </nav> </div> <div id="menu-curtain" hidden></div> <main id="main" class="into-enter-from">  <article class="article"> <div class="article-wrap"> <div class="article-content"> <h1>在深度神经网络中常用的激活函数及其性质</h1> <div class="info"> <span class="date"> <span class="icon"><i class="fa-solid fa-calendar fa-fw"></i></span> 2025/2/26 </span> <span class="category"> <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"> <span class="icon"><i class="fa-solid fa-bookmark fa-fw"></i></span> 深度学习 </a> </span> <span class="tags"> <span class="icon"><i class="fa-solid fa-tags fa-fw"></i></span> <span class="tag"> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">深度学习</a> </span> </span> </div> <div class="content"> <h2 id="1-前言">1. 前言</h2>
+<p>在神经网络中，激活函数（Activation Function）是决定神经元输出信号的关键组件。它通过引入非线性特性，使神经网络能够学习和模拟复杂的模式。</p>
+<blockquote>
+<p>激活函数的作用:</p>
+<ol>
+<li>
+<p><strong>引入非线性</strong>：神经网络的作用便是用于拟合难以描述的函数关系，如果没有激活函数，多层神经网络等价于单层现性变换，无法解决非线性问题，即无法拟合出非线性函数关系。</p>
+</li>
+<li>
+<p><strong>控制输出范围</strong>：比如 Sigmoid 将输出压缩到 (0, 1)，适合概率输出</p>
+</li>
+<li>
+<p><strong>梯度传播</strong>：激活函数的导数影响反向传播的梯度，避免梯度消失或爆炸。</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="2-sigmoidlogistic-函数">2. Sigmoid（Logistic 函数）</h2>
+<ul>
+<li>
+<p><strong>公式</strong>：
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>σ</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>x</mi></mrow></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">\sigma(x) = \frac{1}{1 + e^{-x}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.2484em;vertical-align:-0.4033em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mbin mtight">+</span><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7027em;"><span style="top:-2.786em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4033em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+</li>
+<li>
+<p><strong>图像</strong>：S 型曲线，输出范围为 (0, 1)。（如下所示）</p>
+</li>
+</ul>
+<p><img src="/images/activation_functions/sigmoid.png" alt="sigmoid"></p>
+<ul>
+<li>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>输出可解释为概率。</li>
+<li>平滑梯度，适合<strong>浅层</strong>网络。（深层网络不太适用）</li>
+</ul>
+</li>
+<li>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>梯度消失：当输入绝对值较大时，导数接近 0 。</li>
+<li>非零中心化：输出均值不为 0，影响梯度更新效率。</li>
+</ul>
+</li>
+<li>
+<p><strong>适用场景</strong>：二分类输出层、早期简单神经网络</p>
+</li>
+</ul>
+<h2 id="3-tanh双曲正切函数">3. Tanh（双曲正切函数）</h2>
+<ul>
+<li>
+<p><strong>公式</strong>：
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mi>a</mi><mi>n</mi><mi>h</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mrow><msup><mi>e</mi><mi>x</mi></msup><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>x</mi></mrow></msup></mrow><mrow><msup><mi>e</mi><mi>x</mi></msup><mo>+</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>x</mi></mrow></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">anh</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.3907em;vertical-align:-0.4033em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9874em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.5935em;"><span style="top:-2.786em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span><span class="mbin mtight">+</span><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7027em;"><span style="top:-2.786em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7385em;"><span style="top:-2.931em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span><span class="mbin mtight">−</span><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8477em;"><span style="top:-2.931em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4033em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+</li>
+<li>
+<p><strong>图像</strong>：S 型曲线，输出范围 (-1, 1)。（如下所示）</p>
+</li>
+</ul>
+<p><img src="/images/activation_functions/tanh.png" alt="tanh"></p>
+<ul>
+<li><strong>优点</strong>：
+<ul>
+<li>零中心化：输出均值为 0, 梯度更新更高效。</li>
+<li>比 Sigmoid 更陡峭的梯度。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：
+<ul>
+<li>仍存在梯度消失问题。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：隐藏层，尤其是 RNN、LSTM 等。</li>
+</ul>
+<h2 id="4-relurectified-linear-unit-非线性激活单元">4. ReLU（Rectified Linear Unit 非线性激活单元）</h2>
+<ul>
+<li><strong>公式</strong>：
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mi>e</mi><mi>L</mi><mi>U</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mi>m</mi><mi>a</mi><mi>x</mi><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><mi>x</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex"> ReLU(x) = max(0, x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.109em;">LU</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">ma</span><span class="mord mathnormal">x</span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">x</span><span class="mclose">)</span></span></span></span></li>
+<li><strong>图像</strong>：左半轴恒为 0，右半轴恒为线性。（如下所示）</li>
+</ul>
+<p><img src="/images/activation_functions/relu.png" alt="relu"></p>
+<ul>
+<li><strong>优点</strong>：
+<ul>
+<li>计算高效：无指数运算。</li>
+<li>缓解梯度消失：正区间导数为 1 。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：
+<ul>
+<li>Dead ReLU 问题：输入为负时梯度为 0，神经元”死亡“。</li>
+<li>输出非零中心化：</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：大多数前馈神经网络的隐藏层（默认选择）。</li>
+</ul>
+<blockquote>
+<p>前馈神经网络（Feedforward Neural Network, FNN）是人工神经网络中最基础、最广泛使用的类型之一，其核心是数据单向流动（从输入层到输出层），没有循环或反馈连接。</p>
+</blockquote>
+<h2 id="5-leaky-relu">5. Leaky ReLU</h2>
+<blockquote>
+<p>ReLU 的升级版</p>
+</blockquote>
+<ul>
+<li>
+<p><strong>公式</strong>：
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>e</mi><mi>a</mi><mi>k</mi><mi>y</mi><mi>R</mi><mi>e</mi><mi>L</mi><mi>U</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mrow><mo fence="true">{</mo><mtable rowspacing="0.16em" columnalign="center" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi>x</mi><mtext> if x>0</mtext></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi>α</mi><mi>x</mi><mtext> otherwise</mtext></mrow></mstyle></mtd></mtr></mtable></mrow></mrow><annotation encoding="application/x-tex">LeakyReLU(x) = \left\{\begin{matrix} x \text{ if x>0} \\ \alpha x \text{ otherwise} \end{matrix}\right.</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.0315em;">ak</span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.109em;">LU</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.4em;vertical-align:-0.95em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">{</span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.45em;"><span style="top:-3.61em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="mord text"><span class="mord"> if x>0</span></span></span></span><span style="top:-2.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mord mathnormal">x</span><span class="mord text"><span class="mord"> otherwise</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.95em;"><span></span></span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>
+（通常 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>0.01</mn></mrow><annotation encoding="application/x-tex">\alpha = 0.01</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.01</span></span></span></span>）</p>
+</li>
+<li>
+<p><strong>图像</strong>：（如下所示）</p>
+</li>
+</ul>
+<p><img src="/images/activation_functions/leaky_relu.png" alt="leaky_relu"></p>
+<ul>
+<li><strong>改进</strong>：负区间引入小斜率 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span>，缓解 Dead ReLU。</li>
+<li><strong>优点</strong>：
+<ul>
+<li>保留 ReLU 优点，减少神经元死亡。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span> 需手动设定或学习。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：需解决 Dead ReLU 问题的深层网络。</li>
+</ul>
+<h2 id="6-parametric-reluprelu">6. Parametric ReLU（PReLU）</h2>
+<blockquote>
+<p>Leaky ReLU 的升级版</p>
+</blockquote>
+<ul>
+<li><strong>公式</strong>：类似于 Leaky ReLU，但 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span> 是可学习参数</li>
+<li><strong>优点</strong>：自适应调整负区间斜率。</li>
+<li><strong>缺点</strong>：增加参数量，可能过拟合。</li>
+<li><strong>适用场景</strong>：大型网路（如 ResNet）</li>
+</ul>
+<h2 id="7-eluexponential-linear-unit">7. ELU（Exponential Linear Unit）</h2>
+<blockquote>
+<p>ReLU 的另一个升级版</p>
+</blockquote>
+<ul>
+<li>
+<p><strong>公式</strong>：
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mi>L</mi><mi>U</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mrow><mo fence="true">{</mo><mtable rowspacing="0.16em" columnalign="center" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi>x</mi><mtext> if x>0</mtext></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi>α</mi><mo stretchy="false">(</mo><msup><mi>e</mi><mi>x</mi></msup><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mtext>otherwise</mtext></mrow></mstyle></mtd></mtr></mtable></mrow></mrow><annotation encoding="application/x-tex">ELU(x) = \left\{\begin{matrix} x \text{ if x>0} \\ \alpha(e^x - 1) \text{otherwise} \end{matrix}\right.</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">E</span><span class="mord mathnormal" style="margin-right:0.109em;">LU</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.4em;vertical-align:-0.95em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">{</span></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.45em;"><span style="top:-3.61em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="mord text"><span class="mord"> if x>0</span></span></span></span><span style="top:-2.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mord text"><span class="mord">otherwise</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.95em;"><span></span></span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+</li>
+<li>
+<p><strong>图像</strong>：（如下所示）</p>
+</li>
+</ul>
+<p><img src="/images/activation_functions/elu.png" alt="elu"></p>
+<p>（通常 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\alpha = 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>）</p>
+<ul>
+<li><strong>优点</strong>：
+<ul>
+<li>负区间平滑过渡，接近零均值输出。</li>
+<li>缓解 Dead ReLU 问题。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：
+<ul>
+<li>指数计算增加复杂度。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：深层网络，对噪声敏感的任务</li>
+</ul>
+<h2 id="8-softmax">8. Softmax</h2>
+<ul>
+<li>
+<p><strong>公式</strong>：
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>o</mi><mi>f</mi><mi>t</mi><mi>m</mi><mi>a</mi><mi>x</mi><mo stretchy="false">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="false">)</mo><mo>=</mo><mfrac><msup><mi>e</mi><msub><mi>x</mi><mi>i</mi></msub></msup><mrow><msubsup><mi mathvariant="normal">Σ</mi><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></msubsup><msup><mi>e</mi><msub><mi>x</mi><mi>j</mi></msub></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">Softmax(x_i) = \frac{e^{x_i}}{\Sigma^n_{j=1} e^{x_j}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">S</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mord mathnormal">t</span><span class="mord mathnormal">ma</span><span class="mord mathnormal">x</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.5891em;vertical-align:-0.6781em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.911em;"><span style="top:-2.6447em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight">Σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6523em;"><span style="top:-2.1777em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0572em;">j</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-2.8448em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4612em;"><span></span></span></span></span></span></span><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.779em;"><span style="top:-2.9714em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3448em;margin-left:0em;margin-right:0.1em;"><span class="pstrut" style="height:2.6595em;"></span><span class="mord mathnormal mtight" style="margin-right:0.0572em;">j</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5092em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7385em;"><span style="top:-2.931em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3448em;margin-left:0em;margin-right:0.1em;"><span class="pstrut" style="height:2.6595em;"></span><span class="mord mathnormal mtight">i</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3147em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.6781em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+</li>
+<li>
+<p><strong>特点</strong>：将输出压缩为概率分布（总和为 1）。</p>
+</li>
+<li>
+<p><strong>适用场景</strong>：多分类输出层。</p>
+</li>
+</ul>
+<h2 id="9-swish">9. Swish</h2>
+<ul>
+<li><strong>公式</strong>：
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>w</mi><mi>i</mi><mi>s</mi><mi>h</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mi>x</mi><mo>⋅</mo><mi>σ</mi><mo stretchy="false">(</mo><mi>β</mi><mi>x</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">Swish(x) = x \cdot \sigma(\beta x) </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">S</span><span class="mord mathnormal" style="margin-right:0.0269em;">w</span><span class="mord mathnormal">i</span><span class="mord mathnormal">s</span><span class="mord mathnormal">h</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4445em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0528em;">β</span><span class="mord mathnormal">x</span><span class="mclose">)</span></span></span></span>
+(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>σ</mi></mrow><annotation encoding="application/x-tex">\sigma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span></span></span></span> 为 Sigmoid，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi></mrow><annotation encoding="application/x-tex">\beta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0528em;">β</span></span></span></span> 常设为 1 或可学习)</li>
+</ul>
+<p><img src="/images/activation_functions/swish.png" alt="swish"></p>
+<ul>
+<li><strong>优点</strong>：
+<ul>
+<li>平滑且非单调，实验显示优于 ReLU。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：计算量略大。</li>
+<li><strong>适用场景</strong>：替代 ReLU 的隐藏层。</li>
+</ul>
+<h2 id="10-mish">10. Mish</h2>
+<ul>
+<li><strong>公式</strong>：
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>i</mi><mi>s</mi><mi>h</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mi>x</mi><mo>⋅</mo><mi>tanh</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>ln</mi><mo>⁡</mo><mo stretchy="false">(</mo><mn>1</mn><mo>+</mo><msup><mi>e</mi><mi>x</mi></msup><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">Mish(x) = x \cdot \tanh(\ln(1+e^x))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">M</span><span class="mord mathnormal">i</span><span class="mord mathnormal">s</span><span class="mord mathnormal">h</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4445em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">tanh</span><span class="mopen">(</span><span class="mop">ln</span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span><span class="mclose">))</span></span></span></span></li>
+</ul>
+<p><img src="/images/activation_functions/mish.png" alt="mish"></p>
+<ul>
+<li><strong>优点</strong>：
+<ul>
+<li>更平滑的梯度，缓解 Dead ReLU。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：计算成本高。</li>
+<li><strong>适用场景</strong>：计算机视觉任务。</li>
+</ul> </div> </div> <aside class="article-toc"> <div id="post-toc-card"> <div id="toc-card-style" class="toc-card"> <div id="toc-card-div"> <nav id="toc"> <span class="sidebar-title">目录</span> <ol class="toc"></ol> </nav> </div> </div> </div> </aside> </div> </article>  <footer id="footer"> <div id="footer-wrap"> <div>
+&copy; 2022 - 2026 ColdRain <span id="footer-icon"><i class="fa-solid fa-cloud-rain fa-fw"></i></span>
+Powered by Astro
+</div> </div> </footer> </main> <div id="preview" hidden> <img id="preview-content" alt=""> </div> </div> <canvas id="background" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"></canvas> <script src="/js/background.min.js"></script> <script src="/js/site.js"></script> </body> </html>

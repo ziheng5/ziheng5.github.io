@@ -1,0 +1,314 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><title>基于 PyTorch 与 Gym 的 PPO 算法复现 | Cold Rain&#39;s Blog</title><meta name="author" content="ColdRain"><meta name="description" content="銀の龍の背に乗って..."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="/images/head.jpg"><link rel="preconnect" href="https://s4.zstatic.net"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"><link rel="preconnect" href="https://fonts.googleapis.cn"><link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/css/astro-overrides.css"></head> <body data-page-type="post"> <div id="layout"> <div id="loading"> <div id="loading-circle"> <h2>LOADING</h2> <p>加载过慢请开启缓存 浏览器默认开启</p> <img src="/images/loading.gif" alt=""> </div> </div> <div id="menu" class="menu-color"> <nav id="desktop-menu"> <a class="title" href="/"> <span>COLD RAIN&#39;S BLOG</span> </a> <a href="/"> <i class="fa-solid fa-house fa-fw"></i> <span>&ensp;Homepage</span> </a><a href="/2024/11/26/test/"> <i class="fa-solid fa-id-card fa-fw"></i> <span>&ensp;About</span> </a><a href="/archives/"> <i class="fa-solid fa-box-archive fa-fw"></i> <span>&ensp;Archives</span> </a><a href="/categories/杂谈/"> <i class="fa-solid fa-bookmark fa-fw"></i> <span>&ensp;Categories</span> </a><a href="/tags/杂谈/"> <i class="fa-solid fa-tags fa-fw"></i> <span>&ensp;Tags</span> </a><a href="/friends/"> <i class="fa-solid fa-link fa-fw"></i> <span>&ensp;Links</span> </a><a href="/favorites/"> <i class="fa-solid fa-star fa-fw"></i> <span>&ensp;Favorites</span> </a> </nav> <nav id="mobile-menu"> <button class="title" type="button" aria-expanded="false" aria-controls="mobile-menu-items"> <i class="fa-solid fa-bars fa-fw"></i> <span>&emsp;COLD RAIN&#39;S BLOG</span> </button> <div id="mobile-menu-items" class="items" hidden> <a href="/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-house fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div> </div> </a><a href="/2024/11/26/test/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-id-card fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">About</div> </div> </a><a href="/archives/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-box-archive fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div> </div> </a><a href="/categories/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-bookmark fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div> </div> </a><a href="/tags/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-tags fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div> </div> </a><a href="/friends/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-link fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div> </div> </a><a href="/favorites/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-star fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Favorites</div> </div> </a> </div> </nav> </div> <div id="menu-curtain" hidden></div> <main id="main" class="into-enter-from">  <article class="article"> <div class="article-wrap"> <div class="article-content"> <h1>基于 PyTorch 与 Gym 的 PPO 算法复现</h1> <div class="info"> <span class="date"> <span class="icon"><i class="fa-solid fa-calendar fa-fw"></i></span> 2025/1/19 </span> <span class="category"> <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/"> <span class="icon"><i class="fa-solid fa-bookmark fa-fw"></i></span> 强化学习 </a> </span> <span class="tags"> <span class="icon"><i class="fa-solid fa-tags fa-fw"></i></span> <span class="tag"> <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">强化学习</a> </span><span class="tag"> <a href="/tags/PyTorch/" style="color: #00bcd4">PyTorch</a> </span> </span> </div> <div class="content"> <blockquote>
+<p>🤞 这段时间在师姐的推荐下，学习了网上关于强化学习的 PyTorch 实战视频，小生自己也是跟着视频复现了一遍 PPO 算法，于是准备写一篇 Blog 来记录学习心得</p>
+<p>框架：<strong>PyTorch</strong></p>
+<p>游戏：<strong>LunarLander-v2</strong></p>
+<p>上一次运行成功时间：<strong>2025-01-20</strong></p>
+<p>（本文里的代码是小生重新手打的，未复制粘贴，可能存在拼写错误，望见谅）</p>
+</blockquote>
+<p><img src="/images/rl_practice/pic1" alt="pic1"></p>
+<h1 id="1--导入必要的包">1. 📦 导入必要的包</h1>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> torch</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> torch.nn </span><span style="color:#D73A49">as</span><span style="color:#24292E"> nn</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> torch.distributions.categorical </span><span style="color:#D73A49">import</span><span style="color:#24292E"> Categorical</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> gym</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> numpy </span><span style="color:#D73A49">as</span><span style="color:#24292E"> np</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 导完包之后顺手定义一下 device</span></span>
+<span class="line"><span style="color:#24292E">device </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.device(“cuda:</span><span style="color:#005CC5">0</span><span style="color:#24292E">” </span><span style="color:#D73A49">if</span><span style="color:#24292E"> torch.cuda.is_available() </span><span style="color:#D73A49">else</span><span style="color:#032F62"> "cpu"</span><span style="color:#24292E">)</span></span></code></pre>
+<p>⚠️ 注意：下载 gym 的时候一定要记得安装一下 <code>box2d</code> 包，否则会报错。如下所示：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">pip</span><span style="color:#032F62"> install</span><span style="color:#032F62"> box2d</span><span style="color:#032F62"> box2d-kengz</span></span></code></pre>
+<p>这里顺便列一下 requirements:</p>
+<ul>
+<li><strong>pytorch</strong>: 2.5.0</li>
+<li><strong>gym</strong>: 0.26.2</li>
+<li><strong>box2d</strong>: 2.3.10</li>
+<li><strong>box2d</strong>-kengz: 2.3.3</li>
+<li><strong>numpy</strong>: 2.1.3</li>
+</ul>
+<h1 id="2--构建缓存区">2. 🫙 构建缓存区</h1>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">class</span><span style="color:#6F42C1"> Memory</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#D73A49">    def</span><span style="color:#005CC5"> __init__</span><span style="color:#24292E">(self):</span></span>
+<span class="line"><span style="color:#6A737D">        # 缓存区，用于存储当前一个 episode 中的经验</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.actions </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.states </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.logprobs </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.rewards </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.is_terminals </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    def</span><span style="color:#6F42C1"> clear_memory</span><span style="color:#24292E">(self):</span></span>
+<span class="line"><span style="color:#6A737D">        # 清空缓存</span></span>
+<span class="line"><span style="color:#D73A49">        del</span><span style="color:#005CC5"> self</span><span style="color:#24292E">.actions[:]</span></span>
+<span class="line"><span style="color:#D73A49">        del</span><span style="color:#005CC5"> self</span><span style="color:#24292E">.states[:]</span></span>
+<span class="line"><span style="color:#D73A49">        del</span><span style="color:#005CC5"> self</span><span style="color:#24292E">.logprobs[:]</span></span>
+<span class="line"><span style="color:#D73A49">        del</span><span style="color:#005CC5"> self</span><span style="color:#24292E">.rewards[:]</span></span>
+<span class="line"><span style="color:#D73A49">        del</span><span style="color:#005CC5"> self</span><span style="color:#24292E">.is_terminals[:]</span></span></code></pre>
+<h1 id="3--构建-a2c-策略网络">3. 🧱 构建 A2C 策略网络</h1>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">class</span><span style="color:#6F42C1"> ActorCritic</span><span style="color:#24292E">(</span><span style="color:#6F42C1">nn</span><span style="color:#24292E">.</span><span style="color:#6F42C1">Module</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#D73A49">    def</span><span style="color:#005CC5"> __init__</span><span style="color:#24292E">(self, state_dim, action_dim, n_latent_var):</span></span>
+<span class="line"><span style="color:#005CC5">        super</span><span style="color:#24292E">(ActorCritic, </span><span style="color:#005CC5">self</span><span style="color:#24292E">).</span><span style="color:#005CC5">__init__</span><span style="color:#24292E">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        # Actor 网络：</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.action_layer </span><span style="color:#D73A49">=</span><span style="color:#24292E"> nn.Sequential(</span></span>
+<span class="line"><span style="color:#24292E">            nn.Linear(state_dim, n_latent_var),</span></span>
+<span class="line"><span style="color:#24292E">            nn.Tanh(),  </span><span style="color:#6A737D"># 你问我为什么不用其他激活函数？我也不清楚，待会儿查一下 QWQ</span></span>
+<span class="line"><span style="color:#24292E">            nn.Linear(n_latent_var, n_latent_var),</span></span>
+<span class="line"><span style="color:#24292E">            nn.Tanh(),</span></span>
+<span class="line"><span style="color:#24292E">            nn.Linear(n_latent_var, action_dim),</span></span>
+<span class="line"><span style="color:#24292E">            nn.Softmax(</span><span style="color:#E36209">dim</span><span style="color:#D73A49">=-</span><span style="color:#005CC5">1</span><span style="color:#24292E">)  </span><span style="color:#6A737D"># 这里 dim=-1 相当于 dim=2，对 actions 进行归一化处理</span></span>
+<span class="line"><span style="color:#24292E">        )</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        # Critic 网络：</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.value_layer </span><span style="color:#D73A49">=</span><span style="color:#24292E"> nn.Sequential(</span></span>
+<span class="line"><span style="color:#24292E">            nn.Linear(state_dim, n_latent_var),</span></span>
+<span class="line"><span style="color:#24292E">            nn.Tanh(),</span></span>
+<span class="line"><span style="color:#24292E">            nn.Linear(n_latent_var, n_latent_var),</span></span>
+<span class="line"><span style="color:#24292E">            nn.Tanh(),</span></span>
+<span class="line"><span style="color:#24292E">            nn.Linear(n_latent_var, </span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">        )</span></span>
+<span class="line"><span style="color:#24292E">    </span></span>
+<span class="line"><span style="color:#D73A49">    def</span><span style="color:#6F42C1"> forward</span><span style="color:#24292E">(self):</span></span>
+<span class="line"><span style="color:#6A737D">        # 你问这里为什么用不到 forward？大笨蛋！这里有两个网络你怎么前向传播？</span></span>
+<span class="line"><span style="color:#D73A49">        raise</span><span style="color:#005CC5"> NotImplementedError</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    def</span><span style="color:#6F42C1"> act</span><span style="color:#24292E">(self, state, memory):</span></span>
+<span class="line"><span style="color:#6A737D">        # 根据当前状态 s 生成下一步动作 a</span></span>
+<span class="line"><span style="color:#24292E">        state </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.from_numpy(state).float().to(device)</span></span>
+<span class="line"><span style="color:#24292E">        actions_probs </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> self</span><span style="color:#24292E">.action_layer(state)</span></span>
+<span class="line"><span style="color:#24292E">        dist </span><span style="color:#D73A49">=</span><span style="color:#24292E"> Categorical(actions_probs)</span></span>
+<span class="line"><span style="color:#24292E">        action </span><span style="color:#D73A49">=</span><span style="color:#24292E"> dist.sample()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        # 压入缓存区</span></span>
+<span class="line"><span style="color:#24292E">        memory.states.append(state)</span></span>
+<span class="line"><span style="color:#24292E">        memory.actions.append(action)</span></span>
+<span class="line"><span style="color:#24292E">        memory.logprobs.append(dist.log_prob(action))</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">        return</span><span style="color:#24292E"> action.item()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    def</span><span style="color:#6F42C1"> evaluate</span><span style="color:#24292E">(self, state, action):</span></span>
+<span class="line"><span style="color:#6A737D">        # 评估模式</span></span>
+<span class="line"><span style="color:#24292E">        action_probs </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> self</span><span style="color:#24292E">.action_layer(state)</span></span>
+<span class="line"><span style="color:#24292E">        dist </span><span style="color:#D73A49">=</span><span style="color:#24292E"> Categorical(action_probs)</span></span>
+<span class="line"><span style="color:#24292E">        </span></span>
+<span class="line"><span style="color:#24292E">        action_logprobs </span><span style="color:#D73A49">=</span><span style="color:#24292E"> dist.log_prob(action)</span></span>
+<span class="line"><span style="color:#24292E">        dist_entropy </span><span style="color:#D73A49">=</span><span style="color:#24292E"> dist.entropy()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">        state_value </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> self</span><span style="color:#24292E">.value_layer(state)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">        return</span><span style="color:#24292E"> action_logprobs, torch.squeeze(state_value), dist_entropy</span></span></code></pre>
+<p><code>ActorCritic</code> 类是 PPO 算法的核心，它由两个部分组成：</p>
+<ul>
+<li><strong>Actor</strong>：用于根据当前状态选择动作。通过一个神经网络来预测动作的概率分布，并通过 <code>Categorical</code> 类来抽样动作。</li>
+<li><strong>Critic</strong>：用于评估当前状态的价值，通过一个神经网络输出状态的价值函数。</li>
+</ul>
+<p><code>act</code> 方法接受当前状态，计算出动作概率分布并根据其进行抽样，保存当前的状态、动作和对应的 log 概率。</p>
+<p><code>evaluate</code> 方法用于计算动作的 log 概率、状态值和分布的熵。</p>
+<h1 id="4--构建-ppo-算法">4. 👷 构建 PPO 算法</h1>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">class</span><span style="color:#6F42C1"> PPO</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#D73A49">    def</span><span style="color:#005CC5"> __init__</span><span style="color:#24292E">(self, state_dim, action_dim, n_latent_var, lr, betas, gamma, K_epochs, eps_clip):</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.lr </span><span style="color:#D73A49">=</span><span style="color:#24292E"> lr</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.betas </span><span style="color:#D73A49">=</span><span style="color:#24292E"> betas</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.gamma </span><span style="color:#D73A49">=</span><span style="color:#24292E"> gamma</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.eps_clip </span><span style="color:#D73A49">=</span><span style="color:#24292E"> eps_clip</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.K_epochs </span><span style="color:#D73A49">=</span><span style="color:#24292E"> K_epochs</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        # 创建策略网络</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.policy </span><span style="color:#D73A49">=</span><span style="color:#24292E"> ActorCritic(state_dim, action_dim, n_latent_var).to(device)</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.optimizer </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.optim.Adam(</span><span style="color:#005CC5">self</span><span style="color:#24292E">.policy.parameters(), </span><span style="color:#E36209">lr</span><span style="color:#D73A49">=</span><span style="color:#24292E">lr, </span><span style="color:#E36209">betas</span><span style="color:#D73A49">=</span><span style="color:#24292E">betas)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        # 这里使用 off policy 思想，给我们的 policy 召唤一个分身</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.policy_old </span><span style="color:#D73A49">=</span><span style="color:#24292E"> ActorCritic(state_dim, action_dim, n_latent_var).to(device)</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.policy_old.load_state_dict(</span><span style="color:#005CC5">self</span><span style="color:#24292E">.policy.state_dict)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.MseLoss </span><span style="color:#D73A49">=</span><span style="color:#24292E"> nn.MSELoss()</span></span>
+<span class="line"><span style="color:#24292E">    </span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    def</span><span style="color:#6F42C1"> update</span><span style="color:#24292E">(self, memory):</span></span>
+<span class="line"><span style="color:#6A737D">        # 利用蒙特卡洛算法计算 state rewards:</span></span>
+<span class="line"><span style="color:#24292E">        rewards </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"><span style="color:#24292E">        discounted_reward </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0</span></span>
+<span class="line"><span style="color:#D73A49">        for</span><span style="color:#24292E"> reward, is_terminal </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> zip</span><span style="color:#24292E">(</span><span style="color:#005CC5">reversed</span><span style="color:#24292E">(memory.rewards), </span><span style="color:#005CC5">reversed</span><span style="color:#24292E">(memory.is_terminal)):</span></span>
+<span class="line"><span style="color:#D73A49">            if</span><span style="color:#24292E"> is_terminal:</span></span>
+<span class="line"><span style="color:#24292E">                discounted_reward </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0</span></span>
+<span class="line"><span style="color:#24292E">            discounted_reward </span><span style="color:#D73A49">=</span><span style="color:#24292E"> reward </span><span style="color:#D73A49">+</span><span style="color:#005CC5"> self</span><span style="color:#24292E">.gamma </span><span style="color:#D73A49">*</span><span style="color:#24292E"> discounted_reward</span></span>
+<span class="line"><span style="color:#24292E">            rewards.insert(</span><span style="color:#005CC5">0</span><span style="color:#24292E">, discounted_reward)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        # 归一化 rewards</span></span>
+<span class="line"><span style="color:#24292E">        rewards </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.tensor(rewards, </span><span style="color:#E36209">dtype</span><span style="color:#D73A49">=</span><span style="color:#24292E">torch.float32).to(device)</span></span>
+<span class="line"><span style="color:#24292E">        rewards </span><span style="color:#D73A49">=</span><span style="color:#24292E"> (rewards </span><span style="color:#D73A49">-</span><span style="color:#24292E"> rewards.mean()) </span><span style="color:#D73A49">/</span><span style="color:#24292E"> (rewards.std() </span><span style="color:#D73A49">+</span><span style="color:#005CC5"> 1e-5</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        # 把 list 全部转换为 tensor</span></span>
+<span class="line"><span style="color:#24292E">        old_states </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.stack(memory.states).to(device).detach()</span></span>
+<span class="line"><span style="color:#24292E">        old_actions </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.stack(memory.actions).to(device).detach()</span></span>
+<span class="line"><span style="color:#24292E">        old_logprobs </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.stack(memory.logprobs).to(device).detach()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        # 优化策略</span></span>
+<span class="line"><span style="color:#D73A49">        for</span><span style="color:#24292E"> _ </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(</span><span style="color:#005CC5">self</span><span style="color:#24292E">.K_epochs):</span></span>
+<span class="line"><span style="color:#6A737D">            # 评估 old actions 和 values</span></span>
+<span class="line"><span style="color:#24292E">            logprobs, state_values, dist_entropy </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> self</span><span style="color:#24292E">.policy.evaluate(old_state, old_actions)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">            # 计算 ratio (pi_theta / pi_theta_old)</span></span>
+<span class="line"><span style="color:#24292E">            ratios </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.exp(logprobs </span><span style="color:#D73A49">-</span><span style="color:#24292E"> old_logprobs.detach())</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">            # 计算 surrogate loss</span></span>
+<span class="line"><span style="color:#24292E">            advantages </span><span style="color:#D73A49">=</span><span style="color:#24292E"> rewards </span><span style="color:#D73A49">-</span><span style="color:#24292E"> state_values.detach()</span></span>
+<span class="line"><span style="color:#24292E">            surr1 </span><span style="color:#D73A49">=</span><span style="color:#24292E"> ratios </span><span style="color:#D73A49">*</span><span style="color:#24292E"> advantages</span></span>
+<span class="line"><span style="color:#24292E">            surr2 </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.clamp(ratios, </span><span style="color:#005CC5">1.0</span><span style="color:#D73A49">-</span><span style="color:#005CC5">self</span><span style="color:#24292E">.eps_clip, </span><span style="color:#005CC5">1.0</span><span style="color:#D73A49">+</span><span style="color:#005CC5">self</span><span style="color:#24292E">.eps_clip) </span><span style="color:#D73A49">*</span><span style="color:#24292E"> advantages</span></span>
+<span class="line"><span style="color:#24292E">            loss </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> -</span><span style="color:#24292E">torch.min(surr1, surr2) </span><span style="color:#D73A49">+</span><span style="color:#005CC5"> 0.5</span><span style="color:#D73A49">*</span><span style="color:#005CC5">self</span><span style="color:#24292E">.MseLoss(state_values, rewards) </span><span style="color:#D73A49">-</span><span style="color:#005CC5"> 0.01</span><span style="color:#D73A49">*</span><span style="color:#24292E">dist_entropy</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">            # 更新权重</span></span>
+<span class="line"><span style="color:#005CC5">            self</span><span style="color:#24292E">.optimizer.zero_grad()</span></span>
+<span class="line"><span style="color:#24292E">            loss.mean().backward()</span></span>
+<span class="line"><span style="color:#005CC5">            self</span><span style="color:#24292E">.optimizer.step()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">        </span></span>
+<span class="line"><span style="color:#6A737D">        # 将新的权重赋给我们的 old_policy</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.policy_old.load_state_dict(</span><span style="color:#005CC5">self</span><span style="color:#24292E">.policy.state_dict())</span></span></code></pre>
+<p><code>PPO</code> 类封装了强化学习训练的主要逻辑。
+<code>update</code> 方法通过经验回放更新策略：</p>
+<ul>
+<li>首先，计算蒙特卡洛奖励。</li>
+<li>然后对奖励归一化处理。</li>
+<li>接着，通过多次优化（K-epochs），计算损失函数并进行梯度更新。</li>
+<li>最后，将新的策略参数复制到旧策略中。</li>
+</ul>
+<p>损失函数由三部分组成：</p>
+<ul>
+<li><strong>Surrogate Loss</strong>：确保新的策略和旧的策略之间的比率 ratio 不便，以避免过大的策略变化。</li>
+<li><strong>Value Loss</strong>：通过均方误差来最小化状态价值的误差。</li>
+<li><strong>Entropy</strong>：通过熵来避免策略过于确定，保持探索性。</li>
+</ul>
+<h1 id="5--主函数">5. 🀄 主函数</h1>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> main</span><span style="color:#24292E">():</span></span>
+<span class="line"><span style="color:#6A737D">    # 创建环境</span></span>
+<span class="line"><span style="color:#24292E">    env_name </span><span style="color:#D73A49">=</span><span style="color:#032F62"> "LunarLander-V2"</span></span>
+<span class="line"><span style="color:#24292E">    env </span><span style="color:#D73A49">=</span><span style="color:#24292E"> gym.make(env_name, </span><span style="color:#E36209">render_name</span><span style="color:#D73A49">=</span><span style="color:#032F62">"human"</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    #############################################################################</span></span>
+<span class="line"><span style="color:#6A737D">    # 初始化参数</span></span>
+<span class="line"><span style="color:#24292E">    state_dim </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.observation_space.shape[</span><span style="color:#005CC5">0</span><span style="color:#24292E">]  </span><span style="color:#6A737D"># state_dim = 8</span></span>
+<span class="line"><span style="color:#24292E">    action_dim </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 4</span><span style="color:#6A737D">  # 上下左右</span></span>
+<span class="line"><span style="color:#24292E">    render </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> True</span><span style="color:#6A737D">   # 是否展示（建议设置为 False,这样可以加快训练速度）</span></span>
+<span class="line"><span style="color:#24292E">    solved_reward </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 230</span><span style="color:#6A737D"> # 训练成功的指标</span></span>
+<span class="line"><span style="color:#24292E">    log_interval </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 20</span></span>
+<span class="line"><span style="color:#24292E">    max_episodes </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 50000</span></span>
+<span class="line"><span style="color:#24292E">    max_timesteps </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 300</span></span>
+<span class="line"><span style="color:#24292E">    n_latent_var </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 64</span></span>
+<span class="line"><span style="color:#24292E">    update_timestep </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 2000</span></span>
+<span class="line"><span style="color:#24292E">    lr </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.002</span></span>
+<span class="line"><span style="color:#24292E">    betas </span><span style="color:#D73A49">=</span><span style="color:#24292E"> (</span><span style="color:#005CC5">0.9</span><span style="color:#24292E">, </span><span style="color:#005CC5">0.999</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">    gamma </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.99</span></span>
+<span class="line"><span style="color:#24292E">    K_epochs </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 4</span></span>
+<span class="line"><span style="color:#24292E">    eps_clip </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.2</span></span>
+<span class="line"><span style="color:#24292E">    random_seed </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> None</span></span>
+<span class="line"><span style="color:#6A737D">    #############################################################################</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    if</span><span style="color:#24292E"> random_seed:</span></span>
+<span class="line"><span style="color:#24292E">        torch.manual_seed(random_seed)</span></span>
+<span class="line"><span style="color:#24292E">        env.seed(random_seed)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">    memory </span><span style="color:#D73A49">=</span><span style="color:#24292E"> Memory()</span></span>
+<span class="line"><span style="color:#24292E">    ppo </span><span style="color:#D73A49">=</span><span style="color:#24292E"> PPO(state_dim, action_dim, n_latent_var, lr, betas, gamma, K_epochs, eps_clip)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">    running_reward </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0</span></span>
+<span class="line"><span style="color:#24292E">    avg_length </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0</span></span>
+<span class="line"><span style="color:#24292E">    timestep </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    for</span><span style="color:#24292E"> i_episode </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(</span><span style="color:#005CC5">1</span><span style="color:#24292E">, max_episodes</span><span style="color:#D73A49">+</span><span style="color:#005CC5">1</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#24292E">        state </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.reset()</span></span>
+<span class="line"><span style="color:#24292E">        state </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.array(state[</span><span style="color:#005CC5">0</span><span style="color:#24292E">])</span></span>
+<span class="line"><span style="color:#D73A49">        for</span><span style="color:#24292E"> t </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(max_timesteps):</span></span>
+<span class="line"><span style="color:#24292E">            timestep </span><span style="color:#D73A49">+=</span><span style="color:#005CC5"> 1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">            action </span><span style="color:#D73A49">=</span><span style="color:#24292E"> ppo.policy_old.act(state, memory)</span></span>
+<span class="line"><span style="color:#24292E">            state, reward, done, _, _ </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.step(action)</span></span>
+<span class="line"><span style="color:#6A737D">            # 注意：新版的 gym 在 env.step 时会返回 5 个值，具体请查阅官方文档或源码注释</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">            memory.rewards.append(reward)</span></span>
+<span class="line"><span style="color:#24292E">            memory.is_terminals.append(done)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">            if</span><span style="color:#24292E"> timestep </span><span style="color:#D73A49">%</span><span style="color:#24292E"> update_timestep </span><span style="color:#D73A49">==</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">                ppo.update(memory)</span></span>
+<span class="line"><span style="color:#24292E">                memory.clear_memory()</span></span>
+<span class="line"><span style="color:#24292E">                timestep </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">            running_reward </span><span style="color:#D73A49">+=</span><span style="color:#24292E"> reward</span></span>
+<span class="line"><span style="color:#D73A49">            if</span><span style="color:#24292E"> render:</span></span>
+<span class="line"><span style="color:#24292E">                env.render()</span></span>
+<span class="line"><span style="color:#D73A49">            if</span><span style="color:#24292E"> done:</span></span>
+<span class="line"><span style="color:#D73A49">                break</span></span>
+<span class="line"><span style="color:#24292E">            </span></span>
+<span class="line"><span style="color:#24292E">        avg_length </span><span style="color:#D73A49">+=</span><span style="color:#24292E"> t</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">        if</span><span style="color:#24292E"> running_reward </span><span style="color:#D73A49">></span><span style="color:#24292E"> (log_interval</span><span style="color:#D73A49">*</span><span style="color:#24292E">solved_reward):</span></span>
+<span class="line"><span style="color:#005CC5">            print</span><span style="color:#24292E">(</span><span style="color:#032F62">"#################### Solved ! ####################"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">            torch.save(ppo.policy.state_dict(), </span><span style="color:#032F62">'./PPO_</span><span style="color:#005CC5">{}</span><span style="color:#032F62">.pth'</span><span style="color:#24292E">.format(env.name))</span></span>
+<span class="line"><span style="color:#D73A49">            break</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">        if</span><span style="color:#24292E"> i_episode </span><span style="color:#D73A49">%</span><span style="color:#24292E"> log_interval </span><span style="color:#D73A49">==</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">            avg_length </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> int</span><span style="color:#24292E">(avg_length</span><span style="color:#D73A49">/</span><span style="color:#24292E">log_interval)</span></span>
+<span class="line"><span style="color:#24292E">            running_reward </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> int</span><span style="color:#24292E">(running_reward</span><span style="color:#D73A49">/</span><span style="color:#24292E">log_interval)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#005CC5">            print</span><span style="color:#24292E">(</span><span style="color:#032F62">"Episode </span><span style="color:#005CC5">{}</span><span style="color:#005CC5"> \t</span><span style="color:#032F62"> avg length: </span><span style="color:#005CC5">{}</span><span style="color:#005CC5"> \t</span><span style="color:#032F62"> reward:</span><span style="color:#005CC5">{}</span><span style="color:#032F62">"</span><span style="color:#24292E">.format(i_episode, avg_length, running_reward))</span></span>
+<span class="line"><span style="color:#24292E">            running_reward </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0</span></span>
+<span class="line"><span style="color:#24292E">            avg_length </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0</span></span></code></pre>
+<h1 id="6--加载模型文件展示效果">6. 🚗 加载模型文件展示效果：</h1>
+<blockquote>
+<p>这里要新建一个 <code>ppo_show.py</code> 文件</p>
+</blockquote>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> ppo </span><span style="color:#D73A49">import</span><span style="color:#005CC5"> PPO</span><span style="color:#24292E">, Memory, ActorCritic</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> gym</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> torch</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> numpy </span><span style="color:#D73A49">as</span><span style="color:#24292E"> np</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">env_name </span><span style="color:#D73A49">=</span><span style="color:#032F62"> "LunarLander-v2"</span></span>
+<span class="line"><span style="color:#24292E">env </span><span style="color:#D73A49">=</span><span style="color:#24292E"> gym.make(env_name, </span><span style="color:#E36209">render_mode</span><span style="color:#D73A49">=</span><span style="color:#032F62">"human"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">state_dim </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.observation_space.shape[</span><span style="color:#005CC5">0</span><span style="color:#24292E">]</span></span>
+<span class="line"><span style="color:#24292E">action_dim </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 4</span></span>
+<span class="line"><span style="color:#24292E">render </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> True</span></span>
+<span class="line"><span style="color:#24292E">max_timesteps </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 300</span></span>
+<span class="line"><span style="color:#24292E">n_latent_var </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 64</span></span>
+<span class="line"><span style="color:#24292E">lr </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.0007</span></span>
+<span class="line"><span style="color:#24292E">betas </span><span style="color:#D73A49">=</span><span style="color:#24292E"> (</span><span style="color:#005CC5">0.9</span><span style="color:#24292E">, </span><span style="color:#005CC5">0.999</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">gamma </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.99</span></span>
+<span class="line"><span style="color:#24292E">K_epochs </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 4</span></span>
+<span class="line"><span style="color:#24292E">eps_clip </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.2</span></span>
+<span class="line"><span style="color:#24292E">n_episodes </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 3</span></span>
+<span class="line"><span style="color:#24292E">filename </span><span style="color:#D73A49">=</span><span style="color:#032F62"> "PPO_LunarLander-v2.pth"</span></span>
+<span class="line"><span style="color:#24292E">directory </span><span style="color:#D73A49">=</span><span style="color:#032F62"> "./"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">memory </span><span style="color:#D73A49">=</span><span style="color:#24292E"> Memory()</span></span>
+<span class="line"><span style="color:#24292E">ppo </span><span style="color:#D73A49">=</span><span style="color:#24292E"> PPO(state_dim, action_dim, n_latent_var, lr, betas, gamma, K_epochs, </span><span style="color:#E36209">eps_clip</span><span style="color:#D73A49">=</span><span style="color:#24292E">eps_clip)</span></span>
+<span class="line"><span style="color:#24292E">ppo.policy.load_state_dict(torch.load(filename))</span></span>
+<span class="line"><span style="color:#24292E">ppo.policy_old.load_state_dict(torch.load(filename))</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># logging variables</span></span>
+<span class="line"><span style="color:#24292E">running_reward </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0</span></span>
+<span class="line"><span style="color:#24292E">avg_length </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0</span></span>
+<span class="line"><span style="color:#24292E">timestep </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># training loop</span></span>
+<span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> i_episode </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#005CC5">20</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#24292E">    state </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.reset()</span></span>
+<span class="line"><span style="color:#24292E">    state </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.array(state[</span><span style="color:#005CC5">0</span><span style="color:#24292E">])</span></span>
+<span class="line"><span style="color:#D73A49">    for</span><span style="color:#24292E"> t </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(max_timesteps):</span></span>
+<span class="line"><span style="color:#24292E">        timestep </span><span style="color:#D73A49">+=</span><span style="color:#005CC5"> 1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">        action </span><span style="color:#D73A49">=</span><span style="color:#24292E"> ppo.policy_old.act(state, memory)</span></span>
+<span class="line"><span style="color:#24292E">        state, reward, done, _, _ </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.step(action)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">        memory.rewards.append(reward)</span></span>
+<span class="line"><span style="color:#24292E">        memory.is_terminals.append(done)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">        running_reward </span><span style="color:#D73A49">+=</span><span style="color:#24292E"> reward</span></span>
+<span class="line"><span style="color:#D73A49">        if</span><span style="color:#24292E"> render:</span></span>
+<span class="line"><span style="color:#24292E">            env.render()</span></span>
+<span class="line"><span style="color:#D73A49">        if</span><span style="color:#24292E"> done:</span></span>
+<span class="line"><span style="color:#D73A49">            break</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">    avg_length </span><span style="color:#D73A49">+=</span><span style="color:#24292E"> t</span></span></code></pre>
+<blockquote>
+<p><strong>如有报错且找不到报错原因的，可以私信小生</strong> 🥺</p>
+</blockquote> </div> </div> <aside class="article-toc"> <div id="post-toc-card"> <div id="toc-card-style" class="toc-card"> <div id="toc-card-div"> <nav id="toc"> <span class="sidebar-title">目录</span> <ol class="toc"></ol> </nav> </div> </div> </div> </aside> </div> </article>  <footer id="footer"> <div id="footer-wrap"> <div>
+&copy; 2022 - 2026 ColdRain <span id="footer-icon"><i class="fa-solid fa-cloud-rain fa-fw"></i></span>
+Powered by Astro
+</div> </div> </footer> </main> <div id="preview" hidden> <img id="preview-content" alt=""> </div> </div> <canvas id="background" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"></canvas> <script src="/js/background.min.js"></script> <script src="/js/site.js"></script> </body> </html>

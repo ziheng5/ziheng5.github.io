@@ -1,0 +1,14 @@
+---
+import { site } from "../lib/site";
+const year = new Date().getFullYear();
+---
+
+<footer id="footer">
+  <div id="footer-wrap">
+    <div>
+      &copy; {site.since} - {year} {site.author}
+      <span id="footer-icon"><i class="fa-solid fa-cloud-rain fa-fw"></i></span>
+      Powered by Astro
+    </div>
+  </div>
+</footer>

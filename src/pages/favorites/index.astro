@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { colors, favorites } from "../../lib/site";
+
+function slug(value: string): string {
+  return value.trim().replace(/\s+/g, "-").replace(/[^\w\u4e00-\u9fa5-]/g, "");
+}
+
+function host(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+}
+---
+
+<BaseLayout title="Favorites" type="favorites">
+  <div id="archives" class="favorites-page">
+    <div class="categories-tags">
+      {favorites.map((group, index) => (
+        <span>
+          <a href={`#favorite-${slug(group.name)}`} style={`background: ${colors[index % colors.length]}`}>
+            <span class="icon"><i class="fa-solid fa-star fa-fw"></i></span>
+            {group.name}
+          </a>
+        </span>
+      ))}
+    </div>
+
+    {favorites.map((group) => (
+      <div class="timeline" id={`favorite-${slug(group.name)}`}>
+        <div class="timeline-tail"></div>
+        <div class="timeline-content">
+          <h3>{group.name}</h3>
+          <div class="favorite-list">
+            {group.items.map((item) => (
+              <a class="favorite-item" href={item.url} target="_blank" rel="noopener">
+                <span class="favorite-icon">
+                  <i class={`fa-solid fa-${item.icon || "star"} fa-fw`}></i>
+                </span>
+                <span class="favorite-body">
+                  <strong>{item.name}</strong>
+                  <span>{item.desc}</span>
+                  <small>{host(item.url)}</small>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</BaseLayout>

@@ -1,0 +1,67 @@
+---
+import BaseLayout from "../../../../../layouts/BaseLayout.astro";
+import { formatDate, getPosts, slugify, tagColor } from "../../../../../lib/posts";
+
+export function getStaticPaths() {
+  return getPosts().map((post) => {
+    const [year, month, day] = post.path.split("/").filter(Boolean);
+    return {
+      params: { year, month, day, slug: post.slug },
+      props: { post }
+    };
+  });
+}
+
+const { post } = Astro.props;
+const Content = post.Content;
+const category = post.categories[0];
+---
+
+<BaseLayout title={post.title} type="post">
+  <article class="article">
+    <div class="article-wrap">
+      <div class="article-content">
+        <h1>{post.title}</h1>
+        <div class="info">
+          <span class="date">
+            <span class="icon"><i class="fa-solid fa-calendar fa-fw"></i></span>
+            {formatDate(post.date)}
+          </span>
+          {category && (
+            <span class="category">
+              <a href={`/categories/${slugify(category)}/`}>
+                <span class="icon"><i class="fa-solid fa-bookmark fa-fw"></i></span>
+                {category}
+              </a>
+            </span>
+          )}
+          {post.tags.length > 0 && (
+            <span class="tags">
+              <span class="icon"><i class="fa-solid fa-tags fa-fw"></i></span>
+              {post.tags.map((tag, index) => (
+                <span class="tag">
+                  <a href={`/tags/${slugify(tag)}/`} style={`color: ${tagColor(index)}`}>{tag}</a>
+                </span>
+              ))}
+            </span>
+          )}
+        </div>
+        <div class="content">
+          <Content />
+        </div>
+      </div>
+      <aside class="article-toc">
+        <div id="post-toc-card">
+          <div id="toc-card-style" class="toc-card">
+            <div id="toc-card-div">
+              <nav id="toc">
+                <span class="sidebar-title">目录</span>
+                <ol class="toc"></ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

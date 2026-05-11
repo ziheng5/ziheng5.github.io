@@ -1,0 +1,32 @@
+---
+import TimelinePost from "../../components/TimelinePost.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPosts, postsByValue, slugify, tagColor, uniqueValues } from "../../lib/posts";
+
+export function getStaticPaths() {
+  const posts = getPosts();
+  return uniqueValues(posts, "tags").map((tag) => ({
+    params: { tag },
+    props: { tag, posts, tags: uniqueValues(posts, "tags") }
+  }));
+}
+
+const { tag, posts, tags } = Astro.props;
+const tagPosts = postsByValue(posts, "tags", tag).sort((a, b) => b.date.getTime() - a.date.getTime());
+---
+
+<BaseLayout title={`Tags: ${tag}`} type="tags">
+  <div id="archives">
+    <div class="categories-tags">
+      {tags.map((item, index) => (
+        <span>
+          <a href={`/tags/${slugify(item)}/`} style={`background: ${item === tag ? "linear-gradient(120deg, #9abbf7 0%, #ffbbf4 100%)" : tagColor(index)}`}>
+            <span class="icon"><i class="fa-solid fa-tags fa-fw"></i></span>
+            {item}
+          </a>
+        </span>
+      ))}
+    </div>
+    {tagPosts.map((post) => <TimelinePost post={post} />)}
+  </div>
+</BaseLayout>

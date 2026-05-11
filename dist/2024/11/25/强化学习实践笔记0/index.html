@@ -1,0 +1,235 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><title>强化学习实战1——交叉熵方法 | Cold Rain&#39;s Blog</title><meta name="author" content="ColdRain"><meta name="description" content="銀の龍の背に乗って..."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="/images/head.jpg"><link rel="preconnect" href="https://s4.zstatic.net"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"><link rel="preconnect" href="https://fonts.googleapis.cn"><link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/css/astro-overrides.css"></head> <body data-page-type="post"> <div id="layout"> <div id="loading"> <div id="loading-circle"> <h2>LOADING</h2> <p>加载过慢请开启缓存 浏览器默认开启</p> <img src="/images/loading.gif" alt=""> </div> </div> <div id="menu" class="menu-color"> <nav id="desktop-menu"> <a class="title" href="/"> <span>COLD RAIN&#39;S BLOG</span> </a> <a href="/"> <i class="fa-solid fa-house fa-fw"></i> <span>&ensp;Homepage</span> </a><a href="/2024/11/26/test/"> <i class="fa-solid fa-id-card fa-fw"></i> <span>&ensp;About</span> </a><a href="/archives/"> <i class="fa-solid fa-box-archive fa-fw"></i> <span>&ensp;Archives</span> </a><a href="/categories/杂谈/"> <i class="fa-solid fa-bookmark fa-fw"></i> <span>&ensp;Categories</span> </a><a href="/tags/杂谈/"> <i class="fa-solid fa-tags fa-fw"></i> <span>&ensp;Tags</span> </a><a href="/friends/"> <i class="fa-solid fa-link fa-fw"></i> <span>&ensp;Links</span> </a><a href="/favorites/"> <i class="fa-solid fa-star fa-fw"></i> <span>&ensp;Favorites</span> </a> </nav> <nav id="mobile-menu"> <button class="title" type="button" aria-expanded="false" aria-controls="mobile-menu-items"> <i class="fa-solid fa-bars fa-fw"></i> <span>&emsp;COLD RAIN&#39;S BLOG</span> </button> <div id="mobile-menu-items" class="items" hidden> <a href="/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-house fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div> </div> </a><a href="/2024/11/26/test/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-id-card fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">About</div> </div> </a><a href="/archives/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-box-archive fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div> </div> </a><a href="/categories/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-bookmark fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div> </div> </a><a href="/tags/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-tags fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div> </div> </a><a href="/friends/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-link fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div> </div> </a><a href="/favorites/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-star fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Favorites</div> </div> </a> </div> </nav> </div> <div id="menu-curtain" hidden></div> <main id="main" class="into-enter-from">  <article class="article"> <div class="article-wrap"> <div class="article-content"> <h1>强化学习实战1——交叉熵方法</h1> <div class="info"> <span class="date"> <span class="icon"><i class="fa-solid fa-calendar fa-fw"></i></span> 2024/11/25 </span> <span class="category"> <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/"> <span class="icon"><i class="fa-solid fa-bookmark fa-fw"></i></span> 强化学习 </a> </span> <span class="tags"> <span class="icon"><i class="fa-solid fa-tags fa-fw"></i></span> <span class="tag"> <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">强化学习</a> </span><span class="tag"> <a href="/tags/PyTorch/" style="color: #00bcd4">PyTorch</a> </span> </span> </div> <div class="content"> <h1 id="chapter1-交叉熵方法">Chapter1 交叉熵方法</h1>
+<h2 id="11-rl方法的分类">1.1 RL方法的分类</h2>
+<p>交叉熵方法属于 <strong>无模型</strong> 和 <strong>基于策略</strong> 的方法类别。</p>
+<p>所有的 RL 方法可以被分成以下几类：</p>
+<ol>
+<li>无模型 或 基于模型</li>
+<li>基于价值 或 基于策略</li>
+<li>在线策略 或 离线策略</li>
+</ol>
+<p>交叉熵方法是无模型的、基于策略的在线策略的方法，这意味着：</p>
+<ol>
+<li>它不构建环境的任何模型，只告诉智能体每一步需要做什么</li>
+<li>它计算智能体的策略</li>
+<li>它从环境中获取新数据</li>
+</ol>
+<h2 id="12-交叉熵方法的实践">1.2 交叉熵方法的实践</h2>
+<p>交叉熵方法是基于策略的，非线性函数（神经网络）生成策略，它针对每一个观察都告诉智能体应该执行什么动作</p>
+<p>实践中，策略通常表示为动作的概率分布，这和分类问题很像，策略的数量和要执行的动作数量相同</p>
+<p>这种抽象让智能体变得非常简单：</p>
+<p>将从环境中得到的观察传给NN，得到的动作的概率分布，使用概率分布来进行随机采样以获得要执行的动作。</p>
+<p>在智能体的一生中，它的经历被表示成片段，每个片段都由一系列的观察（智能体从环境中获得的）、动作（智能体发出的）和奖励（由动作产生的）组成。</p>
+<p>假设一共有四个片段（注意每个片段都有不同的 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>o</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">o_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">o</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">a_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">r_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>值），每个单元格表示智能体在片段中的一步。由于环境的随机性以及智能体选择动作的不同方式，某些片段会比其他片段好。交叉熵方法的核心是将差的片段丢掉，并用好的片段来训练。所以，该方法的步骤如下：</p>
+<ol>
+<li>使用当前的模型和环境产生N次片段</li>
+<li>计算每个片段的总奖励，并确定奖励边界。通常使用总奖励的百分位来确定，例如50或70</li>
+<li>将奖励在边界之下的片段去掉</li>
+<li>用观察值作为输入、智能体产生的动作作为目标输出，训练剩余的“精英”片段</li>
+<li>从第一步开始反复，知道得到满意的结果</li>
+</ol>
+<h2 id="13-交叉熵方法在-cartpole-中的应用">1.3 交叉熵方法在 CartPole 中的应用</h2>
+<p>模型的核心是有 1 个隐藏层的NN，带有整流线性函数（Rectified Linear Unit， ReLU）以及 128 个隐藏层神经元。</p>
+<p>其他超参数基本是随机设置的，并没有调优过，因为这个方法本身鲁棒性很好，并且收敛得很快。</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#005CC5">HIDDEN_SIZE</span><span style="color:#D73A49"> =</span><span style="color:#005CC5"> 128</span></span>
+<span class="line"><span style="color:#005CC5">BATCH_SIZE</span><span style="color:#D73A49"> =</span><span style="color:#005CC5"> 16</span></span>
+<span class="line"><span style="color:#005CC5">PERCENTILE</span><span style="color:#D73A49"> =</span><span style="color:#005CC5"> 70</span></span></code></pre>
+<p>我们将常量放在文件的最上面，它们包含了隐藏层中神经元的数量、在每次迭代中训练的片段数(16)，以及用来过滤精英片段的奖励边界百分位。这里使用70作为奖励边界，这意味着会留下按奖励排序后前30%的片段</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> torch </span><span style="color:#D73A49">import</span><span style="color:#24292E"> nn</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">class</span><span style="color:#6F42C1"> Net</span><span style="color:#24292E">(</span><span style="color:#6F42C1">nn</span><span style="color:#24292E">.</span><span style="color:#6F42C1">Module</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#D73A49">    def</span><span style="color:#005CC5"> __init__</span><span style="color:#24292E">(self, obs_size, hidden_size, n_actions):</span></span>
+<span class="line"><span style="color:#005CC5">        super</span><span style="color:#24292E">(Net, </span><span style="color:#005CC5">self</span><span style="color:#24292E">).</span><span style="color:#005CC5">__init__</span><span style="color:#24292E">()</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.net </span><span style="color:#D73A49">=</span><span style="color:#24292E"> nn.Sequential(</span></span>
+<span class="line"><span style="color:#24292E">            nn.Linear(obs_size, hidden_size),</span></span>
+<span class="line"><span style="color:#24292E">            nn.ReLU(),</span></span>
+<span class="line"><span style="color:#24292E">            nn.Linear(hidden_size, n_actions)</span></span>
+<span class="line"><span style="color:#24292E">        )</span></span>
+<span class="line"><span style="color:#24292E">        </span></span>
+<span class="line"><span style="color:#D73A49">    def</span><span style="color:#6F42C1"> forward</span><span style="color:#24292E">(self, x):</span></span>
+<span class="line"><span style="color:#D73A49">        return</span><span style="color:#005CC5"> self</span><span style="color:#24292E">.net(x)</span></span></code></pre>
+<p>NN 并没有什么特别之处，它将从环境中得到的单个观察结果作为输入向量，并输出一个数字作为可以执行的动作。</p>
+<p>NN 的输出是动作的概率分布，所以一个比较直接的方法是在最后一层使用一个非线性的softmax。但是，在前面的 NN 中，我们不使用 softmax 来增加训练过程中数值的稳定性。</p>
+<p>比起先计算 softmax （使用了幂运算）再计算交叉熵损失（使用了对数概率），我们使用pytorch 的 <code>nn.CrossEntropyLoss</code> 类，它将 softmax 和交叉熵合二为一，能够提供更好的数值稳定性。<code>CrossEntropyLoss</code> 要求参数是NN中的原始、未归一化的值。</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> collections </span><span style="color:#D73A49">import</span><span style="color:#24292E"> namedtuple</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">Episode </span><span style="color:#D73A49">=</span><span style="color:#24292E"> namedtuple(</span><span style="color:#032F62">'Episode'</span><span style="color:#24292E">, </span><span style="color:#E36209">field_names</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#032F62">'reward'</span><span style="color:#24292E">, </span><span style="color:#032F62">'steps'</span><span style="color:#24292E">])</span></span>
+<span class="line"><span style="color:#24292E">EpisodeStep </span><span style="color:#D73A49">=</span><span style="color:#24292E"> namedtuple(</span></span>
+<span class="line"><span style="color:#032F62">    'EpisodeStep'</span><span style="color:#24292E">, </span><span style="color:#E36209">field_names</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#032F62">'observation'</span><span style="color:#24292E">, </span><span style="color:#032F62">'action'</span><span style="color:#24292E">]</span></span>
+<span class="line"><span style="color:#24292E">)</span></span></code></pre>
+<p>在这里，我们定义了两个命名元组类型的帮助类：</p>
+<ol>
+<li><strong>EpisodeStep</strong>：这个用于表示智能体在片段中执行的一步，同时它会保存来自环境的观察和采取的动作。在精英片段的训练中我们会用到它</li>
+<li><strong>Episode</strong>：这是单个片段，它保存了总的无折扣奖励以及EpisodeStep集合</li>
+</ol>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># 用片段生成批的函数</span></span>
+<span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> iterate_batches</span><span style="color:#24292E">(env, net, batch_size):</span></span>
+<span class="line"><span style="color:#24292E">    batch </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"><span style="color:#24292E">    episode_reward </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.0</span></span>
+<span class="line"><span style="color:#24292E">    episode_steps </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"><span style="color:#24292E">    obs </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.reset()</span></span>
+<span class="line"><span style="color:#24292E">    sm </span><span style="color:#D73A49">=</span><span style="color:#24292E"> nn.Softmax(</span><span style="color:#E36209">dim</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#24292E">)    </span><span style="color:#6A737D"># 用来将 NN 的输出转换成动作的概率分布</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    while</span><span style="color:#005CC5"> True</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">        obs_v </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.FloatTensor([obs])</span></span>
+<span class="line"><span style="color:#24292E">        act_probs_v </span><span style="color:#D73A49">=</span><span style="color:#24292E"> sm(net(obs_v))</span></span>
+<span class="line"><span style="color:#24292E">        act_probs </span><span style="color:#D73A49">=</span><span style="color:#24292E"> act_probs_v.data.numpy()[</span><span style="color:#005CC5">0</span><span style="color:#24292E">]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">        action </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.random.choice(</span><span style="color:#005CC5">len</span><span style="color:#24292E">(act_probs), </span><span style="color:#E36209">p</span><span style="color:#D73A49">=</span><span style="color:#24292E">act_probs)</span></span>
+<span class="line"><span style="color:#24292E">        next_obs, reward, is_done, _ </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.step(action)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">        episode_reward </span><span style="color:#D73A49">+=</span><span style="color:#24292E"> reward</span></span>
+<span class="line"><span style="color:#24292E">        step </span><span style="color:#D73A49">=</span><span style="color:#24292E"> EpisodeStep(</span><span style="color:#E36209">observation</span><span style="color:#D73A49">=</span><span style="color:#24292E">obs, </span><span style="color:#E36209">action</span><span style="color:#D73A49">=</span><span style="color:#24292E">action)</span></span>
+<span class="line"><span style="color:#24292E">        episode_steps.append(step)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">        if</span><span style="color:#24292E"> is_done:</span></span>
+<span class="line"><span style="color:#24292E">            e </span><span style="color:#D73A49">=</span><span style="color:#24292E"> Episode(</span><span style="color:#E36209">reward</span><span style="color:#D73A49">=</span><span style="color:#24292E">episode_reward, </span><span style="color:#E36209">steps</span><span style="color:#D73A49">=</span><span style="color:#24292E">episode_steps)</span></span>
+<span class="line"><span style="color:#24292E">            batch.append(e)</span></span>
+<span class="line"><span style="color:#24292E">            episode_reward </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.0</span></span>
+<span class="line"><span style="color:#24292E">            episode_steps </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"><span style="color:#24292E">            next_obs </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.reset()</span></span>
+<span class="line"><span style="color:#D73A49">            if</span><span style="color:#005CC5"> len</span><span style="color:#24292E">(batch) </span><span style="color:#D73A49">==</span><span style="color:#24292E"> batch_size:</span></span>
+<span class="line"><span style="color:#D73A49">                yield</span><span style="color:#24292E"> batch</span></span>
+<span class="line"><span style="color:#24292E">                batch </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">            obs </span><span style="color:#D73A49">=</span><span style="color:#24292E"> next_obs</span></span></code></pre>
+<p>上述函数接受环境（Gym库中的<code>Env</code>实例）、NN 以及每个迭代需要生成的片段数作为输入</p>
+<p>在每次迭代中，将当前的观察转换成 PyTorch 张量，并将其传入 NN 以获得动作概率分布。有以下几件事需要注意：</p>
+<ol>
+<li>所有 pytorch 中的 <code>nn.Module</code> 实例都接受一批数据，对于 NN 也是一样的，所以我们将观察（在 cartpole 中为一个由 4 个数字组成的向量）转换成 1*4 大小的张量</li>
+<li>由于没有在 NN 的输出使用非线性函数，它会输出一个原始的动作分数，因此需要将其用 <code>softmax</code> 函数处理</li>
+<li>NN 和 softmax 层都返回包含了梯度的张量，所以我们需要通过访问 <code>tensor.data</code> 字段来将其数据取出来，然后将张量转换成 Numpy 数组，该数组和输入一样，有同样的二维结构，0轴是批的维度，所以我们需要获取第一个元素，这样才能得到动作概率的一维向量。</li>
+</ol>
+<p>既然有了动作的概率分布，只需要使用 Numpy 的 <code>random.choice()</code> 函数对分布进行采样，就能获得当前步骤该选择的动作。然后，将动作传给环境来获得下一个观察、奖励以及片段是否结束的标记</p>
+<p>奖励被加入当前片段的总奖励，片段的步骤列表也添加来一个**（observation, action）对**。注意，保存的是用来选择动作的观察，而不是动作执行后从环境返回的观察。这些都是需要牢记的微小但重要的细节。</p>
+<p>在这个函数的逻辑处理中，要理解一个非常重要的方面是：NN 的训练和片段的生成是同时进行的。它们并不是完全并行的，但是每积累了足够（16）的片段之后，控制权将转移到调用方，调用方会用梯度下降来训练 NN。所以，每当 yield 返回时， NN 都会稍微有点进步</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> filter_batch</span><span style="color:#24292E">(batch, percentile):</span></span>
+<span class="line"><span style="color:#24292E">    rewards </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> list</span><span style="color:#24292E">(</span><span style="color:#005CC5">map</span><span style="color:#24292E">(</span><span style="color:#D73A49">lambda</span><span style="color:#24292E"> s: s.reward, batch))</span></span>
+<span class="line"><span style="color:#24292E">    reward_bound </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.percentile(rewards, percentile)</span></span>
+<span class="line"><span style="color:#24292E">    reward_mean </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> float</span><span style="color:#24292E">(np.mean(rewards))</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">    train_obs </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"><span style="color:#24292E">    train_act </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"><span style="color:#D73A49">    for</span><span style="color:#24292E"> reward, steps </span><span style="color:#D73A49">in</span><span style="color:#24292E"> batch:</span></span>
+<span class="line"><span style="color:#D73A49">        if</span><span style="color:#24292E"> reward </span><span style="color:#D73A49">&#x3C;</span><span style="color:#24292E"> reward_bound:</span></span>
+<span class="line"><span style="color:#D73A49">            continue</span></span>
+<span class="line"><span style="color:#24292E">        train_obs.extend(</span><span style="color:#005CC5">map</span><span style="color:#24292E">(</span><span style="color:#D73A49">lambda</span><span style="color:#24292E"> step: step.observation, steps))</span></span>
+<span class="line"><span style="color:#24292E">        train_act.extend(</span><span style="color:#005CC5">map</span><span style="color:#24292E">(</span><span style="color:#D73A49">lambda</span><span style="color:#24292E"> step: step.action, steps))</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">        train_obs_v </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.FloatTensor(train_obs)</span></span>
+<span class="line"><span style="color:#24292E">        train_act_v </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.LongTensor(train_act)</span></span>
+<span class="line"><span style="color:#D73A49">        return</span><span style="color:#24292E"> train_obs_v, train_act_v, value_bound, reward_mean    </span><span style="color:#6A737D"># 最后两个值只用于写入 TensorBoard,以检验智能体的性能</span></span></code></pre>
+<p>这个函数是交叉熵的核心——根据给定的一批片段和百分位值，计算奖励边界，以用于过滤要用于训练的精英片段。</p>
+<p>为了获得奖励边界，我们将使用 Numpy 的 <code>percentile</code> 函数，该函数根据给定的值列表和百分位计算百分位的值。</p>
+<p>然后再计算平均奖励用于监控</p>
+<p>然后过滤片段。针对批中的每个片段，检查其总奖励值是否高于边界，如果高于，则将其观察和动作添加到要训练的列表中。</p>
+<h2 id="14-完整代码">1.4 完整代码</h2>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D">#!/usr/bin/env python3</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> gym</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> collections </span><span style="color:#D73A49">import</span><span style="color:#24292E"> namedtuple</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> numpy </span><span style="color:#D73A49">as</span><span style="color:#24292E"> np</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> tensorboardX </span><span style="color:#D73A49">import</span><span style="color:#24292E"> SummaryWriter</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> torch</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> torch.nn </span><span style="color:#D73A49">as</span><span style="color:#24292E"> nn</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> torch.optim </span><span style="color:#D73A49">as</span><span style="color:#24292E"> optim</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#005CC5">HIDDEN_SIZE</span><span style="color:#D73A49"> =</span><span style="color:#005CC5"> 128</span></span>
+<span class="line"><span style="color:#005CC5">BATCH_SIZE</span><span style="color:#D73A49"> =</span><span style="color:#005CC5"> 16</span></span>
+<span class="line"><span style="color:#005CC5">PERCENTILE</span><span style="color:#D73A49"> =</span><span style="color:#005CC5"> 70</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">class</span><span style="color:#6F42C1"> Net</span><span style="color:#24292E">(</span><span style="color:#6F42C1">nn</span><span style="color:#24292E">.</span><span style="color:#6F42C1">Module</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#D73A49">    def</span><span style="color:#005CC5"> __init__</span><span style="color:#24292E">(self, obs_size, hidden_size, n_actions):</span></span>
+<span class="line"><span style="color:#005CC5">        super</span><span style="color:#24292E">(Net, </span><span style="color:#005CC5">self</span><span style="color:#24292E">).</span><span style="color:#005CC5">__init__</span><span style="color:#24292E">()</span></span>
+<span class="line"><span style="color:#005CC5">        self</span><span style="color:#24292E">.net </span><span style="color:#D73A49">=</span><span style="color:#24292E"> nn.Sequential(</span></span>
+<span class="line"><span style="color:#24292E">            nn.Linear(obs_size, hidden_size),</span></span>
+<span class="line"><span style="color:#24292E">            nn.ReLU(),</span></span>
+<span class="line"><span style="color:#24292E">            nn.Linear(hidden_size, n_actions)</span></span>
+<span class="line"><span style="color:#24292E">        )</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    def</span><span style="color:#6F42C1"> forward</span><span style="color:#24292E">(self, x):</span></span>
+<span class="line"><span style="color:#D73A49">        return</span><span style="color:#005CC5"> self</span><span style="color:#24292E">.net(x)</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">Episode </span><span style="color:#D73A49">=</span><span style="color:#24292E"> namedtuple(</span><span style="color:#032F62">'Episode'</span><span style="color:#24292E">, </span><span style="color:#E36209">field_names</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#032F62">'reward'</span><span style="color:#24292E">, </span><span style="color:#032F62">'steps'</span><span style="color:#24292E">])</span></span>
+<span class="line"><span style="color:#24292E">EpisodeStep </span><span style="color:#D73A49">=</span><span style="color:#24292E"> namedtuple(</span><span style="color:#032F62">'EpisodeStep'</span><span style="color:#24292E">, </span><span style="color:#E36209">field_names</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#032F62">'observation'</span><span style="color:#24292E">, </span><span style="color:#032F62">'action'</span><span style="color:#24292E">])</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> iterate_batches</span><span style="color:#24292E">(env, net, batch_size):</span></span>
+<span class="line"><span style="color:#24292E">    batch </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"><span style="color:#24292E">    episode_reward </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.0</span></span>
+<span class="line"><span style="color:#24292E">    episode_steps </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"><span style="color:#24292E">    obs </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.reset()</span></span>
+<span class="line"><span style="color:#24292E">    sm </span><span style="color:#D73A49">=</span><span style="color:#24292E"> nn.Softmax(</span><span style="color:#E36209">dim</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">    while</span><span style="color:#005CC5"> True</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">        obs_v </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.FloatTensor([obs])</span></span>
+<span class="line"><span style="color:#24292E">        act_probs_v </span><span style="color:#D73A49">=</span><span style="color:#24292E"> sm(net(obs_v))</span></span>
+<span class="line"><span style="color:#24292E">        act_probs </span><span style="color:#D73A49">=</span><span style="color:#24292E"> act_probs_v.data.numpy()[</span><span style="color:#005CC5">0</span><span style="color:#24292E">]</span></span>
+<span class="line"><span style="color:#24292E">        action </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.random.choice(</span><span style="color:#005CC5">len</span><span style="color:#24292E">(act_probs), </span><span style="color:#E36209">p</span><span style="color:#D73A49">=</span><span style="color:#24292E">act_probs)</span></span>
+<span class="line"><span style="color:#24292E">        next_obs, reward, is_done, _ </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.step(action)</span></span>
+<span class="line"><span style="color:#24292E">        episode_reward </span><span style="color:#D73A49">+=</span><span style="color:#24292E"> reward</span></span>
+<span class="line"><span style="color:#24292E">        step </span><span style="color:#D73A49">=</span><span style="color:#24292E"> EpisodeStep(</span><span style="color:#E36209">observation</span><span style="color:#D73A49">=</span><span style="color:#24292E">obs, </span><span style="color:#E36209">action</span><span style="color:#D73A49">=</span><span style="color:#24292E">action)</span></span>
+<span class="line"><span style="color:#24292E">        episode_steps.append(step)</span></span>
+<span class="line"><span style="color:#D73A49">        if</span><span style="color:#24292E"> is_done:</span></span>
+<span class="line"><span style="color:#24292E">            e </span><span style="color:#D73A49">=</span><span style="color:#24292E"> Episode(</span><span style="color:#E36209">reward</span><span style="color:#D73A49">=</span><span style="color:#24292E">episode_reward, </span><span style="color:#E36209">steps</span><span style="color:#D73A49">=</span><span style="color:#24292E">episode_steps)</span></span>
+<span class="line"><span style="color:#24292E">            batch.append(e)</span></span>
+<span class="line"><span style="color:#24292E">            episode_reward </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.0</span></span>
+<span class="line"><span style="color:#24292E">            episode_steps </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"><span style="color:#24292E">            next_obs </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.reset()</span></span>
+<span class="line"><span style="color:#D73A49">            if</span><span style="color:#005CC5"> len</span><span style="color:#24292E">(batch) </span><span style="color:#D73A49">==</span><span style="color:#24292E"> batch_size:</span></span>
+<span class="line"><span style="color:#D73A49">                yield</span><span style="color:#24292E"> batch</span></span>
+<span class="line"><span style="color:#24292E">                batch </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"><span style="color:#24292E">        obs </span><span style="color:#D73A49">=</span><span style="color:#24292E"> next_obs</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> filter_batch</span><span style="color:#24292E">(batch, percentile):</span></span>
+<span class="line"><span style="color:#24292E">    rewards </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> list</span><span style="color:#24292E">(</span><span style="color:#005CC5">map</span><span style="color:#24292E">(</span><span style="color:#D73A49">lambda</span><span style="color:#24292E"> s: s.reward, batch))</span></span>
+<span class="line"><span style="color:#24292E">    reward_bound </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.percentile(rewards, percentile)</span></span>
+<span class="line"><span style="color:#24292E">    reward_mean </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> float</span><span style="color:#24292E">(np.mean(rewards))</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">    train_obs </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"><span style="color:#24292E">    train_act </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"><span style="color:#D73A49">    for</span><span style="color:#24292E"> reward, steps </span><span style="color:#D73A49">in</span><span style="color:#24292E"> batch:</span></span>
+<span class="line"><span style="color:#D73A49">        if</span><span style="color:#24292E"> reward </span><span style="color:#D73A49">&#x3C;</span><span style="color:#24292E"> reward_bound:</span></span>
+<span class="line"><span style="color:#D73A49">            continue</span></span>
+<span class="line"><span style="color:#24292E">        train_obs.extend(</span><span style="color:#005CC5">map</span><span style="color:#24292E">(</span><span style="color:#D73A49">lambda</span><span style="color:#24292E"> step: step.observation, steps))</span></span>
+<span class="line"><span style="color:#24292E">        train_act.extend(</span><span style="color:#005CC5">map</span><span style="color:#24292E">(</span><span style="color:#D73A49">lambda</span><span style="color:#24292E"> step: step.action, steps))</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">    train_obs_v </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.FloatTensor(train_obs)</span></span>
+<span class="line"><span style="color:#24292E">    train_act_v </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.LongTensor(train_act)</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#24292E"> train_obs_v, train_act_v, reward_bound, reward_mean</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">if</span><span style="color:#005CC5"> __name__</span><span style="color:#D73A49"> ==</span><span style="color:#032F62"> "__main__"</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">    env </span><span style="color:#D73A49">=</span><span style="color:#24292E"> gym.make(</span><span style="color:#032F62">"CartPole-v0"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#6A737D">    # env = gym.wrappers.Monitor(env, directory="mon", force=True)</span></span>
+<span class="line"><span style="color:#24292E">    obs_size </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.observation_space.shape[</span><span style="color:#005CC5">0</span><span style="color:#24292E">]</span></span>
+<span class="line"><span style="color:#24292E">    n_actions </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.action_space.n</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">    net </span><span style="color:#D73A49">=</span><span style="color:#24292E"> Net(obs_size, </span><span style="color:#005CC5">HIDDEN_SIZE</span><span style="color:#24292E">, n_actions)</span></span>
+<span class="line"><span style="color:#24292E">    objective </span><span style="color:#D73A49">=</span><span style="color:#24292E"> nn.CrossEntropyLoss()</span></span>
+<span class="line"><span style="color:#24292E">    optimizer </span><span style="color:#D73A49">=</span><span style="color:#24292E"> optim.Adam(</span><span style="color:#E36209">params</span><span style="color:#D73A49">=</span><span style="color:#24292E">net.parameters(), </span><span style="color:#E36209">lr</span><span style="color:#D73A49">=</span><span style="color:#005CC5">0.01</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">    writer </span><span style="color:#D73A49">=</span><span style="color:#24292E"> SummaryWriter(</span><span style="color:#E36209">comment</span><span style="color:#D73A49">=</span><span style="color:#032F62">"-cartpole"</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    for</span><span style="color:#24292E"> iter_no, batch </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> enumerate</span><span style="color:#24292E">(iterate_batches(</span></span>
+<span class="line"><span style="color:#24292E">            env, net, </span><span style="color:#005CC5">BATCH_SIZE</span><span style="color:#24292E">)):</span></span>
+<span class="line"><span style="color:#24292E">        obs_v, acts_v, reward_b, reward_m </span><span style="color:#D73A49">=</span><span style="color:#24292E"> filter_batch(batch, </span><span style="color:#005CC5">PERCENTILE</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">        </span></span>
+<span class="line"><span style="color:#24292E">        optimizer.zero_grad()</span></span>
+<span class="line"><span style="color:#24292E">        action_scores_v </span><span style="color:#D73A49">=</span><span style="color:#24292E"> net(obs_v)</span></span>
+<span class="line"><span style="color:#24292E">        loss_v </span><span style="color:#D73A49">=</span><span style="color:#24292E"> objective(action_scores_v, acts_v)</span></span>
+<span class="line"><span style="color:#24292E">        loss_v.backward()</span></span>
+<span class="line"><span style="color:#24292E">        optimizer.step()</span></span>
+<span class="line"><span style="color:#005CC5">        print</span><span style="color:#24292E">(</span><span style="color:#032F62">"</span><span style="color:#005CC5">%d</span><span style="color:#032F62">: loss=</span><span style="color:#005CC5">%.3f</span><span style="color:#032F62">, reward_mean=</span><span style="color:#005CC5">%.1f</span><span style="color:#032F62">, rw_bound=</span><span style="color:#005CC5">%.1f</span><span style="color:#032F62">"</span><span style="color:#D73A49"> %</span><span style="color:#24292E"> (</span></span>
+<span class="line"><span style="color:#24292E">            iter_no, loss_v.item(), reward_m, reward_b))</span></span>
+<span class="line"><span style="color:#24292E">        writer.add_scalar(</span><span style="color:#032F62">"loss"</span><span style="color:#24292E">, loss_v.item(), iter_no)</span></span>
+<span class="line"><span style="color:#24292E">        writer.add_scalar(</span><span style="color:#032F62">"reward_bound"</span><span style="color:#24292E">, reward_b, iter_no)</span></span>
+<span class="line"><span style="color:#24292E">        writer.add_scalar(</span><span style="color:#032F62">"reward_mean"</span><span style="color:#24292E">, reward_m, iter_no)</span></span>
+<span class="line"><span style="color:#D73A49">        if</span><span style="color:#24292E"> reward_m </span><span style="color:#D73A49">></span><span style="color:#005CC5"> 199</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#005CC5">            print</span><span style="color:#24292E">(</span><span style="color:#032F62">"Solved!"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">            break</span></span>
+<span class="line"><span style="color:#24292E">    writer.close()</span></span></code></pre> </div> </div> <aside class="article-toc"> <div id="post-toc-card"> <div id="toc-card-style" class="toc-card"> <div id="toc-card-div"> <nav id="toc"> <span class="sidebar-title">目录</span> <ol class="toc"></ol> </nav> </div> </div> </div> </aside> </div> </article>  <footer id="footer"> <div id="footer-wrap"> <div>
+&copy; 2022 - 2026 ColdRain <span id="footer-icon"><i class="fa-solid fa-cloud-rain fa-fw"></i></span>
+Powered by Astro
+</div> </div> </footer> </main> <div id="preview" hidden> <img id="preview-content" alt=""> </div> </div> <canvas id="background" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"></canvas> <script src="/js/background.min.js"></script> <script src="/js/site.js"></script> </body> </html>

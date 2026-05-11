@@ -1,0 +1,273 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><title>TorchRL 入门 2 | Cold Rain&#39;s Blog</title><meta name="author" content="ColdRain"><meta name="description" content="銀の龍の背に乗って..."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="/images/head.jpg"><link rel="preconnect" href="https://s4.zstatic.net"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"><link rel="preconnect" href="https://fonts.googleapis.cn"><link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/css/astro-overrides.css"></head> <body data-page-type="post"> <div id="layout"> <div id="loading"> <div id="loading-circle"> <h2>LOADING</h2> <p>加载过慢请开启缓存 浏览器默认开启</p> <img src="/images/loading.gif" alt=""> </div> </div> <div id="menu" class="menu-color"> <nav id="desktop-menu"> <a class="title" href="/"> <span>COLD RAIN&#39;S BLOG</span> </a> <a href="/"> <i class="fa-solid fa-house fa-fw"></i> <span>&ensp;Homepage</span> </a><a href="/2024/11/26/test/"> <i class="fa-solid fa-id-card fa-fw"></i> <span>&ensp;About</span> </a><a href="/archives/"> <i class="fa-solid fa-box-archive fa-fw"></i> <span>&ensp;Archives</span> </a><a href="/categories/杂谈/"> <i class="fa-solid fa-bookmark fa-fw"></i> <span>&ensp;Categories</span> </a><a href="/tags/杂谈/"> <i class="fa-solid fa-tags fa-fw"></i> <span>&ensp;Tags</span> </a><a href="/friends/"> <i class="fa-solid fa-link fa-fw"></i> <span>&ensp;Links</span> </a><a href="/favorites/"> <i class="fa-solid fa-star fa-fw"></i> <span>&ensp;Favorites</span> </a> </nav> <nav id="mobile-menu"> <button class="title" type="button" aria-expanded="false" aria-controls="mobile-menu-items"> <i class="fa-solid fa-bars fa-fw"></i> <span>&emsp;COLD RAIN&#39;S BLOG</span> </button> <div id="mobile-menu-items" class="items" hidden> <a href="/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-house fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div> </div> </a><a href="/2024/11/26/test/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-id-card fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">About</div> </div> </a><a href="/archives/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-box-archive fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div> </div> </a><a href="/categories/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-bookmark fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div> </div> </a><a href="/tags/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-tags fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div> </div> </a><a href="/friends/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-link fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div> </div> </a><a href="/favorites/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-star fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Favorites</div> </div> </a> </div> </nav> </div> <div id="menu-curtain" hidden></div> <main id="main" class="into-enter-from">  <article class="article"> <div class="article-wrap"> <div class="article-content"> <h1>TorchRL 入门 2</h1> <div class="info"> <span class="date"> <span class="icon"><i class="fa-solid fa-calendar fa-fw"></i></span> 2024/12/7 </span> <span class="category"> <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/"> <span class="icon"><i class="fa-solid fa-bookmark fa-fw"></i></span> 强化学习 </a> </span> <span class="tags"> <span class="icon"><i class="fa-solid fa-tags fa-fw"></i></span> <span class="tag"> <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">强化学习</a> </span><span class="tag"> <a href="/tags/PyTorch/" style="color: #00bcd4">PyTorch</a> </span> </span> </div> <div class="content"> <h1 id="开始使用-torchrl-的模块">开始使用 TorchRL 的模块</h1>
+<h2 id="1-tensordict-模块">1. TensorDict 模块</h2>
+<p>与环境与实例交互的方式类似 <code>TensorDict</code>，用于表示策略和值函数的模块也执行相同的操作。核心思想很简单：将标准 <code>Module</code> （或任何其他函数）封装在一个类中，该类知道需要读取哪些条目并将其传递给模块，然后使用分配的条目记录结果。为了说明这一点，我们将使用最简单的策略：<strong>从观察空间到动作空间的确定性映射</strong>。为了获得最大的通用性，我们将使用一个带有 <code>LazyLinear</code> 的我们在上一个教程中实例化的 <code>Pendulum</code> 环境的模块。</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> torch</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> torchrl.envs </span><span style="color:#D73A49">import</span><span style="color:#24292E"> GymEnv</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> tensordict.nn </span><span style="color:#D73A49">import</span><span style="color:#24292E"> TensorDictModule</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">env </span><span style="color:#D73A49">=</span><span style="color:#24292E"> GymEnv(</span><span style="color:#032F62">"Pendulum-v1"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">module </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.nn.LazyLinear(</span><span style="color:#E36209">out_features</span><span style="color:#D73A49">=</span><span style="color:#24292E">env.action_spec.shape[</span><span style="color:#D73A49">-</span><span style="color:#005CC5">1</span><span style="color:#24292E">])</span></span>
+<span class="line"><span style="color:#24292E">policy </span><span style="color:#D73A49">=</span><span style="color:#24292E"> TensorDictModule(</span></span>
+<span class="line"><span style="color:#24292E">    module,</span></span>
+<span class="line"><span style="color:#E36209">    in_keys</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#032F62">"observation"</span><span style="color:#24292E">],</span></span>
+<span class="line"><span style="color:#E36209">    out_keys</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#032F62">"action"</span><span style="color:#24292E">],</span></span>
+<span class="line"><span style="color:#24292E">)</span></span></code></pre>
+<p>这就是执行我们的策略所需的全部内容！使用惰性模块可以让我们绕过获取观察空间形状的需要，因为模块会自动确定它。此策略现已准备好在环境中运行：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">rollout </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.rollout(</span><span style="color:#E36209">max_steps</span><span style="color:#D73A49">=</span><span style="color:#005CC5">10</span><span style="color:#24292E">, </span><span style="color:#E36209">policy</span><span style="color:#D73A49">=</span><span style="color:#24292E">policy)</span></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(rollout)</span></span></code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>TensorDict(
+fields={
+action: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),
+done: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),
+next: TensorDict(
+fields={
+done: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),
+observation: Tensor(shape=torch.Size([10, 3]), device=cpu, dtype=torch.float32, is_shared=False),
+reward: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),
+terminated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),
+truncated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False)},
+batch_size=torch.Size([10]),
+device=None,
+is_shared=False),
+observation: Tensor(shape=torch.Size([10, 3]), device=cpu, dtype=torch.float32, is_shared=False),
+terminated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),
+truncated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False)},
+batch_size=torch.Size([10]),
+device=None,
+is_shared=False)</p>
+</blockquote>
+<h2 id="2-专用的-wrappers">2. 专用的 wrappers</h2>
+<p>为了简化 <code>Actor</code> 的创建，我们可以使用 <code>ProbabilisticActor</code>、<code>ActorValueOperator</code> 或者 <code>ActorCriticOperator</code>。例如，<code>Actor</code> 为 <code>in_keys</code> 和 <code>out_keys</code> 提供默认值，从而可以直接与许多常见环境集成：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> torchrl.modules </span><span style="color:#D73A49">import</span><span style="color:#24292E"> Actor</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">policy </span><span style="color:#D73A49">=</span><span style="color:#24292E"> Actor(module)</span></span>
+<span class="line"><span style="color:#24292E">rollout </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.rollout(</span><span style="color:#E36209">max_steps</span><span style="color:#D73A49">=</span><span style="color:#005CC5">10</span><span style="color:#24292E">, </span><span style="color:#E36209">policy</span><span style="color:#D73A49">=</span><span style="color:#24292E">policy)</span></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(rollout)</span></span></code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>TensorDict(
+fields={
+action: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),
+done: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),
+next: TensorDict(
+fields={
+done: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),
+observation: Tensor(shape=torch.Size([10, 3]), device=cpu, dtype=torch.float32, is_shared=False),
+reward: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),
+terminated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),
+truncated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False)},
+batch_size=torch.Size([10]),
+device=None,
+is_shared=False),
+observation: Tensor(shape=torch.Size([10, 3]), device=cpu, dtype=torch.float32, is_shared=False),
+terminated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),
+truncated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False)},
+batch_size=torch.Size([10]),
+device=None,
+is_shared=False)</p>
+</blockquote>
+<p>具体的调用参数可以在 <a href="https://pytorch.org/rl/stable/reference/modules.html#tdmodules">API文档</a> 中找到。</p>
+<h2 id="3-network">3. Network</h2>
+<p>TorchRL 还提供了常规模块，无需重复使用 <code>tensordict</code> 特征即可使用。您将遇到的两个最常见的网络是 <code>CNN</code> 和 <code>MLP</code> 模块。我们可以用以下之一替换我们的策略模块：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> torchrl.modules </span><span style="color:#D73A49">import</span><span style="color:#005CC5"> MLP</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">module </span><span style="color:#D73A49">=</span><span style="color:#24292E"> MLP(</span></span>
+<span class="line"><span style="color:#E36209">    out_features</span><span style="color:#D73A49">=</span><span style="color:#24292E">env.action_spec.shape[</span><span style="color:#D73A49">-</span><span style="color:#005CC5">1</span><span style="color:#24292E">],</span></span>
+<span class="line"><span style="color:#E36209">    num_cells</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#005CC5">32</span><span style="color:#24292E">, </span><span style="color:#005CC5">64</span><span style="color:#24292E">],</span></span>
+<span class="line"><span style="color:#E36209">    activation_class</span><span style="color:#D73A49">=</span><span style="color:#24292E">torch.nn.Tanh,</span></span>
+<span class="line"><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">policy </span><span style="color:#D73A49">=</span><span style="color:#24292E"> Actor(module)</span></span>
+<span class="line"><span style="color:#24292E">rollout </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.rollout(</span><span style="color:#E36209">max_steps</span><span style="color:#D73A49">=</span><span style="color:#005CC5">10</span><span style="color:#24292E">, </span><span style="color:#E36209">policy</span><span style="color:#D73A49">=</span><span style="color:#24292E">policy)</span></span></code></pre>
+<p>这里我们创建了一个简单的 <code>MLP</code> 网络结构，下面我们来具体看一看它的结构：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(module)</span></span></code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>MLP(</p>
+<p>(0): Linear(in_features=3, out_features=32, bias=True)</p>
+<p>(1): Tanh()</p>
+<p>(2): Linear(in_features=32, out_features=64, bias=True)</p>
+<p>(3): Tanh()</p>
+<p>(4): Linear(in_features=64, out_features=1, bias=True)</p>
+<p>)</p>
+</blockquote>
+<p>可以看到我们的网络一共有<strong>三层</strong>，<code>num_cells=[32, 64]</code> 代表的是：第一层输出有32个神经元，第二层输出有64个神经元。</p>
+<h2 id="4-概率策略">4. 概率策略</h2>
+<p>策略优化算法（如 <code>PPO</code>）要求策略具有随机性：与上述示例不同，模块现在编码了从观察空间到参数空间的映射，该映射对可能的操作的分布进行了编码。TorchRL 通过将各种操作（例如从参数构建分布、从该分布中采样以及检索对数概率）归入单个类来促进此类模块的设计。在这里，我们将使用三个组件构建一个依赖于常规正态分布的 actor：</p>
+<ul>
+<li>
+<p>一个<code>MLP</code>主干读取大小为3的观测值并输出大小为2的单个张量；</p>
+</li>
+<li>
+<p>NormalParamExtractor将此输出分成两块的模块，即大小为的平均值和标准差[1]；</p>
+</li>
+<li>
+<p>它将ProbabilisticActor读取这些参数in_keys，用它们创建一个分布，并用样本和对数概率填充我们的张量字典。</p>
+</li>
+</ul>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> tensordict.nn.distributions </span><span style="color:#D73A49">import</span><span style="color:#24292E"> NormalParamExtractor</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> torch.distributions </span><span style="color:#D73A49">import</span><span style="color:#24292E"> Normal</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> torchrl.modules </span><span style="color:#D73A49">import</span><span style="color:#24292E"> ProbabilisticActor</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">backbone </span><span style="color:#D73A49">=</span><span style="color:#24292E"> MLP(</span><span style="color:#E36209">in_features</span><span style="color:#D73A49">=</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#E36209">out_features</span><span style="color:#D73A49">=</span><span style="color:#005CC5">2</span><span style="color:#24292E">)   </span><span style="color:#6A737D"># 默认有4层网络，除了最后一层，每层输出都是32个神经元</span></span>
+<span class="line"><span style="color:#24292E">extractor </span><span style="color:#D73A49">=</span><span style="color:#24292E"> NormalParamExtractor()</span></span>
+<span class="line"><span style="color:#24292E">module </span><span style="color:#D73A49">=</span><span style="color:#24292E"> torch.nn.Sequential(backbone, extractor)</span></span>
+<span class="line"><span style="color:#24292E">td_module </span><span style="color:#D73A49">=</span><span style="color:#24292E"> TensorDictModule(module, </span><span style="color:#E36209">in_keys</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#032F62">"observation"</span><span style="color:#24292E">], </span><span style="color:#E36209">out_keys</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#032F62">"loc"</span><span style="color:#24292E">, </span><span style="color:#032F62">"scale"</span><span style="color:#24292E">])</span></span>
+<span class="line"><span style="color:#24292E">policy </span><span style="color:#D73A49">=</span><span style="color:#24292E"> ProbabilisticActor(</span></span>
+<span class="line"><span style="color:#24292E">    td_module,</span></span>
+<span class="line"><span style="color:#E36209">    in_keys</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#032F62">"loc"</span><span style="color:#24292E">, </span><span style="color:#032F62">"scale"</span><span style="color:#24292E">],</span></span>
+<span class="line"><span style="color:#E36209">    out_keys</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#032F62">"action"</span><span style="color:#24292E">],</span></span>
+<span class="line"><span style="color:#E36209">    distribution_class</span><span style="color:#D73A49">=</span><span style="color:#24292E">Normal,</span></span>
+<span class="line"><span style="color:#E36209">    return_log_prob</span><span style="color:#D73A49">=</span><span style="color:#005CC5">True</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">rollout </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.rollout(</span><span style="color:#E36209">max_steps</span><span style="color:#D73A49">=</span><span style="color:#005CC5">10</span><span style="color:#24292E">, </span><span style="color:#E36209">policy</span><span style="color:#D73A49">=</span><span style="color:#24292E">policy)</span></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(rollout)</span></span></code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>TensorDict(
+fields={
+action: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),
+done: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),
+loc: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),
+next: TensorDict(
+fields={
+done: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),
+observation: Tensor(shape=torch.Size([10, 3]), device=cpu, dtype=torch.float32, is_shared=False),
+reward: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),
+terminated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),
+truncated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False)},
+batch_size=torch.Size([10]),
+device=None,
+is_shared=False),
+observation: Tensor(shape=torch.Size([10, 3]), device=cpu, dtype=torch.float32, is_shared=False),
+sample_log_prob: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),
+scale: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.float32, is_shared=False),
+terminated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False),
+truncated: Tensor(shape=torch.Size([10, 1]), device=cpu, dtype=torch.bool, is_shared=False)},
+batch_size=torch.Size([10]),
+device=None,
+is_shared=False)</p>
+</blockquote>
+<p>这里我们可以查看一下具体参数：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(module)</span></span></code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>Sequential(</p>
+<p>(0): MLP(</p>
+<p>(0): Linear(in_features=3, out_features=32, bias=True)</p>
+<p>(1): Tanh()</p>
+<p>(2): Linear(in_features=32, out_features=32, bias=True)</p>
+<p>(3): Tanh()</p>
+<p>(4): Linear(in_features=32, out_features=32, bias=True)</p>
+<p>(5): Tanh()</p>
+<p>(6): Linear(in_features=32, out_features=2, bias=True)</p>
+<p>)</p>
+<p>(1): NormalParamExtractor(</p>
+<p>(scale_mapping): biased_softplus()</p>
+<p>)</p>
+<p>)</p>
+</blockquote>
+<p>这里还有几点需要注意：</p>
+<ul>
+<li>
+<p>由于我们在构建 actor 时就要求这样做，因此还会写入当时分布下<strong>动作的对数概率</strong>。这对于 PPO 之类的算法来说是必要的。</p>
+</li>
+<li>
+<p>分布的参数也在”<code>loc</code>”和”<code>scale</code>”条目下的输出张量字典中返回。</p>
+</li>
+</ul>
+<p>如果应用程序需要，您可以控制操作的采样以使用预期值或分布的其他属性，而不是使用随机样本。这可以通过以下 <code>set_exploration_type()</code> 函数进行控制：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> torchrl.envs.utils </span><span style="color:#D73A49">import</span><span style="color:#24292E"> ExplorationType, set_exploration_type</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">with</span><span style="color:#24292E"> set_exploration_type(ExplorationType.</span><span style="color:#005CC5">DETERMINISTIC</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#6A737D">    # takes the mean as action</span></span>
+<span class="line"><span style="color:#24292E">    rollout </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.rollout(</span><span style="color:#E36209">max_steps</span><span style="color:#D73A49">=</span><span style="color:#005CC5">10</span><span style="color:#24292E">, </span><span style="color:#E36209">policy</span><span style="color:#D73A49">=</span><span style="color:#24292E">policy)</span></span>
+<span class="line"><span style="color:#D73A49">with</span><span style="color:#24292E"> set_exploration_type(ExplorationType.</span><span style="color:#005CC5">RANDOM</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#6A737D">    # Samples actions according to the dist</span></span>
+<span class="line"><span style="color:#24292E">    rollout </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.rollout(</span><span style="color:#E36209">max_steps</span><span style="color:#D73A49">=</span><span style="color:#005CC5">10</span><span style="color:#24292E">, </span><span style="color:#E36209">policy</span><span style="color:#D73A49">=</span><span style="color:#24292E">policy)</span></span></code></pre>
+<h2 id="5-exploration">5. exploration</h2>
+<p>像这样的随机策略在某种程度上自然地在探索和利用之间进行权衡，但确定性策略则不会。幸运的是，TorchRL 还可以通过其探索模块来缓解这种情况。我们将以探索 <code>EGreedyModule</code> 模块为例。要查看此模块的实际操作，让我们恢复到确定性策略：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> tensordict.nn </span><span style="color:#D73A49">import</span><span style="color:#24292E"> TensorDictSequential</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> torchrl.modules </span><span style="color:#D73A49">import</span><span style="color:#24292E"> EGreedyModule</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">policy </span><span style="color:#D73A49">=</span><span style="color:#24292E"> Actor(MLP(</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#E36209">num_cells</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#005CC5">32</span><span style="color:#24292E">, </span><span style="color:#005CC5">64</span><span style="color:#24292E">]))</span></span></code></pre>
+<p>在使用 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ε</mi></mrow><annotation encoding="application/x-tex">\varepsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ε</span></span></span></span>-greedy exploration 模块时，我们需要定义一些退火方法和一个初始值 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ε</mi></mrow><annotation encoding="application/x-tex">\varepsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ε</span></span></span></span> 参数。值为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ε</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\varepsilon=1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ε</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> 的策略意味着采取的每一个行动都是随机的；而值为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ε</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\varepsilon=0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ε</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> 的策略意味着根本没有探索，每一个步骤都是固定的。如果需要退火探索因子，<code>step()</code> 需要调用：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">exploration_module </span><span style="color:#D73A49">=</span><span style="color:#24292E"> EGreedyModule(</span></span>
+<span class="line"><span style="color:#E36209">    spec</span><span style="color:#D73A49">=</span><span style="color:#24292E">env.action_spec, </span><span style="color:#E36209">annealing_num_steps</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1000</span><span style="color:#24292E">, </span><span style="color:#E36209">eos_init</span><span style="color:#D73A49">=</span><span style="color:#005CC5">0.5</span></span>
+<span class="line"><span style="color:#24292E">)</span></span></code></pre>
+<p>为了构建我们的探索性策略，我们只需要将确定性策略模块与 TensorDictSequential模块内的探索模块连接起来（这类似于Sequential张量字典领域）。</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">exploration_policy </span><span style="color:#D73A49">=</span><span style="color:#24292E"> TensorDictSequential(policy, exploration_module)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">with</span><span style="color:#24292E"> set_exploration_type(ExplorationType.</span><span style="color:#005CC5">DETERMINISTIC</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#6A737D">    # 不探索</span></span>
+<span class="line"><span style="color:#24292E">    rollout </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.rollout(</span><span style="color:#E36209">max_steps</span><span style="color:#D73A49">=</span><span style="color:#005CC5">10</span><span style="color:#24292E">, </span><span style="color:#E36209">policy</span><span style="color:#D73A49">=</span><span style="color:#24292E">exploration_policy)</span></span>
+<span class="line"><span style="color:#D73A49">with</span><span style="color:#24292E"> set_exploration_type(ExplorationType.</span><span style="color:#005CC5">RANDOM</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#6A737D">    # 探索</span></span>
+<span class="line"><span style="color:#24292E">    rollout </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.rollout(</span><span style="color:#E36209">max_steps</span><span style="color:#D73A49">=</span><span style="color:#005CC5">10</span><span style="color:#24292E">, </span><span style="color:#E36209">policy</span><span style="color:#D73A49">=</span><span style="color:#24292E">exploration_policy)</span></span></code></pre>
+<p>因为它必须能够在动作空间中对随机动作进行采样，所以 <code>EGreedyModule</code> 必须配备来自环境的 <code>action_space</code> 才能知道使用什么策略来随机采样动作。</p>
+<h2 id="6-q-value-actors">6. Q-Value actors</h2>
+<p>在某些情况下，策略不是独立模块，而是构建在另一个模块之上。Q值参与者就是这种情况。简而言之，这些参与者需要估计动作值（大多数时候是离散的），并会贪婪地选择具有最高值的动作。在某些情况下（有限离散动作空间和有限离散状态空间），人们可以只存储一个 2D 状态动作对表并选择具有最高值的动作。DQN 带来的创新 是利用神经网络对值图进行编码，将其扩展到连续状态空间 。为了更清楚地理解，让我们考虑另一个具有离散动作空间的环境：Q(s, a)</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">env </span><span style="color:#D73A49">=</span><span style="color:#24292E"> GymEnv(</span><span style="color:#032F62">"CartPole-v1"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(env.action_spec)</span></span></code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>OneHot(
+shape=torch.Size([2]),
+space=CategoricalBox(n=2),
+device=cpu,
+dtype=torch.int64,
+domain=discrete)</p>
+</blockquote>
+<p>我们构建一个价值网络，当它从环境中读取状态时，每个动作都会产生一个价值：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">num_actions </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 2</span></span>
+<span class="line"><span style="color:#24292E">value_net </span><span style="color:#D73A49">=</span><span style="color:#24292E"> TensorDictModule(</span></span>
+<span class="line"><span style="color:#24292E">    MLP(</span><span style="color:#E36209">out_features</span><span style="color:#D73A49">=</span><span style="color:#24292E">num_actions, </span><span style="color:#E36209">num_cells</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#005CC5">32</span><span style="color:#24292E">, </span><span style="color:#005CC5">32</span><span style="color:#24292E">]),</span></span>
+<span class="line"><span style="color:#E36209">    in_keys</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#032F62">"observation"</span><span style="color:#24292E">],</span></span>
+<span class="line"><span style="color:#E36209">    out_keys</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#032F62">"action_value"</span><span style="color:#24292E">],</span></span>
+<span class="line"><span style="color:#24292E">)</span></span></code></pre>
+<p><code>QValueModule</code> 我们可以通过在价值网络后添加以下内容来轻松构建我们的 Q-Value actor ：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> torchrl.modules </span><span style="color:#D73A49">import</span><span style="color:#24292E"> QValueModule</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">policy </span><span style="color:#D73A49">=</span><span style="color:#24292E"> TensorDictSequential(</span></span>
+<span class="line"><span style="color:#24292E">    value_net,</span></span>
+<span class="line"><span style="color:#24292E">    QValueModule(</span><span style="color:#E36209">spec</span><span style="color:#D73A49">=</span><span style="color:#24292E">env.action_spec),</span></span>
+<span class="line"><span style="color:#24292E">)</span></span></code></pre>
+<p>让我们检查一下。我们运行该策略几个步骤并查看输出。我们应该在获得的 rollout 中找到一个”action_value”以及一个 条目：“chosen_action_value”</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">rollout </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.rollout(</span><span style="color:#E36209">max_steps</span><span style="color:#D73A49">=</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#E36209">policy</span><span style="color:#D73A49">=</span><span style="color:#24292E">policy)</span></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(rollout)</span></span></code></pre>
+<p>输出如下：</p>
+<blockquote>
+<p>TensorDict(
+fields={
+action: Tensor(shape=torch.Size([3, 2]), device=cpu, dtype=torch.int64, is_shared=False),
+action_value: Tensor(shape=torch.Size([3, 2]), device=cpu, dtype=torch.float32, is_shared=False),
+chosen_action_value: Tensor(shape=torch.Size([3, 1]), device=cpu, dtype=torch.float32, is_shared=False),
+done: Tensor(shape=torch.Size([3, 1]), device=cpu, dtype=torch.bool, is_shared=False),
+next: TensorDict(
+fields={
+done: Tensor(shape=torch.Size([3, 1]), device=cpu, dtype=torch.bool, is_shared=False),
+observation: Tensor(shape=torch.Size([3, 4]), device=cpu, dtype=torch.float32, is_shared=False),
+reward: Tensor(shape=torch.Size([3, 1]), device=cpu, dtype=torch.float32, is_shared=False),
+terminated: Tensor(shape=torch.Size([3, 1]), device=cpu, dtype=torch.bool, is_shared=False),
+truncated: Tensor(shape=torch.Size([3, 1]), device=cpu, dtype=torch.bool, is_shared=False)},
+batch_size=torch.Size([3]),
+device=None,
+is_shared=False),
+observation: Tensor(shape=torch.Size([3, 4]), device=cpu, dtype=torch.float32, is_shared=False),
+terminated: Tensor(shape=torch.Size([3, 1]), device=cpu, dtype=torch.bool, is_shared=False),
+truncated: Tensor(shape=torch.Size([3, 1]), device=cpu, dtype=torch.bool, is_shared=False)},
+batch_size=torch.Size([3]),
+device=None,
+is_shared=False)</p>
+</blockquote>
+<p>由于它依赖于 <code>argmax</code> 操作，因此该策略是确定性的。在数据收集期间，我们需要探索环境。为此，我们EGreedyModule 再次使用：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">policy_exploration </span><span style="color:#D73A49">=</span><span style="color:#24292E"> TensorDictSequential(policy, EGreedyModule(env.action_spec))</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">with</span><span style="color:#24292E"> set_exploration_type(ExplorationType.</span><span style="color:#005CC5">RANDOM</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#24292E">    rollout_explore </span><span style="color:#D73A49">=</span><span style="color:#24292E"> env.rollout(</span><span style="color:#E36209">max_steps</span><span style="color:#D73A49">=</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#E36209">policy</span><span style="color:#D73A49">=</span><span style="color:#24292E">policy_explore)</span></span></code></pre> </div> </div> <aside class="article-toc"> <div id="post-toc-card"> <div id="toc-card-style" class="toc-card"> <div id="toc-card-div"> <nav id="toc"> <span class="sidebar-title">目录</span> <ol class="toc"></ol> </nav> </div> </div> </div> </aside> </div> </article>  <footer id="footer"> <div id="footer-wrap"> <div>
+&copy; 2022 - 2026 ColdRain <span id="footer-icon"><i class="fa-solid fa-cloud-rain fa-fw"></i></span>
+Powered by Astro
+</div> </div> </footer> </main> <div id="preview" hidden> <img id="preview-content" alt=""> </div> </div> <canvas id="background" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"></canvas> <script src="/js/background.min.js"></script> <script src="/js/site.js"></script> </body> </html>

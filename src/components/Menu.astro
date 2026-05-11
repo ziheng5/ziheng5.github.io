@@ -1,0 +1,36 @@
+---
+import { menu, site } from "../lib/site";
+---
+
+<div id="menu" class="menu-color">
+  <nav id="desktop-menu">
+    <a class="title" href="/">
+      <span>{site.title.toUpperCase()}</span>
+    </a>
+    {menu.map((item) => (
+      <a href={item.href}>
+        <i class={`fa-${item.theme} fa-${item.icon} fa-fw`}></i>
+        <span>&ensp;{item.label}</span>
+      </a>
+    ))}
+  </nav>
+  <nav id="mobile-menu">
+    <button class="title" type="button" aria-expanded="false" aria-controls="mobile-menu-items">
+      <i class="fa-solid fa-bars fa-fw"></i>
+      <span>&emsp;{site.title.toUpperCase()}</span>
+    </button>
+    <div id="mobile-menu-items" class="items" hidden>
+      {menu.map((item) => (
+        <a href={item.href}>
+          <div class="item">
+            <div style="min-width: 20px; max-width: 50px; width: 10%">
+              <i class={`fa-${item.theme} fa-${item.icon} fa-fw`}></i>
+            </div>
+            <div style="min-width: 100px; max-width: 150%; width: 20%">{item.label}</div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </nav>
+</div>
+<div id="menu-curtain" hidden></div>

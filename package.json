@@ -1,34 +1,18 @@
 {
-  "name": "hexo-site",
-  "version": "0.0.0",
+  "name": "cold-rain-astro-blog",
+  "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "build": "hexo generate",
-    "clean": "hexo clean",
-    "deploy": "hexo deploy",
-    "server": "hexo server"
-  },
-  "hexo": {
-    "version": "7.3.0"
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev --host 0.0.0.0",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview --host 0.0.0.0"
   },
   "dependencies": {
-    "hexo": "^7.3.0",
-    "hexo-deployer-git": "^4.0.0",
-    "hexo-generator-archive": "^2.0.0",
-    "hexo-generator-category": "^2.0.0",
-    "hexo-generator-index": "^4.0.0",
-    "hexo-generator-tag": "^2.0.0",
-    "hexo-render-pug": "^2.1.4",
-    "hexo-renderer-ejs": "^2.0.0",
-    "hexo-renderer-markdown-it": "^7.1.1",
-    "hexo-renderer-marked": "^6.3.0",
-    "hexo-renderer-stylus": "^3.0.1",
-    "hexo-server": "^3.0.0",
-    "hexo-tag-aplayer": "^3.0.4",
-    "hexo-tag-dplayer": "^0.3.3",
-    "hexo-theme-landscape": "^1.0.0",
-    "hexo-theme-yun": "^1.10.11",
-    "hexo-toc": "^1.1.0",
-    "tocbot": "^4.36.4"
-  }
+    "@astrojs/sitemap": "^3.2.1",
+    "astro": "^5.0.0",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0"
+  },
+  "devDependencies": {}
 }

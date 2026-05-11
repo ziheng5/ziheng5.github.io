@@ -1,0 +1,145 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><title>Hyprland 折腾记 | Cold Rain&#39;s Blog</title><meta name="author" content="ColdRain"><meta name="description" content="銀の龍の背に乗って..."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="/images/head.jpg"><link rel="preconnect" href="https://s4.zstatic.net"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"><link rel="preconnect" href="https://fonts.googleapis.cn"><link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/css/astro-overrides.css"></head> <body data-page-type="post"> <div id="layout"> <div id="loading"> <div id="loading-circle"> <h2>LOADING</h2> <p>加载过慢请开启缓存 浏览器默认开启</p> <img src="/images/loading.gif" alt=""> </div> </div> <div id="menu" class="menu-color"> <nav id="desktop-menu"> <a class="title" href="/"> <span>COLD RAIN&#39;S BLOG</span> </a> <a href="/"> <i class="fa-solid fa-house fa-fw"></i> <span>&ensp;Homepage</span> </a><a href="/2024/11/26/test/"> <i class="fa-solid fa-id-card fa-fw"></i> <span>&ensp;About</span> </a><a href="/archives/"> <i class="fa-solid fa-box-archive fa-fw"></i> <span>&ensp;Archives</span> </a><a href="/categories/杂谈/"> <i class="fa-solid fa-bookmark fa-fw"></i> <span>&ensp;Categories</span> </a><a href="/tags/杂谈/"> <i class="fa-solid fa-tags fa-fw"></i> <span>&ensp;Tags</span> </a><a href="/friends/"> <i class="fa-solid fa-link fa-fw"></i> <span>&ensp;Links</span> </a><a href="/favorites/"> <i class="fa-solid fa-star fa-fw"></i> <span>&ensp;Favorites</span> </a> </nav> <nav id="mobile-menu"> <button class="title" type="button" aria-expanded="false" aria-controls="mobile-menu-items"> <i class="fa-solid fa-bars fa-fw"></i> <span>&emsp;COLD RAIN&#39;S BLOG</span> </button> <div id="mobile-menu-items" class="items" hidden> <a href="/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-house fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div> </div> </a><a href="/2024/11/26/test/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-id-card fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">About</div> </div> </a><a href="/archives/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-box-archive fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div> </div> </a><a href="/categories/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-bookmark fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div> </div> </a><a href="/tags/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-tags fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div> </div> </a><a href="/friends/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-link fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div> </div> </a><a href="/favorites/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-star fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Favorites</div> </div> </a> </div> </nav> </div> <div id="menu-curtain" hidden></div> <main id="main" class="into-enter-from">  <article class="article"> <div class="article-wrap"> <div class="article-content"> <h1>Hyprland 折腾记</h1> <div class="info"> <span class="date"> <span class="icon"><i class="fa-solid fa-calendar fa-fw"></i></span> 2025/8/17 </span> <span class="category"> <a href="/categories/Archlinux/"> <span class="icon"><i class="fa-solid fa-bookmark fa-fw"></i></span> Archlinux </a> </span> <span class="tags"> <span class="icon"><i class="fa-solid fa-tags fa-fw"></i></span> <span class="tag"> <a href="/tags/Archlinux/" style="color: #ffa2c4">Archlinux</a> </span> </span> </div> <div class="content"> <blockquote>
+<p>Coldrain 在暑假期间心血来潮，突然想要给自己的 Archlinux 配一个 Hyprland 桌面，然而过程并非一帆风顺，遂作此篇。</p>
+</blockquote>
+<h2 id="1-hyprland-的安装手动">1. Hyprland 的安装（手动）</h2>
+<p>参考 <a href="https://wiki.hypr.land/Getting-Started/Installation/">Hyprland 官网</a></p>
+<blockquote>
+<ul>
+<li>
+<p>这一部分采用<strong>手动</strong>构建的方法，因为官方的 WARNING 让小生担心使用包管理器会出岔子 💦</p>
+</li>
+<li>
+<p>此外，为方便起见，下文安装部分均采用 <code>aur</code> 安装</p>
+</li>
+</ul>
+</blockquote>
+<p>安装依赖包，确保万无一失：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">paru</span><span style="color:#005CC5"> -S</span><span style="color:#032F62"> ninja</span><span style="color:#032F62"> gcc</span><span style="color:#032F62"> cmake</span><span style="color:#032F62"> meson</span><span style="color:#032F62"> libxcb</span><span style="color:#032F62"> xcb-proto</span><span style="color:#032F62"> xcb-util</span><span style="color:#032F62"> xcb-util-keysyms</span><span style="color:#032F62"> libxfixes</span><span style="color:#032F62"> libx11</span><span style="color:#032F62"> libxcomposite</span><span style="color:#032F62"> libxrender</span><span style="color:#032F62"> libxcursor</span><span style="color:#032F62"> pixman</span><span style="color:#032F62"> wayland-protocols</span><span style="color:#032F62"> cairo</span><span style="color:#032F62"> pango</span><span style="color:#032F62"> libxkbcommon</span><span style="color:#032F62"> xcb-util-wm</span><span style="color:#032F62"> xorg-xwayland</span><span style="color:#032F62"> libinput</span><span style="color:#032F62"> libliftoff</span><span style="color:#032F62"> libdisplay-info</span><span style="color:#032F62"> cpio</span><span style="color:#032F62"> tomlplusplus</span><span style="color:#032F62"> hyprlang-git</span><span style="color:#032F62"> hyprcursor-git</span><span style="color:#032F62"> hyprwayland-scanner-git</span><span style="color:#032F62"> xcb-util-errors</span><span style="color:#032F62"> hyprutils-git</span><span style="color:#032F62"> glaze</span><span style="color:#032F62"> hyprgraphics-git</span><span style="color:#032F62"> aquamarine-git</span><span style="color:#032F62"> re2</span><span style="color:#032F62"> hyprland-qtutils</span></span></code></pre>
+<p>接下来，采用 <code>CMake</code> 构建 <code>Hyprland</code>：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 随便找一个地方就可以了</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> clone</span><span style="color:#005CC5"> --recursive</span><span style="color:#032F62"> https://github.com/hyprwm/Hyprland</span></span>
+<span class="line"><span style="color:#005CC5">cd</span><span style="color:#032F62"> Hyprland</span></span>
+<span class="line"><span style="color:#6F42C1">make</span><span style="color:#032F62"> all</span><span style="color:#24292E"> &#x26;&#x26; </span><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> make</span><span style="color:#032F62"> install</span></span></code></pre>
+<p>接下来：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">meson</span><span style="color:#032F62"> subprojects</span><span style="color:#032F62"> update</span><span style="color:#005CC5"> --reset</span></span>
+<span class="line"><span style="color:#6F42C1">meson</span><span style="color:#032F62"> setup</span><span style="color:#032F62"> build</span></span>
+<span class="line"><span style="color:#6F42C1">ninja</span><span style="color:#005CC5"> -C</span><span style="color:#032F62"> build</span></span>
+<span class="line"><span style="color:#6F42C1">ninja</span><span style="color:#005CC5"> -C</span><span style="color:#032F62"> build</span><span style="color:#032F62"> install</span><span style="color:#005CC5"> --tags</span><span style="color:#032F62"> runtime,man</span></span></code></pre>
+<h2 id="2-安装必要软件">2. 安装必要软件</h2>
+<p>该部分参考文档：<a href="https://wiki.hypr.land/Useful-Utilities/Must-have/">https://wiki.hypr.land/Useful-Utilities/Must-have/</a></p>
+<h3 id="21-kitty">2.1 kitty</h3>
+<p><code>kitty</code> 是 <code>Hyprland</code> 的默认终端模拟器，直接 <code>paru</code> 安装：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">paru</span><span style="color:#005CC5"> -S</span><span style="color:#032F62"> kitty</span></span></code></pre>
+<p>此外，<code>kitty</code> 的终端界面配置挺有说法的，小生非常推荐，具体可以参考 <a href="https://sw.kovidgoyal.net/kitty/">kitty 官方文档</a>。</p>
+<h3 id="22-通知程序">2.2 通知程序</h3>
+<p>如果你的系统上没有安装通知程序的话，这里刚好一并安装了（</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">paru</span><span style="color:#005CC5"> -S</span><span style="color:#032F62"> dunst</span><span style="color:#032F62"> mako</span><span style="color:#032F62"> fnott</span><span style="color:#032F62"> swaync</span></span></code></pre>
+<h3 id="23-pipewire用于屏幕共享">2.3 pipewire（用于屏幕共享）</h3>
+<p><code>pipewire</code> 虽然不是必需的，但是没有这个玩意就无法屏幕共享。</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">paru</span><span style="color:#005CC5"> -S</span><span style="color:#032F62"> pipewire</span><span style="color:#032F62"> wireplumber</span></span></code></pre>
+<h3 id="24-qt-wayland-支持">2.4 Qt Wayland 支持</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">paru</span><span style="color:#005CC5"> -S</span><span style="color:#032F62"> qt5-wayland</span><span style="color:#032F62"> qt6-wayland</span></span></code></pre>
+<h2 id="3-安装第三方-hyprland-主题">3. 安装第三方 Hyprland 主题</h2>
+<p>这里小生采用的是 <a href="https://github.com/end-4/dots-hyprland">end-4 主题</a>，效果图如下：</p>
+<p><img src="/images/hyprland/end4_theme.png" alt="end4-pic"></p>
+<p>话不多说，接下来直接开始安装，这里小生依然采用手动构建的方案（<strong>安装前请先开启代理</strong>）：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 随便找一个路径</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> clone</span><span style="color:#032F62"> https://github.com/end-4/dots-hyprland</span></span>
+<span class="line"><span style="color:#005CC5">cd</span><span style="color:#032F62"> dots-hyprland</span></span>
+<span class="line"><span style="color:#6F42C1">./install.sh</span></span></code></pre>
+<p>接下来就是官方的安装程序了，按照程序提示安装即可（<strong>时间较长</strong>且需要全程有操作，请留出足够的空闲时间安装）。</p>
+<blockquote>
+<p>Coldrain 在执行 <code>install.sh</code> 的过程中，<code>html2markdown</code> 这个包始终安装失败。</p>
+<p>如果你在安装的时候也遇到了这个问题，此时请退出安装程序，安装 <code>html2markdown-bin</code> 这个包：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">paru</span><span style="color:#005CC5"> -S</span><span style="color:#032F62"> html2markdown-bin</span></span></code></pre>
+</blockquote>
+<p>安装完成后，就可以启动 <code>Hyprland</code> 了：</p>
+<ul>
+<li>在登陆界面切换至 <code>Hyprland</code> 即可</li>
+</ul>
+<h2 id="4-配置代理采用-v2raya-和-proxychains">4. 配置代理（采用 V2raya 和 Proxychains）</h2>
+<p>在 <code>Hyprland</code> 中小生使用 <code>V2raya</code> 来作为代理软件，<code>Xray</code> 作为内核，首先执行下面指令安装：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> pacman</span><span style="color:#005CC5"> -S</span><span style="color:#032F62"> v2raya</span><span style="color:#032F62"> xray</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> systemctl</span><span style="color:#032F62"> enable</span><span style="color:#005CC5"> --now</span><span style="color:#032F62"> v2raya</span><span style="color:#6A737D">  # 启动并配置开机自启动</span></span></code></pre>
+<p>接下来要设置 <code>V2raya</code> 调用 <code>Xray</code> 内核（默认配置是调用 <code>V2ray</code> 内核，我们不使用 <code>V2ray</code> 也就没有安装），可参考<a href="https://v2raya.org/docs/manual/variable-argument/#systemd-%E7%AE%A1%E7%90%86%E7%9A%84-v2raya">官方文档</a>，下面提供两种方法（<strong>只需要按一种设置即可，推荐第一种</strong>）：</p>
+<h3 id="41-编辑修改-etcdefaultv2raya-配置文件">4.1 编辑修改 <code>/etc/default/v2raya</code> 配置文件</h3>
+<p>首先打开 <code>/etc/default/v2raya</code> 文件</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> vim</span><span style="color:#032F62"> /etc/default/v2raya</span></span></code></pre>
+<p>然后找到 <code>V2RAYA_V2RAY_BIN</code> 和 <code>V2RAYA_V2RAY_ASSETSDIR</code> 两个环境变量，将其前面的 <code>#</code> 去掉，并将其值按如下修改</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#24292E">V2RAYA_V2RAY_BIN</span><span style="color:#D73A49">=</span><span style="color:#032F62">/usr/bin/xray</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">V2RAYA_V2RAY_ASSETSDIR</span><span style="color:#D73A49">=</span><span style="color:#032F62">/usr/share/xray</span></span></code></pre>
+<p>其中 <code>/usr/bin/xray</code> 指的是 <code>xray</code> 可执行文件，而 <code>/usr/share/xray</code> 指的是 <code>xray</code> 数据文件目录（包含了 <code>geosite.dat</code> 和 <code>geoip.dat</code> 文件）</p>
+<p>然后重启 <code>v2raya</code> 服务即可</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> systemctl</span><span style="color:#032F62"> restart</span><span style="color:#032F62"> v2raya</span></span></code></pre>
+<h3 id="42-编辑修改-systemd-管理的配置文件">4.2 编辑修改 <code>systemd</code> 管理的配置文件</h3>
+<p>新建一个文件夹 <code>/etc/systemd/system/v2raya.service.d</code>，然后进入文件夹新建一个文件 <code>xray.conf</code>，类似的，写入以下内容：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#24292E">[Service]</span></span>
+<span class="line"><span style="color:#24292E">Environment</span><span style="color:#D73A49">=</span><span style="color:#032F62">"V2RAYA_V2RAY_BIN=/usr/bin/xray"</span></span>
+<span class="line"><span style="color:#24292E">Environment</span><span style="color:#D73A49">=</span><span style="color:#032F62">"V2RAYA_V2RAY_ASSETSDIR=/usr/share/xray"</span></span></code></pre>
+<p>然后执行下面指令重新加载 <code>V2rayA</code> 服务即可：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> systemctl</span><span style="color:#032F62"> daemon-reload</span><span style="color:#24292E"> &#x26;&#x26; </span><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> systemctl</span><span style="color:#032F62"> restart</span><span style="color:#032F62"> v2raya</span></span></code></pre>
+<p>然后我们直接在终端执行 <code>firefox</code> 进入火狐浏览器，然后访问 <code>http://127.0.0.1:2017</code> 进入 <code>V2raya</code> 配置界面，导入自己的配置规则</p>
+<p>点击右上角的设置，关闭 <code>透明代理/系统代理</code> 选项，然后将 <code>规则端口的分流模式</code> 选为 <code>RoutingA</code>，随后点击右边的 <code>配置</code> 选项，写入以下内容（用默认配置不改也行，也可以根据自己的需要更改）：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">default:</span><span style="color:#032F62"> proxy</span></span>
+<span class="line"><span style="color:#6A737D"># write your own rules below</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1">domain(geosite:cn</span><span style="color:#24292E">)-</span><span style="color:#D73A49">></span><span style="color:#24292E">direct</span></span>
+<span class="line"><span style="color:#6F42C1">ip(geoip:private</span><span style="color:#24292E">)-</span><span style="color:#D73A49">></span><span style="color:#24292E">direct</span></span>
+<span class="line"><span style="color:#6F42C1">ip(geoip:cn</span><span style="color:#24292E">)-</span><span style="color:#D73A49">></span><span style="color:#24292E">direct</span></span></code></pre>
+<p>然后点击保存，注意此时这些规则并不会生肖，因为 <code>V2raya</code> 为 <code>socks</code> 协议和 <code>http</code> 协议设置了<strong>带分流规则的端口</strong>（该端口进来的流量会按照分流规则分流）和<strong>不带分流规则的端口</strong>（该端口进来的流量并不会按照规则分流），而且默认只设置了 <code>http</code> 的分流端口，因此需要我们下面手动设置带分流规则的端口。</p>
+<p>我们可以点开设置界面左下角的<code>地址与端口</code>选项，然后填写 <code>带分流规则的 socks 端口</code> 并保存，如下所示：</p>
+<p><img src="/images/hyprland/v2raya.png" alt="v2raya"></p>
+<h3 id="43-编辑-confighyprhyprlandconf-配置文件">4.3 编辑 <code>~/.config/hypr/hyprland.conf</code> 配置文件</h3>
+<p>在 <code>~/.config/hypr/hyprland.conf</code> 配置文件中写入如下内容以配置代理端口：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>env = ALL_PROXY=socks5://127.0.0.1:20168</span></span>
+<span class="line"><span>env = http_proxy=socks5://127.0.0.1:20168</span></span>
+<span class="line"><span>env = https_proxy=socks5://127.0.0.1:20168</span></span></code></pre>
+<h3 id="44-安装-proxychains">4.4 安装 Proxychains</h3>
+<p>使用 <code>Proxychains</code> 从终端启动应用程序的话，可以实现指定端口开启，从而让应用程序走代理。</p>
+<p>执行下面的命令：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">paru</span><span style="color:#005CC5"> -S</span><span style="color:#032F62"> proxychains</span></span></code></pre>
+<p>安装完成后，编辑 <code>/etc/proxychains.conf</code>，找到最下方的 <code>[ProxyList]</code>，添加上一步中 <code>v2raya</code> 设置的代理，例如：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>[ProxyList]</span></span>
+<span class="line"><span>socks5 127.0.0.1 20168</span></span></code></pre>
+<p>然后就可以用 <code>proxychains</code> 让有些需要访问网络的程序走代理了喵，试试用下面这个指令打开 <code>Firefox</code>，看看能否正常使用代理（请确保 <code>v2raya</code> 正常运行）：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">proxychains</span><span style="color:#032F62"> firefox</span></span></code></pre>
+<blockquote>
+<p>小生最初尝试的其实是 <code>google-chrome-stable</code>，但是实际上发现 <code>google-chrome-stable</code> 的沙盒机制会导致 <code>proxychains</code> 无法正常启动 <code>google-chrome-stable</code>，需要执行以下命令：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">proxychains</span><span style="color:#032F62"> google-chrome-stable</span><span style="color:#005CC5"> --no-sandbox</span><span style="color:#005CC5"> --disable-zygote</span></span></code></pre>
+<p>但是小生如此尝试后，<code>google-chrome-stable</code> 依然无法正常使用代理，目前暂时不清楚具体原因，小生决定先用 <code>Firefox</code> 吧（</p>
+</blockquote>
+<h2 id="5-终端配置kitty">5. 终端配置（kitty）</h2>
+<p><code>hyprland</code> 的默认终端模拟器使用的是 <a href="https://sw.kovidgoyal.net/kitty/">kitty</a>，一款配置简单、界面美观的终端模拟器，详细教程参考官网。</p>
+<p><code>kitty</code> 的配置文件默认为 <code>~/.config/kitty/kitty.conf</code>，关于 <code>kitty</code> 的配置都可以写在这个文件里面。</p>
+<blockquote>
+<h4 id="-hyprland-下-kitty-可能遇到的问题及解决方案">❓ <code>hyprland</code> 下 <code>kitty</code> 可能遇到的问题及解决方案</h4>
+<p>如果你编写完你的 <code>kitty.conf</code> 文件后，发现你的终端模拟器界面没有发生任何改变的话，可以参考一下本段内容。</p>
+<p>打开你的 <code>~/.config/hypr/hyprland/env.conf</code> 文件（或者你自己的 <code>hyprland</code> 配置文件），检查其中是否包含如下内容：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">env</span><span style="color:#032F62"> =</span><span style="color:#032F62"> TERMINAL,kitty</span><span style="color:#005CC5"> -1</span></span></code></pre>
+<p>如果有这一行内容，那么说明你的 <code>hyprland</code> 在启动终端时调用的是 <code>kitty -1</code> 而不是单纯的 <code>kitty</code>，也就是说：如果有一个 <code>kitty</code> 实例已经在跑，<code>hyprland</code> 在后续启动 <code>kitty</code> 的时候，只是在里面开一个新窗口，而不是重新开一个 <code>kitty</code> 实例。</p>
+<h4 id="解决方案">解决方案：</h4>
+<ul>
+<li>关闭所有 <code>kitty</code> 窗口，然后重新启动即可。</li>
+</ul>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">pkill</span><span style="color:#032F62"> kitty</span></span>
+<span class="line"><span style="color:#6F42C1">kitty</span></span></code></pre>
+<ul>
+<li>或者直接更改 <code>env = TERMINAL,kitty -1</code> 为 <code>env = TERMINAL,kitty</code>，这样的话每次打开终端的逻辑就变成了：创建一个新的 <code>kitty</code> 实例。</li>
+</ul>
+</blockquote>
+<h2 id="6-配置过程中遇到的问题及解决方案">6. 配置过程中遇到的问题及解决方案</h2>
+<blockquote>
+<p>建议先前往 Hyprland 官方文档查找问题案例</p>
+</blockquote>
+<p>该部分请参考：<a href="https://ziheng5.github.io/2025/10/18/hyprland-problems/">Hyprland 常见问题</a></p>
+<hr>
+<h2 id="参考资料">参考资料</h2>
+<p>[1] <a href="https://wiki.hypr.land/Getting-Started/Installation/">https://wiki.hypr.land/Getting-Started/Installation/</a>
+[2] <a href="https://end-4.github.io/dots-hyprland-wiki/en/ii-qs/01setup/">https://end-4.github.io/dots-hyprland-wiki/en/ii-qs/01setup/</a>
+[3] <a href="https://blog.manjusaka.de/p/0-0-0-52/#%E5%AE%89%E8%A3%85%E4%BB%A3%E7%90%86%E5%B7%A5%E5%85%B7v2raya">https://blog.manjusaka.de/p/0-0-0-52/#%E5%AE%89%E8%A3%85%E4%BB%A3%E7%90%86%E5%B7%A5%E5%85%B7v2raya</a>
+[4] <a href="https://github.com/aurora0x27/dotfiles/blob/main/items/linuxqq/src/qq-electron-flags.conf">https://github.com/aurora0x27/dotfiles/blob/main/items/linuxqq/src/qq-electron-flags.conf</a></p> </div> </div> <aside class="article-toc"> <div id="post-toc-card"> <div id="toc-card-style" class="toc-card"> <div id="toc-card-div"> <nav id="toc"> <span class="sidebar-title">目录</span> <ol class="toc"></ol> </nav> </div> </div> </div> </aside> </div> </article>  <footer id="footer"> <div id="footer-wrap"> <div>
+&copy; 2022 - 2026 ColdRain <span id="footer-icon"><i class="fa-solid fa-cloud-rain fa-fw"></i></span>
+Powered by Astro
+</div> </div> </footer> </main> <div id="preview" hidden> <img id="preview-content" alt=""> </div> </div> <canvas id="background" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"></canvas> <script src="/js/background.min.js"></script> <script src="/js/site.js"></script> </body> </html>

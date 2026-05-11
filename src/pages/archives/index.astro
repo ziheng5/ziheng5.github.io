@@ -1,0 +1,16 @@
+---
+import TimelinePost from "../../components/TimelinePost.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPosts } from "../../lib/posts";
+
+const posts = getPosts().sort((a, b) => b.date.getTime() - a.date.getTime());
+---
+
+<BaseLayout title="Archives" type="archives">
+  <div id="archives">
+    <input id="search-bar" class="input" placeholder="🔍 Search" />
+    <div id="timeline-wrap">
+      {posts.map((post) => <TimelinePost post={post} />)}
+    </div>
+  </div>
+</BaseLayout>

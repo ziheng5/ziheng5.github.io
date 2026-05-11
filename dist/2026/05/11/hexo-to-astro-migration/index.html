@@ -1,0 +1,430 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><title>从 Hexo 迁移到 Astro：复刻主题与重新部署博客 | Cold Rain&#39;s Blog</title><meta name="author" content="ColdRain"><meta name="description" content="銀の龍の背に乗って..."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="/images/head.jpg"><link rel="preconnect" href="https://s4.zstatic.net"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"><link rel="preconnect" href="https://fonts.googleapis.cn"><link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/css/astro-overrides.css"></head> <body data-page-type="post"> <div id="layout"> <div id="loading"> <div id="loading-circle"> <h2>LOADING</h2> <p>加载过慢请开启缓存 浏览器默认开启</p> <img src="/images/loading.gif" alt=""> </div> </div> <div id="menu" class="menu-color"> <nav id="desktop-menu"> <a class="title" href="/"> <span>COLD RAIN&#39;S BLOG</span> </a> <a href="/"> <i class="fa-solid fa-house fa-fw"></i> <span>&ensp;Homepage</span> </a><a href="/2024/11/26/test/"> <i class="fa-solid fa-id-card fa-fw"></i> <span>&ensp;About</span> </a><a href="/archives/"> <i class="fa-solid fa-box-archive fa-fw"></i> <span>&ensp;Archives</span> </a><a href="/categories/杂谈/"> <i class="fa-solid fa-bookmark fa-fw"></i> <span>&ensp;Categories</span> </a><a href="/tags/杂谈/"> <i class="fa-solid fa-tags fa-fw"></i> <span>&ensp;Tags</span> </a><a href="/friends/"> <i class="fa-solid fa-link fa-fw"></i> <span>&ensp;Links</span> </a><a href="/favorites/"> <i class="fa-solid fa-star fa-fw"></i> <span>&ensp;Favorites</span> </a> </nav> <nav id="mobile-menu"> <button class="title" type="button" aria-expanded="false" aria-controls="mobile-menu-items"> <i class="fa-solid fa-bars fa-fw"></i> <span>&emsp;COLD RAIN&#39;S BLOG</span> </button> <div id="mobile-menu-items" class="items" hidden> <a href="/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-house fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div> </div> </a><a href="/2024/11/26/test/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-id-card fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">About</div> </div> </a><a href="/archives/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-box-archive fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div> </div> </a><a href="/categories/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-bookmark fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div> </div> </a><a href="/tags/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-tags fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div> </div> </a><a href="/friends/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-link fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div> </div> </a><a href="/favorites/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-star fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Favorites</div> </div> </a> </div> </nav> </div> <div id="menu-curtain" hidden></div> <main id="main" class="into-enter-from">  <article class="article"> <div class="article-wrap"> <div class="article-content"> <h1>从 Hexo 迁移到 Astro：复刻主题与重新部署博客</h1> <div class="info"> <span class="date"> <span class="icon"><i class="fa-solid fa-calendar fa-fw"></i></span> 2026/5/11 </span> <span class="category"> <a href="/categories/%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/"> <span class="icon"><i class="fa-solid fa-bookmark fa-fw"></i></span> 食用指南 </a> </span> <span class="tags"> <span class="icon"><i class="fa-solid fa-tags fa-fw"></i></span> <span class="tag"> <a href="/tags/Astro/" style="color: #ffa2c4">Astro</a> </span><span class="tag"> <a href="/tags/Hexo/" style="color: #00bcd4">Hexo</a> </span><span class="tag"> <a href="/tags/GitHub%20Pages/" style="color: #03a9f4">GitHub Pages</a> </span><span class="tag"> <a href="/tags/Cloudflare/" style="color: #00a596">Cloudflare</a> </span> </span> </div> <div class="content"> <h2 id="0-前言">0. 前言</h2>
+<p>这个博客原本基于 Hexo 构建，主题使用的是 <code>particlex</code>。Hexo 的优点是成熟、插件多、写作体验直接；但在长期维护时，我也逐渐希望把博客改成更容易组件化、更容易自己控制页面结构的形式。</p>
+<p>于是这次尝试用 Astro 复刻原本的 Hexo 主题，并尽可能保留：</p>
+<ul>
+<li>原来的文章 Markdown 内容；</li>
+<li>原来的图片资源路径；</li>
+<li>原来的首页、文章页、归档页、分类页、标签页；</li>
+<li>原来的 <code>/year/month/day/slug/</code> 文章链接；</li>
+<li>原来的 GitHub Pages + Cloudflare 自定义域名部署方式。</li>
+</ul>
+<p>本文记录完整迁移过程，方便以后维护或复现。</p>
+<h2 id="1-为什么选择-astro">1. 为什么选择 Astro</h2>
+<p>Astro 很适合静态博客，原因主要有几个：</p>
+<ul>
+<li>默认输出静态 HTML，适合 GitHub Pages；</li>
+<li>组件化比 Hexo EJS 模板更直观；</li>
+<li>Markdown 支持很好；</li>
+<li>可以逐步加交互，不需要把整个博客变成 SPA；</li>
+<li>对自定义路由、布局、样式控制更细。</li>
+</ul>
+<p>这次迁移不是直接套一个现成 Astro 主题，而是把原来的 Hexo 主题结构拆开，再用 Astro 重新实现。</p>
+<h2 id="2-原-hexo-项目结构">2. 原 Hexo 项目结构</h2>
+<p>原来的 Hexo 博客大致结构如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>HexoBlog/ziheng5.github.io/</span></span>
+<span class="line"><span>├── _config.yml</span></span>
+<span class="line"><span>├── _config.yun.yml</span></span>
+<span class="line"><span>├── source/</span></span>
+<span class="line"><span>│   ├── _posts/</span></span>
+<span class="line"><span>│   ├── images/</span></span>
+<span class="line"><span>│   ├── friends/</span></span>
+<span class="line"><span>│   ├── favorites/</span></span>
+<span class="line"><span>│   └── _data/</span></span>
+<span class="line"><span>└── themes/</span></span>
+<span class="line"><span>    └── particlex/</span></span>
+<span class="line"><span>        ├── layout/</span></span>
+<span class="line"><span>        └── source/</span></span></code></pre>
+<p>其中最重要的是：</p>
+<ul>
+<li><code>source/_posts/</code>：文章；</li>
+<li><code>source/images/</code>：图片；</li>
+<li><code>themes/particlex/layout/</code>：EJS 模板；</li>
+<li><code>themes/particlex/source/css/main.css</code>：主题主样式；</li>
+<li><code>themes/particlex/source/js/</code>：主题脚本。</li>
+</ul>
+<p>迁移时不要急着删旧项目，建议先在同级目录新建一个 Astro 项目，确认复刻成功后再部署。</p>
+<h2 id="3-新建-astro-项目">3. 新建 Astro 项目</h2>
+<p>可以新建一个目录，例如：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">mkdir</span><span style="color:#032F62"> AstroBlog</span></span>
+<span class="line"><span style="color:#005CC5">cd</span><span style="color:#032F62"> AstroBlog</span></span></code></pre>
+<p>初始化依赖时，可以使用 <code>pnpm</code>：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">pnpm</span><span style="color:#032F62"> init</span></span>
+<span class="line"><span style="color:#6F42C1">pnpm</span><span style="color:#032F62"> add</span><span style="color:#032F62"> astro</span><span style="color:#032F62"> @astrojs/sitemap</span><span style="color:#032F62"> remark-math</span><span style="color:#032F62"> rehype-katex</span></span></code></pre>
+<p><code>package.json</code> 中保留三个常用脚本：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#24292E">{</span></span>
+<span class="line"><span style="color:#005CC5">  "scripts"</span><span style="color:#24292E">: {</span></span>
+<span class="line"><span style="color:#005CC5">    "dev"</span><span style="color:#24292E">: </span><span style="color:#032F62">"ASTRO_TELEMETRY_DISABLED=1 astro dev --host 0.0.0.0"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">    "build"</span><span style="color:#24292E">: </span><span style="color:#032F62">"ASTRO_TELEMETRY_DISABLED=1 astro build"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">    "preview"</span><span style="color:#24292E">: </span><span style="color:#032F62">"ASTRO_TELEMETRY_DISABLED=1 astro preview --host 0.0.0.0"</span></span>
+<span class="line"><span style="color:#24292E">  }</span></span>
+<span class="line"><span style="color:#24292E">}</span></span></code></pre>
+<p>其中 <code>ASTRO_TELEMETRY_DISABLED=1</code> 不是必须的，但在一些受限环境里可以避免 Astro telemetry 写入用户目录导致构建失败。</p>
+<h2 id="4-astro-目录设计">4. Astro 目录设计</h2>
+<p>这次复刻后的目录大致如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>AstroBlog/</span></span>
+<span class="line"><span>├── astro.config.mjs</span></span>
+<span class="line"><span>├── package.json</span></span>
+<span class="line"><span>├── pnpm-lock.yaml</span></span>
+<span class="line"><span>├── public/</span></span>
+<span class="line"><span>│   ├── CNAME</span></span>
+<span class="line"><span>│   ├── .nojekyll</span></span>
+<span class="line"><span>│   ├── css/</span></span>
+<span class="line"><span>│   ├── js/</span></span>
+<span class="line"><span>│   └── images/</span></span>
+<span class="line"><span>└── src/</span></span>
+<span class="line"><span>    ├── components/</span></span>
+<span class="line"><span>    ├── layouts/</span></span>
+<span class="line"><span>    ├── lib/</span></span>
+<span class="line"><span>    ├── pages/</span></span>
+<span class="line"><span>    └── posts/</span></span></code></pre>
+<p>这里没有使用 Astro Content Collections，而是用 <code>import.meta.glob()</code> 直接读取 <code>src/posts/*.md</code>。这样做的好处是迁移成本低，文章格式可以尽量贴近原 Hexo。</p>
+<h2 id="5-迁移文章">5. 迁移文章</h2>
+<p>将 Hexo 的文章复制到 Astro：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">cp</span><span style="color:#032F62"> HexoBlog/ziheng5.github.io/source/_posts/</span><span style="color:#005CC5">*</span><span style="color:#032F62">.md</span><span style="color:#032F62"> AstroBlog/src/posts/</span></span></code></pre>
+<p>文章 frontmatter 可以继续保持 Hexo 风格：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="md"><code><span class="line"><span style="color:#005CC5;font-weight:bold">---</span></span>
+<span class="line"><span style="color:#24292E">title: 文章标题</span></span>
+<span class="line"><span style="color:#24292E">date: 2026-05-11 19:30:00</span></span>
+<span class="line"><span style="color:#24292E">tags:</span></span>
+<span class="line"><span style="color:#24292E">    - Astro</span></span>
+<span class="line"><span style="color:#24292E">    - Hexo</span></span>
+<span class="line"><span style="color:#24292E">categories:</span></span>
+<span class="line"><span style="color:#24292E">    - 食用指南</span></span>
+<span class="line"><span style="color:#24292E">description: |</span></span>
+<span class="line"><span style="color:#24292E">    首页文章卡片显示的摘要。</span></span>
+<span class="line"><span style="color:#005CC5;font-weight:bold">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">正文内容...</span></span></code></pre>
+<p>需要注意：</p>
+<ul>
+<li><code>date</code> 建议使用 <code>YYYY-MM-DD HH:mm:ss</code>；</li>
+<li>文件名会作为文章 URL 的 <code>slug</code>；</li>
+<li><code>tags</code> 和 <code>categories</code> 建议使用数组格式；</li>
+<li><code>description</code> 会显示在首页文章卡片中。</li>
+</ul>
+<p>例如：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>src/posts/hexo-to-astro-migration.md</span></span></code></pre>
+<p>会生成类似：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>/2026/05/11/hexo-to-astro-migration/</span></span></code></pre>
+<h2 id="6-迁移图片资源">6. 迁移图片资源</h2>
+<p>Hexo 中的图片通常在：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>source/images/</span></span></code></pre>
+<p>Astro 中可以放到：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>public/images/</span></span></code></pre>
+<p>复制命令：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">cp</span><span style="color:#005CC5"> -R</span><span style="color:#032F62"> HexoBlog/ziheng5.github.io/source/images/.</span><span style="color:#032F62"> AstroBlog/public/images/</span></span></code></pre>
+<p>文章中推荐使用绝对路径：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="md"><code><span class="line"><span style="color:#24292E">![</span><span style="color:#032F62;text-decoration:underline">示例图片</span><span style="color:#24292E">](</span><span style="color:#24292E;text-decoration:underline">/images/example/pic.png</span><span style="color:#24292E">)</span></span></code></pre>
+<p>如果旧文章中写的是：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="md"><code><span class="line"><span style="color:#24292E">![</span><span style="color:#032F62;text-decoration:underline">示例图片</span><span style="color:#24292E">](</span><span style="color:#24292E;text-decoration:underline">./images/example/pic.png</span><span style="color:#24292E">)</span></span></code></pre>
+<p>在 Astro 中可能会被解析成相对于当前 Markdown 文件的路径，从而导致构建失败。可以批量替换：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">perl</span><span style="color:#005CC5"> -pi</span><span style="color:#005CC5"> -e</span><span style="color:#032F62"> 's#\]\(\./images/#](/images/#g'</span><span style="color:#032F62"> src/posts/</span><span style="color:#005CC5">*</span><span style="color:#032F62">.md</span></span></code></pre>
+<h2 id="7-迁移主题样式">7. 迁移主题样式</h2>
+<p>原 Hexo 主题的样式文件可以先直接复用：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">cp</span><span style="color:#032F62"> HexoBlog/ziheng5.github.io/themes/particlex/source/css/main.css</span><span style="color:#032F62"> AstroBlog/public/css/main.css</span></span></code></pre>
+<p>然后额外创建一个覆盖样式：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>public/css/astro-overrides.css</span></span></code></pre>
+<p>建议以后尽量改 <code>astro-overrides.css</code>，少直接改 <code>main.css</code>。原因是 <code>main.css</code> 来自旧主题，里面有很多全局选择器，直接改容易影响多个页面。</p>
+<p>在基础布局中引入：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="astro"><code><span class="line"><span style="color:#24292E">&#x3C;</span><span style="color:#22863A">link</span><span style="color:#6F42C1"> rel</span><span style="color:#24292E">=</span><span style="color:#032F62">"stylesheet"</span><span style="color:#6F42C1"> href</span><span style="color:#24292E">=</span><span style="color:#032F62">"/css/main.css"</span><span style="color:#24292E"> /></span></span>
+<span class="line"><span style="color:#24292E">&#x3C;</span><span style="color:#22863A">link</span><span style="color:#6F42C1"> rel</span><span style="color:#24292E">=</span><span style="color:#032F62">"stylesheet"</span><span style="color:#6F42C1"> href</span><span style="color:#24292E">=</span><span style="color:#032F62">"/css/astro-overrides.css"</span><span style="color:#24292E"> /></span></span></code></pre>
+<h2 id="8-文章数据读取">8. 文章数据读取</h2>
+<p>可以在 <code>src/lib/posts.ts</code> 中统一读取文章：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="ts"><code><span class="line"><span style="color:#D73A49">const</span><span style="color:#005CC5"> modules</span><span style="color:#D73A49"> =</span><span style="color:#D73A49"> import</span><span style="color:#24292E">.</span><span style="color:#005CC5">meta</span><span style="color:#24292E">.</span><span style="color:#6F42C1">glob</span><span style="color:#24292E">(</span><span style="color:#032F62">"../posts/*.md"</span><span style="color:#24292E">, { eager: </span><span style="color:#005CC5">true</span><span style="color:#24292E"> });</span></span></code></pre>
+<p>读取后整理成统一结构：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="ts"><code><span class="line"><span style="color:#D73A49">export</span><span style="color:#D73A49"> type</span><span style="color:#6F42C1"> BlogPost</span><span style="color:#D73A49"> =</span><span style="color:#24292E"> {</span></span>
+<span class="line"><span style="color:#E36209">  title</span><span style="color:#D73A49">:</span><span style="color:#005CC5"> string</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#E36209">  date</span><span style="color:#D73A49">:</span><span style="color:#6F42C1"> Date</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#E36209">  description</span><span style="color:#D73A49">?:</span><span style="color:#005CC5"> string</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#E36209">  tags</span><span style="color:#D73A49">:</span><span style="color:#005CC5"> string</span><span style="color:#24292E">[];</span></span>
+<span class="line"><span style="color:#E36209">  categories</span><span style="color:#D73A49">:</span><span style="color:#005CC5"> string</span><span style="color:#24292E">[];</span></span>
+<span class="line"><span style="color:#E36209">  slug</span><span style="color:#D73A49">:</span><span style="color:#005CC5"> string</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#E36209">  path</span><span style="color:#D73A49">:</span><span style="color:#005CC5"> string</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#E36209">  Content</span><span style="color:#D73A49">:</span><span style="color:#005CC5"> any</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">};</span></span></code></pre>
+<p>这里有一个细节：Astro 解析 frontmatter 的日期时可能受到时区影响，导致原本 <code>2024-11-26 22:43:45</code> 的文章在 URL 中变成 <code>2024/11/27</code>。</p>
+<p>为了保持 Hexo URL 兼容，最好从 Markdown 原始文本中读取 <code>date:</code> 字符串，再手动解析成年月日。</p>
+<p>这样旧链接可以继续保持：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>/2024/11/26/test/</span></span></code></pre>
+<p>而不是因为时区偏移变成：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>/2024/11/27/test/</span></span></code></pre>
+<h2 id="9-实现-hexo-风格文章路由">9. 实现 Hexo 风格文章路由</h2>
+<p>Astro 中可以使用动态路由：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>src/pages/[year]/[month]/[day]/[slug]/index.astro</span></span></code></pre>
+<p>在 <code>getStaticPaths()</code> 中为每篇文章生成路径：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="ts"><code><span class="line"><span style="color:#D73A49">export</span><span style="color:#D73A49"> function</span><span style="color:#6F42C1"> getStaticPaths</span><span style="color:#24292E">() {</span></span>
+<span class="line"><span style="color:#D73A49">  return</span><span style="color:#6F42C1"> getPosts</span><span style="color:#24292E">().</span><span style="color:#6F42C1">map</span><span style="color:#24292E">((</span><span style="color:#E36209">post</span><span style="color:#24292E">) </span><span style="color:#D73A49">=></span><span style="color:#24292E"> {</span></span>
+<span class="line"><span style="color:#D73A49">    const</span><span style="color:#24292E"> [</span><span style="color:#005CC5">year</span><span style="color:#24292E">, </span><span style="color:#005CC5">month</span><span style="color:#24292E">, </span><span style="color:#005CC5">day</span><span style="color:#24292E">] </span><span style="color:#D73A49">=</span><span style="color:#24292E"> post.path.</span><span style="color:#6F42C1">split</span><span style="color:#24292E">(</span><span style="color:#032F62">"/"</span><span style="color:#24292E">).</span><span style="color:#6F42C1">filter</span><span style="color:#24292E">(Boolean);</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#24292E"> {</span></span>
+<span class="line"><span style="color:#24292E">      params: { year, month, day, slug: post.slug },</span></span>
+<span class="line"><span style="color:#24292E">      props: { post }</span></span>
+<span class="line"><span style="color:#24292E">    };</span></span>
+<span class="line"><span style="color:#24292E">  });</span></span>
+<span class="line"><span style="color:#24292E">}</span></span></code></pre>
+<p>这样就能得到和 Hexo 类似的静态路径。</p>
+<h2 id="10-实现首页归档分类和标签">10. 实现首页、归档、分类和标签</h2>
+<p>首页可以读取所有文章，按日期倒序排列：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="ts"><code><span class="line"><span style="color:#D73A49">const</span><span style="color:#005CC5"> posts</span><span style="color:#D73A49"> =</span><span style="color:#6F42C1"> getPosts</span><span style="color:#24292E">();</span></span>
+<span class="line"><span style="color:#D73A49">const</span><span style="color:#005CC5"> pageSize</span><span style="color:#D73A49"> =</span><span style="color:#005CC5"> 10</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#D73A49">const</span><span style="color:#005CC5"> pagePosts</span><span style="color:#D73A49"> =</span><span style="color:#24292E"> posts.</span><span style="color:#6F42C1">slice</span><span style="color:#24292E">(</span><span style="color:#005CC5">0</span><span style="color:#24292E">, pageSize);</span></span></code></pre>
+<p>分页路由可以放在：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>src/pages/page/[page]/index.astro</span></span></code></pre>
+<p>归档页：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>src/pages/archives/index.astro</span></span></code></pre>
+<p>分类页：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>src/pages/categories/index.astro</span></span>
+<span class="line"><span>src/pages/categories/[category].astro</span></span></code></pre>
+<p>标签页：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>src/pages/tags/index.astro</span></span>
+<span class="line"><span>src/pages/tags/[tag].astro</span></span></code></pre>
+<p>分类和标签都可以通过文章 frontmatter 计算：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="ts"><code><span class="line"><span style="color:#D73A49">export</span><span style="color:#D73A49"> function</span><span style="color:#6F42C1"> uniqueValues</span><span style="color:#24292E">(</span><span style="color:#E36209">posts</span><span style="color:#24292E">, </span><span style="color:#E36209">key</span><span style="color:#24292E">) {</span></span>
+<span class="line"><span style="color:#D73A49">  return</span><span style="color:#24292E"> Array.</span><span style="color:#6F42C1">from</span><span style="color:#24292E">(</span><span style="color:#D73A49">new</span><span style="color:#6F42C1"> Set</span><span style="color:#24292E">(posts.</span><span style="color:#6F42C1">flatMap</span><span style="color:#24292E">((</span><span style="color:#E36209">post</span><span style="color:#24292E">) </span><span style="color:#D73A49">=></span><span style="color:#24292E"> post[key])));</span></span>
+<span class="line"><span style="color:#24292E">}</span></span></code></pre>
+<h2 id="11-代码高亮和数学公式">11. 代码高亮和数学公式</h2>
+<p>Astro 默认使用 Shiki 做代码高亮。为了支持数学公式，可以加入：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">pnpm</span><span style="color:#032F62"> add</span><span style="color:#032F62"> remark-math</span><span style="color:#032F62"> rehype-katex</span></span></code></pre>
+<p><code>astro.config.mjs</code>：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> { defineConfig } </span><span style="color:#D73A49">from</span><span style="color:#032F62"> "astro/config"</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> sitemap </span><span style="color:#D73A49">from</span><span style="color:#032F62"> "@astrojs/sitemap"</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> rehypeKatex </span><span style="color:#D73A49">from</span><span style="color:#032F62"> "rehype-katex"</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> remarkMath </span><span style="color:#D73A49">from</span><span style="color:#032F62"> "remark-math"</span><span style="color:#24292E">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">export</span><span style="color:#D73A49"> default</span><span style="color:#6F42C1"> defineConfig</span><span style="color:#24292E">({</span></span>
+<span class="line"><span style="color:#24292E">  site: </span><span style="color:#032F62">"https://coldrain.top"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#24292E">  integrations: [</span><span style="color:#6F42C1">sitemap</span><span style="color:#24292E">()],</span></span>
+<span class="line"><span style="color:#24292E">  markdown: {</span></span>
+<span class="line"><span style="color:#24292E">    remarkPlugins: [remarkMath],</span></span>
+<span class="line"><span style="color:#24292E">    rehypePlugins: [rehypeKatex],</span></span>
+<span class="line"><span style="color:#24292E">    shikiConfig: {</span></span>
+<span class="line"><span style="color:#24292E">      theme: </span><span style="color:#032F62">"github-light"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#24292E">      wrap: </span><span style="color:#005CC5">true</span></span>
+<span class="line"><span style="color:#24292E">    }</span></span>
+<span class="line"><span style="color:#24292E">  }</span></span>
+<span class="line"><span style="color:#24292E">});</span></span></code></pre>
+<p>还需要引入 KaTeX 样式：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="astro"><code><span class="line"><span style="color:#24292E">&#x3C;</span><span style="color:#22863A">link</span><span style="color:#6F42C1"> rel</span><span style="color:#24292E">=</span><span style="color:#032F62">"stylesheet"</span><span style="color:#6F42C1"> href</span><span style="color:#24292E">=</span><span style="color:#032F62">"https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"</span><span style="color:#24292E"> /></span></span></code></pre>
+<p>Astro 生成的代码块会带有 <code>data-language</code>，可以用 CSS 显示语言标签：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="css"><code><span class="line"><span style="color:#6F42C1">.content</span><span style="color:#6F42C1"> .astro-code</span><span style="color:#24292E">[</span><span style="color:#6F42C1">data-language</span><span style="color:#24292E">]</span><span style="color:#6F42C1">::before</span><span style="color:#24292E"> {</span></span>
+<span class="line"><span style="color:#005CC5">  content</span><span style="color:#24292E">: </span><span style="color:#005CC5">attr</span><span style="color:#24292E">(</span><span style="color:#E36209">data-language</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#005CC5">  position</span><span style="color:#24292E">: </span><span style="color:#005CC5">absolute</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#005CC5">  top</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#005CC5">  left</span><span style="color:#24292E">: </span><span style="color:#005CC5">24</span><span style="color:#D73A49">px</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">}</span></span></code></pre>
+<h2 id="12-前端交互">12. 前端交互</h2>
+<p>原 Hexo 主题里有一些 Vue 交互，比如：</p>
+<ul>
+<li>加载动画；</li>
+<li>移动端菜单；</li>
+<li>首页圆形 info 点击下滑；</li>
+<li>归档搜索；</li>
+<li>图片预览；</li>
+<li>文章目录。</li>
+</ul>
+<p>迁移到 Astro 后，不一定需要继续引入 Vue。简单交互可以写在：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>public/js/site.js</span></span></code></pre>
+<p>例如首页圆形 info 平滑滚动：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#D73A49">function</span><span style="color:#6F42C1"> bindHomeScroll</span><span style="color:#24292E">() {</span></span>
+<span class="line"><span style="color:#D73A49">  const</span><span style="color:#005CC5"> homeInfo</span><span style="color:#D73A49"> =</span><span style="color:#24292E"> document.</span><span style="color:#6F42C1">getElementById</span><span style="color:#24292E">(</span><span style="color:#032F62">"home-info"</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#D73A49">  const</span><span style="color:#005CC5"> homePosts</span><span style="color:#D73A49"> =</span><span style="color:#24292E"> document.</span><span style="color:#6F42C1">getElementById</span><span style="color:#24292E">(</span><span style="color:#032F62">"home-posts-wrap"</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#D73A49">  if</span><span style="color:#24292E"> (</span><span style="color:#D73A49">!</span><span style="color:#24292E">homeInfo </span><span style="color:#D73A49">||</span><span style="color:#D73A49"> !</span><span style="color:#24292E">homePosts) </span><span style="color:#D73A49">return</span><span style="color:#24292E">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">  homeInfo.</span><span style="color:#6F42C1">addEventListener</span><span style="color:#24292E">(</span><span style="color:#032F62">"click"</span><span style="color:#24292E">, (</span><span style="color:#E36209">event</span><span style="color:#24292E">) </span><span style="color:#D73A49">=></span><span style="color:#24292E"> {</span></span>
+<span class="line"><span style="color:#24292E">    event.</span><span style="color:#6F42C1">preventDefault</span><span style="color:#24292E">();</span></span>
+<span class="line"><span style="color:#24292E">    homePosts.</span><span style="color:#6F42C1">scrollIntoView</span><span style="color:#24292E">({ behavior: </span><span style="color:#032F62">"smooth"</span><span style="color:#24292E">, block: </span><span style="color:#032F62">"start"</span><span style="color:#24292E"> });</span></span>
+<span class="line"><span style="color:#24292E">  });</span></span>
+<span class="line"><span style="color:#24292E">}</span></span></code></pre>
+<p>文章目录点击也可以改成平滑滚动：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#24292E">link.</span><span style="color:#6F42C1">addEventListener</span><span style="color:#24292E">(</span><span style="color:#032F62">"click"</span><span style="color:#24292E">, (</span><span style="color:#E36209">event</span><span style="color:#24292E">) </span><span style="color:#D73A49">=></span><span style="color:#24292E"> {</span></span>
+<span class="line"><span style="color:#24292E">  event.</span><span style="color:#6F42C1">preventDefault</span><span style="color:#24292E">();</span></span>
+<span class="line"><span style="color:#D73A49">  const</span><span style="color:#005CC5"> offset</span><span style="color:#D73A49"> =</span><span style="color:#005CC5"> 70</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#D73A49">  const</span><span style="color:#005CC5"> top</span><span style="color:#D73A49"> =</span><span style="color:#24292E"> heading.</span><span style="color:#6F42C1">getBoundingClientRect</span><span style="color:#24292E">().top </span><span style="color:#D73A49">+</span><span style="color:#24292E"> window.scrollY </span><span style="color:#D73A49">-</span><span style="color:#24292E"> offset;</span></span>
+<span class="line"><span style="color:#24292E">  window.history.</span><span style="color:#6F42C1">pushState</span><span style="color:#24292E">(</span><span style="color:#005CC5">null</span><span style="color:#24292E">, </span><span style="color:#032F62">""</span><span style="color:#24292E">, </span><span style="color:#032F62">`#${</span><span style="color:#24292E">heading</span><span style="color:#032F62">.</span><span style="color:#24292E">id</span><span style="color:#032F62">}`</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#24292E">  window.</span><span style="color:#6F42C1">scrollTo</span><span style="color:#24292E">({ top, behavior: </span><span style="color:#032F62">"smooth"</span><span style="color:#24292E"> });</span></span>
+<span class="line"><span style="color:#24292E">});</span></span></code></pre>
+<h2 id="13-本地运行和构建">13. 本地运行和构建</h2>
+<p>开发预览：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">pnpm</span><span style="color:#032F62"> dev</span></span></code></pre>
+<p>默认地址：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>http://localhost:4321/</span></span></code></pre>
+<p>构建：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">pnpm</span><span style="color:#032F62"> build</span></span></code></pre>
+<p>构建结果在：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>dist/</span></span></code></pre>
+<p>如果 <code>pnpm build</code> 通过，说明静态站点可以部署。</p>
+<h2 id="14-部署到-github-pages">14. 部署到 GitHub Pages</h2>
+<p>原本 Hexo 常见部署方式是：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">hexo</span><span style="color:#032F62"> clean</span></span>
+<span class="line"><span style="color:#6F42C1">hexo</span><span style="color:#032F62"> generate</span></span>
+<span class="line"><span style="color:#6F42C1">hexo</span><span style="color:#032F62"> deploy</span></span></code></pre>
+<p>也就是把生成后的静态文件推送到 GitHub Pages 分支。</p>
+<p>Astro 更推荐使用 GitHub Actions 自动构建部署。项目根目录创建：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>.github/workflows/deploy.yml</span></span></code></pre>
+<p>内容如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#22863A">name</span><span style="color:#24292E">: </span><span style="color:#032F62">Deploy to GitHub Pages</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#005CC5">on</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#22863A">  push</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#22863A">    branches</span><span style="color:#24292E">: [</span><span style="color:#032F62">main</span><span style="color:#24292E">, </span><span style="color:#032F62">master</span><span style="color:#24292E">, </span><span style="color:#032F62">hexo</span><span style="color:#24292E">]</span></span>
+<span class="line"><span style="color:#22863A">  workflow_dispatch</span><span style="color:#24292E">:</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#22863A">permissions</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#22863A">  contents</span><span style="color:#24292E">: </span><span style="color:#032F62">read</span></span>
+<span class="line"><span style="color:#22863A">  pages</span><span style="color:#24292E">: </span><span style="color:#032F62">write</span></span>
+<span class="line"><span style="color:#22863A">  id-token</span><span style="color:#24292E">: </span><span style="color:#032F62">write</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#22863A">concurrency</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#22863A">  group</span><span style="color:#24292E">: </span><span style="color:#032F62">pages</span></span>
+<span class="line"><span style="color:#22863A">  cancel-in-progress</span><span style="color:#24292E">: </span><span style="color:#005CC5">false</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#22863A">jobs</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#22863A">  build</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#22863A">    runs-on</span><span style="color:#24292E">: </span><span style="color:#032F62">ubuntu-latest</span></span>
+<span class="line"><span style="color:#22863A">    steps</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">      - </span><span style="color:#22863A">name</span><span style="color:#24292E">: </span><span style="color:#032F62">Checkout</span></span>
+<span class="line"><span style="color:#22863A">        uses</span><span style="color:#24292E">: </span><span style="color:#032F62">actions/checkout@v6</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">      - </span><span style="color:#22863A">name</span><span style="color:#24292E">: </span><span style="color:#032F62">Install, build, and upload</span></span>
+<span class="line"><span style="color:#22863A">        uses</span><span style="color:#24292E">: </span><span style="color:#032F62">withastro/action@v6</span></span>
+<span class="line"><span style="color:#22863A">        with</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#22863A">          package-manager</span><span style="color:#24292E">: </span><span style="color:#032F62">pnpm@latest</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#22863A">  deploy</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#22863A">    needs</span><span style="color:#24292E">: </span><span style="color:#032F62">build</span></span>
+<span class="line"><span style="color:#22863A">    runs-on</span><span style="color:#24292E">: </span><span style="color:#032F62">ubuntu-latest</span></span>
+<span class="line"><span style="color:#22863A">    environment</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#22863A">      name</span><span style="color:#24292E">: </span><span style="color:#032F62">github-pages</span></span>
+<span class="line"><span style="color:#22863A">      url</span><span style="color:#24292E">: </span><span style="color:#032F62">${{ steps.deployment.outputs.page_url }}</span></span>
+<span class="line"><span style="color:#22863A">    steps</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">      - </span><span style="color:#22863A">name</span><span style="color:#24292E">: </span><span style="color:#032F62">Deploy to GitHub Pages</span></span>
+<span class="line"><span style="color:#22863A">        id</span><span style="color:#24292E">: </span><span style="color:#032F62">deployment</span></span>
+<span class="line"><span style="color:#22863A">        uses</span><span style="color:#24292E">: </span><span style="color:#032F62">actions/deploy-pages@v5</span></span></code></pre>
+<p>然后到 GitHub 仓库设置：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>Settings -> Pages -> Build and deployment -> Source</span></span></code></pre>
+<p>选择：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>GitHub Actions</span></span></code></pre>
+<p>之后每次 push 到对应分支，GitHub Actions 会自动：</p>
+<ol>
+<li>安装依赖；</li>
+<li>执行 <code>pnpm build</code>；</li>
+<li>上传 <code>dist/</code>；</li>
+<li>部署到 GitHub Pages。</li>
+</ol>
+<h2 id="15-关于-site-和-base">15. 关于 <code>site</code> 和 <code>base</code></h2>
+<p>如果仓库是：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>https://github.com/ziheng5/ziheng5.github.io</span></span></code></pre>
+<p>这是 GitHub Pages 的用户站点仓库，网站部署在根路径：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>https://ziheng5.github.io/</span></span></code></pre>
+<p>这种情况不需要设置 <code>base</code>。</p>
+<p>如果使用自定义域名：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>https://coldrain.top/</span></span></code></pre>
+<p>则 <code>astro.config.mjs</code> 应该写：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#D73A49">export</span><span style="color:#D73A49"> default</span><span style="color:#6F42C1"> defineConfig</span><span style="color:#24292E">({</span></span>
+<span class="line"><span style="color:#24292E">  site: </span><span style="color:#032F62">"https://coldrain.top"</span></span>
+<span class="line"><span style="color:#24292E">});</span></span></code></pre>
+<p>不要写：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#6F42C1">base</span><span style="color:#24292E">: </span><span style="color:#032F62">"/ziheng5.github.io"</span></span></code></pre>
+<p>只有当项目部署到类似下面这种子路径时，才需要 <code>base</code>：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>https://username.github.io/my-blog/</span></span></code></pre>
+<h2 id="16-配置自定义域名">16. 配置自定义域名</h2>
+<p>如果想继续使用：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>https://coldrain.top/</span></span></code></pre>
+<p>需要在 Astro 项目的 <code>public/</code> 目录中添加：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>public/CNAME</span></span></code></pre>
+<p>文件内容只有一行：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>coldrain.top</span></span></code></pre>
+<p>构建后它会被复制到：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>dist/CNAME</span></span></code></pre>
+<p>同时建议添加：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>public/.nojekyll</span></span></code></pre>
+<p>这样 GitHub Pages 不会把站点当作 Jekyll 项目处理。</p>
+<h2 id="17-cloudflare-配置注意事项">17. Cloudflare 配置注意事项</h2>
+<p>如果原来已经能通过 Cloudflare 访问 Hexo 站点，那么迁移到 Astro 后，DNS 大概率不用大改。因为站点源头仍然是 GitHub Pages，只是生成器从 Hexo 换成 Astro。</p>
+<p>需要确认几个点：</p>
+<h3 id="171-github-pages-设置">17.1 GitHub Pages 设置</h3>
+<p>在 GitHub 仓库：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>Settings -> Pages</span></span></code></pre>
+<p>确认：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>Custom domain: coldrain.top</span></span>
+<span class="line"><span>Enforce HTTPS: enabled</span></span></code></pre>
+<p>如果刚设置完域名，<code>Enforce HTTPS</code> 可能要等一段时间才能开启。</p>
+<h3 id="172-cloudflare-dns">17.2 Cloudflare DNS</h3>
+<p>根域名 <code>coldrain.top</code> 可以使用 GitHub Pages 的 A 记录：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>185.199.108.153</span></span>
+<span class="line"><span>185.199.109.153</span></span>
+<span class="line"><span>185.199.110.153</span></span>
+<span class="line"><span>185.199.111.153</span></span></code></pre>
+<p>如果需要 IPv6，也可以配置 AAAA 记录：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>2606:50c0:8000::153</span></span>
+<span class="line"><span>2606:50c0:8001::153</span></span>
+<span class="line"><span>2606:50c0:8002::153</span></span>
+<span class="line"><span>2606:50c0:8003::153</span></span></code></pre>
+<p>如果使用 <code>www.coldrain.top</code>，可以配置：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>www CNAME ziheng5.github.io</span></span></code></pre>
+<p>Cloudflare 对根域名也支持 CNAME Flattening，所以如果你原来是让 <code>coldrain.top</code> 指向 <code>ziheng5.github.io</code>，通常也可以继续使用。</p>
+<h3 id="173-ssltls">17.3 SSL/TLS</h3>
+<p>Cloudflare 的 SSL/TLS 模式建议使用：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>Full</span></span></code></pre>
+<p>或：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>Full (strict)</span></span></code></pre>
+<p>不要使用 <code>Flexible</code>，否则容易出现重定向循环或 HTTPS 状态异常。</p>
+<h2 id="18-推送迁移后的项目">18. 推送迁移后的项目</h2>
+<p>确认本地构建成功：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">pnpm</span><span style="color:#032F62"> build</span></span></code></pre>
+<p>然后把 Astro 项目作为 GitHub Pages 仓库根目录提交。</p>
+<p>也就是说，仓库根目录应该直接看到：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>astro.config.mjs</span></span>
+<span class="line"><span>package.json</span></span>
+<span class="line"><span>pnpm-lock.yaml</span></span>
+<span class="line"><span>src/</span></span>
+<span class="line"><span>public/</span></span>
+<span class="line"><span>.github/</span></span></code></pre>
+<p>提交：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> add</span><span style="color:#032F62"> .</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> commit</span><span style="color:#005CC5"> -m</span><span style="color:#032F62"> "Migrate blog from Hexo to Astro"</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> push</span><span style="color:#032F62"> origin</span><span style="color:#032F62"> hexo</span></span></code></pre>
+<p>如果你的 GitHub Pages 部署分支改成了 <code>main</code> 或 <code>master</code>，就推对应分支。</p>
+<h2 id="19-常见问题">19. 常见问题</h2>
+<h3 id="191-图片找不到">19.1 图片找不到</h3>
+<p>优先检查 Markdown 图片路径。</p>
+<p>推荐：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="md"><code><span class="line"><span style="color:#24292E">![</span><span style="color:#032F62;text-decoration:underline">pic</span><span style="color:#24292E">](</span><span style="color:#24292E;text-decoration:underline">/images/demo/pic.png</span><span style="color:#24292E">)</span></span></code></pre>
+<p>不推荐：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="md"><code><span class="line"><span style="color:#24292E">![</span><span style="color:#032F62;text-decoration:underline">pic</span><span style="color:#24292E">](</span><span style="color:#24292E;text-decoration:underline">./images/demo/pic.png</span><span style="color:#24292E">)</span></span></code></pre>
+<h3 id="192-url-日期不对">19.2 URL 日期不对</h3>
+<p>检查 <code>date:</code> 是否被 Astro 按 UTC 解析。为兼容 Hexo，最好从 Markdown 原始 frontmatter 字符串解析日期。</p>
+<h3 id="193-代码块语言没有显示">19.3 代码块语言没有显示</h3>
+<p>Astro/Shiki 会在代码块上生成 <code>data-language</code>，用 CSS 的 <code>::before</code> 即可显示。</p>
+<h3 id="194-公式渲染-warning">19.4 公式渲染 warning</h3>
+<p>如果数学公式中有中文，KaTeX 可能给出 warning。只要构建成功，通常不影响页面输出。</p>
+<h3 id="195-github-pages-404">19.5 GitHub Pages 404</h3>
+<p>检查：</p>
+<ul>
+<li>GitHub Pages Source 是否选择 GitHub Actions；</li>
+<li>Actions 是否执行成功；</li>
+<li><code>public/CNAME</code> 是否存在；</li>
+<li><code>astro.config.mjs</code> 的 <code>site</code> 是否正确；</li>
+<li>自定义域名是否在 GitHub Pages 设置中保存；</li>
+<li>Cloudflare DNS 是否指向 GitHub Pages。</li>
+</ul>
+<h2 id="20-总结">20. 总结</h2>
+<p>这次迁移的核心不是简单换一个框架，而是把博客拆成了几个更容易维护的部分：</p>
+<ul>
+<li>文章：<code>src/posts/</code></li>
+<li>站点配置：<code>src/lib/site.ts</code></li>
+<li>页面：<code>src/pages/</code></li>
+<li>组件：<code>src/components/</code></li>
+<li>样式覆盖：<code>public/css/astro-overrides.css</code></li>
+<li>交互：<code>public/js/site.js</code></li>
+<li>部署：<code>.github/workflows/deploy.yml</code></li>
+</ul>
+<p>这样以后写文章、改样式、加页面、调整部署都比较清晰。</p>
+<p>从最终效果看，Astro 可以比较完整地复刻原 Hexo 主题，同时也让后续自定义变得更灵活。</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="https://docs.astro.build/en/guides/deploy/github/">Astro GitHub Pages 部署文档</a></li>
+<li><a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site">GitHub Pages 自定义域名文档</a></li>
+</ul> </div> </div> <aside class="article-toc"> <div id="post-toc-card"> <div id="toc-card-style" class="toc-card"> <div id="toc-card-div"> <nav id="toc"> <span class="sidebar-title">目录</span> <ol class="toc"></ol> </nav> </div> </div> </div> </aside> </div> </article>  <footer id="footer"> <div id="footer-wrap"> <div>
+&copy; 2022 - 2026 ColdRain <span id="footer-icon"><i class="fa-solid fa-cloud-rain fa-fw"></i></span>
+Powered by Astro
+</div> </div> </footer> </main> <div id="preview" hidden> <img id="preview-content" alt=""> </div> </div> <canvas id="background" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"></canvas> <script src="/js/background.min.js"></script> <script src="/js/site.js"></script> </body> </html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><title>基于 AirSim 仿真平台与 YOLOv8s 的无人机目标检测仿真样例 | Cold Rain&#39;s Blog</title><meta name="author" content="ColdRain"><meta name="description" content="銀の龍の背に乗って..."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="/images/head.jpg"><link rel="preconnect" href="https://s4.zstatic.net"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"><link rel="preconnect" href="https://fonts.googleapis.cn"><link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/css/astro-overrides.css"></head> <body data-page-type="post"> <div id="layout"> <div id="loading"> <div id="loading-circle"> <h2>LOADING</h2> <p>加载过慢请开启缓存 浏览器默认开启</p> <img src="/images/loading.gif" alt=""> </div> </div> <div id="menu" class="menu-color"> <nav id="desktop-menu"> <a class="title" href="/"> <span>COLD RAIN&#39;S BLOG</span> </a> <a href="/"> <i class="fa-solid fa-house fa-fw"></i> <span>&ensp;Homepage</span> </a><a href="/2024/11/26/test/"> <i class="fa-solid fa-id-card fa-fw"></i> <span>&ensp;About</span> </a><a href="/archives/"> <i class="fa-solid fa-box-archive fa-fw"></i> <span>&ensp;Archives</span> </a><a href="/categories/杂谈/"> <i class="fa-solid fa-bookmark fa-fw"></i> <span>&ensp;Categories</span> </a><a href="/tags/杂谈/"> <i class="fa-solid fa-tags fa-fw"></i> <span>&ensp;Tags</span> </a><a href="/friends/"> <i class="fa-solid fa-link fa-fw"></i> <span>&ensp;Links</span> </a><a href="/favorites/"> <i class="fa-solid fa-star fa-fw"></i> <span>&ensp;Favorites</span> </a> </nav> <nav id="mobile-menu"> <button class="title" type="button" aria-expanded="false" aria-controls="mobile-menu-items"> <i class="fa-solid fa-bars fa-fw"></i> <span>&emsp;COLD RAIN&#39;S BLOG</span> </button> <div id="mobile-menu-items" class="items" hidden> <a href="/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-house fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div> </div> </a><a href="/2024/11/26/test/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-id-card fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">About</div> </div> </a><a href="/archives/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-box-archive fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div> </div> </a><a href="/categories/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-bookmark fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div> </div> </a><a href="/tags/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-tags fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div> </div> </a><a href="/friends/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-link fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div> </div> </a><a href="/favorites/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-star fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Favorites</div> </div> </a> </div> </nav> </div> <div id="menu-curtain" hidden></div> <main id="main" class="into-enter-from">  <article class="article"> <div class="article-wrap"> <div class="article-content"> <h1>基于 AirSim 仿真平台与 YOLOv8s 的无人机目标检测仿真样例</h1> <div class="info"> <span class="date"> <span class="icon"><i class="fa-solid fa-calendar fa-fw"></i></span> 2025/5/5 </span> <span class="category"> <a href="/categories/CV/"> <span class="icon"><i class="fa-solid fa-bookmark fa-fw"></i></span> CV </a> </span> <span class="tags"> <span class="icon"><i class="fa-solid fa-tags fa-fw"></i></span> <span class="tag"> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">深度学习</a> </span><span class="tag"> <a href="/tags/%E4%BB%BF%E7%9C%9F/" style="color: #00bcd4">仿真</a> </span><span class="tag"> <a href="/tags/CV/" style="color: #03a9f4">CV</a> </span> </span> </div> <div class="content"> <blockquote>
+<p>经过一段时间的筹备，Coldrain 花了 <strong>1.2k</strong> 把电脑的内存从 16G 扩充到了 <strong>64G</strong>，于是终于有了在电脑上同时进行实时渲染调试和模型运算的信心 💪（这个月要开始吃土了 🪨）</p>
+<p>于是趁着五一假期，Coldrain 写了一个小程序，实现了在 <strong>AirSim</strong> 插件中使用键盘控制无人机自由飞行，同时利用 <strong>YOLOv8s</strong> 模型实现无人机的实时目标检测</p>
+<p>PS：你问为什么不用厉害点的模型？买不起 <strong>Jetson Nano</strong> 这种档次的设备，就算仿真有效，硬件条件也不支持迁移啊 😭（而且目前 Coldrain 也没有正式学过<strong>边缘计算</strong>）</p>
+</blockquote>
+<h2 id="1-实机演示">1. 实机演示</h2>
+<hr>
+<p>先放实机演示：</p>
+<iframe src="//player.bilibili.com/player.html?isOutside=true&#x26;aid=114450778562285&#x26;bvid=BV1BSVNzhEy9&#x26;cid=25795433892&#x26;p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="1000" height="480"></iframe>
+<p>（因为第一次给 blog 嵌入视频，折腾了一晚上，这里先把代码贴上，具体解释等到第二天再写 💦）</p>
+<blockquote>
+<p>🔗 项目地址：<a href="https://github.com/ziheng5/Sharp-Eyes-target-tracking-algorithm">https://github.com/ziheng5/Sharp-Eyes-target-tracking-algorithm</a></p>
+<p><strong>注</strong>：项目持续更新中，后续会不断加入新功能</p>
+</blockquote>
+<h2 id="2-代码详解">2. 代码详解</h2>
+<hr>
+<h3 id="21-导入必要的包">2.1 导入必要的包</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> matplotlib.pyplot </span><span style="color:#D73A49">import</span><span style="color:#24292E"> annotate</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> ultralytics </span><span style="color:#D73A49">import</span><span style="color:#005CC5"> YOLO</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> multiprocessing </span><span style="color:#D73A49">import</span><span style="color:#24292E"> Process</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> numpy </span><span style="color:#D73A49">as</span><span style="color:#24292E"> np</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> sys</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> pygame</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> airsim</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> time</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> cv2</span></span></code></pre>
+<ul>
+<li><code>matplotlib</code> 用于处理无人机摄像头获取到的图像</li>
+<li><code>ultralytics</code> 用于调用 YOLO 模型</li>
+<li><code>multiprocessing</code> 用于处理多进程任务</li>
+<li><code>numpy</code> 用于数值计算</li>
+<li><code>sys</code> 用于进程控制</li>
+<li><code>pygame</code> 用于设计 AirSim 中无人机的键盘控制</li>
+<li><code>airsim</code> 用于调用 AirSim 的 API</li>
+<li><code>time</code> 用来控制无人机摄像头帧率</li>
+<li><code>cv2</code> 用于处理无人机摄像头获取到的图像</li>
+</ul>
+<h3 id="22-设计程序框架">2.2 设计程序框架</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> keyboard_control</span><span style="color:#24292E">():</span></span>
+<span class="line"><span style="color:#6A737D">    # 用于实现键盘控制</span></span>
+<span class="line"><span style="color:#24292E">    vehicle_name </span><span style="color:#D73A49">=</span><span style="color:#032F62"> "Drone1"</span><span style="color:#6A737D"> # 这里注意切换为自己的无人机名称</span></span>
+<span class="line"><span style="color:#24292E">    AirSim_client </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.MultirotorClient()</span></span>
+<span class="line"><span style="color:#24292E">    AirSim_client.confirmConnection()</span></span>
+<span class="line"><span style="color:#24292E">    AirSim_client.enableApiControl(</span><span style="color:#005CC5">True</span><span style="color:#24292E">, </span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">vehicle_name)</span></span>
+<span class="line"><span style="color:#24292E">    AirSim_client.armDisarm(</span><span style="color:#005CC5">True</span><span style="color:#24292E">, </span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">vehicle_name)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> yolo_cv</span><span style="color:#24292E">():</span></span>
+<span class="line"><span style="color:#6A737D">    # 用于实现调用 YOLO 模型进行实时目标检测</span></span>
+<span class="line"><span style="color:#24292E">    vehicle_name </span><span style="color:#D73A49">=</span><span style="color:#032F62"> "Drone1"</span><span style="color:#6A737D"> # 这里注意切换为自己的无人机名称</span></span>
+<span class="line"><span style="color:#24292E">    AirSim_client </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.MultirotorClient()</span></span>
+<span class="line"><span style="color:#24292E">    AirSim_client.confirmConnection()</span></span>
+<span class="line"><span style="color:#24292E">    AirSim_client.enableApiControl(</span><span style="color:#005CC5">True</span><span style="color:#24292E">, </span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">vehicle_name)</span></span>
+<span class="line"><span style="color:#24292E">    AirSim_client.armDisarm(</span><span style="color:#005CC5">True</span><span style="color:#24292E">, </span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">vehicle_name)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">if</span><span style="color:#005CC5"> __name__</span><span style="color:#D73A49"> ==</span><span style="color:#032F62"> "__main__"</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#6A737D">    # 多进程控制，避免两个任务互相干扰</span></span>
+<span class="line"><span style="color:#24292E">    process </span><span style="color:#D73A49">=</span><span style="color:#24292E"> [Process(</span><span style="color:#E36209">target</span><span style="color:#D73A49">=</span><span style="color:#24292E">keyboard_control, </span><span style="color:#E36209">args</span><span style="color:#D73A49">=</span><span style="color:#24292E">()),</span></span>
+<span class="line"><span style="color:#24292E">               Process(</span><span style="color:#E36209">target</span><span style="color:#D73A49">=</span><span style="color:#24292E">yolo_cv, </span><span style="color:#E36209">args</span><span style="color:#D73A49">=</span><span style="color:#24292E">())]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">    [p.start() </span><span style="color:#D73A49">for</span><span style="color:#24292E"> p </span><span style="color:#D73A49">in</span><span style="color:#24292E"> process]</span></span>
+<span class="line"><span style="color:#24292E">    [p.join() </span><span style="color:#D73A49">for</span><span style="color:#24292E"> p </span><span style="color:#D73A49">in</span><span style="color:#24292E"> process]</span></span></code></pre>
+<ul>
+<li>在 <code>if __name__ == "__main__":</code> 后面，通过 <code>multiprocessing</code> 中的 <code>Process</code> 模块，实现不同的功能函数多进程同时进行，从而提高运行效率。</li>
+<li>每一个功能函数中(<code>keyboard_control()</code> 和 <code>yolo_cv()</code>) 开头都需要建立独立的 <code>client</code>，因为使用多线程的时候，无法在 <code>if __name__ == "__main__":</code> 下建立一个 <code>client</code> 并同时共享给多个进程使用。</li>
+</ul>
+<h3 id="23-无人机键盘控制设计">2.3 无人机键盘控制设计</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> keyboard_control</span><span style="color:#24292E">():</span></span>
+<span class="line"><span style="color:#6A737D">    # pygame settings</span></span>
+<span class="line"><span style="color:#24292E">    pygame.init()   </span><span style="color:#6A737D"># pygame 初始化</span></span>
+<span class="line"><span style="color:#24292E">    screen </span><span style="color:#D73A49">=</span><span style="color:#24292E"> pygame.display.set_mode((</span><span style="color:#005CC5">400</span><span style="color:#24292E">, </span><span style="color:#005CC5">300</span><span style="color:#24292E">))    </span><span style="color:#6A737D"># 设置控制窗口大小</span></span>
+<span class="line"><span style="color:#24292E">    pygame.display.set_caption(</span><span style="color:#032F62">"Keyboard Control"</span><span style="color:#24292E">)  </span><span style="color:#6A737D"># 设置控制窗口名称</span></span>
+<span class="line"><span style="color:#24292E">    screen.fill((</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">))  </span><span style="color:#6A737D"># 用黑色 (0, 0, 0) 来填充控制窗口的背景</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    # airsim settings</span></span>
+<span class="line"><span style="color:#6A737D">    ## 这里改为你要控制的无人机名称</span></span>
+<span class="line"><span style="color:#24292E">    vehicle_name </span><span style="color:#D73A49">=</span><span style="color:#032F62"> "Drone1"</span></span>
+<span class="line"><span style="color:#24292E">    AirSim_client </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.MultirotorClient()</span></span>
+<span class="line"><span style="color:#24292E">    AirSim_client.confirmConnection()</span></span>
+<span class="line"><span style="color:#24292E">    AirSim_client.enableApiControl(</span><span style="color:#005CC5">True</span><span style="color:#24292E">, </span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">vehicle_name)</span></span>
+<span class="line"><span style="color:#24292E">    AirSim_client.armDisarm(</span><span style="color:#005CC5">True</span><span style="color:#24292E">, </span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">vehicle_name)</span></span>
+<span class="line"><span style="color:#24292E">    AirSim_client.takeoffAsync(</span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">vehicle_name).join()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    ## 基础的控制速度(m/s)</span></span>
+<span class="line"><span style="color:#24292E">    vehicle_velocity </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 2.0</span></span>
+<span class="line"><span style="color:#6A737D">    ## 设置临时加速度比例</span></span>
+<span class="line"><span style="color:#24292E">    speedup_ratio </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 10.0</span></span>
+<span class="line"><span style="color:#6A737D">    ## 用来设置临时加速</span></span>
+<span class="line"><span style="color:#24292E">    speedup_flag </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> False</span></span>
+<span class="line"><span style="color:#6A737D">    ## 基础的偏航速率</span></span>
+<span class="line"><span style="color:#24292E">    vehicle_yaw_rate </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 5.0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    while</span><span style="color:#005CC5"> True</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#6A737D">        # 主循环</span></span>
+<span class="line"><span style="color:#24292E">        yaw_rate </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.0</span></span>
+<span class="line"><span style="color:#24292E">        velocity_x </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.0</span></span>
+<span class="line"><span style="color:#24292E">        velocity_y </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.0</span></span>
+<span class="line"><span style="color:#24292E">        velocity_z </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">        time.sleep(</span><span style="color:#005CC5">0.02</span><span style="color:#24292E">)    </span><span style="color:#6A737D"># 间隔 0.02 秒，用于减轻 CPU 负担</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        # 如果关闭窗口，则进程结束</span></span>
+<span class="line"><span style="color:#D73A49">        for</span><span style="color:#24292E"> event </span><span style="color:#D73A49">in</span><span style="color:#24292E"> pygame.event.get():</span></span>
+<span class="line"><span style="color:#D73A49">            if</span><span style="color:#24292E"> event.type </span><span style="color:#D73A49">==</span><span style="color:#24292E"> pygame.</span><span style="color:#005CC5">QUIT</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">                sys.exit()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">        scan_wrapper </span><span style="color:#D73A49">=</span><span style="color:#24292E"> pygame.key.get_pressed()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        # 按下空格键加速 10 倍</span></span>
+<span class="line"><span style="color:#D73A49">        if</span><span style="color:#24292E"> scan_wrapper[pygame.</span><span style="color:#005CC5">K_SPACE</span><span style="color:#24292E">]:</span></span>
+<span class="line"><span style="color:#24292E">            scale_ratio </span><span style="color:#D73A49">=</span><span style="color:#24292E"> speedup_ratio</span></span>
+<span class="line"><span style="color:#D73A49">        else</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">            scale_ratio </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 1.0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        # 根据 "A" 和 "D" 按键来设置偏航速率变量</span></span>
+<span class="line"><span style="color:#D73A49">        if</span><span style="color:#24292E"> scan_wrapper[pygame.K_a] </span><span style="color:#D73A49">or</span><span style="color:#24292E"> scan_wrapper[pygame.K_d]:</span></span>
+<span class="line"><span style="color:#24292E">            yaw_rate </span><span style="color:#D73A49">=</span><span style="color:#24292E"> (scan_wrapper[pygame.K_d] </span><span style="color:#D73A49">-</span><span style="color:#24292E"> scan_wrapper[pygame.K_a]) </span><span style="color:#D73A49">*</span><span style="color:#24292E"> scale_ratio </span><span style="color:#D73A49">*</span><span style="color:#24292E"> vehicle_yaw_rate</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        # 根据 "UP" 和 "DOWN" 按键来设置 pitch 轴速度变量（NED 坐标系，x 为机头向前）</span></span>
+<span class="line"><span style="color:#D73A49">        if</span><span style="color:#24292E"> scan_wrapper[pygame.</span><span style="color:#005CC5">K_UP</span><span style="color:#24292E">] </span><span style="color:#D73A49">or</span><span style="color:#24292E"> scan_wrapper[pygame.</span><span style="color:#005CC5">K_DOWN</span><span style="color:#24292E">]:</span></span>
+<span class="line"><span style="color:#24292E">            velocity_x </span><span style="color:#D73A49">=</span><span style="color:#24292E"> (scan_wrapper[pygame.</span><span style="color:#005CC5">K_UP</span><span style="color:#24292E">] </span><span style="color:#D73A49">-</span><span style="color:#24292E"> scan_wrapper[pygame.</span><span style="color:#005CC5">K_DOWN</span><span style="color:#24292E">]) </span><span style="color:#D73A49">*</span><span style="color:#24292E"> scale_ratio</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        # 根据 "LEFT" 和 "RIGHT" 按键来设置 roll 轴速度变量（NED 坐标系，y 为正右方）</span></span>
+<span class="line"><span style="color:#D73A49">        if</span><span style="color:#24292E"> scan_wrapper[pygame.</span><span style="color:#005CC5">K_LEFT</span><span style="color:#24292E">] </span><span style="color:#D73A49">or</span><span style="color:#24292E"> scan_wrapper[pygame.</span><span style="color:#005CC5">K_RIGHT</span><span style="color:#24292E">]:</span></span>
+<span class="line"><span style="color:#24292E">            velocity_y </span><span style="color:#D73A49">=</span><span style="color:#24292E"> (scan_wrapper[pygame.</span><span style="color:#005CC5">K_RIGHT</span><span style="color:#24292E">] </span><span style="color:#D73A49">-</span><span style="color:#24292E"> scan_wrapper[pygame.</span><span style="color:#005CC5">K_LEFT</span><span style="color:#24292E">]) </span><span style="color:#D73A49">*</span><span style="color:#24292E"> scale_ratio</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        # 根据 "W" 和 "S" 按键来设置 z 轴速度变量（NED 坐标系，z 轴向上为负）</span></span>
+<span class="line"><span style="color:#D73A49">        if</span><span style="color:#24292E"> scan_wrapper[pygame.K_w] </span><span style="color:#D73A49">or</span><span style="color:#24292E"> scan_wrapper[pygame.K_s]:</span></span>
+<span class="line"><span style="color:#24292E">            velocity_z </span><span style="color:#D73A49">=</span><span style="color:#24292E"> (scan_wrapper[pygame.K_s] </span><span style="color:#D73A49">-</span><span style="color:#24292E"> scan_wrapper[pygame.K_w]) </span><span style="color:#D73A49">*</span><span style="color:#24292E"> scale_ratio</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        # 设置速度控制以及设置偏航控制</span></span>
+<span class="line"><span style="color:#24292E">        AirSim_client.moveByVelocityBodyFrameAsync(</span><span style="color:#E36209">vx</span><span style="color:#D73A49">=</span><span style="color:#24292E">velocity_x, </span><span style="color:#E36209">vy</span><span style="color:#D73A49">=</span><span style="color:#24292E">velocity_y, </span><span style="color:#E36209">vz</span><span style="color:#D73A49">=</span><span style="color:#24292E">velocity_z, </span><span style="color:#E36209">duration</span><span style="color:#D73A49">=</span><span style="color:#005CC5">0.02</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#E36209">                                                   yaw_mode</span><span style="color:#D73A49">=</span><span style="color:#24292E">airsim.YawMode(</span><span style="color:#005CC5">True</span><span style="color:#24292E">, </span><span style="color:#E36209">yaw_or_rate</span><span style="color:#D73A49">=</span><span style="color:#24292E">yaw_rate), </span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">vehicle_name)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        # press "Esc" to quit</span></span>
+<span class="line"><span style="color:#D73A49">        if</span><span style="color:#24292E"> scan_wrapper[pygame.</span><span style="color:#005CC5">K_ESCAPE</span><span style="color:#24292E">]:</span></span>
+<span class="line"><span style="color:#24292E">            AirSim_client.enableApiControl(</span><span style="color:#005CC5">False</span><span style="color:#24292E">, </span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">vehicle_name)</span></span>
+<span class="line"><span style="color:#24292E">            AirSim_client.armDisarm(</span><span style="color:#005CC5">False</span><span style="color:#24292E">, </span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">vehicle_name)</span></span>
+<span class="line"><span style="color:#24292E">            pygame.quit()</span></span>
+<span class="line"><span style="color:#24292E">            sys.exit()</span></span></code></pre>
+<h3 id="24-目标实时检测设计">2.4 目标实时检测设计</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> yolo_cv</span><span style="color:#24292E">():</span></span>
+<span class="line"><span style="color:#6A737D">    # 初始化 YOLOv8 模型</span></span>
+<span class="line"><span style="color:#24292E">    model </span><span style="color:#D73A49">=</span><span style="color:#24292E"> YOLO(</span><span style="color:#032F62">'yolov8s.pt'</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    # 初始化 client</span></span>
+<span class="line"><span style="color:#24292E">    client </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.MultirotorClient()</span></span>
+<span class="line"><span style="color:#24292E">    client.confirmConnection()</span></span>
+<span class="line"><span style="color:#24292E">    client.enableApiControl(</span><span style="color:#005CC5">True</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">    client.armDisarm(</span><span style="color:#005CC5">True</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    # 设置图像类型（可以是Scene, Depth, Segmentation等）</span></span>
+<span class="line"><span style="color:#24292E">    image_type </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.ImageType.Scene</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    # 设置摄像头名称</span></span>
+<span class="line"><span style="color:#24292E">    camera_name </span><span style="color:#D73A49">=</span><span style="color:#032F62"> "front_center"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    # 设置显示窗口</span></span>
+<span class="line"><span style="color:#24292E">    cv2.namedWindow(</span><span style="color:#032F62">"Drone FPV View"</span><span style="color:#24292E">, cv2.</span><span style="color:#005CC5">WINDOW_NORMAL</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">    cv2.resizeWindow(</span><span style="color:#032F62">"Drone FPV View"</span><span style="color:#24292E">, </span><span style="color:#005CC5">1000</span><span style="color:#24292E">, </span><span style="color:#005CC5">600</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    # FPS 计算变量</span></span>
+<span class="line"><span style="color:#24292E">    frame_count </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0</span></span>
+<span class="line"><span style="color:#24292E">    start_time </span><span style="color:#D73A49">=</span><span style="color:#24292E"> time.time()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    try</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#D73A49">        while</span><span style="color:#005CC5"> True</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#6A737D">            # 获取前端摄像头图像</span></span>
+<span class="line"><span style="color:#24292E">            responses </span><span style="color:#D73A49">=</span><span style="color:#24292E"> client.simGetImages([</span></span>
+<span class="line"><span style="color:#6A737D">                # 不返回浮点数，不压缩</span></span>
+<span class="line"><span style="color:#24292E">                airsim.ImageRequest(</span><span style="color:#E36209">camera_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">camera_name, </span><span style="color:#E36209">image_type</span><span style="color:#D73A49">=</span><span style="color:#24292E">image_type,</span></span>
+<span class="line"><span style="color:#E36209">                                    pixels_as_float</span><span style="color:#D73A49">=</span><span style="color:#005CC5">False</span><span style="color:#24292E">, </span><span style="color:#E36209">compress</span><span style="color:#D73A49">=</span><span style="color:#005CC5">False</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">            ])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">            response </span><span style="color:#D73A49">=</span><span style="color:#24292E"> responses[</span><span style="color:#005CC5">0</span><span style="color:#24292E">]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">            # 将图像数据转为 numpy 数组</span></span>
+<span class="line"><span style="color:#24292E">            img1d </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.frombuffer(response.image_data_uint8, </span><span style="color:#E36209">dtype</span><span style="color:#D73A49">=</span><span style="color:#24292E">np.uint8)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">            # 重塑数组为 3 通道图像</span></span>
+<span class="line"><span style="color:#24292E">            frame </span><span style="color:#D73A49">=</span><span style="color:#24292E"> img1d.reshape(response.height, response.width, </span><span style="color:#005CC5">3</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">            # 使用 YOLOv8 模型来进行目标检测</span></span>
+<span class="line"><span style="color:#24292E">            results </span><span style="color:#D73A49">=</span><span style="color:#24292E"> model.predict(frame, </span><span style="color:#E36209">classes</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#005CC5">2</span><span style="color:#24292E">])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">            for</span><span style="color:#24292E"> result </span><span style="color:#D73A49">in</span><span style="color:#24292E"> results:</span></span>
+<span class="line"><span style="color:#6A737D">                # 绘制目标检测的 bounding box</span></span>
+<span class="line"><span style="color:#24292E">                annotated_frame </span><span style="color:#D73A49">=</span><span style="color:#24292E"> result.plot()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">                # 计算并显示FPS</span></span>
+<span class="line"><span style="color:#24292E">                frame_count </span><span style="color:#D73A49">+=</span><span style="color:#005CC5"> 1</span></span>
+<span class="line"><span style="color:#D73A49">                if</span><span style="color:#24292E"> frame_count </span><span style="color:#D73A49">>=</span><span style="color:#005CC5"> 30</span><span style="color:#24292E">:  </span><span style="color:#6A737D"># 每30帧计算一次FPS</span></span>
+<span class="line"><span style="color:#24292E">                    fps </span><span style="color:#D73A49">=</span><span style="color:#24292E"> frame_count </span><span style="color:#D73A49">/</span><span style="color:#24292E"> (time.time() </span><span style="color:#D73A49">-</span><span style="color:#24292E"> start_time)</span></span>
+<span class="line"><span style="color:#24292E">                    cv2.putText(annotated_frame, </span><span style="color:#D73A49">f</span><span style="color:#032F62">"FPS: </span><span style="color:#005CC5">{</span><span style="color:#24292E">fps</span><span style="color:#D73A49">:.2f</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">, (</span><span style="color:#005CC5">10</span><span style="color:#24292E">, </span><span style="color:#005CC5">30</span><span style="color:#24292E">),</span></span>
+<span class="line"><span style="color:#24292E">                                cv2.</span><span style="color:#005CC5">FONT_HERSHEY_SIMPLEX</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">, (</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">255</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">), </span><span style="color:#005CC5">2</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">                    frame_count </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0</span></span>
+<span class="line"><span style="color:#24292E">                    start_time </span><span style="color:#D73A49">=</span><span style="color:#24292E"> time.time()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">                # 显示图像</span></span>
+<span class="line"><span style="color:#24292E">                cv2.imshow(</span><span style="color:#032F62">"Drone FPV View"</span><span style="color:#24292E">, annotated_frame)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">                if</span><span style="color:#24292E"> cv2.waitKey(</span><span style="color:#005CC5">1</span><span style="color:#24292E">) </span><span style="color:#D73A49">&#x26;</span><span style="color:#D73A49"> 0x</span><span style="color:#005CC5">FF</span><span style="color:#D73A49"> ==</span><span style="color:#005CC5"> ord</span><span style="color:#24292E">(</span><span style="color:#032F62">'q'</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#D73A49">                    break</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    finally</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">        client.armDisarm(</span><span style="color:#005CC5">False</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">        client.enableApiControl(</span><span style="color:#005CC5">False</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">        cv2.destroyAllWindows()</span></span></code></pre> </div> </div> <aside class="article-toc"> <div id="post-toc-card"> <div id="toc-card-style" class="toc-card"> <div id="toc-card-div"> <nav id="toc"> <span class="sidebar-title">目录</span> <ol class="toc"></ol> </nav> </div> </div> </div> </aside> </div> </article>  <footer id="footer"> <div id="footer-wrap"> <div>
+&copy; 2022 - 2026 ColdRain <span id="footer-icon"><i class="fa-solid fa-cloud-rain fa-fw"></i></span>
+Powered by Astro
+</div> </div> </footer> </main> <div id="preview" hidden> <img id="preview-content" alt=""> </div> </div> <canvas id="background" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"></canvas> <script src="/js/background.min.js"></script> <script src="/js/site.js"></script> </body> </html>

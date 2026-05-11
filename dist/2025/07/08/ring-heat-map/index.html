@@ -1,0 +1,371 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><title>利用 Python 绘制环形热力图 | Cold Rain&#39;s Blog</title><meta name="author" content="ColdRain"><meta name="description" content="銀の龍の背に乗って..."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="/images/head.jpg"><link rel="preconnect" href="https://s4.zstatic.net"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"><link rel="preconnect" href="https://fonts.googleapis.cn"><link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/css/astro-overrides.css"></head> <body data-page-type="post"> <div id="layout"> <div id="loading"> <div id="loading-circle"> <h2>LOADING</h2> <p>加载过慢请开启缓存 浏览器默认开启</p> <img src="/images/loading.gif" alt=""> </div> </div> <div id="menu" class="menu-color"> <nav id="desktop-menu"> <a class="title" href="/"> <span>COLD RAIN&#39;S BLOG</span> </a> <a href="/"> <i class="fa-solid fa-house fa-fw"></i> <span>&ensp;Homepage</span> </a><a href="/2024/11/26/test/"> <i class="fa-solid fa-id-card fa-fw"></i> <span>&ensp;About</span> </a><a href="/archives/"> <i class="fa-solid fa-box-archive fa-fw"></i> <span>&ensp;Archives</span> </a><a href="/categories/杂谈/"> <i class="fa-solid fa-bookmark fa-fw"></i> <span>&ensp;Categories</span> </a><a href="/tags/杂谈/"> <i class="fa-solid fa-tags fa-fw"></i> <span>&ensp;Tags</span> </a><a href="/friends/"> <i class="fa-solid fa-link fa-fw"></i> <span>&ensp;Links</span> </a><a href="/favorites/"> <i class="fa-solid fa-star fa-fw"></i> <span>&ensp;Favorites</span> </a> </nav> <nav id="mobile-menu"> <button class="title" type="button" aria-expanded="false" aria-controls="mobile-menu-items"> <i class="fa-solid fa-bars fa-fw"></i> <span>&emsp;COLD RAIN&#39;S BLOG</span> </button> <div id="mobile-menu-items" class="items" hidden> <a href="/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-house fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div> </div> </a><a href="/2024/11/26/test/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-id-card fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">About</div> </div> </a><a href="/archives/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-box-archive fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div> </div> </a><a href="/categories/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-bookmark fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div> </div> </a><a href="/tags/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-tags fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div> </div> </a><a href="/friends/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-link fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div> </div> </a><a href="/favorites/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-star fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Favorites</div> </div> </a> </div> </nav> </div> <div id="menu-curtain" hidden></div> <main id="main" class="into-enter-from">  <article class="article"> <div class="article-wrap"> <div class="article-content"> <h1>利用 Python 绘制环形热力图</h1> <div class="info"> <span class="date"> <span class="icon"><i class="fa-solid fa-calendar fa-fw"></i></span> 2025/7/8 </span> <span class="category"> <a href="/categories/%E7%BB%98%E5%9B%BE/"> <span class="icon"><i class="fa-solid fa-bookmark fa-fw"></i></span> 绘图 </a> </span> <span class="tags"> <span class="icon"><i class="fa-solid fa-tags fa-fw"></i></span> <span class="tag"> <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" style="color: #ffa2c4">统计学</a> </span><span class="tag"> <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00bcd4">数学建模</a> </span><span class="tag"> <a href="/tags/%E7%BB%98%E5%9B%BE/" style="color: #03a9f4">绘图</a> </span> </span> </div> <div class="content"> <blockquote>
+<p>暑假伊始，Coldrain 参加了学校举办的数模集训，集训的过程中，遇到了需要展示 59 个特征与 15 个指标之间的相关性的情况，在常用的图表不大合适的情况下，学到了一些<strong>厉害的图表</strong>，但是似乎千篇一律都是用 R 语言、MATLAB 和 SPSS 绘制，Python 代码少之又少，遂作此篇，以为模板。</p>
+<p>题目地址：
+<a href="https://www.mcm.edu.cn/problem/2012/2012.html">2012 年全国大学生数学建模竞赛 A 题</a></p>
+</blockquote>
+<p>网络上找到的环形热力图 be like：</p>
+<p><img src="/images/mathematic_maps/ring_heat_map_exp.png" alt="ring_heat_map_exp"></p>
+<p>这种图片究竟是如何绘制出来的呢？</p>
+<p>接下来，和小生用 Python 手搓一个吧喵 🐱</p>
+<hr>
+<h2 id="1-嵌套饼图nested-pie-charts">1. 嵌套饼图（Nested Pie Charts）</h2>
+<p>一开始，Coldrain 并无一点头绪，于是在 <strong>matplotlib 官网上提供的千奇百怪的图表样例</strong>里翻找，找到了一个叫做 <strong>Nested Pie Charts</strong> 的东西，翻译过来叫做嵌套饼图，官网给的嵌套饼图长这个样子：</p>
+<p><img src="/images/mathematic_maps/nested_pie_charts.png" alt="nested_pie_charts"></p>
+<p>官网给出的第一份案例代码如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> numpy </span><span style="color:#D73A49">as</span><span style="color:#24292E"> np</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> matplotlib.pyplot </span><span style="color:#D73A49">as</span><span style="color:#24292E"> plt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">fig, ax </span><span style="color:#D73A49">=</span><span style="color:#24292E"> plt.subplots()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">size </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.3</span></span>
+<span class="line"><span style="color:#24292E">vals </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.array([[</span><span style="color:#005CC5">60</span><span style="color:#24292E">., </span><span style="color:#005CC5">32</span><span style="color:#24292E">.], [</span><span style="color:#005CC5">37</span><span style="color:#24292E">., </span><span style="color:#005CC5">40</span><span style="color:#24292E">.], [</span><span style="color:#005CC5">29</span><span style="color:#24292E">., </span><span style="color:#005CC5">10</span><span style="color:#24292E">.]])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">tab20c </span><span style="color:#D73A49">=</span><span style="color:#24292E"> plt.color_sequences[</span><span style="color:#032F62">"tab20c"</span><span style="color:#24292E">]</span></span>
+<span class="line"><span style="color:#24292E">outer_colors </span><span style="color:#D73A49">=</span><span style="color:#24292E"> [tab20c[i] </span><span style="color:#D73A49">for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#24292E"> [</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">4</span><span style="color:#24292E">, </span><span style="color:#005CC5">8</span><span style="color:#24292E">]]</span></span>
+<span class="line"><span style="color:#24292E">inner_colors </span><span style="color:#D73A49">=</span><span style="color:#24292E"> [tab20c[i] </span><span style="color:#D73A49">for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#24292E"> [</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">5</span><span style="color:#24292E">, </span><span style="color:#005CC5">6</span><span style="color:#24292E">, </span><span style="color:#005CC5">9</span><span style="color:#24292E">, </span><span style="color:#005CC5">10</span><span style="color:#24292E">]]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">ax.pie(vals.sum(</span><span style="color:#E36209">axis</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#24292E">), </span><span style="color:#E36209">radius</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#E36209">colors</span><span style="color:#D73A49">=</span><span style="color:#24292E">outer_colors,</span></span>
+<span class="line"><span style="color:#E36209">       wedgeprops</span><span style="color:#D73A49">=</span><span style="color:#005CC5">dict</span><span style="color:#24292E">(</span><span style="color:#E36209">width</span><span style="color:#D73A49">=</span><span style="color:#24292E">size, </span><span style="color:#E36209">edgecolor</span><span style="color:#D73A49">=</span><span style="color:#032F62">'w'</span><span style="color:#24292E">))</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">ax.pie(vals.flatten(), </span><span style="color:#E36209">radius</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#D73A49">-</span><span style="color:#24292E">size, </span><span style="color:#E36209">colors</span><span style="color:#D73A49">=</span><span style="color:#24292E">inner_colors,</span></span>
+<span class="line"><span style="color:#E36209">       wedgeprops</span><span style="color:#D73A49">=</span><span style="color:#005CC5">dict</span><span style="color:#24292E">(</span><span style="color:#E36209">width</span><span style="color:#D73A49">=</span><span style="color:#24292E">size, </span><span style="color:#E36209">edgecolor</span><span style="color:#D73A49">=</span><span style="color:#032F62">'w'</span><span style="color:#24292E">))</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">ax.set(</span><span style="color:#E36209">aspect</span><span style="color:#D73A49">=</span><span style="color:#032F62">"equal"</span><span style="color:#24292E">, </span><span style="color:#E36209">title</span><span style="color:#D73A49">=</span><span style="color:#032F62">'Pie plot with `ax.pie`'</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">plt.show()</span></span></code></pre>
+<p>但是！采用这种方法实现嵌套饼图的效率虽然很高，但是灵活性不高，不便于实现精细设计，于是官方又给出了下面这个新的实现代码：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> numpy </span><span style="color:#D73A49">as</span><span style="color:#24292E"> np</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> matplotlib.pyplot </span><span style="color:#D73A49">as</span><span style="color:#24292E"> plt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">fig, ax </span><span style="color:#D73A49">=</span><span style="color:#24292E"> plt.subplots(</span><span style="color:#E36209">subplot_kw</span><span style="color:#D73A49">=</span><span style="color:#005CC5">dict</span><span style="color:#24292E">(</span><span style="color:#E36209">projection</span><span style="color:#D73A49">=</span><span style="color:#032F62">"polar"</span><span style="color:#24292E">))</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">size </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.3</span></span>
+<span class="line"><span style="color:#24292E">vals </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.array([[</span><span style="color:#005CC5">60</span><span style="color:#24292E">., </span><span style="color:#005CC5">32</span><span style="color:#24292E">.], [</span><span style="color:#005CC5">37</span><span style="color:#24292E">., </span><span style="color:#005CC5">40</span><span style="color:#24292E">.], [</span><span style="color:#005CC5">29</span><span style="color:#24292E">., </span><span style="color:#005CC5">10</span><span style="color:#24292E">.]])</span></span>
+<span class="line"><span style="color:#6A737D"># Normalize vals to 2 pi</span></span>
+<span class="line"><span style="color:#24292E">valsnorm </span><span style="color:#D73A49">=</span><span style="color:#24292E"> vals</span><span style="color:#D73A49">/</span><span style="color:#24292E">np.sum(vals)</span><span style="color:#D73A49">*</span><span style="color:#005CC5">2</span><span style="color:#D73A49">*</span><span style="color:#24292E">np.pi</span></span>
+<span class="line"><span style="color:#6A737D"># Obtain the ordinates of the bar edges</span></span>
+<span class="line"><span style="color:#24292E">valsleft </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.cumsum(np.append(</span><span style="color:#005CC5">0</span><span style="color:#24292E">, valsnorm.flatten()[:</span><span style="color:#D73A49">-</span><span style="color:#005CC5">1</span><span style="color:#24292E">])).reshape(vals.shape)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">cmap </span><span style="color:#D73A49">=</span><span style="color:#24292E"> plt.colormaps[</span><span style="color:#032F62">"tab20c"</span><span style="color:#24292E">]</span></span>
+<span class="line"><span style="color:#24292E">outer_colors </span><span style="color:#D73A49">=</span><span style="color:#24292E"> cmap(np.arange(</span><span style="color:#005CC5">3</span><span style="color:#24292E">)</span><span style="color:#D73A49">*</span><span style="color:#005CC5">4</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">inner_colors </span><span style="color:#D73A49">=</span><span style="color:#24292E"> cmap([</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">5</span><span style="color:#24292E">, </span><span style="color:#005CC5">6</span><span style="color:#24292E">, </span><span style="color:#005CC5">9</span><span style="color:#24292E">, </span><span style="color:#005CC5">10</span><span style="color:#24292E">])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">ax.bar(</span><span style="color:#E36209">x</span><span style="color:#D73A49">=</span><span style="color:#24292E">valsleft[:, </span><span style="color:#005CC5">0</span><span style="color:#24292E">],</span></span>
+<span class="line"><span style="color:#E36209">       width</span><span style="color:#D73A49">=</span><span style="color:#24292E">valsnorm.sum(</span><span style="color:#E36209">axis</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#24292E">), </span><span style="color:#E36209">bottom</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#D73A49">-</span><span style="color:#24292E">size, </span><span style="color:#E36209">height</span><span style="color:#D73A49">=</span><span style="color:#24292E">size,</span></span>
+<span class="line"><span style="color:#E36209">       color</span><span style="color:#D73A49">=</span><span style="color:#24292E">outer_colors, </span><span style="color:#E36209">edgecolor</span><span style="color:#D73A49">=</span><span style="color:#032F62">'w'</span><span style="color:#24292E">, </span><span style="color:#E36209">linewidth</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#E36209">align</span><span style="color:#D73A49">=</span><span style="color:#032F62">"edge"</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">ax.bar(</span><span style="color:#E36209">x</span><span style="color:#D73A49">=</span><span style="color:#24292E">valsleft.flatten(),</span></span>
+<span class="line"><span style="color:#E36209">       width</span><span style="color:#D73A49">=</span><span style="color:#24292E">valsnorm.flatten(), </span><span style="color:#E36209">bottom</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#D73A49">-</span><span style="color:#005CC5">2</span><span style="color:#D73A49">*</span><span style="color:#24292E">size, </span><span style="color:#E36209">height</span><span style="color:#D73A49">=</span><span style="color:#24292E">size,</span></span>
+<span class="line"><span style="color:#E36209">       color</span><span style="color:#D73A49">=</span><span style="color:#24292E">inner_colors, </span><span style="color:#E36209">edgecolor</span><span style="color:#D73A49">=</span><span style="color:#032F62">'w'</span><span style="color:#24292E">, </span><span style="color:#E36209">linewidth</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#E36209">align</span><span style="color:#D73A49">=</span><span style="color:#032F62">"edge"</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">ax.set(</span><span style="color:#E36209">title</span><span style="color:#D73A49">=</span><span style="color:#032F62">"Pie plot with `ax.bar` and polar coordinates"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">ax.set_axis_off()</span></span>
+<span class="line"><span style="color:#24292E">plt.show()</span></span></code></pre>
+<p>现在，我们认真读一下上面的这段代码。</p>
+<blockquote>
+<p>⚠️ Coldrain 觉得有必要认真读一下。</p>
+</blockquote>
+<h4 id="-11-创建极坐标图">>> 1.1 创建极坐标图</h4>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">fig, ax </span><span style="color:#D73A49">=</span><span style="color:#24292E"> plt.subplots(</span><span style="color:#E36209">subplot_kw</span><span style="color:#D73A49">=</span><span style="color:#005CC5">dict</span><span style="color:#24292E">(</span><span style="color:#E36209">projection</span><span style="color:#D73A49">=</span><span style="color:#032F62">"polar"</span><span style="color:#24292E">))</span></span></code></pre>
+<ul>
+<li>首先创建一个子图（<code>fig, ax</code>），并指定为极坐标投影 <code>projection="polar"</code>。</li>
+<li>所有角度以弧度制表示，从 0 开始，逆时针增加。</li>
+</ul>
+<h4 id="-12-设置参数和数据">>> 1.2 设置参数和数据</h4>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">size </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.3</span></span>
+<span class="line"><span style="color:#24292E">vals </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.array([[</span><span style="color:#005CC5">60</span><span style="color:#24292E">., </span><span style="color:#005CC5">32</span><span style="color:#24292E">.], [</span><span style="color:#005CC5">37</span><span style="color:#24292E">., </span><span style="color:#005CC5">40</span><span style="color:#24292E">.], [</span><span style="color:#005CC5">29</span><span style="color:#24292E">., </span><span style="color:#005CC5">10</span><span style="color:#24292E">.]])</span></span></code></pre>
+<ul>
+<li><code>size</code>：每一个圆环的厚度（即扇形外圈半径长度减去内圈半径长度）</li>
+<li><code>vals</code>：二维数组，每一行表示外圈的一个扇区，每行中两个数字表示该扇区内部的两个子分类（用于内圈）</li>
+</ul>
+<blockquote>
+<p>❓ 看到这个 <code>vals</code> 的形状和对应的饼图形状，你想到了什么？没错，似乎可以通过改变 vals 的维度来实现环形热力图的形状！</p>
+</blockquote>
+<h4 id="-13-角度归一化">>> 1.3 角度归一化</h4>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">valsnorm </span><span style="color:#D73A49">=</span><span style="color:#24292E"> vals </span><span style="color:#D73A49">/</span><span style="color:#24292E"> np.sum(vals) </span><span style="color:#D73A49">*</span><span style="color:#005CC5"> 2</span><span style="color:#D73A49"> *</span><span style="color:#24292E"> np.pi</span></span></code></pre>
+<ul>
+<li>先将 <code>vals</code> 所有数值加起来，然后把每个值按比例映射到 [0, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>π</mi></mrow><annotation encoding="application/x-tex">2\pi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.0359em;">π</span></span></span></span>] 的弧度范围（也就是一整圈的弧度）</li>
+<li>得到每个子块对应的角度宽度</li>
+</ul>
+<h4 id="-14-计算起始角度边界">>> 1.4 计算起始角度（边界）</h4>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">valsleft </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.cumsum(np.append(</span><span style="color:#005CC5">0</span><span style="color:#24292E">, valsnorm.flatten()[:</span><span style="color:#D73A49">-</span><span style="color:#005CC5">1</span><span style="color:#24292E">])).reshape(vals.shape)</span></span></code></pre>
+<ul>
+<li><code>valsnorm.flatten()</code> 把二维数组拉成一维</li>
+<li><code>np.cumsum(...)</code> 计算角度的累积和，也就是每个条形的起始角度</li>
+<li><code>reshape(vals.shape)</code> 把它还原为原来二维结构</li>
+</ul>
+<h4 id="-15-设置颜色">>> 1.5 设置颜色</h4>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">cmap </span><span style="color:#D73A49">=</span><span style="color:#24292E"> plt.colormaps[</span><span style="color:#032F62">"tab20c"</span><span style="color:#24292E">]</span></span>
+<span class="line"><span style="color:#24292E">outer_colors </span><span style="color:#D73A49">=</span><span style="color:#24292E"> cmap(np.arange(</span><span style="color:#005CC5">3</span><span style="color:#24292E">)</span><span style="color:#D73A49">*</span><span style="color:#005CC5">4</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">inner_colors </span><span style="color:#D73A49">=</span><span style="color:#24292E"> cmap([</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">5</span><span style="color:#24292E">, </span><span style="color:#005CC5">6</span><span style="color:#24292E">, </span><span style="color:#005CC5">9</span><span style="color:#24292E">, </span><span style="color:#005CC5">10</span><span style="color:#24292E">])</span></span></code></pre>
+<ul>
+<li>使用 <code>tab20c</code> 调色板。</li>
+<li><code>outer_colors</code>：每个外圈段使用不同颜色（间隔选择索引 0、4、8）。</li>
+<li><code>inner_colors</code>：内圈颜色从调色板中挑选不同颜色索引。</li>
+</ul>
+<blockquote>
+<p>🎨 关于 <code>tab20c</code> 调色板：</p>
+<p><code>tab20c</code> 是 <code>matplotlib</code> 中内置的<strong>分类调色板</strong>，共有 20 种颜色，包括 5 个颜色组（每组 4 个颜色）。其构成如下：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>颜色组</th><th>索引范围</th><th>颜色说明</th></tr></thead><tbody><tr><td>组 1</td><td>0-3</td><td>蓝绿色系（蓝、浅蓝、灰蓝等）</td></tr><tr><td>组 2</td><td>4-7</td><td>橙色系（橙、浅橙、灰橙等）</td></tr><tr><td>组 3</td><td>8-11</td><td>红紫色系（红、粉红、灰红等）</td></tr><tr><td>组 4</td><td>12-15</td><td>绿色系（绿、浅绿、灰绿等）</td></tr><tr><td>组 5</td><td>16-19</td><td>灰紫色系（紫灰、浅紫等）</td></tr></tbody></table>
+</blockquote>
+<h4 id="-16-绘制外圈大类">>> 1.6 绘制外圈（大类）</h4>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">ax.bar(</span><span style="color:#E36209">x</span><span style="color:#D73A49">=</span><span style="color:#24292E">valsleft[:, </span><span style="color:#005CC5">0</span><span style="color:#24292E">],</span></span>
+<span class="line"><span style="color:#E36209">       width</span><span style="color:#D73A49">=</span><span style="color:#24292E">valsnorm.sum(</span><span style="color:#E36209">axis</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#24292E">), </span><span style="color:#E36209">bottom</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#D73A49">-</span><span style="color:#24292E">size, </span><span style="color:#E36209">height</span><span style="color:#D73A49">=</span><span style="color:#24292E">size,</span></span>
+<span class="line"><span style="color:#E36209">       color</span><span style="color:#D73A49">=</span><span style="color:#24292E">outer_colors, </span><span style="color:#E36209">edgecolor</span><span style="color:#D73A49">=</span><span style="color:#032F62">'w'</span><span style="color:#24292E">, </span><span style="color:#E36209">linewidth</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#E36209">align</span><span style="color:#D73A49">=</span><span style="color:#032F62">"edge"</span><span style="color:#24292E">)</span></span></code></pre>
+<ul>
+<li>每个外圈<strong>段的起始角度</strong>为 <code>valsleft[:, 0]</code></li>
+<li><code>width=valsnorm.sum(axis=1)</code>：每个大类的角度宽度是该行两个值之和。</li>
+<li><code>bottom=1-size</code>：外圈从半径 0.7 开始（1-0.3=0.7）</li>
+<li><code>height=size</code>：厚度是 0.3</li>
+<li><code>align="edge"</code>：从 <code>x</code> 角度开始绘制</li>
+</ul>
+<h4 id="-17-绘制内圈子类">>> 1.7 绘制内圈（子类）</h4>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">ax.bar(</span><span style="color:#E36209">x</span><span style="color:#D73A49">=</span><span style="color:#24292E">valsleft.flatten(),</span></span>
+<span class="line"><span style="color:#E36209">       width</span><span style="color:#D73A49">=</span><span style="color:#24292E">valsnorm.flatten(), </span><span style="color:#E36209">bottom</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#D73A49">-</span><span style="color:#005CC5">2</span><span style="color:#D73A49">*</span><span style="color:#24292E">size, </span><span style="color:#E36209">height</span><span style="color:#D73A49">=</span><span style="color:#24292E">size,</span></span>
+<span class="line"><span style="color:#E36209">       color</span><span style="color:#D73A49">=</span><span style="color:#24292E">inner_colors, </span><span style="color:#E36209">edgecolor</span><span style="color:#D73A49">=</span><span style="color:#032F62">'w'</span><span style="color:#24292E">, </span><span style="color:#E36209">linewidth</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#E36209">align</span><span style="color:#D73A49">=</span><span style="color:#032F62">"edge"</span><span style="color:#24292E">)</span></span></code></pre>
+<ul>
+<li>每个内圈段的起始角度为展平后的 <code>valsleft</code></li>
+<li>每段的角度宽度来自展平后的 <code>valsnorm</code></li>
+<li><code>bottom=1-2*size</code>：从半径 0.4 开始</li>
+<li>用不同颜色表示不同子类</li>
+</ul>
+<h4 id="-18-清理图像">>> 1.8 清理图像</h4>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">ax.set(</span><span style="color:#E36209">title</span><span style="color:#D73A49">=</span><span style="color:#032F62">"Pie plot with `ax.bar` and polar coordinates"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">ax.set_axis_off()</span></span></code></pre>
+<ul>
+<li>设置标题</li>
+<li>去掉极坐标轴的刻度、边框等</li>
+</ul>
+<hr>
+<h2 id="2-着手绘制环形热力图">2. 着手绘制环形热力图</h2>
+<blockquote>
+<p>由于数据采用的是小生本地的数据，所以这部分代码应该只能用作学习、讲解，如果你<strong>想要开袋即食的函数</strong>，可以根据下面的代码进行调整（</p>
+</blockquote>
+<p>具体讲解咱们<strong>以注释的形式</strong>写在代码块里喵：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#032F62">'''</span></span>
+<span class="line"><span style="color:#032F62">Part1 导入库</span></span>
+<span class="line"><span style="color:#032F62">'''</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> numpy </span><span style="color:#D73A49">as</span><span style="color:#24292E"> np</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> matplotlib.pyplot </span><span style="color:#D73A49">as</span><span style="color:#24292E"> plt</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> matplotlib.cm </span><span style="color:#D73A49">import</span><span style="color:#24292E"> get_cmap, ScalarMappable</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> pandas </span><span style="color:#D73A49">as</span><span style="color:#24292E"> pd</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> matplotlib.colors </span><span style="color:#D73A49">import</span><span style="color:#24292E"> Normalize, mcolors </span><span style="color:#6A737D"># 用于标准化颜色映射和自定义 colormap</span></span>
+<span class="line"><span style="color:#D73A49">from</span><span style="color:#24292E"> mpl_toolkits.axes_grid1.inset_locator </span><span style="color:#D73A49">import</span><span style="color:#24292E"> inset_axes   </span><span style="color:#6A737D"># 在极坐标图中嵌入色条</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> matplotlib.font_manager </span><span style="color:#D73A49">as</span><span style="color:#24292E"> fm      </span><span style="color:#6A737D"># 支持中文字体加载</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#032F62">'''</span></span>
+<span class="line"><span style="color:#032F62">Part2 读取数据   </span></span>
+<span class="line"><span style="color:#032F62">这里小生用的是自己的数据，如果需要参考的话，请务必替</span></span>
+<span class="line"><span style="color:#032F62">换成自己的数据</span></span>
+<span class="line"><span style="color:#032F62">（其实这部分不需要关注，直接跳转到 Part3 即可）</span></span>
+<span class="line"><span style="color:#032F62">'''</span></span>
+<span class="line"><span style="color:#24292E">red_results </span><span style="color:#D73A49">=</span><span style="color:#24292E"> pd.read_excel(</span><span style="color:#032F62">'red_results.xlsx'</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">df_doc2_1 </span><span style="color:#D73A49">=</span><span style="color:#24292E"> pd.read_excel(</span><span style="color:#032F62">'doc2.xls'</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">unprocessed_categories </span><span style="color:#D73A49">=</span><span style="color:#24292E"> df_doc2_1.columns.tolist()</span></span>
+<span class="line"><span style="color:#24292E">categories </span><span style="color:#D73A49">=</span><span style="color:#24292E"> [item </span><span style="color:#D73A49">for</span><span style="color:#24292E"> item </span><span style="color:#D73A49">in</span><span style="color:#24292E"> unprocessed_categories </span><span style="color:#D73A49">if</span><span style="color:#032F62"> 'Unnamed'</span><span style="color:#D73A49"> not</span><span style="color:#D73A49"> in</span><span style="color:#24292E"> item][</span><span style="color:#005CC5">1</span><span style="color:#24292E">:]</span></span>
+<span class="line"><span style="color:#24292E">color </span><span style="color:#D73A49">=</span><span style="color:#24292E"> categories.pop(</span><span style="color:#D73A49">-</span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#24292E"> [</span><span style="color:#032F62">'L'</span><span style="color:#24292E">, </span><span style="color:#032F62">'a'</span><span style="color:#24292E">, </span><span style="color:#032F62">'b'</span><span style="color:#24292E">, </span><span style="color:#032F62">'H'</span><span style="color:#24292E">, </span><span style="color:#032F62">'c'</span><span style="color:#24292E">]:</span></span>
+<span class="line"><span style="color:#24292E">    categories.append(color</span><span style="color:#D73A49">+</span><span style="color:#24292E">i)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">df_doc2_2 </span><span style="color:#D73A49">=</span><span style="color:#24292E"> pd.read_excel(</span><span style="color:#032F62">'doc2.xls'</span><span style="color:#24292E">, </span><span style="color:#E36209">sheet_name</span><span style="color:#D73A49">=</span><span style="color:#032F62">'葡萄酒'</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">unprocessed_categories </span><span style="color:#D73A49">=</span><span style="color:#24292E"> df_doc2_2.columns.tolist()</span></span>
+<span class="line"><span style="color:#24292E">categories_red </span><span style="color:#D73A49">=</span><span style="color:#24292E"> [item </span><span style="color:#D73A49">for</span><span style="color:#24292E"> item </span><span style="color:#D73A49">in</span><span style="color:#24292E"> unprocessed_categories </span><span style="color:#D73A49">if</span><span style="color:#032F62"> 'Unnamed'</span><span style="color:#D73A49"> not</span><span style="color:#D73A49"> in</span><span style="color:#24292E"> item][</span><span style="color:#005CC5">1</span><span style="color:#24292E">:]</span></span>
+<span class="line"><span style="color:#24292E">color </span><span style="color:#D73A49">=</span><span style="color:#24292E"> categories_red.pop(</span><span style="color:#D73A49">-</span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#24292E"> [</span><span style="color:#032F62">'L'</span><span style="color:#24292E">, </span><span style="color:#032F62">'a'</span><span style="color:#24292E">, </span><span style="color:#032F62">'b'</span><span style="color:#24292E">, </span><span style="color:#032F62">'H'</span><span style="color:#24292E">, </span><span style="color:#032F62">'c'</span><span style="color:#24292E">]:</span></span>
+<span class="line"><span style="color:#24292E">    categories_red.append(color</span><span style="color:#D73A49">+</span><span style="color:#24292E">i)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">categories_white </span><span style="color:#D73A49">=</span><span style="color:#24292E"> deepcopy(categories_red[</span><span style="color:#005CC5">1</span><span style="color:#24292E">:])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">unprocessed_grape_features </span><span style="color:#D73A49">=</span><span style="color:#24292E"> red_results.iloc[:,</span><span style="color:#005CC5">0</span><span style="color:#24292E">].to_list()</span></span>
+<span class="line"><span style="color:#24292E">grape_features </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#24292E"> unprocessed_grape_features:</span></span>
+<span class="line"><span style="color:#D73A49">    if</span><span style="color:#24292E"> i </span><span style="color:#D73A49">not</span><span style="color:#D73A49"> in</span><span style="color:#24292E"> grape_features:</span></span>
+<span class="line"><span style="color:#24292E">        grape_features.append(i)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">unprocessed_wine_features </span><span style="color:#D73A49">=</span><span style="color:#24292E"> red_results.iloc[:,</span><span style="color:#005CC5">1</span><span style="color:#24292E">].to_list()</span></span>
+<span class="line"><span style="color:#24292E">wine_features </span><span style="color:#D73A49">=</span><span style="color:#24292E"> []</span></span>
+<span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#24292E"> unprocessed_wine_features:</span></span>
+<span class="line"><span style="color:#D73A49">    if</span><span style="color:#24292E"> i </span><span style="color:#D73A49">not</span><span style="color:#D73A49"> in</span><span style="color:#24292E"> wine_features:</span></span>
+<span class="line"><span style="color:#24292E">        wine_features.append(i)</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#032F62">'''</span></span>
+<span class="line"><span style="color:#032F62">Part3 将相关系数填入 59*15 大小的列表中</span></span>
+<span class="line"><span style="color:#032F62">（这里只需要生成你自己的数据即可）</span></span>
+<span class="line"><span style="color:#032F62">'''</span></span>
+<span class="line"><span style="color:#24292E">feature_value_map </span><span style="color:#D73A49">=</span><span style="color:#24292E"> [[</span><span style="color:#005CC5">0.0</span><span style="color:#D73A49"> for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(</span><span style="color:#005CC5">59</span><span style="color:#24292E">)] </span><span style="color:#D73A49">for</span><span style="color:#24292E"> j </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(</span><span style="color:#005CC5">15</span><span style="color:#24292E">)]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(</span><span style="color:#005CC5">145</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#24292E">    line </span><span style="color:#D73A49">=</span><span style="color:#24292E"> red_results.iloc[i,:].to_list()</span></span>
+<span class="line"><span style="color:#6A737D">    # print(line)</span></span>
+<span class="line"><span style="color:#24292E">    n_col </span><span style="color:#D73A49">=</span><span style="color:#24292E"> categories.index(line[</span><span style="color:#005CC5">0</span><span style="color:#24292E">])</span></span>
+<span class="line"><span style="color:#24292E">    n_row </span><span style="color:#D73A49">=</span><span style="color:#24292E"> categories_red.index(line[</span><span style="color:#005CC5">1</span><span style="color:#24292E">])</span></span>
+<span class="line"><span style="color:#6A737D">    # print(n_row, n_col)</span></span>
+<span class="line"><span style="color:#24292E">    feature_value_map[n_row][n_col] </span><span style="color:#D73A49">=</span><span style="color:#24292E"> line[</span><span style="color:#005CC5">2</span><span style="color:#24292E">]</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#032F62">'''</span></span>
+<span class="line"><span style="color:#032F62">Part4 图片绘制</span></span>
+<span class="line"><span style="color:#032F62">'''</span></span>
+<span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> truncate_colormap</span><span style="color:#24292E">(cmap, minval</span><span style="color:#D73A49">=</span><span style="color:#005CC5">0.2</span><span style="color:#24292E">, maxval</span><span style="color:#D73A49">=</span><span style="color:#005CC5">0.8</span><span style="color:#24292E">, n</span><span style="color:#D73A49">=</span><span style="color:#005CC5">256</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#032F62">    """</span></span>
+<span class="line"><span style="color:#032F62">    这个函数用来实现 cmap 的截取，具体 cmap 操作可参考</span></span>
+<span class="line"><span style="color:#032F62">    matplotlib 官网</span></span>
+<span class="line"><span style="color:#032F62">    """</span></span>
+<span class="line"><span style="color:#24292E">    new_cmap </span><span style="color:#D73A49">=</span><span style="color:#24292E"> mcolors.LinearSegmentedColormap.from_list(</span></span>
+<span class="line"><span style="color:#D73A49">        f</span><span style="color:#032F62">'trunc(</span><span style="color:#005CC5">{</span><span style="color:#24292E">cmap.name</span><span style="color:#005CC5">}</span><span style="color:#032F62">, </span><span style="color:#005CC5">{</span><span style="color:#24292E">minval</span><span style="color:#D73A49">:.2f</span><span style="color:#005CC5">}</span><span style="color:#032F62">, </span><span style="color:#005CC5">{</span><span style="color:#24292E">maxval</span><span style="color:#D73A49">:.2f</span><span style="color:#005CC5">}</span><span style="color:#032F62">)'</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#24292E">        cmap(np.linspace(minval, maxval, n))</span></span>
+<span class="line"><span style="color:#24292E">    )</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#24292E"> new_cmap</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 手动添加中文字体（请根据实际路径更改）</span></span>
+<span class="line"><span style="color:#24292E">font_path </span><span style="color:#D73A49">=</span><span style="color:#032F62"> '/usr/share/fonts/noto-cjk/NotoSansCJK-Medium.ttc'</span></span>
+<span class="line"><span style="color:#24292E">my_font </span><span style="color:#D73A49">=</span><span style="color:#24292E"> fm.FontProperties(</span><span style="color:#E36209">fname</span><span style="color:#D73A49">=</span><span style="color:#24292E">font_path)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 参数设置</span></span>
+<span class="line"><span style="color:#24292E">num_rings </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 15</span><span style="color:#6A737D">       # 行数（饼图圈数）</span></span>
+<span class="line"><span style="color:#24292E">num_segments </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 59</span><span style="color:#6A737D">    # 列数（每圈有多少小格）</span></span>
+<span class="line"><span style="color:#24292E">ring_width </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.5</span><span style="color:#D73A49"> /</span><span style="color:#24292E"> num_rings  </span><span style="color:#6A737D"># 控制总半径范围在 [0.5, 1]</span></span>
+<span class="line"><span style="color:#24292E">angle_width </span><span style="color:#D73A49">=</span><span style="color:#24292E"> (</span><span style="color:#005CC5">1.75</span><span style="color:#D73A49"> *</span><span style="color:#24292E"> np.pi) </span><span style="color:#D73A49">/</span><span style="color:#24292E"> num_segments      </span><span style="color:#6A737D"># 这里如果调成 2*np.pi 的话是一个完整的圆</span></span>
+<span class="line"><span style="color:#24292E">angles </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.linspace(</span><span style="color:#005CC5">0.5</span><span style="color:#D73A49"> *</span><span style="color:#24292E"> np.pi, </span><span style="color:#005CC5">2.25</span><span style="color:#D73A49"> *</span><span style="color:#24292E"> np.pi, num_segments, </span><span style="color:#E36209">endpoint</span><span style="color:#D73A49">=</span><span style="color:#005CC5">False</span><span style="color:#24292E">)       </span><span style="color:#6A737D"># 设置起始角度和结束角度</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 采用蓝-白-红渐变的配色（请根据个人喜好自行调整）</span></span>
+<span class="line"><span style="color:#24292E">cmap </span><span style="color:#D73A49">=</span><span style="color:#24292E"> get_cmap(</span><span style="color:#032F62">"RdBu"</span><span style="color:#24292E">).reversed()      </span><span style="color:#6A737D"># 这里对 cmap 进行取反操作</span></span>
+<span class="line"><span style="color:#24292E">cmap </span><span style="color:#D73A49">=</span><span style="color:#24292E"> truncate_colormap(cmap, </span><span style="color:#E36209">minval</span><span style="color:#D73A49">=</span><span style="color:#005CC5">0.1</span><span style="color:#24292E">, </span><span style="color:#E36209">maxval</span><span style="color:#D73A49">=</span><span style="color:#005CC5">0.9</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">norm </span><span style="color:#D73A49">=</span><span style="color:#24292E"> Normalize(</span><span style="color:#E36209">vmin</span><span style="color:#D73A49">=-</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#E36209">vmax</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 创建画布</span></span>
+<span class="line"><span style="color:#24292E">fig, ax </span><span style="color:#D73A49">=</span><span style="color:#24292E"> plt.subplots(</span><span style="color:#E36209">figsize</span><span style="color:#D73A49">=</span><span style="color:#24292E">(</span><span style="color:#005CC5">10</span><span style="color:#24292E">, </span><span style="color:#005CC5">10</span><span style="color:#24292E">), </span><span style="color:#E36209">subplot_kw</span><span style="color:#D73A49">=</span><span style="color:#005CC5">dict</span><span style="color:#24292E">(</span><span style="color:#E36209">polar</span><span style="color:#D73A49">=</span><span style="color:#005CC5">True</span><span style="color:#24292E">))</span></span>
+<span class="line"><span style="color:#24292E">ax.set_axis_off()    </span><span style="color:#6A737D"># 将坐标轴隐藏</span></span>
+<span class="line"><span style="color:#24292E">ax.set_title(</span><span style="color:#032F62">"酿酒红葡萄理化指标与红葡萄酒理化指标之间的关系热力图"</span><span style="color:#24292E">, </span><span style="color:#E36209">fontsize</span><span style="color:#D73A49">=</span><span style="color:#005CC5">14</span><span style="color:#24292E">, </span><span style="color:#E36209">fontproperties</span><span style="color:#D73A49">=</span><span style="color:#24292E">my_font)       </span><span style="color:#6A737D"># 设置标题</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 绘制所有圈（从外向内）</span></span>
+<span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(num_rings):</span></span>
+<span class="line"><span style="color:#24292E">    bottom </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.8</span><span style="color:#D73A49"> -</span><span style="color:#24292E"> (i </span><span style="color:#D73A49">+</span><span style="color:#005CC5"> 1</span><span style="color:#24292E">) </span><span style="color:#D73A49">*</span><span style="color:#24292E"> ring_width   </span><span style="color:#6A737D"># 每一圈的起始位置</span></span>
+<span class="line"><span style="color:#24292E">    height </span><span style="color:#D73A49">=</span><span style="color:#24292E"> ring_width</span></span>
+<span class="line"><span style="color:#24292E">    </span></span>
+<span class="line"><span style="color:#D73A49">    for</span><span style="color:#24292E"> j </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(num_segments):</span></span>
+<span class="line"><span style="color:#24292E">        color </span><span style="color:#D73A49">=</span><span style="color:#24292E"> cmap((feature_value_map[i][j] </span><span style="color:#D73A49">+</span><span style="color:#005CC5"> 1</span><span style="color:#24292E">)</span><span style="color:#D73A49">/</span><span style="color:#005CC5">2</span><span style="color:#24292E">)   </span><span style="color:#6A737D"># 颜色映射</span></span>
+<span class="line"><span style="color:#24292E">        theta </span><span style="color:#D73A49">=</span><span style="color:#24292E"> angles[j]   </span><span style="color:#6A737D"># 当前段（单元格）中心角度</span></span>
+<span class="line"><span style="color:#24292E">        radius </span><span style="color:#D73A49">=</span><span style="color:#24292E"> bottom </span><span style="color:#D73A49">+</span><span style="color:#24292E"> height </span><span style="color:#D73A49">/</span><span style="color:#005CC5"> 2</span><span style="color:#6A737D">      # 填入数值的位置（方格上界和下界中间的位置）</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        # 对每个单元格执行操作</span></span>
+<span class="line"><span style="color:#24292E">        ax.bar(</span></span>
+<span class="line"><span style="color:#E36209">            x</span><span style="color:#D73A49">=</span><span style="color:#24292E">angles[j],    </span><span style="color:#6A737D"># 中心角度</span></span>
+<span class="line"><span style="color:#E36209">            width</span><span style="color:#D73A49">=</span><span style="color:#24292E">angle_width,     </span><span style="color:#6A737D"># 扇形的角度宽度</span></span>
+<span class="line"><span style="color:#E36209">            bottom</span><span style="color:#D73A49">=</span><span style="color:#24292E">bottom,  </span><span style="color:#6A737D"># 环的底部半径</span></span>
+<span class="line"><span style="color:#E36209">            height</span><span style="color:#D73A49">=</span><span style="color:#24292E">height,  </span><span style="color:#6A737D"># 环的厚度</span></span>
+<span class="line"><span style="color:#E36209">            color</span><span style="color:#D73A49">=</span><span style="color:#24292E">color,    </span><span style="color:#6A737D"># 采用的颜色</span></span>
+<span class="line"><span style="color:#E36209">            edgecolor</span><span style="color:#D73A49">=</span><span style="color:#032F62">"black"</span><span style="color:#24292E">,     </span><span style="color:#6A737D"># 设置分割线颜色</span></span>
+<span class="line"><span style="color:#E36209">            linewidth</span><span style="color:#D73A49">=</span><span style="color:#005CC5">0.3</span><span style="color:#24292E">,  </span><span style="color:#6A737D"># 设置分割线宽度</span></span>
+<span class="line"><span style="color:#E36209">            align</span><span style="color:#D73A49">=</span><span style="color:#032F62">"edge"</span><span style="color:#6A737D">    # 对齐方式（从角度边缘开始）</span></span>
+<span class="line"><span style="color:#24292E">        )</span></span>
+<span class="line"><span style="color:#D73A49">        if</span><span style="color:#24292E"> np.abs(feature_value_map[i][j]) </span><span style="color:#D73A49">></span><span style="color:#005CC5"> 0</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">            ax.text(</span></span>
+<span class="line"><span style="color:#24292E">                theta </span><span style="color:#D73A49">+</span><span style="color:#24292E"> angle_width </span><span style="color:#D73A49">/</span><span style="color:#005CC5"> 2</span><span style="color:#24292E">,  </span><span style="color:#6A737D"># 移到扇形中间</span></span>
+<span class="line"><span style="color:#24292E">                radius,</span></span>
+<span class="line"><span style="color:#D73A49">                f</span><span style="color:#032F62">"</span><span style="color:#005CC5">{</span><span style="color:#24292E">feature_value_map[i][j]</span><span style="color:#D73A49">:.2f</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">,            </span><span style="color:#6A737D"># 保留两位小数</span></span>
+<span class="line"><span style="color:#E36209">                ha</span><span style="color:#D73A49">=</span><span style="color:#032F62">'center'</span><span style="color:#24292E">, </span><span style="color:#E36209">va</span><span style="color:#D73A49">=</span><span style="color:#032F62">'center'</span><span style="color:#24292E">,   </span><span style="color:#6A737D"># 水平/垂直居中（horizontal/verticle）</span></span>
+<span class="line"><span style="color:#E36209">                fontsize</span><span style="color:#D73A49">=</span><span style="color:#005CC5">4.5</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#E36209">                color</span><span style="color:#D73A49">=</span><span style="color:#032F62">'black'</span><span style="color:#D73A49"> if</span><span style="color:#005CC5"> abs</span><span style="color:#24292E">(feature_value_map[i][j]) </span><span style="color:#D73A49">&#x3C;</span><span style="color:#005CC5"> 0.7</span><span style="color:#D73A49"> else</span><span style="color:#032F62"> 'white'</span><span style="color:#24292E">,  </span><span style="color:#6A737D"># 自适应颜色</span></span>
+<span class="line"><span style="color:#E36209">                rotation</span><span style="color:#D73A49">=</span><span style="color:#005CC5">0</span><span style="color:#6A737D">  # 不旋转文本</span></span>
+<span class="line"><span style="color:#24292E">            )</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 在最外圈插入指标名称</span></span>
+<span class="line"><span style="color:#24292E">label_radius </span><span style="color:#D73A49">=</span><span style="color:#24292E"> (</span><span style="color:#005CC5">0.3</span><span style="color:#D73A49"> +</span><span style="color:#24292E"> num_rings </span><span style="color:#D73A49">*</span><span style="color:#24292E"> ring_width </span><span style="color:#D73A49">+</span><span style="color:#005CC5"> 0.02</span><span style="color:#24292E">)  </span><span style="color:#6A737D"># 最外圈外一点点</span></span>
+<span class="line"><span style="color:#24292E">indicator_labels </span><span style="color:#D73A49">=</span><span style="color:#24292E"> [</span><span style="color:#D73A49">f</span><span style="color:#032F62">'HG</span><span style="color:#005CC5">{</span><span style="color:#24292E">i</span><span style="color:#005CC5">}</span><span style="color:#032F62">'</span><span style="color:#D73A49"> for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(</span><span style="color:#005CC5">1</span><span style="color:#24292E">, num_segments </span><span style="color:#D73A49">+</span><span style="color:#005CC5"> 1</span><span style="color:#24292E">)]</span></span>
+<span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> j </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(num_segments):</span></span>
+<span class="line"><span style="color:#24292E">    theta </span><span style="color:#D73A49">=</span><span style="color:#24292E"> angles[j] </span><span style="color:#D73A49">+</span><span style="color:#24292E"> angle_width </span><span style="color:#D73A49">/</span><span style="color:#005CC5"> 2</span><span style="color:#6A737D">  # 扇形中间角度</span></span>
+<span class="line"><span style="color:#24292E">    label </span><span style="color:#D73A49">=</span><span style="color:#24292E"> indicator_labels[j]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">    ax.text(</span></span>
+<span class="line"><span style="color:#24292E">        theta,</span></span>
+<span class="line"><span style="color:#24292E">        label_radius,</span></span>
+<span class="line"><span style="color:#24292E">        label,</span></span>
+<span class="line"><span style="color:#E36209">        fontsize</span><span style="color:#D73A49">=</span><span style="color:#005CC5">8</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#E36209">        ha</span><span style="color:#D73A49">=</span><span style="color:#032F62">'center'</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#E36209">        va</span><span style="color:#D73A49">=</span><span style="color:#032F62">'center'</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#E36209">        rotation</span><span style="color:#D73A49">=</span><span style="color:#24292E">np.degrees(theta </span><span style="color:#D73A49">-</span><span style="color:#24292E"> np.pi </span><span style="color:#D73A49">/</span><span style="color:#005CC5"> 2</span><span style="color:#24292E">),</span></span>
+<span class="line"><span style="color:#E36209">        rotation_mode</span><span style="color:#D73A49">=</span><span style="color:#032F62">'anchor'</span></span>
+<span class="line"><span style="color:#24292E">    )</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 在圆环缺口处添加文字</span></span>
+<span class="line"><span style="color:#24292E">theta_gap </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.deg2rad(</span><span style="color:#005CC5">90</span><span style="color:#24292E">)  </span><span style="color:#6A737D"># 可调</span></span>
+<span class="line"><span style="color:#24292E">ring_width </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.5</span><span style="color:#D73A49"> /</span><span style="color:#24292E"> num_rings</span></span>
+<span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(num_rings):</span></span>
+<span class="line"><span style="color:#24292E">    radius </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.3</span><span style="color:#D73A49"> +</span><span style="color:#24292E"> i </span><span style="color:#D73A49">*</span><span style="color:#24292E"> ring_width </span><span style="color:#D73A49">+</span><span style="color:#24292E"> ring_width </span><span style="color:#D73A49">/</span><span style="color:#005CC5"> 2</span></span>
+<span class="line"><span style="color:#24292E">    ax.text(</span></span>
+<span class="line"><span style="color:#24292E">        theta_gap,</span></span>
+<span class="line"><span style="color:#24292E">        radius,</span></span>
+<span class="line"><span style="color:#D73A49">        f</span><span style="color:#032F62">"  HW</span><span style="color:#005CC5">{15</span><span style="color:#D73A49">-</span><span style="color:#24292E">i</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">,              </span><span style="color:#6A737D"># 或者你自定义的 label[i]</span></span>
+<span class="line"><span style="color:#E36209">        fontsize</span><span style="color:#D73A49">=</span><span style="color:#005CC5">6.5</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#E36209">        ha</span><span style="color:#D73A49">=</span><span style="color:#032F62">'left'</span><span style="color:#24292E">,               </span><span style="color:#6A737D"># 靠左对齐，文字朝外</span></span>
+<span class="line"><span style="color:#E36209">        va</span><span style="color:#D73A49">=</span><span style="color:#032F62">'center'</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#E36209">        rotation</span><span style="color:#D73A49">=</span><span style="color:#005CC5">0</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#E36209">        rotation_mode</span><span style="color:#D73A49">=</span><span style="color:#032F62">'anchor'</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#E36209">        color</span><span style="color:#D73A49">=</span><span style="color:#032F62">'black'</span></span>
+<span class="line"><span style="color:#24292E">    )</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 在极坐标图的中间嵌入一个小长条色带（纵向）</span></span>
+<span class="line"><span style="color:#24292E">cbar_ax </span><span style="color:#D73A49">=</span><span style="color:#24292E"> inset_axes(ax,</span></span>
+<span class="line"><span style="color:#E36209">    width</span><span style="color:#D73A49">=</span><span style="color:#032F62">"4%"</span><span style="color:#24292E">,   </span><span style="color:#6A737D"># 相对于父图宽度</span></span>
+<span class="line"><span style="color:#E36209">    height</span><span style="color:#D73A49">=</span><span style="color:#032F62">"25%"</span><span style="color:#24292E">,  </span><span style="color:#6A737D"># 相对于父图高度</span></span>
+<span class="line"><span style="color:#E36209">    loc</span><span style="color:#D73A49">=</span><span style="color:#032F62">'center'</span><span style="color:#6A737D">   # 放在图中心</span></span>
+<span class="line"><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">sm </span><span style="color:#D73A49">=</span><span style="color:#24292E"> ScalarMappable(</span><span style="color:#E36209">cmap</span><span style="color:#D73A49">=</span><span style="color:#24292E">cmap, </span><span style="color:#E36209">norm</span><span style="color:#D73A49">=</span><span style="color:#24292E">norm)</span></span>
+<span class="line"><span style="color:#24292E">sm.set_array([])</span></span>
+<span class="line"><span style="color:#24292E">cbar </span><span style="color:#D73A49">=</span><span style="color:#24292E"> plt.colorbar(sm, </span><span style="color:#E36209">cax</span><span style="color:#D73A49">=</span><span style="color:#24292E">cbar_ax, </span><span style="color:#E36209">orientation</span><span style="color:#D73A49">=</span><span style="color:#032F62">'vertical'</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">cbar.set_label(</span><span style="color:#032F62">"相关系数 R"</span><span style="color:#24292E">, </span><span style="color:#E36209">fontsize</span><span style="color:#D73A49">=</span><span style="color:#005CC5">10</span><span style="color:#24292E">, </span><span style="color:#E36209">fontproperties</span><span style="color:#D73A49">=</span><span style="color:#24292E">my_font)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 保存图片</span></span>
+<span class="line"><span style="color:#24292E">plt.tight_layout()</span></span>
+<span class="line"><span style="color:#6A737D"># plt.show()</span></span>
+<span class="line"><span style="color:#24292E">plt.savefig(</span><span style="color:#032F62">"my_figure2.png"</span><span style="color:#24292E">, </span><span style="color:#E36209">dpi</span><span style="color:#D73A49">=</span><span style="color:#005CC5">300</span><span style="color:#24292E">, </span><span style="color:#E36209">bbox_inches</span><span style="color:#D73A49">=</span><span style="color:#032F62">'tight'</span><span style="color:#24292E">)</span></span></code></pre>
+<p>运行之后，得到的效果图如下所示：
+<img src="/images/mathematic_maps/ring_heat_map_works.png" alt="final_work"></p>
+<p>效果图的配色等设计可能有欠缺的地方，但由于时间紧迫，并没有太多时间用于色彩、样式设计…</p>
+<hr>
+<h2 id="3-参考">3. 参考</h2>
+<p>[1] <a href="https://matplotlib.org/stable/gallery/pie_and_polar_charts/nested_pie.html#sphx-glr-gallery-pie-and-polar-charts-nested-pie-py">matplotlib 官网嵌套饼图教学（Nested pie charts）</a></p>
+<p>[2] <a href="https://matplotlib.org/stable/users/explain/colors/colormaps.html">matplotlib 官网 colormaps 一览</a></p>
+<p>[3] <a href="https://www.bioinformatics.com.cn/plot_basic_circular_cluster_heatmap_plot_070">Coldrain 最初遇到的环形热力图</a></p> </div> </div> <aside class="article-toc"> <div id="post-toc-card"> <div id="toc-card-style" class="toc-card"> <div id="toc-card-div"> <nav id="toc"> <span class="sidebar-title">目录</span> <ol class="toc"></ol> </nav> </div> </div> </div> </aside> </div> </article>  <footer id="footer"> <div id="footer-wrap"> <div>
+&copy; 2022 - 2026 ColdRain <span id="footer-icon"><i class="fa-solid fa-cloud-rain fa-fw"></i></span>
+Powered by Astro
+</div> </div> </footer> </main> <div id="preview" hidden> <img id="preview-content" alt=""> </div> </div> <canvas id="background" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"></canvas> <script src="/js/background.min.js"></script> <script src="/js/site.js"></script> </body> </html>

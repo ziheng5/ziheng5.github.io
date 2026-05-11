@@ -1,0 +1,173 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><title>Linux 终端美化：oh-my-posh | Cold Rain&#39;s Blog</title><meta name="author" content="ColdRain"><meta name="description" content="銀の龍の背に乗って..."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="/images/head.jpg"><link rel="preconnect" href="https://s4.zstatic.net"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"><link rel="preconnect" href="https://fonts.googleapis.cn"><link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/css/astro-overrides.css"></head> <body data-page-type="post"> <div id="layout"> <div id="loading"> <div id="loading-circle"> <h2>LOADING</h2> <p>加载过慢请开启缓存 浏览器默认开启</p> <img src="/images/loading.gif" alt=""> </div> </div> <div id="menu" class="menu-color"> <nav id="desktop-menu"> <a class="title" href="/"> <span>COLD RAIN&#39;S BLOG</span> </a> <a href="/"> <i class="fa-solid fa-house fa-fw"></i> <span>&ensp;Homepage</span> </a><a href="/2024/11/26/test/"> <i class="fa-solid fa-id-card fa-fw"></i> <span>&ensp;About</span> </a><a href="/archives/"> <i class="fa-solid fa-box-archive fa-fw"></i> <span>&ensp;Archives</span> </a><a href="/categories/杂谈/"> <i class="fa-solid fa-bookmark fa-fw"></i> <span>&ensp;Categories</span> </a><a href="/tags/杂谈/"> <i class="fa-solid fa-tags fa-fw"></i> <span>&ensp;Tags</span> </a><a href="/friends/"> <i class="fa-solid fa-link fa-fw"></i> <span>&ensp;Links</span> </a><a href="/favorites/"> <i class="fa-solid fa-star fa-fw"></i> <span>&ensp;Favorites</span> </a> </nav> <nav id="mobile-menu"> <button class="title" type="button" aria-expanded="false" aria-controls="mobile-menu-items"> <i class="fa-solid fa-bars fa-fw"></i> <span>&emsp;COLD RAIN&#39;S BLOG</span> </button> <div id="mobile-menu-items" class="items" hidden> <a href="/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-house fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div> </div> </a><a href="/2024/11/26/test/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-id-card fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">About</div> </div> </a><a href="/archives/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-box-archive fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div> </div> </a><a href="/categories/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-bookmark fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div> </div> </a><a href="/tags/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-tags fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div> </div> </a><a href="/friends/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-link fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div> </div> </a><a href="/favorites/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-star fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Favorites</div> </div> </a> </div> </nav> </div> <div id="menu-curtain" hidden></div> <main id="main" class="into-enter-from">  <article class="article"> <div class="article-wrap"> <div class="article-content"> <h1>Linux 终端美化：oh-my-posh</h1> <div class="info"> <span class="date"> <span class="icon"><i class="fa-solid fa-calendar fa-fw"></i></span> 2025/4/11 </span> <span class="category"> <a href="/categories/Archlinux/"> <span class="icon"><i class="fa-solid fa-bookmark fa-fw"></i></span> Archlinux </a> </span> <span class="tags"> <span class="icon"><i class="fa-solid fa-tags fa-fw"></i></span> <span class="tag"> <a href="/tags/Archlinux/" style="color: #ffa2c4">Archlinux</a> </span> </span> </div> <div class="content"> <p><img src="/images/oh-my-posh/pic0.png" alt="oh-my-posh"></p>
+<blockquote>
+<p>oh-my-posh 官方网址：<a href="https://ohmyposh.dev/">https://ohmyposh.dev/</a></p>
+<p>此外，本文不涉及 <code>Windows</code> 下 oh-my-posh 的配置，具体操作见<a href="https://ohmyposh.dev/docs/installation/windows">官方文档</a></p>
+</blockquote>
+<h2 id="1-安装-oh-my-posh">1. 安装 oh-my-posh</h2>
+<h3 id="ubuntu">Ubuntu</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">curl</span><span style="color:#005CC5"> -s</span><span style="color:#032F62"> https://ohmyposh.dev/install.sh</span><span style="color:#D73A49"> |</span><span style="color:#6F42C1"> bash</span><span style="color:#005CC5"> -s</span></span></code></pre>
+<blockquote>
+<p>如果 Ubuntu 上还没有安装 curl 的话，先安装 curl：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> apt</span><span style="color:#032F62"> install</span><span style="color:#032F62"> curl</span></span></code></pre>
+</blockquote>
+<p>另外，<code>Ubuntu</code> 系统下用 <code>curl</code> 安装 oh-my-posh，默认安装位置在 <code>/home/USER/.local/oh-my-posh</code></p>
+<h3 id="archlinux">Archlinux</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">paru</span><span style="color:#005CC5"> -S</span><span style="color:#032F62"> oh-my-posh</span></span></code></pre>
+<p><code>Archlinux</code> 系统下用 <code>pacman</code> 安装 oh-my-posh 的话，默认安装位置应该是在 <code>/usr/share/oh-my-posh</code></p>
+<h2 id="2-配置-bashrc">2. 配置 bashrc</h2>
+<p>在安装完成后，打开安装位置处 <code>oh-my-posh</code> 文件夹下的 <code>themes</code> 文件夹，其中包含了官方的示例主题（可以在此基础上自由配置）。</p>
+<p>我们从中找到 <code>catppuccin_mocha.omp.json</code> 文件，即 <code>catppuccin_mocha</code> 主题的配置文件，复制文件路径，然后打开终端，输入</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">vim</span><span style="color:#032F62"> ~/.bashrc</span></span></code></pre>
+<p>进入 <code>bashrc</code> 开始为终端配置 <code>oh-my-posh</code>，在其中添加下面这行代码：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 此处的 location 为 oh-my-posh 的安装位置</span></span>
+<span class="line"><span style="color:#005CC5">eval</span><span style="color:#032F62"> "$(</span><span style="color:#6F42C1">oh-my-posh</span><span style="color:#032F62"> init bash </span><span style="color:#005CC5">--config</span><span style="color:#032F62"> /location/catppuccin_mocha.omp.json)"</span></span></code></pre>
+<p>添加完成后，保存退出，重启终端，就可以看到 oh-my-posh 主题美化后的终端界面了</p>
+<h2 id="3-自定义主题">3. 自定义主题</h2>
+<p>在第 2 步中，我们使用的是官方提供的样例主题，实际上 oh-my-posh 的主题文件是可以自由配置的。</p>
+<p>配置文件中，主要修改的控件有 <a href="https://ohmyposh.dev/docs/configuration/block">blocks</a>、<a href="https://ohmyposh.dev/docs/configuration/segment">segments</a>，具体用法过多，请移步官方文档。</p>
+<p>比如下面这个主题配置，是小生自己编辑出来的，以供参考</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#24292E">{</span></span>
+<span class="line"><span style="color:#005CC5">  "$schema"</span><span style="color:#24292E">: </span><span style="color:#032F62">"https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">  "palette"</span><span style="color:#24292E">: {</span></span>
+<span class="line"><span style="color:#005CC5">        "os"</span><span style="color:#24292E">: </span><span style="color:#032F62">"#ACB0BE"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">        "closer"</span><span style="color:#24292E">: </span><span style="color:#032F62">"p:os"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">        "pink"</span><span style="color:#24292E">: </span><span style="color:#032F62">"#F5C2E7"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">        "lavender"</span><span style="color:#24292E">: </span><span style="color:#032F62">"#B4BEFE"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">        "blue"</span><span style="color:#24292E">:  </span><span style="color:#032F62">"#89B4FA"</span></span>
+<span class="line"><span style="color:#24292E">  },</span></span>
+<span class="line"><span style="color:#005CC5">  "blocks"</span><span style="color:#24292E">: [</span></span>
+<span class="line"><span style="color:#24292E">    {</span></span>
+<span class="line"><span style="color:#005CC5">      "alignment"</span><span style="color:#24292E">: </span><span style="color:#032F62">"left"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "newline"</span><span style="color:#24292E">: </span><span style="color:#005CC5">true</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "segments"</span><span style="color:#24292E">: [</span></span>
+<span class="line"><span style="color:#24292E">        </span></span>
+<span class="line"><span style="color:#24292E">        {</span></span>
+<span class="line"><span style="color:#005CC5">          "foreground"</span><span style="color:#24292E">: </span><span style="color:#032F62">"#3498DB"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "style"</span><span style="color:#24292E">: </span><span style="color:#032F62">"plain"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "template"</span><span style="color:#24292E">: </span><span style="color:#032F62">" {{.Icon}} "</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "type"</span><span style="color:#24292E">: </span><span style="color:#032F62">"os"</span></span>
+<span class="line"><span style="color:#24292E">        },</span></span>
+<span class="line"><span style="color:#24292E">        {</span></span>
+<span class="line"><span style="color:#005CC5">          "foreground"</span><span style="color:#24292E">: </span><span style="color:#032F62">"p:blue"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "style"</span><span style="color:#24292E">: </span><span style="color:#032F62">"plain"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "template"</span><span style="color:#24292E">: </span><span style="color:#032F62">"{{ .UserName }}@{{ .HostName }} "</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "type"</span><span style="color:#24292E">: </span><span style="color:#032F62">"session"</span></span>
+<span class="line"><span style="color:#24292E">        },</span></span>
+<span class="line"><span style="color:#24292E">        {</span></span>
+<span class="line"><span style="color:#005CC5">          "foreground"</span><span style="color:#24292E">: </span><span style="color:#032F62">"#FFFFFF"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "style"</span><span style="color:#24292E">: </span><span style="color:#032F62">"plain"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "template"</span><span style="color:#24292E">: </span><span style="color:#032F62">"| </span><span style="color:#005CC5">\ue266</span><span style="color:#032F62"> MEM: {{ round .PhysicalPercentUsed .Precision }}% | {{ (div ((sub .PhysicalTotalMemory .PhysicalAvailableMemory)|float64) 1073741824.0) }}/{{ (div .PhysicalTotalMemory 1073741824.0) }}GB </span><span style="color:#005CC5">\ue266</span><span style="color:#032F62">  |"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "type"</span><span style="color:#24292E">: </span><span style="color:#032F62">"sysinfo"</span></span>
+<span class="line"><span style="color:#24292E">        },</span></span>
+<span class="line"><span style="color:#24292E">        {</span></span>
+<span class="line"><span style="color:#005CC5">          "type"</span><span style="color:#24292E">: </span><span style="color:#032F62">"battery"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "style"</span><span style="color:#24292E">: </span><span style="color:#032F62">"plain"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "foreground"</span><span style="color:#24292E">: </span><span style="color:#032F62">"#6CE035"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "template"</span><span style="color:#24292E">: </span><span style="color:#032F62">" {{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }} "</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "properties"</span><span style="color:#24292E">: {</span></span>
+<span class="line"><span style="color:#005CC5">            "discharging_icon"</span><span style="color:#24292E">: </span><span style="color:#032F62">"</span><span style="color:#005CC5">\ue304</span><span style="color:#032F62"> "</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">            "charging_icon"</span><span style="color:#24292E">: </span><span style="color:#032F62">"</span><span style="color:#005CC5">\uf5f8</span><span style="color:#032F62"> "</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">            "charged_icon"</span><span style="color:#24292E">: </span><span style="color:#032F62">" "</span></span>
+<span class="line"><span style="color:#24292E">          }</span></span>
+<span class="line"><span style="color:#24292E">        }</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">      ],</span></span>
+<span class="line"><span style="color:#005CC5">      "type"</span><span style="color:#24292E">: </span><span style="color:#032F62">"prompt"</span></span>
+<span class="line"><span style="color:#24292E">    },</span></span>
+<span class="line"><span style="color:#24292E">    </span></span>
+<span class="line"><span style="color:#24292E">    {</span></span>
+<span class="line"><span style="color:#005CC5">      "alignment"</span><span style="color:#24292E">: </span><span style="color:#032F62">"left"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "newline"</span><span style="color:#24292E">: </span><span style="color:#005CC5">true</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "segments"</span><span style="color:#24292E">: [</span></span>
+<span class="line"><span style="color:#24292E">        {</span></span>
+<span class="line"><span style="color:#005CC5">          "style"</span><span style="color:#24292E">: </span><span style="color:#032F62">"plain"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "template"</span><span style="color:#24292E">: </span><span style="color:#032F62">"</span><span style="color:#005CC5">\u256d\u2500</span><span style="color:#032F62">"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "type"</span><span style="color:#24292E">: </span><span style="color:#032F62">"text"</span></span>
+<span class="line"><span style="color:#24292E">        },</span></span>
+<span class="line"><span style="color:#24292E">        {</span></span>
+<span class="line"><span style="color:#005CC5">          "properties"</span><span style="color:#24292E">: {</span></span>
+<span class="line"><span style="color:#005CC5">            "time_format"</span><span style="color:#24292E">: </span><span style="color:#032F62">"15:04:05"</span></span>
+<span class="line"><span style="color:#24292E">          },</span></span>
+<span class="line"><span style="color:#005CC5">          "style"</span><span style="color:#24292E">: </span><span style="color:#032F62">"plain"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "template"</span><span style="color:#24292E">: </span><span style="color:#032F62">" </span><span style="color:#005CC5">\uf017</span><span style="color:#032F62"> {{ .CurrentDate | date .Format }} |"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "type"</span><span style="color:#24292E">: </span><span style="color:#032F62">"time"</span></span>
+<span class="line"><span style="color:#24292E">        },</span></span>
+<span class="line"><span style="color:#24292E">        {</span></span>
+<span class="line"><span style="color:#005CC5">          "foreground"</span><span style="color:#24292E">: </span><span style="color:#032F62">"#FFDE57"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "properties"</span><span style="color:#24292E">: {</span></span>
+<span class="line"><span style="color:#005CC5">              "display_mode"</span><span style="color:#24292E">: </span><span style="color:#032F62">"environment"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">              "fetch_virtual_env"</span><span style="color:#24292E">: </span><span style="color:#005CC5">true</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">              "home_enabled"</span><span style="color:#24292E">: </span><span style="color:#005CC5">true</span></span>
+<span class="line"><span style="color:#24292E">          },</span></span>
+<span class="line"><span style="color:#005CC5">          "style"</span><span style="color:#24292E">: </span><span style="color:#032F62">"plain"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "template"</span><span style="color:#24292E">: </span><span style="color:#032F62">" </span><span style="color:#005CC5">\ue235</span><span style="color:#032F62"> {{ if .Venv }}({{ .Venv }}){{ end }}"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "type"</span><span style="color:#24292E">: </span><span style="color:#032F62">"python"</span></span>
+<span class="line"><span style="color:#24292E">        },</span></span>
+<span class="line"><span style="color:#24292E">        {</span></span>
+<span class="line"><span style="color:#005CC5">          "style"</span><span style="color:#24292E">: </span><span style="color:#032F62">"plain"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "template"</span><span style="color:#24292E">: </span><span style="color:#032F62">" </span><span style="color:#005CC5">\uf292</span><span style="color:#032F62"> "</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "type"</span><span style="color:#24292E">: </span><span style="color:#032F62">"root"</span></span>
+<span class="line"><span style="color:#24292E">        },</span></span>
+<span class="line"><span style="color:#24292E">        {</span></span>
+<span class="line"><span style="color:#005CC5">          "foreground"</span><span style="color:#24292E">: </span><span style="color:#032F62">"p:pink"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "properties"</span><span style="color:#24292E">: {</span></span>
+<span class="line"><span style="color:#005CC5">            "folder_icon"</span><span style="color:#24292E">: </span><span style="color:#032F62">"..</span><span style="color:#005CC5">\ue5fe</span><span style="color:#032F62">.."</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">            "home_icon"</span><span style="color:#24292E">: </span><span style="color:#032F62">" ~"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">            "style"</span><span style="color:#24292E">: </span><span style="color:#032F62">"agnoster_short"</span></span>
+<span class="line"><span style="color:#24292E">          },</span></span>
+<span class="line"><span style="color:#005CC5">          "style"</span><span style="color:#24292E">: </span><span style="color:#032F62">"plain"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "template"</span><span style="color:#24292E">: </span><span style="color:#032F62">" </span><span style="color:#005CC5">\uf07c</span><span style="color:#032F62"> {{ .Path }} "</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "type"</span><span style="color:#24292E">: </span><span style="color:#032F62">"path"</span></span>
+<span class="line"><span style="color:#24292E">        },</span></span>
+<span class="line"><span style="color:#24292E">        {</span></span>
+<span class="line"><span style="color:#005CC5">          "foreground"</span><span style="color:#24292E">: </span><span style="color:#032F62">"p:lavender"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "properties"</span><span style="color:#24292E">: {</span></span>
+<span class="line"><span style="color:#005CC5">            "branch_icon"</span><span style="color:#24292E">: </span><span style="color:#032F62">"</span><span style="color:#005CC5">\ue725</span><span style="color:#032F62"> "</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">            "cherry_pick_icon"</span><span style="color:#24292E">: </span><span style="color:#032F62">"</span><span style="color:#005CC5">\ue29b</span><span style="color:#032F62"> "</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">            "commit_icon"</span><span style="color:#24292E">: </span><span style="color:#032F62">"</span><span style="color:#005CC5">\uf417</span><span style="color:#032F62"> "</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">            "fetch_status"</span><span style="color:#24292E">: </span><span style="color:#005CC5">false</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">            "fetch_upstream_icon"</span><span style="color:#24292E">: </span><span style="color:#005CC5">false</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">            "merge_icon"</span><span style="color:#24292E">: </span><span style="color:#032F62">"</span><span style="color:#005CC5">\ue727</span><span style="color:#032F62"> "</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">            "no_commits_icon"</span><span style="color:#24292E">: </span><span style="color:#032F62">"</span><span style="color:#005CC5">\uf0c3</span><span style="color:#032F62"> "</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">            "rebase_icon"</span><span style="color:#24292E">: </span><span style="color:#032F62">"</span><span style="color:#005CC5">\ue728</span><span style="color:#032F62"> "</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">            "revert_icon"</span><span style="color:#24292E">: </span><span style="color:#032F62">"</span><span style="color:#005CC5">\uf0e2</span><span style="color:#032F62"> "</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">            "tag_icon"</span><span style="color:#24292E">: </span><span style="color:#032F62">"</span><span style="color:#005CC5">\uf412</span><span style="color:#032F62"> "</span></span>
+<span class="line"><span style="color:#24292E">          },</span></span>
+<span class="line"><span style="color:#005CC5">          "template"</span><span style="color:#24292E">: </span><span style="color:#032F62">"{{ .HEAD }} "</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "style"</span><span style="color:#24292E">: </span><span style="color:#032F62">"plain"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "type"</span><span style="color:#24292E">: </span><span style="color:#032F62">"git"</span></span>
+<span class="line"><span style="color:#24292E">        }</span></span>
+<span class="line"><span style="color:#24292E">      ],</span></span>
+<span class="line"><span style="color:#005CC5">      "type"</span><span style="color:#24292E">: </span><span style="color:#032F62">"prompt"</span></span>
+<span class="line"><span style="color:#24292E">    },</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">    {</span></span>
+<span class="line"><span style="color:#005CC5">      "alignment"</span><span style="color:#24292E">: </span><span style="color:#032F62">"left"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "newline"</span><span style="color:#24292E">: </span><span style="color:#005CC5">true</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "segments"</span><span style="color:#24292E">: [</span></span>
+<span class="line"><span style="color:#24292E">        {</span></span>
+<span class="line"><span style="color:#005CC5">          "properties"</span><span style="color:#24292E">: {</span></span>
+<span class="line"><span style="color:#005CC5">            "always_enabled"</span><span style="color:#24292E">: </span><span style="color:#005CC5">true</span></span>
+<span class="line"><span style="color:#24292E">          },</span></span>
+<span class="line"><span style="color:#005CC5">          "style"</span><span style="color:#24292E">: </span><span style="color:#032F62">"plain"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "template"</span><span style="color:#24292E">: </span><span style="color:#032F62">"</span><span style="color:#005CC5">\u2570\u2500</span><span style="color:#032F62"> "</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "type"</span><span style="color:#24292E">: </span><span style="color:#032F62">"status"</span></span>
+<span class="line"><span style="color:#24292E">        },</span></span>
+<span class="line"><span style="color:#24292E">        {</span></span>
+<span class="line"><span style="color:#005CC5">          "style"</span><span style="color:#24292E">: </span><span style="color:#032F62">"plain"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "foreground"</span><span style="color:#24292E">: </span><span style="color:#032F62">"#FFFFFF"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "template"</span><span style="color:#24292E">: </span><span style="color:#032F62">"</span><span style="color:#005CC5">\uf105</span><span style="color:#032F62">"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">          "type"</span><span style="color:#24292E">: </span><span style="color:#032F62">"text"</span></span>
+<span class="line"><span style="color:#24292E">        }</span></span>
+<span class="line"><span style="color:#24292E">      ],</span></span>
+<span class="line"><span style="color:#005CC5">      "type"</span><span style="color:#24292E">: </span><span style="color:#032F62">"prompt"</span></span>
+<span class="line"><span style="color:#24292E">    }</span></span>
+<span class="line"><span style="color:#24292E">  ],</span></span>
+<span class="line"><span style="color:#005CC5">  "final_space"</span><span style="color:#24292E">: </span><span style="color:#005CC5">true</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">  "version"</span><span style="color:#24292E">: </span><span style="color:#005CC5">3</span></span>
+<span class="line"><span style="color:#24292E">}</span></span>
+<span class="line"></span></code></pre> </div> </div> <aside class="article-toc"> <div id="post-toc-card"> <div id="toc-card-style" class="toc-card"> <div id="toc-card-div"> <nav id="toc"> <span class="sidebar-title">目录</span> <ol class="toc"></ol> </nav> </div> </div> </div> </aside> </div> </article>  <footer id="footer"> <div id="footer-wrap"> <div>
+&copy; 2022 - 2026 ColdRain <span id="footer-icon"><i class="fa-solid fa-cloud-rain fa-fw"></i></span>
+Powered by Astro
+</div> </div> </footer> </main> <div id="preview" hidden> <img id="preview-content" alt=""> </div> </div> <canvas id="background" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"></canvas> <script src="/js/background.min.js"></script> <script src="/js/site.js"></script> </body> </html>

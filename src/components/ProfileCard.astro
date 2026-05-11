@@ -1,0 +1,24 @@
+---
+import { iconLinks, site } from "../lib/site";
+---
+
+<div id="card-style">
+  <div id="card-div">
+    <div class="avatar">
+      <img src={site.avatar} alt="avatar" />
+    </div>
+    <div class="name">{site.author}</div>
+    <div class="description">
+      <p>理想主义重症患者</p>
+    </div>
+    <div class="icon-links">
+      {iconLinks.map((item) => (
+        <span class="icon-link">
+          <a href={item.href} aria-label={item.label}>
+            <i class={`fa-${item.theme} fa-${item.icon} fa-fw`}></i>
+          </a>
+        </span>
+      ))}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+---
+import Pagination from "../../../components/Pagination.astro";
+import PostCard from "../../../components/PostCard.astro";
+import ProfileCard from "../../../components/ProfileCard.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getPosts } from "../../../lib/posts";
+
+export function getStaticPaths() {
+  const posts = getPosts();
+  const pageSize = 10;
+  const totalPages = Math.ceil(posts.length / pageSize);
+  return Array.from({ length: Math.max(totalPages - 1, 0) }, (_, index) => {
+    const page = index + 2;
+    return {
+      params: { page: String(page) },
+      props: {
+        page,
+        totalPages,
+        posts: posts.slice((page - 1) * pageSize, page * pageSize)
+      }
+    };
+  });
+}
+
+const { page, totalPages, posts } = Astro.props;
+---
+
+<BaseLayout title={`第 ${page} 页`} type="index">
+  <div id="home-posts-wrap" class="paged-home">
+    <div id="home-posts">
+      {posts.map((post) => <PostCard post={post} />)}
+      <Pagination currentPage={page} totalPages={totalPages} />
+    </div>
+    <aside id="home-card">
+      <ProfileCard />
+    </aside>
+  </div>
+</BaseLayout>

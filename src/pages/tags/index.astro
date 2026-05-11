@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPosts, slugify, tagColor, uniqueValues } from "../../lib/posts";
+
+const tags = uniqueValues(getPosts(), "tags");
+---
+
+<BaseLayout title="Tags" type="tags">
+  <div id="archives">
+    <div class="categories-tags">
+      {tags.map((tag, index) => (
+        <span>
+          <a href={`/tags/${slugify(tag)}/`} style={`background: ${tagColor(index)}`}>
+            <span class="icon"><i class="fa-solid fa-tags fa-fw"></i></span>
+            {tag}
+          </a>
+        </span>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

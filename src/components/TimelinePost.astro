@@ -1,0 +1,37 @@
+---
+import type { BlogPost } from "../lib/posts";
+import { formatDate, slugify, tagColor } from "../lib/posts";
+
+const { post } = Astro.props as { post: BlogPost };
+const category = post.categories[0];
+---
+
+<div class="timeline" data-title={post.title.toLowerCase().replace(/\s+/g, "")}>
+  <div class="timeline-tail"></div>
+  <div class="timeline-content">
+    <div class="item-time">{formatDate(post.date)}</div>
+    <a href={post.path}>
+      <h3>{post.title}</h3>
+    </a>
+    <div class="info">
+      {category && (
+        <span class="category">
+          <a href={`/categories/${slugify(category)}/`}>
+            <span class="icon"><i class="fa-solid fa-bookmark fa-fw"></i></span>
+            {category}
+          </a>
+        </span>
+      )}
+      {post.tags.length > 0 && (
+        <span class="tags">
+          <span class="icon"><i class="fa-solid fa-tags fa-fw"></i></span>
+          {post.tags.map((tag, index) => (
+            <span class="tag">
+              <a href={`/tags/${slugify(tag)}/`} style={`color: ${tagColor(index)}`}>{tag}</a>
+            </span>
+          ))}
+        </span>
+      )}
+    </div>
+  </div>
+</div>

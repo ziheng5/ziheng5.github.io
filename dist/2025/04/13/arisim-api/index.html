@@ -1,0 +1,858 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><title>Airsim 笔记：Python API 总结 | Cold Rain&#39;s Blog</title><meta name="author" content="ColdRain"><meta name="description" content="銀の龍の背に乗って..."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="/images/head.jpg"><link rel="preconnect" href="https://s4.zstatic.net"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css"><link rel="preconnect" href="https://fonts.googleapis.cn"><link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"><link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/css/astro-overrides.css"></head> <body data-page-type="post"> <div id="layout"> <div id="loading"> <div id="loading-circle"> <h2>LOADING</h2> <p>加载过慢请开启缓存 浏览器默认开启</p> <img src="/images/loading.gif" alt=""> </div> </div> <div id="menu" class="menu-color"> <nav id="desktop-menu"> <a class="title" href="/"> <span>COLD RAIN&#39;S BLOG</span> </a> <a href="/"> <i class="fa-solid fa-house fa-fw"></i> <span>&ensp;Homepage</span> </a><a href="/2024/11/26/test/"> <i class="fa-solid fa-id-card fa-fw"></i> <span>&ensp;About</span> </a><a href="/archives/"> <i class="fa-solid fa-box-archive fa-fw"></i> <span>&ensp;Archives</span> </a><a href="/categories/杂谈/"> <i class="fa-solid fa-bookmark fa-fw"></i> <span>&ensp;Categories</span> </a><a href="/tags/杂谈/"> <i class="fa-solid fa-tags fa-fw"></i> <span>&ensp;Tags</span> </a><a href="/friends/"> <i class="fa-solid fa-link fa-fw"></i> <span>&ensp;Links</span> </a><a href="/favorites/"> <i class="fa-solid fa-star fa-fw"></i> <span>&ensp;Favorites</span> </a> </nav> <nav id="mobile-menu"> <button class="title" type="button" aria-expanded="false" aria-controls="mobile-menu-items"> <i class="fa-solid fa-bars fa-fw"></i> <span>&emsp;COLD RAIN&#39;S BLOG</span> </button> <div id="mobile-menu-items" class="items" hidden> <a href="/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-house fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Homepage</div> </div> </a><a href="/2024/11/26/test/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-id-card fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">About</div> </div> </a><a href="/archives/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-box-archive fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div> </div> </a><a href="/categories/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-bookmark fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div> </div> </a><a href="/tags/杂谈/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-tags fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div> </div> </a><a href="/friends/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-link fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Links</div> </div> </a><a href="/favorites/"> <div class="item"> <div style="min-width: 20px; max-width: 50px; width: 10%"> <i class="fa-solid fa-star fa-fw"></i> </div> <div style="min-width: 100px; max-width: 150%; width: 20%">Favorites</div> </div> </a> </div> </nav> </div> <div id="menu-curtain" hidden></div> <main id="main" class="into-enter-from">  <article class="article"> <div class="article-wrap"> <div class="article-content"> <h1>Airsim 笔记：Python API 总结</h1> <div class="info"> <span class="date"> <span class="icon"><i class="fa-solid fa-calendar fa-fw"></i></span> 2025/4/13 </span> <span class="category"> <a href="/categories/%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/"> <span class="icon"><i class="fa-solid fa-bookmark fa-fw"></i></span> 食用指南 </a> </span> <span class="tags"> <span class="icon"><i class="fa-solid fa-tags fa-fw"></i></span> <span class="tag"> <a href="/tags/%E4%BB%BF%E7%9C%9F/" style="color: #ffa2c4">仿真</a> </span> </span> </div> <div class="content"> <blockquote>
+<p>📚 小生的笔记参考西湖大学宁子安大佬的教程：<a href="https://www.zhihu.com/column/multiUAV">https://www.zhihu.com/column/multiUAV</a></p>
+<p>另：本文内容均在 Windows 操作系统下进行（Ubuntu 下的仿真环境折腾起来比较麻烦 💦）</p>
+</blockquote>
+<h2 id="0-airsim-apis-简介">0. AirSim APIs 简介</h2>
+<hr>
+<p>AirSim 封装了一些 API 接口，使用这些 API 接口，可以用程序跟仿真进行交互。例如可以使用 API 来获取图片、无人机状态、控制无人机/车辆的运动等。</p>
+<p>AirSim 的 API 非常丰富，有很多可以调用的功能，可以将这些功能分成以下几类：</p>
+<ul>
+<li><strong>图像类 API</strong>：获取各种类型的图像、控制云台等；</li>
+<li><strong>控制仿真运行</strong>：可以控制仿真暂停或继续；</li>
+<li><strong>碰撞 API</strong>：获取碰撞信息，包括碰撞次数、位置、表面信息、渗透深度等；</li>
+<li><strong>环境时间 API</strong>：主要是控制太阳在天空中的位置；</li>
+<li><strong>环境天气 API</strong>：控制环境中的天气：下雨、雪、灰尘、雾气、道路湿滑程度等；</li>
+<li><strong>环境风 API</strong>：控制环境中的风速和风向等；</li>
+<li><strong>雷达 API</strong>：添加和控制环境中的雷达传感器；</li>
+<li><strong>无人机或车辆的 API</strong>：控制运动、获取状态等</li>
+</ul>
+<p>AirSim 的 API 有 python 和 C++ 两种使用方式，可以根据自己的习惯任意选择，这里主要记录 python 的使用方式。</p>
+<p>在虚拟环境中安装 <code>msgpack-rpc-python</code> 和 <code>airsim</code> 两个库即可使用</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">pip</span><span style="color:#032F62"> install</span><span style="color:#032F62"> msgpack-rpc-python</span></span>
+<span class="line"><span style="color:#6F42C1">pip</span><span style="color:#032F62"> install</span><span style="color:#032F62"> airsim</span></span></code></pre>
+<h2 id="1-控制无人机的起飞和降落">1. 控制无人机的起飞和降落</h2>
+<hr>
+<p>先看下面这段代码：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> airsim</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># connect to the AirSim simulator</span></span>
+<span class="line"><span style="color:#24292E">client </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.MultirotorClient()</span></span>
+<span class="line"><span style="color:#24292E">client.confirmConnection()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># get control</span></span>
+<span class="line"><span style="color:#24292E">client.enableApiControl(</span><span style="color:#005CC5">True</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># unlock</span></span>
+<span class="line"><span style="color:#24292E">client.armDisarm(</span><span style="color:#005CC5">True</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Async methods returns Future. Call join() to wait for task to complete.</span></span>
+<span class="line"><span style="color:#24292E">client.takeoffAsync().join()</span></span>
+<span class="line"><span style="color:#24292E">client.landAsync().join()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># lock</span></span>
+<span class="line"><span style="color:#24292E">client.armDisarm(</span><span style="color:#005CC5">False</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># release control</span></span>
+<span class="line"><span style="color:#24292E">client.enableApiControl(</span><span style="color:#005CC5">False</span><span style="color:#24292E">)</span></span></code></pre>
+<blockquote>
+<p>在运行上面这段代码之前，需要先将 AirSim 运行起来。</p>
+<p>先将 <code>C:\Users\[用户名]\Documents\AirSim</code> 路径下的 <code>settings.json</code> 文件中的仿真模式改为多旋翼，如下所示</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#24292E">{</span></span>
+<span class="line"><span style="color:#005CC5">    "SettingsVersion"</span><span style="color:#24292E">: </span><span style="color:#005CC5">1.2</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">    "SimMode"</span><span style="color:#24292E">: </span><span style="color:#032F62">"Multirotor"</span></span>
+<span class="line"><span style="color:#24292E">}</span></span></code></pre>
+<p>修改完成后，打开之前安装好的 <code>LandscapeMountains</code> 环境目录下的 <code>LandscapeMountains.sln</code> 文件；Visual Studio 中，选择编辑模式为 <code>Debug Game Editor</code> 和 <code>win64</code>，确保 <code>LandscapeMountains</code> 为启动项目。</p>
+<p>然后点击 <code>本地Windows调试器</code>，这时就会打开 Unreal Editor；在 Unreal Editor 中点击 <code>播放(Play)</code> 按钮，仿真开始运行。</p>
+<p>无人机初始位置设置的是在空中，所以刚一点击<code>播放</code>按钮时，无人机会向下落，最后触地，同时机翼也一直旋转。因为有两个物体的碰撞，所以画面中给出了一个碰撞警告。（初始位置是可以自己调的）</p>
+<p>注意，在 <code>LandscapeMountain</code> 这个环境中，水面就是一个物体，它跟石头、树木等有相同的物理特性，所以无人机不会落到水中，而是在睡眠，就像在平地上着陆一样。所以在这个环境中的仿真，就可以把水面当做平地来看待。</p>
+</blockquote>
+<p>代码详解：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">client </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.MultirotorClient()</span></span></code></pre>
+<p>与 AirSim 建立连接，并且返回句柄（client），后面的每次操作需要使用这个句柄。</p>
+<p>如果是汽车仿真，代码是：<code>client = airsim.CarClient()</code>；</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">client.confirmConnection()</span></span></code></pre>
+<p>检查通信是否建立成功，并且会在命令行中打印连接情况，这样就可以判断程序是否和 AirSim 连接正常，如果连接正常会在命令行中打印如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">Connected!</span></span>
+<span class="line"><span style="color:#6F42C1">Client</span><span style="color:#032F62"> Ver:1</span><span style="color:#24292E"> (Min </span><span style="color:#032F62">Req:</span><span style="color:#005CC5"> 1</span><span style="color:#24292E">), Server Ver:1 (</span><span style="color:#6F42C1">Min</span><span style="color:#032F62"> Req:</span><span style="color:#005CC5"> 1</span><span style="color:#24292E">)</span></span></code></pre>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">client.enableApiControl(</span><span style="color:#005CC5">True</span><span style="color:#24292E">)   </span><span style="color:#6A737D"># get control</span></span>
+<span class="line"><span style="color:#24292E">client.enableApiControl(</span><span style="color:#005CC5">False</span><span style="color:#24292E">)  </span><span style="color:#6A737D"># release control</span></span></code></pre>
+<p>因为安全问题， API 控制默认是不开启的，遥控器有全部的控制权限。所以必须要在程序中使用这个函数来获取控制权。遥控器的操作会抢夺 API 的控制权，同时让 API 获取的控制权失效。使用 <code>isApiControlEnabled</code> 可检查 API 是否具有控制权。</p>
+<p>可能会有人问为什么最后结束的时候要释放控制权，反正都是仿真，结束仿真就好了。但是实际上 AirSim 的开发人员希望在仿真中的代码可以直接移到现实中使用，所以对于现实中的安全问题，还是开发了获取控制权和释放控制权、解锁和上锁等一系列安全操作。</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">client.takeoffAsync().join()    </span><span style="color:#6A737D"># 起飞</span></span>
+<span class="line"><span style="color:#24292E">client.landAsync().join()   </span><span style="color:#6A737D"># 降落</span></span></code></pre>
+<p>这两个函数可以让无人机起飞和降落。</p>
+<p>很多无人机或者汽车控制的函数都有 <code>Async</code> 作为后缀，这些函数在执行的时候会立即返回，这样的话，虽然任务还没有执行完，但是程序可以继续执行下去，而不用等待这个函数的任务在仿真中有没有执行完。</p>
+<p>如果你想让程序在这里等待任务执行完，则只需要在后面加上 <code>.join()</code>。本例子就是让程序在这里等待无人机起飞任务完成，然后再执行降落任务。</p>
+<p>新的任务会打断上一个没有执行完的任务，所以如果 <code>takeoff</code> 函数没有加 <code>.join()</code>，则最后的表现是无人机还没有起飞就降落了，无人机是不会起飞的。</p>
+<blockquote>
+<p><strong>Python 与 AirSim 的通信机制</strong></p>
+<p>AirSim API 使用的是 <code>TCP/IP</code> 中的 <code>msgpack-rpc</code> 协议，这是一种网络协议，所以如果设置正确，其实可以用两台不同的电脑来做仿真，一台跑 AirSim 和 Unreal，另一台跑 python 程序。</p>
+<p>当 AirSim 开始仿真的时候，会打开 41451 端口，并监听这个端口的需求。python 程序使用 <code>msgpack serialization</code> 格式向这个端口发送 RPC 包，就可以与 AirSim 进行通信了。</p>
+</blockquote>
+<h2 id="2-控制四旋翼的飞行core-api">2. 控制四旋翼的飞行（core API）</h2>
+<hr>
+<h3 id="21-控制样例">2.1 控制样例</h3>
+<p>示例代码：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> airsim</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> time</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># connect to the Airsim simulator</span></span>
+<span class="line"><span style="color:#24292E">client </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.MultirotorClient()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">client.enableApiControl(</span><span style="color:#005CC5">True</span><span style="color:#24292E">)   </span><span style="color:#6A737D"># get control</span></span>
+<span class="line"><span style="color:#24292E">client.armDisarm(</span><span style="color:#005CC5">True</span><span style="color:#24292E">)          </span><span style="color:#6A737D"># unlock</span></span>
+<span class="line"><span style="color:#24292E">client.takeoffAsync().join()    </span><span style="color:#6A737D"># takeoff</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># square flight</span></span>
+<span class="line"><span style="color:#24292E">client.moveToZAsync(</span><span style="color:#D73A49">-</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">).join()               </span><span style="color:#6A737D"># 上升到 3m 高度</span></span>
+<span class="line"><span style="color:#24292E">client.moveToPositionAsync(</span><span style="color:#005CC5">5</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">).join()  </span><span style="color:#6A737D"># 飞到（5, 0）点坐标</span></span>
+<span class="line"><span style="color:#24292E">client.moveToPositionAsync(</span><span style="color:#005CC5">5</span><span style="color:#24292E">, </span><span style="color:#005CC5">5</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">).join()  </span><span style="color:#6A737D"># 飞到（5, 5）点坐标</span></span>
+<span class="line"><span style="color:#24292E">client.moveToPositionAsync(</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">5</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">).join()  </span><span style="color:#6A737D"># 飞到（0, 5）点坐标</span></span>
+<span class="line"><span style="color:#24292E">client.moveToPositionAsync(</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">).join()  </span><span style="color:#6A737D"># 飞到（0, 0）点坐标</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">client.landAsync().join()       </span><span style="color:#6A737D"># land</span></span>
+<span class="line"><span style="color:#24292E">client.armDisarm(</span><span style="color:#005CC5">False</span><span style="color:#24292E">)         </span><span style="color:#6A737D"># lock</span></span>
+<span class="line"><span style="color:#24292E">client.enableApiControl(</span><span style="color:#005CC5">False</span><span style="color:#24292E">)  </span><span style="color:#6A737D"># release control</span></span></code></pre>
+<p>上面这段代码实现的效果是：</p>
+<ul>
+<li>第一阶段：起飞</li>
+<li>第二阶段：上升到 3m 高度</li>
+<li>第三阶段：飞正方形
+<ul>
+<li>向前飞 5m（沿 x 轴正方向）</li>
+<li>向右飞 5m</li>
+<li>向后飞 5m</li>
+<li>向左飞 5m，回到起飞点</li>
+</ul>
+</li>
+<li>第四阶段：降落</li>
+</ul>
+<blockquote>
+<p>⚠️ 注意，如果你的仿真在刚开始的时候，四旋翼并不是正前方，说明 player start 的位置是有角度的，将其改成 0 即可。</p>
+</blockquote>
+<p>代码详解：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">client.moveToZAsync(</span><span style="color:#D73A49">-</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">).join()   </span><span style="color:#6A737D"># 高度控制</span></span></code></pre>
+<p><code>moveToAsync(z, velocity)</code> 是高度控制 API，第一个参数是<strong>高度</strong>，第二个参数是<strong>速度</strong>。实现的效果是无人机以 1m/s 的速度飞到 3m 高。<code>.join()</code> 后缀的意思是程序在这里等待直到任务完成，也就是四旋翼达到 3m 的高度。如果不加 <code>.join()</code> 后缀，则不用等待任务是否完成，函数直接返回，程序继续往下执行。</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">client.moveToPositionAsync(</span><span style="color:#005CC5">5</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">).join()  </span><span style="color:#6A737D"># 飞到（5, 0）点坐标</span></span>
+<span class="line"><span style="color:#24292E">client.moveToPositionAsync(</span><span style="color:#005CC5">5</span><span style="color:#24292E">, </span><span style="color:#005CC5">5</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">).join()  </span><span style="color:#6A737D"># 飞到（5, 5）点坐标</span></span>
+<span class="line"><span style="color:#24292E">client.moveToPositionAsync(</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">5</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">).join()  </span><span style="color:#6A737D"># 飞到（0, 5）点坐标</span></span>
+<span class="line"><span style="color:#24292E">client.moveToPositionAsync(</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">).join()  </span><span style="color:#6A737D"># 飞到（0, 0）点坐标</span></span></code></pre>
+<p><code>moveToPositionAsync(x, y, z, velocity)</code> 是水平位置控制 API，<code>x, y, z</code> 是全局坐标位置，<code>velocity</code> 是速度。实现的效果是以 1m/s 的速度飞到 (5, 0) 点，3m 高的位置。<code>.join()</code> 后缀的意思是程序在这里等待直到任务完成，也就是四旋翼到达目标位置点，同时到达设置的高度。如果不加 <code>.join()</code> 后缀，则不用等待任务是否完成，函数直接返回，程序继续往下执行。</p>
+<h3 id="22-四旋翼底层飞控通道简介">2.2 四旋翼底层飞控通道简介</h3>
+<p>关于四旋翼的非线性建模和底层控制器设计，在后面详细讲解，目前先简单介绍一下四旋翼的底层飞控可以控制什么量。当四旋翼低速飞行时，其底层飞控可以解耦为 3 个通道：</p>
+<ul>
+<li>水平通道</li>
+<li>高度通道</li>
+<li>偏航通道</li>
+</ul>
+<p>这 3 个通道可以分别控制，可以理解为通道之间相互不会影响。水平通道可以控制四旋翼的水平位置、水平速度、水平姿态角；高度通道可以控制垂直高度、垂直速度、垂直加速度；偏航通道可以控制偏航角度、偏航角速度、偏航角加速度。</p>
+<p>本文例子程序中 <code>x, y</code> 是水平通道的指令，控制四旋翼水平方向的飞行；<code>z</code> 是高度通道指令，控制四旋翼的高度。本文例子程序中没有偏航通道指令，默认的偏航是 0，也就是四旋翼自身不会水平旋转，其朝向始终朝向前方。</p>
+<h3 id="23-水平位置控制函数">2.3 水平位置控制函数</h3>
+<p>函数定义</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> moveToPositionAsync</span><span style="color:#24292E">(</span></span>
+<span class="line"><span style="color:#24292E">    self,</span></span>
+<span class="line"><span style="color:#24292E">    x, </span></span>
+<span class="line"><span style="color:#24292E">    y,</span></span>
+<span class="line"><span style="color:#24292E">    z,</span></span>
+<span class="line"><span style="color:#24292E">    velocity,</span></span>
+<span class="line"><span style="color:#24292E">    timeout_sec</span><span style="color:#D73A49">=</span><span style="color:#005CC5">3e38</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#24292E">    drivetrain</span><span style="color:#D73A49">=</span><span style="color:#24292E">DrivetrainType.MaxDegreeOfFreedom,</span></span>
+<span class="line"><span style="color:#24292E">    yaw_mode</span><span style="color:#D73A49">=</span><span style="color:#24292E">YawMode(),</span></span>
+<span class="line"><span style="color:#24292E">    lookahead</span><span style="color:#D73A49">=-</span><span style="color:#005CC5">1</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#24292E">    adaptive_lookahead</span><span style="color:#D73A49">=</span><span style="color:#005CC5">1</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#24292E">    vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#032F62">""</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#24292E">)</span></span></code></pre>
+<p>输入参数包括：</p>
+<ul>
+<li>x, y, z：位置坐标（全局坐标系-北东地）</li>
+<li>velocity：飞行速度（m/s）</li>
+<li>timeout_sec：如果没有相应，超时时间</li>
+<li>drivetrain, yaw_mode：设置飞行朝向模式和 yaw 角控制模式</li>
+<li>lookahead, adaptive_lookahead：设置路径飞行的时候的 yaw 角控制模式</li>
+<li>vehicle_name：控制的四旋翼的名字</li>
+</ul>
+<p><code>x, y, z, velocity</code> 这四个参数是必须要设置的量，指示四旋翼以多大的速度飞往哪个坐标点。后面的几个参数都有其默认值，不用设置也可以。</p>
+<p><code>lookahead</code> 和 <code>adaptive_lookahead</code> 这两个参数是设置当四旋翼飞轨迹的时候的朝向，目前还用不到。</p>
+<p><code>vehicle_name</code> 是指将指令发送给哪个四旋翼，当做多个四旋翼协同飞行控制的时候，这个参数就派上用场了，后面会有多机协同编队的内容。</p>
+<p><code>drivetrain</code> 和 <code>yaw_mode</code> 这两个参数的组合可以设置四旋翼的偏航角控制模式，下面详细介绍。</p>
+<h3 id="24-偏航角控制模式详解">2.4 偏航角控制模式详解</h3>
+<p>drivetrain 参数可以设置为两个量：</p>
+<ul>
+<li><code>airsim.DrivetrainType.ForwardOnly</code>：始终朝向速度方向</li>
+<li><code>airsim.DrivetrainType.MaxDegreeOfFreedom</code>：手动设置 yaw 角度</li>
+</ul>
+<p><code>yaw_mode</code> 必须设置为 <code>YawMode()</code> 类型的变量，这个结构体类型包含两个属性：</p>
+<ul>
+<li><code>YawMode().is_rate</code>：True - 设置角速度；False - 设置角度。</li>
+<li><code>YawMode().yaw_or_rate</code>：可以是任意浮点数</li>
+</ul>
+<p>下面分几种情况讨论：</p>
+<h4 id="情况1不允许">情况1（不允许）</h4>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">drivetrain </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.DrivetrainType.ForwardOnly</span></span>
+<span class="line"><span style="color:#24292E">yaw_mode </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.YawMode(</span><span style="color:#005CC5">True</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">client.moveToPositionAsync(x, y, z, velocity, </span><span style="color:#E36209">drivetrain</span><span style="color:#D73A49">=</span><span style="color:#24292E">drivetrain, </span><span style="color:#E36209">yaw_mode</span><span style="color:#D73A49">=</span><span style="color:#24292E">yaw_mode).join()</span></span></code></pre>
+<p>当 <code>drivetrain = airsim.DrivetrainType.ForwardOnly</code> 时，四旋翼始终朝向其飞行的方向，这时 <code>yaw_mode</code> 不允许设置为 <code>YawMode().is_rate = True</code>。因为前面的参数要求四旋翼朝向运动方向，而 <code>yaw_mode</code> 要求四旋翼以一定的角速度旋转，这是矛盾的。</p>
+<h4 id="情况2">情况2</h4>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">drivetrain </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.DrivetrainType.ForwardOnly</span></span>
+<span class="line"><span style="color:#24292E">yaw_mode </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.YawMode(</span><span style="color:#005CC5">False</span><span style="color:#24292E">, </span><span style="color:#005CC5">90</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">client.moveToPositionAsync(x, y, z, velocity, </span><span style="color:#E36209">drivetrain</span><span style="color:#D73A49">=</span><span style="color:#24292E">drivetrain, </span><span style="color:#E36209">yaw_mode</span><span style="color:#D73A49">=</span><span style="color:#24292E">yaw_mode).join()</span></span></code></pre>
+<p>这种情况下，四旋翼的朝向始终与前进方向相差 90 度，也就是四旋翼始终向左侧方向运动。例如：当四旋翼在绕着一个圆心转圈时，其朝向始终指向圆心（这种飞行状态的代码在后面给出）。这里的 90 度可以任意设置。</p>
+<h4 id="情况3">情况3</h4>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">drivetrain </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.DrivetrainType.MaxDegreeOfFreedom</span></span>
+<span class="line"><span style="color:#24292E">yaw_mode </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.YawMode(</span><span style="color:#005CC5">False</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">client.moveToPositionAsync(x, y, z, velocity, </span><span style="color:#E36209">drivetrain</span><span style="color:#D73A49">=</span><span style="color:#24292E">drivetrain, </span><span style="color:#E36209">yaw_mode</span><span style="color:#D73A49">=</span><span style="color:#24292E">yaw_mode).join()</span></span></code></pre>
+<p>这种情况下，不管速度方向是什么，四旋翼的 yaw 角始终等于 0，也就是其朝向始终指向正北方向。如果是 90 度，则始终指向正东方向，而 -90 度，则始终指向正西方向。</p>
+<h4 id="情况4">情况4</h4>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">drivetrain </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.DrivetrainType.MaxDegreeOfFreedom</span></span>
+<span class="line"><span style="color:#24292E">yaw_mode </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.YawMode(</span><span style="color:#005CC5">True</span><span style="color:#24292E">, </span><span style="color:#005CC5">10</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">client.moveToPositionAsync(x, y, z, velocity, </span><span style="color:#E36209">drivetrain</span><span style="color:#D73A49">=</span><span style="color:#24292E">drivetrain, </span><span style="color:#E36209">yaw_mode</span><span style="color:#D73A49">=</span><span style="color:#24292E">yaw_mode).join()</span></span></code></pre>
+<p>这种情况下，四旋翼不管速度方向是什么，yaw 角以 10 度/秒的速度旋转。</p>
+<p>下面总结一下这两个参数的设置对效果的影响：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>ForwardOnly</th><th>MaxDegreeOfFreedom</th></tr></thead><tbody><tr><td>is_rate=True</td><td>不允许</td><td>yaw 角以 yaw_or_rate 度/秒旋转</td></tr><tr><td>is_rate=False</td><td>yaw 角相对于速度方向偏差 yaw_or_rate 度</td><td>yaw 角相对正北方向偏差 yaw_or_rate 度</td></tr></tbody></table>
+<blockquote>
+<p><strong>AirSim 坐标系定义</strong></p>
+<p>为什么 0 度是正北方向呢，这就涉及到坐标系的定义了，下面先简单介绍一下坐标系的定义</p>
+<p>Unreal 引擎中的坐标系与 AirSim 定义的坐标系是不同的，甚至长度单位都不同。Unreal 的长度单位是厘米，而 AirSim 的长度单位是米。不过不用担心，AirSim 已经非常好地处理了这个问题，你不用在意 Unreal 的坐标系是什么，只需要按照 AirSim 的坐标系设置即可，AirSim 会帮你自动转换的。</p>
+<p>本文先说明两个坐标系的定义：<strong>全局坐标系、机体坐标系</strong>。</p>
+<p><strong>全局坐标系</strong>是固连到大地的，x, y, z 三个坐标轴的指向分别是北、东、地，也就是朝北是 x 轴的正方向，朝南是 x 轴的负方向。全局坐标系的原点位置是大地的某一点（可以在 settings 文件中设置）。</p>
+<p><strong>机体坐标系</strong>是固连到四旋翼机身的，x, y, z 三个坐标轴的指向分别是前、右、下，也就是飞机的前方是 x 轴的正方向，飞机后方是 x 轴的负方向。机体坐标系的原点位置是机体的重心位置。</p>
+</blockquote>
+<h2 id="3-速度控制">3. 速度控制</h2>
+<hr>
+<h3 id="31-控制样例">3.1 控制样例</h3>
+<p>老样子，先上示例：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> airsim</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> time</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">client </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.MultirotorClient()  </span><span style="color:#6A737D"># connect to the AirSim simulator</span></span>
+<span class="line"><span style="color:#24292E">client.enableApiControl(</span><span style="color:#005CC5">True</span><span style="color:#24292E">)       </span><span style="color:#6A737D"># 获得控制权</span></span>
+<span class="line"><span style="color:#24292E">client.armDisarm(</span><span style="color:#005CC5">True</span><span style="color:#24292E">)              </span><span style="color:#6A737D"># 解锁</span></span>
+<span class="line"><span style="color:#24292E">client.takeoffAsync().join()        </span><span style="color:#6A737D"># 第一阶段：起飞</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">client.moveToZAsync(</span><span style="color:#D73A49">-</span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">).join()   </span><span style="color:#6A737D"># 第二阶段：上升到 2m 高度</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 飞正方形</span></span>
+<span class="line"><span style="color:#24292E">client.moveByVelocityZAsync(</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">8</span><span style="color:#24292E">).join() </span><span style="color:#6A737D"># 第三阶段：以 1m/s 速度向前飞 8 秒钟</span></span>
+<span class="line"><span style="color:#24292E">client.moveByVelocityZAsync(</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">8</span><span style="color:#24292E">).join() </span><span style="color:#6A737D"># 第三阶段：以 1m/s 速度向右飞 8 秒钟</span></span>
+<span class="line"><span style="color:#24292E">client.moveByVelocityZAsync(</span><span style="color:#D73A49">-</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">8</span><span style="color:#24292E">).join() </span><span style="color:#6A737D"># 第三阶段：以 1m/s 速度向后飞 8 秒钟</span></span>
+<span class="line"><span style="color:#24292E">client.moveByVelocityZAsync(</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">8</span><span style="color:#24292E">).join() </span><span style="color:#6A737D"># 第三阶段：以 1m/s 速度向左飞 8 秒钟</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 悬停 2 秒钟</span></span>
+<span class="line"><span style="color:#24292E">client.hoverAsync().join()      </span><span style="color:#6A737D"># 第四阶段：悬停 6 秒</span></span>
+<span class="line"><span style="color:#24292E">time.sleep(</span><span style="color:#005CC5">6</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">client.landAsync().join()       </span><span style="color:#6A737D"># 第五阶段：降落</span></span>
+<span class="line"><span style="color:#24292E">client.armDisarm(</span><span style="color:#005CC5">False</span><span style="color:#24292E">)         </span><span style="color:#6A737D"># 上锁</span></span>
+<span class="line"><span style="color:#24292E">client.enableApiControl(</span><span style="color:#005CC5">False</span><span style="color:#24292E">)  </span><span style="color:#6A737D"># 释放控制权</span></span></code></pre>
+<blockquote>
+<p>在视频演示的时候，可以设置固定视角来观察四旋翼运动的轨迹，方法如下。</p>
+<p>点击 <code>运行/Play</code> 按钮后，中间的视角默认是跟随视角，视角的设置决定了摄像机如何跟随四旋翼，对于四旋翼来说，默认是 <code>跟随/Flywithme</code> 模式，对于汽车来说，默认是 <code>SpringArmChase</code> 模式。下面列出这些模式：</p>
+<ul>
+<li><code>跟随/FlyWithMe</code>：以 6 自由度跟随四旋翼</li>
+<li><code>FPV</code>：机载摄像头视角</li>
+<li><code>地面观察者/GroundObserver</code>：在地面上以 XY 平面自由度跟随四旋翼</li>
+<li><code>手动/Manual</code>：手动设置摄像机的位置</li>
+<li><code>弹性机臂跟随/SpringArmChase</code>：摄像机固定在一个隐形的与汽车连在一起的弹性机臂上，跟随汽车，所以会有一些时延。</li>
+<li><code>NoDisplay</code>：不显示画面，这可以提高渲染性能，而且不影响 APIs</li>
+</ul>
+<p>把鼠标移动到中间的视野中随便一个位置，点一下鼠标左键，这时鼠标就消失了。这时可以设置视角模式：</p>
+<ul>
+<li><code>F</code> 按键：FPV</li>
+<li><code>B</code> 按键：跟随/FlyWithMe</li>
+<li><code>\</code> 按键：地面观察者/GroundObserver</li>
+<li><code>/</code> 按键：弹性机臂跟随/SpringArmChase</li>
+<li><code>M</code> 按键：手动/Manual</li>
+</ul>
+<p>按 <code>M</code> 按键进入手动设置模式，可以设置摄像机的位置：</p>
+<ul>
+<li>方向键：前进、后退、向左、向右移动</li>
+<li>page up/down：上下移动</li>
+<li>W，S 按键：俯仰转动</li>
+<li>A，D 按键：偏航转动</li>
+</ul>
+</blockquote>
+<h3 id="32-代码详解">3.2 代码详解</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">client.moveByVelocityZAsync(vx, vy, z, duration).join()</span></span></code></pre>
+<p>速度控制函数，让四旋翼在 <code>z</code> 的高度，以 <code>vx</code>，<code>vy</code> 的速度，飞行 <code>duration</code> 秒。</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">client.hoverAsync().join()</span></span></code></pre>
+<p>这句指令的功能是让四旋翼在当前位置悬停。</p>
+<h3 id="33-速度控制方法-api">3.3 速度控制方法 API</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> moveByVelocityZAsync</span><span style="color:#24292E">(</span></span>
+<span class="line"><span style="color:#24292E">    self,</span></span>
+<span class="line"><span style="color:#24292E">    vx,</span></span>
+<span class="line"><span style="color:#24292E">    vy,</span></span>
+<span class="line"><span style="color:#24292E">    z,</span></span>
+<span class="line"><span style="color:#24292E">    duration,</span></span>
+<span class="line"><span style="color:#24292E">    drivetrain</span><span style="color:#D73A49">=</span><span style="color:#24292E">DrivetrainType.MaxDegreeOfFreedom,</span></span>
+<span class="line"><span style="color:#24292E">    yaw_mode</span><span style="color:#D73A49">=</span><span style="color:#24292E">YawMode(),</span></span>
+<span class="line"><span style="color:#24292E">    vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#032F62">""</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#24292E">)</span></span></code></pre>
+<h3 id="34-速度控制误差">3.4 速度控制误差</h3>
+<p>四旋翼是一个非线性系统，给一个速度指令，它是不可能瞬时到达的，而且这个速度指令与当前的速度之差越大，达到这个速度指令的调节时间就越长。所以在上面的程序中，最后的四旋翼并没有回到起点位置。</p>
+<p>为了做对比，可以把速度增大一些，下面的代码是四旋翼以 8m/s 的速度飞行 2 秒钟，分别向前右后左四个方向各飞行一次，最后离起点位置偏差更大：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> airsim</span></span>
+<span class="line"><span style="color:#D73A49"> import</span><span style="color:#24292E"> time</span></span>
+<span class="line"><span style="color:#24292E"> ​</span></span>
+<span class="line"><span style="color:#24292E"> client </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.MultirotorClient()  </span><span style="color:#6A737D"># connect to the AirSim simulator</span></span>
+<span class="line"><span style="color:#24292E"> client.enableApiControl(</span><span style="color:#005CC5">True</span><span style="color:#24292E">)       </span><span style="color:#6A737D"># 获取控制权</span></span>
+<span class="line"><span style="color:#24292E"> client.armDisarm(</span><span style="color:#005CC5">True</span><span style="color:#24292E">)              </span><span style="color:#6A737D"># 解锁</span></span>
+<span class="line"><span style="color:#24292E"> client.takeoffAsync().join()        </span><span style="color:#6A737D"># 第一阶段：起飞</span></span>
+<span class="line"><span style="color:#24292E"> ​</span></span>
+<span class="line"><span style="color:#24292E"> client.moveToZAsync(</span><span style="color:#D73A49">-</span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">).join()   </span><span style="color:#6A737D"># 第二阶段：上升到2米高度</span></span>
+<span class="line"><span style="color:#24292E"> ​</span></span>
+<span class="line"><span style="color:#6A737D"> # 飞正方形</span></span>
+<span class="line"><span style="color:#24292E"> client.moveByVelocityZAsync(</span><span style="color:#005CC5">8</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">2</span><span style="color:#24292E">).join()     </span><span style="color:#6A737D"># 第三阶段：以8m/s速度向前飞2秒钟</span></span>
+<span class="line"><span style="color:#24292E"> client.moveByVelocityZAsync(</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">8</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">2</span><span style="color:#24292E">).join()     </span><span style="color:#6A737D"># 第三阶段：以8m/s速度向右飞2秒钟</span></span>
+<span class="line"><span style="color:#24292E"> client.moveByVelocityZAsync(</span><span style="color:#D73A49">-</span><span style="color:#005CC5">8</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">2</span><span style="color:#24292E">).join()    </span><span style="color:#6A737D"># 第三阶段：以8m/s速度向后飞2秒钟</span></span>
+<span class="line"><span style="color:#24292E"> client.moveByVelocityZAsync(</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">8</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">2</span><span style="color:#24292E">).join()    </span><span style="color:#6A737D"># 第三阶段：以8m/s速度向左飞2秒钟</span></span>
+<span class="line"><span style="color:#24292E"> ​</span></span>
+<span class="line"><span style="color:#6A737D"> # 悬停 2 秒钟</span></span>
+<span class="line"><span style="color:#24292E"> client.hoverAsync().join()          </span><span style="color:#6A737D"># 第四阶段：悬停6秒钟</span></span>
+<span class="line"><span style="color:#24292E"> time.sleep(</span><span style="color:#005CC5">6</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E"> ​</span></span>
+<span class="line"><span style="color:#24292E"> client.landAsync().join()           </span><span style="color:#6A737D"># 第五阶段：降落</span></span>
+<span class="line"><span style="color:#24292E"> client.armDisarm(</span><span style="color:#005CC5">False</span><span style="color:#24292E">)             </span><span style="color:#6A737D"># 上锁</span></span>
+<span class="line"><span style="color:#24292E"> client.enableApiControl(</span><span style="color:#005CC5">False</span><span style="color:#24292E">)      </span><span style="color:#6A737D"># 释放控制权</span></span></code></pre>
+<h2 id="4-四旋翼飞圆形及画图-api">4. 四旋翼飞圆形及画图 API</h2>
+<hr>
+<p>四旋翼飞圆形和之前将的飞正方形有本质的不同，为了能够飞一个完美的圆形，只靠飞点是不够的，需要获取无人机当前的位置状态来计算速度指令。接下来介绍以速度指令的方式，让四旋翼飞一个圆形。</p>
+<p>完整代码如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> airsim</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> numpy </span><span style="color:#D73A49">as</span><span style="color:#24292E"> np</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> math</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> time</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">client </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.MultirotorClient()</span></span>
+<span class="line"><span style="color:#24292E">client.enableApiControl(</span><span style="color:#005CC5">True</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">client.armDisarm(</span><span style="color:#005CC5">True</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">client.takeoffAsync().join()</span></span>
+<span class="line"><span style="color:#24292E">client.moveToZAsync(</span><span style="color:#D73A49">-</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">).join()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">center </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.array([[</span><span style="color:#005CC5">0</span><span style="color:#24292E">], [</span><span style="color:#005CC5">5</span><span style="color:#24292E">]])   </span><span style="color:#6A737D"># 圆心设置</span></span>
+<span class="line"><span style="color:#24292E">speed </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 2</span><span style="color:#6A737D">                       # 速度设置</span></span>
+<span class="line"><span style="color:#24292E">radius </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 5</span><span style="color:#6A737D">                      # 半径设置</span></span>
+<span class="line"><span style="color:#24292E">clock_wise </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> True</span><span style="color:#6A737D">               # 顺时针或逆时针设置</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">pos_reserve </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.array([[</span><span style="color:#005CC5">0</span><span style="color:#24292E">.], [</span><span style="color:#005CC5">0</span><span style="color:#24292E">.], [</span><span style="color:#D73A49">-</span><span style="color:#005CC5">3</span><span style="color:#24292E">.]])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 速度控制</span></span>
+<span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(</span><span style="color:#005CC5">2000</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#6A737D">    # 获取无人机当前的位置</span></span>
+<span class="line"><span style="color:#24292E">    state </span><span style="color:#D73A49">=</span><span style="color:#24292E"> client.simGetGroundTruthKinematics()</span></span>
+<span class="line"><span style="color:#24292E">    pos </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.array([[state.position.x_val], [state.position.y_val], [state.position.z_val]])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    # 计算径向速度的方向向量</span></span>
+<span class="line"><span style="color:#24292E">    dp </span><span style="color:#D73A49">=</span><span style="color:#24292E"> pos[</span><span style="color:#005CC5">0</span><span style="color:#24292E">:</span><span style="color:#005CC5">2</span><span style="color:#24292E">] </span><span style="color:#D73A49">-</span><span style="color:#24292E"> center</span></span>
+<span class="line"><span style="color:#D73A49">    if</span><span style="color:#24292E"> np.linalg.norm(dp) </span><span style="color:#D73A49">-</span><span style="color:#24292E"> radius </span><span style="color:#D73A49">></span><span style="color:#005CC5"> 0.1</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">        vel_dir_1 </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> -</span><span style="color:#24292E">dp</span></span>
+<span class="line"><span style="color:#D73A49">    elif</span><span style="color:#24292E"> np.linalg.norm(dp) </span><span style="color:#D73A49">-</span><span style="color:#24292E"> radius </span><span style="color:#D73A49">&#x3C;</span><span style="color:#005CC5"> 0.1</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">        vel_dir_1 </span><span style="color:#D73A49">=</span><span style="color:#24292E"> dp</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    # 计算切向速度的方向向量</span></span>
+<span class="line"><span style="color:#24292E">    theta </span><span style="color:#D73A49">=</span><span style="color:#24292E"> math.atan2(dp[</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">], dp[</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">])</span></span>
+<span class="line"><span style="color:#D73A49">    if</span><span style="color:#24292E"> clock_wise:</span></span>
+<span class="line"><span style="color:#6A737D">        # 如果是顺时针</span></span>
+<span class="line"><span style="color:#24292E">        theta </span><span style="color:#D73A49">+=</span><span style="color:#24292E"> math.pi</span><span style="color:#D73A49">/</span><span style="color:#005CC5">2</span></span>
+<span class="line"><span style="color:#D73A49">    else</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#6A737D">        # 如果是逆时针</span></span>
+<span class="line"><span style="color:#24292E">        theta </span><span style="color:#D73A49">-=</span><span style="color:#24292E"> math.pi</span><span style="color:#D73A49">/</span><span style="color:#005CC5">2</span></span>
+<span class="line"><span style="color:#24292E">    v_dir_2 </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.array([[math.cos(theta)], [math.sin(theta)]])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    # 计算最终速度的方向向量</span></span>
+<span class="line"><span style="color:#24292E">    v_dir </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0.08</span><span style="color:#D73A49"> *</span><span style="color:#24292E"> vel_dir_1 </span><span style="color:#D73A49">+</span><span style="color:#24292E"> v_dir_2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    # 计算最终速度指令</span></span>
+<span class="line"><span style="color:#24292E">    v_cmd </span><span style="color:#D73A49">=</span><span style="color:#24292E"> speed </span><span style="color:#D73A49">*</span><span style="color:#24292E"> v_dir</span><span style="color:#D73A49">/</span><span style="color:#24292E">np.linalg.norm(v_dir)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    # 速度控制</span></span>
+<span class="line"><span style="color:#24292E">    client.moveByVelocityZAsync(v_cmd[</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">], v_cmd[</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">], </span><span style="color:#D73A49">-</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    # 画图</span></span>
+<span class="line"><span style="color:#24292E">    point_reserve </span><span style="color:#D73A49">=</span><span style="color:#24292E"> [airsim.Vector3r(pos_reserve[</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">], pos_reserve[</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">], pos_reserve[</span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">])]</span></span>
+<span class="line"><span style="color:#24292E">    point </span><span style="color:#D73A49">=</span><span style="color:#24292E"> [airsim.Vector3r(pos[</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">], pos[</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">], pos[</span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">])]</span></span>
+<span class="line"><span style="color:#24292E">    point_end </span><span style="color:#D73A49">=</span><span style="color:#24292E"> pos </span><span style="color:#D73A49">+</span><span style="color:#24292E"> np.vstack((v_cmd, np.array([[</span><span style="color:#005CC5">0</span><span style="color:#24292E">]])))</span></span>
+<span class="line"><span style="color:#24292E">    point_end </span><span style="color:#D73A49">=</span><span style="color:#24292E"> [airsim.Vector3r(point_end[</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">], point_end[</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">], point_end[</span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">])]</span></span>
+<span class="line"><span style="color:#24292E">    client.simPlotArrows(point, point_end, </span><span style="color:#E36209">arrow_size</span><span style="color:#D73A49">=</span><span style="color:#005CC5">8.0</span><span style="color:#24292E">, </span><span style="color:#E36209">color_rgba</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#005CC5">0.0</span><span style="color:#24292E">, </span><span style="color:#005CC5">0.0</span><span style="color:#24292E">, </span><span style="color:#005CC5">1.0</span><span style="color:#24292E">, </span><span style="color:#005CC5">1.0</span><span style="color:#24292E">])</span></span>
+<span class="line"><span style="color:#24292E">    client.simPlotLineList(point_reserve</span><span style="color:#D73A49">+</span><span style="color:#24292E">point, </span><span style="color:#E36209">color_rgba</span><span style="color:#D73A49">=</span><span style="color:#24292E">[</span><span style="color:#005CC5">1.0</span><span style="color:#24292E">, </span><span style="color:#005CC5">0.0</span><span style="color:#24292E">, </span><span style="color:#005CC5">0.0</span><span style="color:#24292E">, </span><span style="color:#005CC5">1.0</span><span style="color:#24292E">], </span><span style="color:#E36209">is_persistent</span><span style="color:#D73A49">=</span><span style="color:#005CC5">True</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    # 循环</span></span>
+<span class="line"><span style="color:#24292E">    pos_reserve </span><span style="color:#D73A49">=</span><span style="color:#24292E"> pos</span></span>
+<span class="line"><span style="color:#24292E">    time.sleep(</span><span style="color:#005CC5">0.02</span><span style="color:#24292E">)</span></span></code></pre>
+<ul>
+<li>
+<p><strong>第一步</strong>：计算径向速度向量方向
+计算向量的方向，也就是不用管大小是多少，只要向量方向正确即可。</p>
+<p>因为无人机很可能并没有在圆周上，所以要给它径向的指令，来限制它在圆周上运动，不能偏离太远。</p>
+</li>
+<li>
+<p><strong>第二步</strong>：计算切向速度向量方向
+切向速度向量计算我是先求的当前方位角（相对于圆心的），然后加（或减）90 度，得到的向量。</p>
+</li>
+<li>
+<p><strong>第三步</strong>：两个向量加权相加并单位化，得到最终单位速度方向向量
+两个向量加权平均，k 值是需要调节的，这样曲线才圆润。</p>
+</li>
+<li>
+<p><strong>第四步</strong>：单位向量乘速度，就是最终速度指令</p>
+</li>
+</ul>
+<h2 id="5-多无人机协同集群编队分布式控制算法">5. 多无人机协同集群编队（分布式控制算法）</h2>
+<hr>
+<h3 id="51-多无人机编队控制理论">5.1 多无人机编队控制理论</h3>
+<p>集群编队控制有集中式和分布式两种，集中式控制受限于中心计算资源的限制，无法做到大规模集群编队。而分布式控制，理论上可以做到无限规模的集群编队。这部分实现的集群控制算法就属于一种分布式的控制算法。</p>
+<p>分布式集群控制最早是由 Reynolds 在 1987 年提出的分布式协同的三定律：避碰、速度一致、中心聚集。只要每个无人机都满足这三个条件就能形成集群飞行的效果。后续的集群研究都是在三定律的基础上进行的，或者说后续的集群算法都基本满足这三个定律，只是满足的形式各有区别。</p>
+<p>这里参考论文中的集群算法，在 AirSim 中实现多无人机集群飞行的效果。论文中的集群控制算法是三个速度指令相加的：</p>
+<ul>
+<li>避碰：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>v</mi><mi>i</mi><mrow><mi>s</mi><mi>e</mi><mi>p</mi></mrow></msubsup><mo>=</mo><mo>−</mo><mfrac><msup><mi>k</mi><mrow><mi>s</mi><mi>e</mi><mi>p</mi></mrow></msup><mrow><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi><msub><mi>N</mi><mi>i</mi></msub><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi></mrow></mfrac><mi mathvariant="normal">Σ</mi><mfrac><msub><mi>r</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mrow><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi><msub><mi>r</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mi mathvariant="normal">∣</mi><msup><mi mathvariant="normal">∣</mi><mn>2</mn></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">v_i^{sep}=-\frac{k^{sep}}{||N_i||} \Sigma \frac{r_{ij}}{||r_{ij}||^2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0592em;vertical-align:-0.2769em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7823em;"><span style="top:-2.4231em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-3.1809em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">se</span><span class="mord mathnormal mtight">p</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2769em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.4533em;vertical-align:-0.5423em;"></span><span class="mord">−</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.911em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∣∣</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.109em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3281em;"><span style="top:-2.357em;margin-left:-0.109em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mord mtight">∣∣</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em;">k</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7385em;"><span style="top:-2.931em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">se</span><span class="mord mathnormal mtight">p</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord">Σ</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8087em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∣∣</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0278em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3281em;"><span style="top:-2.357em;margin-left:-0.0278em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0572em;">ij</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2819em;"><span></span></span></span></span></span></span><span class="mord mtight">∣</span><span class="mord mtight"><span class="mord mtight">∣</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463em;"><span style="top:-2.786em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.5073em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0278em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3281em;"><span style="top:-2.357em;margin-left:-0.0278em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0572em;">ij</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2819em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5423em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></li>
+<li>中心聚集：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>v</mi><mi>i</mi><mrow><mi>c</mi><mi>o</mi><mi>h</mi></mrow></msubsup><mo>=</mo><mfrac><msup><mi>k</mi><mrow><mi>c</mi><mi>o</mi><mi>h</mi></mrow></msup><mrow><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi><msub><mi>N</mi><mi>i</mi></msub><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi></mrow></mfrac><mi mathvariant="normal">Σ</mi><msub><mi>r</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex">v_i^{coh}=\frac{k^{coh}}{||N_i||} \Sigma r_{ij}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1078em;vertical-align:-0.2587em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-2.4413em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">co</span><span class="mord mathnormal mtight">h</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2587em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.5629em;vertical-align:-0.52em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0429em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∣∣</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.109em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3281em;"><span style="top:-2.357em;margin-left:-0.109em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mord mtight">∣∣</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0315em;">k</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.927em;"><span style="top:-2.931em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">co</span><span class="mord mathnormal mtight">h</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord">Σ</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0572em;">ij</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></li>
+<li>整体迁移（速度一致）：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>v</mi><mi>i</mi><mrow><mi>m</mi><mi>i</mi><mi>g</mi></mrow></msubsup><mo>=</mo><msup><mi>k</mi><mrow><mi>m</mi><mi>i</mi><mi>g</mi></mrow></msup><mfrac><msubsup><mi>r</mi><mi>i</mi><mrow><mi>m</mi><mi>i</mi><mi>g</mi></mrow></msubsup><mrow><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi><msubsup><mi>r</mi><mi>i</mi><mrow><mi>m</mi><mi>i</mi><mi>g</mi></mrow></msubsup><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">v_i^{mig}=k^{mig} \frac{r_i^{mig}}{||r^{mig}_i||}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.2194em;vertical-align:-0.2769em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9426em;"><span style="top:-2.4231em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-3.1809em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">mi</span><span class="mord mathnormal mtight" style="margin-right:0.0359em;">g</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2769em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.9079em;vertical-align:-0.7039em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8247em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">mi</span><span class="mord mathnormal mtight" style="margin-right:0.0359em;">g</span></span></span></span></span></span></span></span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.2039em;"><span style="top:-2.5217em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∣∣</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0278em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9548em;"><span style="top:-2.1777em;margin-left:-0.0278em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-2.9837em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">mi</span><span class="mord mathnormal mtight" style="margin-right:0.0359em;">g</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3223em;"><span></span></span></span></span></span></span><span class="mord mtight">∣∣</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.5356em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0278em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9548em;"><span style="top:-2.1777em;margin-left:-0.0278em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-2.9837em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">mi</span><span class="mord mathnormal mtight" style="margin-right:0.0359em;">g</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3223em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7039em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></li>
+</ul>
+<p>其中：</p>
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span> 是系数</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>N</mi><mi>i</mi></msub><mo>=</mo><mrow><mi>a</mi><mi>g</mi><mi>e</mi><mi>n</mi><mi>t</mi><mi>s</mi><mspace width="1em"></mspace><mi>j</mi><mo>:</mo><mi>j</mi><mo mathvariant="normal">≠</mo><mi>i</mi><mo>∧</mo><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi><msub><mi>r</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi><mo>&#x3C;</mo><msup><mi>r</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msup></mrow></mrow><annotation encoding="application/x-tex">N_i = {agents \quad j:j \ne i \wedge ||r_{ij}|| &#x3C; r^{max}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord mathnormal">t</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:1em;"></span><span class="mord mathnormal" style="margin-right:0.0572em;">j</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal" style="margin-right:0.0572em;">j</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel"><span class="mrel"><span class="mord vbox"><span class="thinbox"><span class="rlap"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="inner"><span class="mord"><span class="mrel"></span></span></span><span class="fix"></span></span></span></span></span><span class="mspace nobreak"></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∧</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">∣∣</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0572em;">ij</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mord">∣∣</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&#x3C;</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">ma</span><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span></span></span></span></span></span>
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>N</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">N_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 表示的是每个无人机的邻居是如何选择的，也就是说对于每个无人机来说，其周围半径范围内的其他无人机都是自己的邻居。</li>
+<li>所以 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi><msub><mi>N</mi><mi>i</mi></msub><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi></mrow><annotation encoding="application/x-tex">||N_i||</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣∣</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">∣∣</span></span></span></span> 表示的是第 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 个无人机周围的邻居个数。</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><msub><mi>p</mi><mi>j</mi></msub><mo>−</mo><msub><mi>p</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">r_{ij}=p_j-p_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0572em;">ij</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0572em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 表示的是两架无人机之间的距离</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>r</mi><mi>i</mi><mrow><mi>m</mi><mi>i</mi><mi>g</mi></mrow></msubsup><mo>=</mo><msup><mi>p</mi><mrow><mi>m</mi><mi>i</mi><mi>g</mi></mrow></msup><mo>−</mo><msub><mi>p</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">r_i^{mig}=p^{mig}-p_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.2194em;vertical-align:-0.2769em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9426em;"><span style="top:-2.4231em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-3.1809em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">mi</span><span class="mord mathnormal mtight" style="margin-right:0.0359em;">g</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2769em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0191em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8247em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">mi</span><span class="mord mathnormal mtight" style="margin-right:0.0359em;">g</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 表示的是第 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 个无人机到目标点的距离。</li>
+</ul>
+</li>
+</ul>
+<p>这个集群算法比较简单，避碰和中心聚集这两项的公式很好理解。论文将速度一致项变形为了整体迁移，因为论文想要实现的目标是让无人机集群到达全局的一个固定位置。</p>
+<p>添加速度限幅后，最终无人机的速度指令为：</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mi>i</mi></msub><mo>=</mo><mfrac><mover accent="true"><msub><mi>v</mi><mi>i</mi></msub><mo>ˉ</mo></mover><mrow><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi><mover accent="true"><msub><mi>v</mi><mi>i</mi></msub><mo>ˉ</mo></mover><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi></mrow></mfrac><mi>m</mi><mi>i</mi><mi>n</mi><mo stretchy="false">(</mo><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi><mover accent="true"><msub><mi>v</mi><mi>i</mi></msub><mo>ˉ</mo></mover><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi><mo separator="true">,</mo><msup><mi>v</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">v_i=\frac{\bar{v_i}}{||\bar{v_i}||} min(||\bar{v_i}||, v^{max})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.3275em;vertical-align:-0.52em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8075em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∣∣</span><span class="mord accent mtight"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.5678em;"><span style="top:-2.7em;"><span class="pstrut" style="height:2.7em;"></span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0359em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3281em;"><span style="top:-2.357em;margin-left:-0.0359em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span><span style="top:-2.7em;"><span class="pstrut" style="height:2.7em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord mtight">ˉ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span><span class="mord mtight">∣∣</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.4101em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord accent mtight"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.5678em;"><span style="top:-2.7em;"><span class="pstrut" style="height:2.7em;"></span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0359em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3281em;"><span style="top:-2.357em;margin-left:-0.0359em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span><span style="top:-2.7em;"><span class="pstrut" style="height:2.7em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord mtight">ˉ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord mathnormal">min</span><span class="mopen">(</span><span class="mord">∣∣</span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.5678em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">ˉ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span><span class="mord">∣∣</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">v</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">ma</span><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
+<p>其中：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><msub><mi>v</mi><mi>i</mi></msub><mo>ˉ</mo></mover><mo>=</mo><msubsup><mi>v</mi><mi>i</mi><mrow><mi>s</mi><mi>e</mi><mi>p</mi></mrow></msubsup><mo>+</mo><msubsup><mi>v</mi><mi>i</mi><mrow><mi>c</mi><mi>o</mi><mi>h</mi></mrow></msubsup><mo>+</mo><msubsup><mi>v</mi><mi>i</mi><mrow><mi>m</mi><mi>i</mi><mi>g</mi></mrow></msubsup></mrow><annotation encoding="application/x-tex">\bar{v_i}=v_i^{sep} + v_i^{coh} + v_i^{mig}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7178em;vertical-align:-0.15em;"></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.5678em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">ˉ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0592em;vertical-align:-0.2769em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7823em;"><span style="top:-2.4231em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-3.1809em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">se</span><span class="mord mathnormal mtight">p</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2769em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.1078em;vertical-align:-0.2587em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-2.4413em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">co</span><span class="mord mathnormal mtight">h</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2587em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.2194em;vertical-align:-0.2769em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9426em;"><span style="top:-2.4231em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-3.1809em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">mi</span><span class="mord mathnormal mtight" style="margin-right:0.0359em;">g</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2769em;"><span></span></span></span></span></span></span></span></span></span></p>
+<p>其中的参数设置如下：</p>
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>r</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msup><mo>=</mo><mn>20</mn><mi>m</mi></mrow><annotation encoding="application/x-tex">r^{max}=20m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">ma</span><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">20</span><span class="mord mathnormal">m</span></span></span></span></li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>v</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msup><mo>=</mo><mn>2</mn><mi>m</mi><mi mathvariant="normal">/</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">v^{max}=2m/s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">v</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">ma</span><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mord mathnormal">m</span><span class="mord">/</span><span class="mord mathnormal">s</span></span></span></span></li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>k</mi><mrow><mi>s</mi><mi>e</mi><mi>p</mi></mrow></msup><mo>=</mo><mn>7</mn></mrow><annotation encoding="application/x-tex">k^{sep}=7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">se</span><span class="mord mathnormal mtight">p</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">7</span></span></span></span></li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>k</mi><mrow><mi>c</mi><mi>o</mi><mi>h</mi></mrow></msup><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k^{coh}=1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8491em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">co</span><span class="mord mathnormal mtight">h</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span></li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>k</mi><mrow><mi>m</mi><mi>i</mi><mi>g</mi></mrow></msup><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k^{mig}=1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8247em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8247em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">mi</span><span class="mord mathnormal mtight" style="margin-right:0.0359em;">g</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span></li>
+</ul>
+<p>最后形成的集群效果应该是每两个相邻的无人机都保持同样的距离编队。</p>
+<h3 id="52-airsim-集群编队实现">5.2 AirSim 集群编队实现</h3>
+<h4 id="修改-settingsjson-文件">修改 settings.json 文件</h4>
+<p>首先需要修改 <code>settings.json</code> 文件，添加多个无人机。初始位置每个无人机的位置都是自己随便设置的。</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#032F62">"Vehicles"</span><span style="color:#24292E">: {</span></span>
+<span class="line"><span style="color:#005CC5">    "UAV1"</span><span style="color:#24292E">: {</span></span>
+<span class="line"><span style="color:#005CC5">        "VehicleType"</span><span style="color:#24292E">: </span><span style="color:#032F62">"SimpleFlight"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">        "X"</span><span style="color:#24292E">:</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">"Y"</span><span style="color:#24292E">:</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">"Z"</span><span style="color:#24292E">:</span><span style="color:#005CC5">0</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">        "Yaw"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span></span>
+<span class="line"><span style="color:#24292E">    },</span></span>
+<span class="line"><span style="color:#005CC5">    "UAV2"</span><span style="color:#24292E">: {</span></span>
+<span class="line"><span style="color:#005CC5">      "VehicleType"</span><span style="color:#24292E">: </span><span style="color:#032F62">"SimpleFlight"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "X"</span><span style="color:#24292E">: </span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">"Y"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">"Z"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "Yaw"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span></span>
+<span class="line"><span style="color:#24292E">    },</span></span>
+<span class="line"><span style="color:#005CC5">    "UAV3"</span><span style="color:#24292E">: {</span></span>
+<span class="line"><span style="color:#005CC5">      "VehicleType"</span><span style="color:#24292E">: </span><span style="color:#032F62">"SimpleFlight"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "X"</span><span style="color:#24292E">: </span><span style="color:#005CC5">4</span><span style="color:#24292E">, </span><span style="color:#005CC5">"Y"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">"Z"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "Yaw"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span></span>
+<span class="line"><span style="color:#24292E">    },</span></span>
+<span class="line"><span style="color:#005CC5">    "UAV4"</span><span style="color:#24292E">: {</span></span>
+<span class="line"><span style="color:#005CC5">      "VehicleType"</span><span style="color:#24292E">: </span><span style="color:#032F62">"SimpleFlight"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "X"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">"Y"</span><span style="color:#24292E">: </span><span style="color:#005CC5">-3</span><span style="color:#24292E">, </span><span style="color:#005CC5">"Z"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "Yaw"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span></span>
+<span class="line"><span style="color:#24292E">    },</span></span>
+<span class="line"><span style="color:#005CC5">    "UAV5"</span><span style="color:#24292E">: {</span></span>
+<span class="line"><span style="color:#005CC5">      "VehicleType"</span><span style="color:#24292E">: </span><span style="color:#032F62">"SimpleFlight"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "X"</span><span style="color:#24292E">: </span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">"Y"</span><span style="color:#24292E">: </span><span style="color:#005CC5">-2</span><span style="color:#24292E">, </span><span style="color:#005CC5">"Z"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "Yaw"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span></span>
+<span class="line"><span style="color:#24292E">    },</span></span>
+<span class="line"><span style="color:#005CC5">    "UAV6"</span><span style="color:#24292E">: {</span></span>
+<span class="line"><span style="color:#005CC5">      "VehicleType"</span><span style="color:#24292E">: </span><span style="color:#032F62">"SimpleFlight"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "X"</span><span style="color:#24292E">: </span><span style="color:#005CC5">4</span><span style="color:#24292E">, </span><span style="color:#005CC5">"Y"</span><span style="color:#24292E">: </span><span style="color:#005CC5">-3</span><span style="color:#24292E">, </span><span style="color:#005CC5">"Z"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "Yaw"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span></span>
+<span class="line"><span style="color:#24292E">    },</span></span>
+<span class="line"><span style="color:#005CC5">    "UAV7"</span><span style="color:#24292E">: {</span></span>
+<span class="line"><span style="color:#005CC5">      "VehicleType"</span><span style="color:#24292E">: </span><span style="color:#032F62">"SimpleFlight"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "X"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">"Y"</span><span style="color:#24292E">: </span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#005CC5">"Z"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "Yaw"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span></span>
+<span class="line"><span style="color:#24292E">    },</span></span>
+<span class="line"><span style="color:#005CC5">    "UAV8"</span><span style="color:#24292E">: {</span></span>
+<span class="line"><span style="color:#005CC5">      "VehicleType"</span><span style="color:#24292E">: </span><span style="color:#032F62">"SimpleFlight"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "X"</span><span style="color:#24292E">: </span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">"Y"</span><span style="color:#24292E">: </span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">"Z"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "Yaw"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span></span>
+<span class="line"><span style="color:#24292E">    },</span></span>
+<span class="line"><span style="color:#005CC5">    "UAV9"</span><span style="color:#24292E">: {</span></span>
+<span class="line"><span style="color:#005CC5">      "VehicleType"</span><span style="color:#24292E">: </span><span style="color:#032F62">"SimpleFlight"</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "X"</span><span style="color:#24292E">: </span><span style="color:#005CC5">4</span><span style="color:#24292E">, </span><span style="color:#005CC5">"Y"</span><span style="color:#24292E">: </span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#005CC5">"Z"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#005CC5">      "Yaw"</span><span style="color:#24292E">: </span><span style="color:#005CC5">0</span></span>
+<span class="line"><span style="color:#24292E">    }</span></span>
+<span class="line"><span style="color:#24292E">}</span></span></code></pre>
+<h4 id="编队算法代码">编队算法代码</h4>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> airsim</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> time</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> numpy </span><span style="color:#D73A49">as</span><span style="color:#24292E"> np</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">origin_x </span><span style="color:#D73A49">=</span><span style="color:#24292E"> [</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">4</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">4</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">4</span><span style="color:#24292E">]       </span><span style="color:#6A737D"># 无人机初始位置</span></span>
+<span class="line"><span style="color:#24292E">origin_y </span><span style="color:#D73A49">=</span><span style="color:#24292E"> [</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#D73A49">-</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">3</span><span style="color:#24292E">]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> get_UAV_pos</span><span style="color:#24292E">(client, vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#032F62">"SimpleFlight"</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#D73A49">    global</span><span style="color:#24292E"> origin_x</span></span>
+<span class="line"><span style="color:#D73A49">    global</span><span style="color:#24292E"> origin_y</span></span>
+<span class="line"><span style="color:#24292E">    state </span><span style="color:#D73A49">=</span><span style="color:#24292E"> client.simGetGroundTruthKinematics(</span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">vehicle_name)</span></span>
+<span class="line"><span style="color:#24292E">    x </span><span style="color:#D73A49">=</span><span style="color:#24292E"> state.position.x_val</span></span>
+<span class="line"><span style="color:#24292E">    y </span><span style="color:#D73A49">=</span><span style="color:#24292E"> state.position.y_val</span></span>
+<span class="line"><span style="color:#24292E">    i </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> int</span><span style="color:#24292E">(vehicle_name[</span><span style="color:#005CC5">3</span><span style="color:#24292E">])</span></span>
+<span class="line"><span style="color:#24292E">    x </span><span style="color:#D73A49">+=</span><span style="color:#24292E"> origin_x[i </span><span style="color:#D73A49">-</span><span style="color:#005CC5"> 1</span><span style="color:#24292E">]</span></span>
+<span class="line"><span style="color:#24292E">    y </span><span style="color:#D73A49">+=</span><span style="color:#24292E"> origin_y[i </span><span style="color:#D73A49">-</span><span style="color:#005CC5"> 1</span><span style="color:#24292E">]</span></span>
+<span class="line"><span style="color:#24292E">    pos </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.array([[x], [y]])</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#24292E"> pos</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">client </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.MultirotorClient()  </span><span style="color:#6A737D"># connect to the AirSim simulator</span></span>
+<span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(</span><span style="color:#005CC5">9</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#24292E">    name </span><span style="color:#D73A49">=</span><span style="color:#032F62"> "UAV"</span><span style="color:#D73A49">+</span><span style="color:#005CC5">str</span><span style="color:#24292E">(i</span><span style="color:#D73A49">+</span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">    client.enableApiControl(</span><span style="color:#005CC5">True</span><span style="color:#24292E">, name)     </span><span style="color:#6A737D"># 获取控制权</span></span>
+<span class="line"><span style="color:#24292E">    client.armDisarm(</span><span style="color:#005CC5">True</span><span style="color:#24292E">, name)            </span><span style="color:#6A737D"># 解锁（螺旋桨开始转动）</span></span>
+<span class="line"><span style="color:#D73A49">    if</span><span style="color:#24292E"> i </span><span style="color:#D73A49">!=</span><span style="color:#005CC5"> 8</span><span style="color:#24292E">:                              </span><span style="color:#6A737D"># 起飞</span></span>
+<span class="line"><span style="color:#24292E">        client.takeoffAsync(</span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">name)</span></span>
+<span class="line"><span style="color:#D73A49">    else</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">        client.takeoffAsync(</span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">name).join()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(</span><span style="color:#005CC5">9</span><span style="color:#24292E">):                          </span><span style="color:#6A737D"># 全部都飞到同一高度层</span></span>
+<span class="line"><span style="color:#24292E">    name </span><span style="color:#D73A49">=</span><span style="color:#032F62"> "UAV"</span><span style="color:#D73A49"> +</span><span style="color:#005CC5"> str</span><span style="color:#24292E">(i </span><span style="color:#D73A49">+</span><span style="color:#005CC5"> 1</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">    if</span><span style="color:#24292E"> i </span><span style="color:#D73A49">!=</span><span style="color:#005CC5"> 8</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">        client.moveToZAsync(</span><span style="color:#D73A49">-</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">name)</span></span>
+<span class="line"><span style="color:#D73A49">    else</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">        client.moveToZAsync(</span><span style="color:#D73A49">-</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">name).join()</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 参数设置</span></span>
+<span class="line"><span style="color:#24292E">v_max </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 2</span><span style="color:#6A737D">     # 无人机最大飞行速度</span></span>
+<span class="line"><span style="color:#24292E">r_max </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 20</span><span style="color:#6A737D">    # 邻居选择的半径</span></span>
+<span class="line"><span style="color:#24292E">k_sep </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 7</span><span style="color:#6A737D">     # 控制算法系数</span></span>
+<span class="line"><span style="color:#24292E">k_coh </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 1</span></span>
+<span class="line"><span style="color:#24292E">k_mig </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 1</span></span>
+<span class="line"><span style="color:#24292E">pos_mig </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.array([[</span><span style="color:#005CC5">25</span><span style="color:#24292E">], [</span><span style="color:#005CC5">0</span><span style="color:#24292E">]])   </span><span style="color:#6A737D"># 目标位置</span></span>
+<span class="line"><span style="color:#24292E">v_cmd </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.zeros([</span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">9</span><span style="color:#24292E">])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> t </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(</span><span style="color:#005CC5">500</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#D73A49">    for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(</span><span style="color:#005CC5">9</span><span style="color:#24292E">):   </span><span style="color:#6A737D"># 计算每个无人机的速度指令</span></span>
+<span class="line"><span style="color:#24292E">        name_i </span><span style="color:#D73A49">=</span><span style="color:#032F62"> "UAV"</span><span style="color:#D73A49">+</span><span style="color:#005CC5">str</span><span style="color:#24292E">(i</span><span style="color:#D73A49">+</span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">        pos_i </span><span style="color:#D73A49">=</span><span style="color:#24292E"> get_UAV_pos(client, </span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">name_i)</span></span>
+<span class="line"><span style="color:#24292E">        r_mig </span><span style="color:#D73A49">=</span><span style="color:#24292E"> pos_mig </span><span style="color:#D73A49">-</span><span style="color:#24292E"> pos_i</span></span>
+<span class="line"><span style="color:#24292E">        v_mig </span><span style="color:#D73A49">=</span><span style="color:#24292E"> k_mig </span><span style="color:#D73A49">*</span><span style="color:#24292E"> r_mig </span><span style="color:#D73A49">/</span><span style="color:#24292E"> np.linalg.norm(r_mig)</span></span>
+<span class="line"><span style="color:#24292E">        v_sep </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.zeros([</span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">])</span></span>
+<span class="line"><span style="color:#24292E">        v_coh </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.zeros([</span><span style="color:#005CC5">2</span><span style="color:#24292E">, </span><span style="color:#005CC5">1</span><span style="color:#24292E">])</span></span>
+<span class="line"><span style="color:#24292E">        N_i </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0</span></span>
+<span class="line"><span style="color:#D73A49">        for</span><span style="color:#24292E"> j </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(</span><span style="color:#005CC5">9</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#D73A49">            if</span><span style="color:#24292E"> j </span><span style="color:#D73A49">!=</span><span style="color:#24292E"> i:</span></span>
+<span class="line"><span style="color:#24292E">                name_j </span><span style="color:#D73A49">=</span><span style="color:#032F62"> "UAV"</span><span style="color:#D73A49">+</span><span style="color:#005CC5">str</span><span style="color:#24292E">(j</span><span style="color:#D73A49">+</span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">                pos_j </span><span style="color:#D73A49">=</span><span style="color:#24292E"> get_UAV_pos(client, </span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">name_j)</span></span>
+<span class="line"><span style="color:#D73A49">                if</span><span style="color:#24292E"> np.linalg.norm(pos_j </span><span style="color:#D73A49">-</span><span style="color:#24292E"> pos_i) </span><span style="color:#D73A49">&#x3C;</span><span style="color:#24292E"> r_max:</span></span>
+<span class="line"><span style="color:#24292E">                    N_i </span><span style="color:#D73A49">+=</span><span style="color:#005CC5"> 1</span></span>
+<span class="line"><span style="color:#24292E">                    r_ij </span><span style="color:#D73A49">=</span><span style="color:#24292E"> pos_j </span><span style="color:#D73A49">-</span><span style="color:#24292E"> pos_i</span></span>
+<span class="line"><span style="color:#24292E">                    v_sep </span><span style="color:#D73A49">+=</span><span style="color:#D73A49"> -</span><span style="color:#24292E">k_sep </span><span style="color:#D73A49">*</span><span style="color:#24292E"> r_ij </span><span style="color:#D73A49">/</span><span style="color:#24292E"> np.linalg.norm(r_ij)</span></span>
+<span class="line"><span style="color:#24292E">                    v_coh </span><span style="color:#D73A49">+=</span><span style="color:#24292E"> k_coh </span><span style="color:#D73A49">*</span><span style="color:#24292E"> r_ij</span></span>
+<span class="line"><span style="color:#24292E">        v_sep </span><span style="color:#D73A49">=</span><span style="color:#24292E"> v_sep </span><span style="color:#D73A49">/</span><span style="color:#24292E"> N_i</span></span>
+<span class="line"><span style="color:#24292E">        v_coh </span><span style="color:#D73A49">=</span><span style="color:#24292E"> v_coh </span><span style="color:#D73A49">/</span><span style="color:#24292E"> N_i</span></span>
+<span class="line"><span style="color:#24292E">        v_cmd[:, i:i</span><span style="color:#D73A49">+</span><span style="color:#005CC5">1</span><span style="color:#24292E">] </span><span style="color:#D73A49">=</span><span style="color:#24292E"> v_sep </span><span style="color:#D73A49">+</span><span style="color:#24292E"> v_coh </span><span style="color:#D73A49">+</span><span style="color:#24292E"> v_mig</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(</span><span style="color:#005CC5">9</span><span style="color:#24292E">):   </span><span style="color:#6A737D"># 每个无人机的速度指令执行</span></span>
+<span class="line"><span style="color:#24292E">        name_i </span><span style="color:#D73A49">=</span><span style="color:#032F62"> "UAV"</span><span style="color:#D73A49">+</span><span style="color:#005CC5">str</span><span style="color:#24292E">(i</span><span style="color:#D73A49">+</span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">        client.moveByVelocityZAsync(v_cmd[</span><span style="color:#005CC5">0</span><span style="color:#24292E">, i], v_cmd[</span><span style="color:#005CC5">1</span><span style="color:#24292E">, i], </span><span style="color:#D73A49">-</span><span style="color:#005CC5">3</span><span style="color:#24292E">, </span><span style="color:#005CC5">0.1</span><span style="color:#24292E">, </span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">name_i)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 循环结束</span></span>
+<span class="line"><span style="color:#24292E">client.simPause(</span><span style="color:#005CC5">False</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(</span><span style="color:#005CC5">9</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#24292E">    name </span><span style="color:#D73A49">=</span><span style="color:#032F62"> "UAV"</span><span style="color:#D73A49">+</span><span style="color:#005CC5">str</span><span style="color:#24292E">(i</span><span style="color:#D73A49">+</span><span style="color:#005CC5">1</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">    if</span><span style="color:#24292E"> i </span><span style="color:#D73A49">!=</span><span style="color:#005CC5"> 8</span><span style="color:#24292E">:                                              </span><span style="color:#6A737D"># 降落</span></span>
+<span class="line"><span style="color:#24292E">        client.landAsync(</span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">name)</span></span>
+<span class="line"><span style="color:#D73A49">    else</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">        client.landAsync(</span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">name).join()</span></span>
+<span class="line"><span style="color:#D73A49">for</span><span style="color:#24292E"> i </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> range</span><span style="color:#24292E">(</span><span style="color:#005CC5">9</span><span style="color:#24292E">):</span></span>
+<span class="line"><span style="color:#24292E">    name </span><span style="color:#D73A49">=</span><span style="color:#032F62"> "UAV"</span><span style="color:#D73A49"> +</span><span style="color:#005CC5"> str</span><span style="color:#24292E">(i </span><span style="color:#D73A49">+</span><span style="color:#005CC5"> 1</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">    client.armDisarm(</span><span style="color:#005CC5">False</span><span style="color:#24292E">, </span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">name)              </span><span style="color:#6A737D"># 上锁</span></span>
+<span class="line"><span style="color:#24292E">    client.enableApiControl(</span><span style="color:#005CC5">False</span><span style="color:#24292E">, </span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">name)       </span><span style="color:#6A737D"># 释放控制权</span></span></code></pre>
+<h2 id="6-状态读取-api--多无人机位置读取函数封装">6. 状态读取 API &#x26; 多无人机位置读取函数封装</h2>
+<hr>
+<h3 id="61-无人机真值状态读取-api">6.1 无人机真值状态读取 API</h3>
+<p>无人机的真值状态读取接口可以得到无人机的真值状态（无误差），此接口同样适用于无人车，属于 vehicle 类的通用 API。接口的调用格式如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">kinematic_state_groundtruth </span><span style="color:#D73A49">=</span><span style="color:#24292E"> client.simGetGroundTruthKinematics(</span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#032F62">''</span><span style="color:#24292E">)</span></span></code></pre>
+<p>其中返回值 <code>kinematic_state_groundtrutth</code> 包含 6 个属性：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># state_groundtruth 的 6 个属性</span></span>
+<span class="line"><span style="color:#24292E">kinematic_state_groundtruth.position            </span><span style="color:#6A737D"># 位置信息</span></span>
+<span class="line"><span style="color:#24292E">kinematic_state_groundtruth.linear_velocity     </span><span style="color:#6A737D"># 速度信息</span></span>
+<span class="line"><span style="color:#24292E">kinematic_state_groundtruth.linear_acceleration </span><span style="color:#6A737D"># 加速度信息</span></span>
+<span class="line"><span style="color:#24292E">kinematic_state_groundtruth.orientation         </span><span style="color:#6A737D"># 姿态信息</span></span>
+<span class="line"><span style="color:#24292E">kinematic_state_groundtruth.angular_velocity    </span><span style="color:#6A737D"># 姿态角速度信息</span></span>
+<span class="line"><span style="color:#24292E">kinematic_state_groundtruth.angular_acceleration  </span><span style="color:#6A737D"># 姿态角加速度信息</span></span></code></pre>
+<p>以上 6 个属性中，除了 <code>orientation</code> 其他几个都包含了 <code>x_val</code>、<code>y_val</code> 和 <code>z_val</code> 三个属性，分别代表 x,y,z 3 个方向的值。例如位置真值的读取如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># 无人机全局位置坐标真值</span></span>
+<span class="line"><span style="color:#24292E">x </span><span style="color:#D73A49">=</span><span style="color:#24292E"> kinematic_state_groundtruth.position.x_val  </span><span style="color:#6A737D"># 全局坐标系下，x 轴方向的坐标</span></span>
+<span class="line"><span style="color:#24292E">y </span><span style="color:#D73A49">=</span><span style="color:#24292E"> kinematic_state_groundtruth.position.y_val  </span><span style="color:#6A737D"># 全局坐标系下，y 轴方向的坐标</span></span>
+<span class="line"><span style="color:#24292E">z </span><span style="color:#D73A49">=</span><span style="color:#24292E"> kinematic_state_groundtruth.position.z_val  </span><span style="color:#6A737D"># 全局坐标系下，z 轴方向的坐标</span></span></code></pre>
+<p>同理，速度、加速度、姿态角速度、姿态角加速度真值的读取如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># 无人机全局速度真值</span></span>
+<span class="line"><span style="color:#24292E">vx </span><span style="color:#D73A49">=</span><span style="color:#24292E"> kinematic_state_groundtruth.linear_velocity.x_val    </span><span style="color:#6A737D"># 无人机 x 轴方向（正北）</span></span>
+<span class="line"><span style="color:#24292E">vy </span><span style="color:#D73A49">=</span><span style="color:#24292E"> kinematic_state_groundtruth.linear_velocity.y_val    </span><span style="color:#6A737D"># 无人机 y 轴方向（正东）</span></span>
+<span class="line"><span style="color:#24292E">vz </span><span style="color:#D73A49">=</span><span style="color:#24292E"> kinematic_state_groundtruth.linear_velocity.z_val    </span><span style="color:#6A737D"># 无人机 z 轴方向（垂直）</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 无人机全局加速度真值</span></span>
+<span class="line"><span style="color:#24292E">ax </span><span style="color:#D73A49">=</span><span style="color:#24292E"> kinematic_state_groundtruth.linear_acceleration.x_val</span></span>
+<span class="line"><span style="color:#24292E">ay </span><span style="color:#D73A49">=</span><span style="color:#24292E"> kinematic_state_groundtruth.linear_acceleration.y_val</span></span>
+<span class="line"><span style="color:#24292E">az </span><span style="color:#D73A49">=</span><span style="color:#24292E"> kinematic_state_groundtruth.linear_acceleration.z_val</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 机体角速度</span></span>
+<span class="line"><span style="color:#24292E">kinematic_state_groundtruth.angular_velocity.x_val    </span><span style="color:#6A737D"># 机体俯仰角速率</span></span>
+<span class="line"><span style="color:#24292E">kinematic_state_groundtruth.angular_velocity.y_val    </span><span style="color:#6A737D"># 机体翻滚角速率</span></span>
+<span class="line"><span style="color:#24292E">kinematic_state_groundtruth.angular_velocity.z_val    </span><span style="color:#6A737D"># 机体偏航角速率</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 机体角加速度</span></span>
+<span class="line"><span style="color:#24292E">kinematic_state_groundtruth.angular_acceleration.x_val</span></span>
+<span class="line"><span style="color:#24292E">kinematic_state_groundtruth.angular_acceleration.y_val</span></span>
+<span class="line"><span style="color:#24292E">kinematic_state_groundtruth.angular_acceleration.z_val</span></span></code></pre>
+<p>而对于姿态的读取，姿态信息是用四元数表示的，而 AirSim 同时也提供了四元数转换为欧拉角的接口：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># 无人机姿态真值的四元数表示</span></span>
+<span class="line"><span style="color:#24292E">kinematic_state_groundtruth.orientation.x_val</span></span>
+<span class="line"><span style="color:#24292E">kinematic_state_groundtruth.orientation.y_val</span></span>
+<span class="line"><span style="color:#24292E">kinematic_state_groundtruth.orientation.z_val</span></span>
+<span class="line"><span style="color:#24292E">kinematic_state_groundtruth.orientation.w_val</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 四元数转换为欧拉角，单位 rad</span></span>
+<span class="line"><span style="color:#24292E">(pitch, roll, yaw) </span><span style="color:#D73A49">=</span><span style="color:#24292E"> airsim.to_eularian_angles(kinematic_state_groundtruth.orientation)</span></span></code></pre>
+<h3 id="62-无人机状态估计值读取-api">6.2 无人机状态估计值读取 API</h3>
+<p>在实际的无人机中，无法获取无人机的状态真值，状态的读取是无人机上传感器融合得到的估计值。AirSim APIs 还提供了获取无人机状态（估计值）的功能接口，其调用格式如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">state_multirotor </span><span style="color:#D73A49">=</span><span style="color:#24292E"> client.getMultirotorState(</span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#032F62">''</span><span style="color:#24292E">)</span></span></code></pre>
+<p>这里的无人机状态 <code>state_multirotor</code> 包含：时间戳、运动状态信息（估计值）、碰撞信息、GPS 经纬度信息、遥控器信息、降落信息等。读取方式如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">state_multirotor.collision            </span><span style="color:#6A737D"># 碰撞信息</span></span>
+<span class="line"><span style="color:#24292E">state_multirotor.kinematics_estimated </span><span style="color:#6A737D"># 运动信息</span></span>
+<span class="line"><span style="color:#24292E">state_multirotor.gps_location         </span><span style="color:#6A737D"># GPS 经纬度信息</span></span>
+<span class="line"><span style="color:#24292E">state_multirotor.timestamp             </span><span style="color:#6A737D"># 时间戳</span></span>
+<span class="line"><span style="color:#24292E">state_multirotor.landed_state         </span><span style="color:#6A737D"># 降落信息</span></span>
+<span class="line"><span style="color:#24292E">state_multirotor.rc_data              </span><span style="color:#6A737D"># 遥控器信息</span></span></code></pre>
+<p>其中的降落信息 <code>state_multirotor.landed_state</code> 是整数类型，其值为 0 表示在地上，值为 1 表示在空中。其中的时间戳 <code>state_multirotor.timestamp</code> 是仿真开始后的时间，单位是<strong>纳秒</strong>。</p>
+<p>无人机状态中的运动信息 <code>state_multirotor.kinematics_estimated</code> 是由多个传感器测量值融合得到的，包含 6 种运动信息，读取方式相同：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># 无人机运动信息的估计值有 6 个属性</span></span>
+<span class="line"><span style="color:#24292E">state_multirotor.kinematic_estimated.position             </span><span style="color:#6A737D"># 位置信息估计值</span></span>
+<span class="line"><span style="color:#24292E">state_multirotor.kinematic_estimated.linear_velocity      </span><span style="color:#6A737D"># 速度信息估计值</span></span>
+<span class="line"><span style="color:#24292E">state_multirotor.kinematic_estimated.linear_acceleration  </span><span style="color:#6A737D"># 加速度信息估计值</span></span>
+<span class="line"><span style="color:#24292E">state_multirotor.kinematic_estimated.orientation          </span><span style="color:#6A737D"># 姿态信息估计值</span></span>
+<span class="line"><span style="color:#24292E">state_multirotor.kinematic_estimated.angular_velocity     </span><span style="color:#6A737D"># 姿态角速率信息估计值</span></span>
+<span class="line"><span style="color:#24292E">state_multirotor.kinematic_estimated.angular_acceleration </span><span style="color:#6A737D"># 姿态角加速度信息估计值</span></span></code></pre>
+<p>但是遗憾的是，<code>SimpleFlight</code> 不支持模拟传感器，所以如果使用的是 <code>SimpleFlight</code>，则使用 <code>getMultirotorState()</code> 得到的运动状态与使用 <code>simGetGroundTruthKinematics()</code> 得到的运动状态真值是一模一样的。如果使用硬件在环仿真（如 PX4 等），则可以使用 <code>getMultirotorState()</code> 获得无人机的估计状态信息。</p>
+<p>这里我们暂时只介绍时间戳、降落信息和运动信息，对于碰撞信息和 GPS 经纬度信息在后面有具体的讲解。</p>
+<p>AirSim APIs 还提供了获取电机状态的功能接口，调用格式如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">state_rotor </span><span style="color:#D73A49">=</span><span style="color:#24292E"> client.getRotorStates(</span><span style="color:#E36209">vehicle_nane</span><span style="color:#D73A49">=</span><span style="color:#032F62">''</span><span style="color:#24292E">)</span></span></code></pre>
+<p>函数的返回值 <code>state_rotor</code> 包含时间戳和每个螺旋桨的转速、拉力、力矩信息。使用 <code>print()</code> 将其打印出来（无人机悬停状态下），可以得到如下信息：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49">&#x3C;</span><span style="color:#24292E">RotorStates</span><span style="color:#D73A49">></span><span style="color:#24292E"> {   </span><span style="color:#032F62">'rotors'</span><span style="color:#24292E">: [   {   </span><span style="color:#032F62">'speed'</span><span style="color:#24292E">: </span><span style="color:#005CC5">516.8734130859375</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#032F62">                       'thrust'</span><span style="color:#24292E">: </span><span style="color:#005CC5">2.4884119033813477</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#032F62">                       'torque_scaler'</span><span style="color:#24292E">: </span><span style="color:#D73A49">-</span><span style="color:#005CC5">0.03308132290840149</span><span style="color:#24292E">},</span></span>
+<span class="line"><span style="color:#24292E">                   {   </span><span style="color:#032F62">'speed'</span><span style="color:#24292E">: </span><span style="color:#005CC5">516.8734130859375</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#032F62">                       'thrust'</span><span style="color:#24292E">: </span><span style="color:#005CC5">2.4884119033813477</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#032F62">                       'torque_scaler'</span><span style="color:#24292E">: </span><span style="color:#D73A49">-</span><span style="color:#005CC5">0.03308132290840149</span><span style="color:#24292E">},</span></span>
+<span class="line"><span style="color:#24292E">                   {   </span><span style="color:#032F62">'speed'</span><span style="color:#24292E">: </span><span style="color:#005CC5">516.8734130859375</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#032F62">                       'thrust'</span><span style="color:#24292E">: </span><span style="color:#005CC5">2.4884119033813477</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#032F62">                       'torque_scaler'</span><span style="color:#24292E">: </span><span style="color:#005CC5">0.03308132290840149</span><span style="color:#24292E">},</span></span>
+<span class="line"><span style="color:#24292E">                   {   </span><span style="color:#032F62">'speed'</span><span style="color:#24292E">: </span><span style="color:#005CC5">516.8734130859375</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#032F62">                       'thrust'</span><span style="color:#24292E">: </span><span style="color:#005CC5">2.4884119033813477</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#032F62">                       'torque_scaler'</span><span style="color:#24292E">: </span><span style="color:#005CC5">0.03308132290840149</span><span style="color:#24292E">}],</span></span>
+<span class="line"><span style="color:#032F62">     'timestamp'</span><span style="color:#24292E">: </span><span style="color:#005CC5">1632472243084013312</span><span style="color:#24292E">}</span></span></code></pre>
+<p>如果想要单独得到第 0 个螺旋桨的转速信息，可以用如下代码：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">state_rotors </span><span style="color:#D73A49">=</span><span style="color:#24292E"> client.getRotorStates(</span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#032F62">""</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(state_rotors.rotors[</span><span style="color:#005CC5">0</span><span style="color:#24292E">][</span><span style="color:#032F62">'speed'</span><span style="color:#24292E">])</span></span></code></pre>
+<p>这样可以直接打印出电机的转速。使用电机转速控制可以实现对无人机运动控制精度较高的应用，如高精度轨迹跟踪。</p>
+<h3 id="63-位置读取函数封装重点">6.3 位置读取函数封装（重点）</h3>
+<p><strong>无人机位置读取时使用的是全局坐标系，这里的全局坐标系定义是北东地，全局坐标系的原点是无人机的初始位置。</strong></p>
+<p>也就是说当有多个无人机时，而且每个无人机的初始位置不同时，此接口读取到的不同的无人机的状态是以其读的无人机的初始位置为原点的，所以在读取的时候需要加上其初始位置的补偿。</p>
+<p>基于此可以写出如下位置读取的函数封装：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">orig_pos </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.array([[</span><span style="color:#005CC5">0</span><span style="color:#24292E">., </span><span style="color:#005CC5">0</span><span style="color:#24292E">., </span><span style="color:#005CC5">0</span><span style="color:#24292E">.,], </span></span>
+<span class="line"><span style="color:#24292E">                     [</span><span style="color:#005CC5">3</span><span style="color:#24292E">., </span><span style="color:#005CC5">0</span><span style="color:#24292E">., </span><span style="color:#005CC5">0</span><span style="color:#24292E">.]])</span></span>
+<span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> get_uav_pos</span><span style="color:#24292E">(client, name):</span></span>
+<span class="line"><span style="color:#24292E">    uav_state </span><span style="color:#D73A49">=</span><span style="color:#24292E"> client.getMultirotorState(</span><span style="color:#E36209">vehicle_name</span><span style="color:#D73A49">=</span><span style="color:#24292E">name).kinematics_estimated</span></span>
+<span class="line"><span style="color:#24292E">    num </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> int</span><span style="color:#24292E">(name[</span><span style="color:#D73A49">-</span><span style="color:#005CC5">1</span><span style="color:#24292E">])</span></span>
+<span class="line"><span style="color:#24292E">    pos </span><span style="color:#D73A49">=</span><span style="color:#24292E"> np.array([[uav_state.position.x_val </span><span style="color:#D73A49">+</span><span style="color:#24292E"> orig_pos[num, </span><span style="color:#005CC5">0</span><span style="color:#24292E">]], </span></span>
+<span class="line"><span style="color:#24292E">                    [uav_state.position.x_val </span><span style="color:#D73A49">+</span><span style="color:#24292E"> orig_pos[num, </span><span style="color:#005CC5">1</span><span style="color:#24292E">]], </span></span>
+<span class="line"><span style="color:#24292E">                    [uav_state.position.x_val </span><span style="color:#D73A49">+</span><span style="color:#24292E"> orig_pos[num, </span><span style="color:#005CC5">2</span><span style="color:#24292E">]]])</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#24292E"> pos</span></span></code></pre>
+<p>其中 <code>orig_pos</code> 是每个无人机的初始位置，上面的代码中，有两个无人机，无人机 0 的初始位置是 [0, 0, 0]，无人机 1 的初始位置是 [3, 0, 0]。使用上面的方法添加补偿后，就可以将每个无人机的全局坐标系统一了。</p>
+<h2 id="7-航路点飞行-api--多无人机位置控制函数封装">7. 航路点飞行 API &#x26; 多无人机位置控制函数封装</h2>
+<hr>
+<p>AirSim 提供的轨迹跟踪 API 是基于位置控制的，所以严格意义上并不能算是轨迹跟踪，而应该称之为连续航路点飞行。无人机会依次飞过多个航路点，形成特定的飞行轨迹，其调用格式如下：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6A737D"># 航路点轨迹飞行控制</span></span>
+<span class="line"><span style="color:#24292E">client.moveOnPathAsync(path, velocity, </span></span>
+<span class="line"><span style="color:#E36209">                    drivetrain</span><span style="color:#D73A49"> =</span><span style="color:#24292E"> DrivetrainType.MaxDegreeOfFreedom, </span></span>
+<span class="line"><span style="color:#E36209">                    yaw_mode</span><span style="color:#D73A49"> =</span><span style="color:#24292E"> YawMode(), </span></span>
+<span class="line"><span style="color:#E36209">                    lookahead</span><span style="color:#D73A49"> =</span><span style="color:#D73A49"> -</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#E36209">adaptive_lookahead</span><span style="color:#D73A49"> =</span><span style="color:#005CC5"> 1</span><span style="color:#24292E">, </span></span>
+<span class="line"><span style="color:#E36209">                    vehicle_name</span><span style="color:#D73A49"> =</span><span style="color:#032F62"> ''</span><span style="color:#24292E">)</span></span></code></pre>
+<p>参数说明：</p>
+<ul>
+<li>path(list[Vector3r]):多个航路点的 3 维坐标</li>
+<li>velocity(float)：无人机的飞行速度大小；</li>
+<li>lookahead，adaptive_lookahead：设置路径跟踪算法的参数</li>
+</ul>
+<p>参数 path 包含了多个航路点的全局位置坐标，也就是说无人机要飞过 path 中包含的每一个坐标点（也就是航路点）。将 path 中的航路点依次连接起来，就会组成一条路径，无人机依次飞过航路点，就像是沿着特定路径飞行一样，形成路径跟踪的效果。</p>
+<p>这里需要注意的是全局坐标系的原点是无人机的初始位置，所以当有多架无人机同时仿真的时候，每架无人机的原点是不同的，所以当使用统一的全局坐标系的时候，需要对不同的无人机添加位置补偿。</p>
+<p><code>moveOnPathAsync</code> 中使用的算法是 <strong>Carrot Chasing Algorithm</strong>，这是一个非常经典的路径跟踪算法，其中需要设置 <code>lookahead</code> 参数，这个参数的意义是设置在路径上向前看的距离。<code>lookahead</code> 设置的越大，在路径拐弯的时候，无人机就越提前转弯；如果 <code>lookahead</code> 参数设置的过小，则可能出现超调，无人机会飞跃航路点，然后才拐弯。</p>
+<p>任何时候，<code>lookahead</code> 值的设置要大于位置控制允许的误差，并且小于整个路径的总长度。如果 <code>lookahead</code> 值小于位置控制允许的误差，则无人机会认为已经到达了第一个目标点，最终效果是无人机悬停在原地。如果 <code>lookahead</code> 值大于轨迹的总长度，则无人机会认为已经达到了最后一个航路点，最终效果还是无人机悬停在原地。</p>
+<p>当 <code>lookahead</code> 参数小于 0 时，<code>adaptive_lookahead</code> 设置为大于 0 的数值，这样可以让算法根据当前的无人机飞行速度自动设置 <code>lookahead</code> 的值，通常按照默认设置（<code>lookahead=1</code>，<code>adaptive_lookahead=-1</code>）就可以达到比较好的效果。</p>
+<p>如果航路点组成的轨迹是一条直线，不存在转弯的情况，那么<code>lookahead</code> 值的大小对最终轨迹的影响将减小很多，此时 <code>lookahead</code> 的值只要小于轨迹的总长度即可。例如 <code>moveToPositionAsync()</code> 接口函数内容就是调用的 <code>moveOnPathAsync</code> 接口，也就是只有一个航路点的轨迹，此时轨迹就是一条直线，只要 <code>lookahead</code> 值小于当前到唯一航路点的距离，最终的飞行轨迹都是一样的。</p>
+<h2 id="8-图像-apis">8. 图像 APIs</h2>
+<hr>
+<h3 id="81-拍摄图像前的基本知识">8.1 拍摄图像前的基本知识</h3>
+<h4 id="图像位置">图像位置</h4>
+<p>AirSim 平台中的无人机和无人车都默认放有 5 个相机，只是位置不同，这里主要介绍无人机上的相机。下表列出的是相机的位置和命名。旧版本的 AirSim 对相机的命名是使用的数字，目前 AirSim 兼容旧版本，所以使用数字也是可以的。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>相机位置</th><th>ID</th><th>旧版本 ID</th></tr></thead><tbody><tr><td>前向中间</td><td><code>front_center</code></td><td><code>0</code></td></tr><tr><td>前向右边</td><td><code>front_right</code></td><td><code>1</code></td></tr><tr><td>前向左边</td><td><code>front_left</code></td><td><code>2</code></td></tr><tr><td>底部中间</td><td><code>bottom_center</code></td><td><code>3</code></td></tr><tr><td>后向中间</td><td><code>back_center</code></td><td><code>4</code></td></tr></tbody></table>
+<h4 id="图像种类">图像种类</h4>
+<p>AirSim 中默认可以获得 8 种不同类型的图片，下表总结了 10 种类型图片的名称、解释和调用方式。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>图像类型</th><th>解释</th><th>调用方法</th></tr></thead><tbody><tr><td>Scene</td><td>彩色图</td><td>airsim.ImageType.Scene</td></tr><tr><td>DepthPlanar</td><td>深度图，像素值代表到相平面的距离</td><td>airsim.ImageType.DepthPlanar</td></tr><tr><td>DepthPerspective</td><td>深度图，像素值代表透视投影下到相平面的距离</td><td>airsim.ImageType.DepthPerspective</td></tr><tr><td>DepthVis</td><td>深度图，为了更好的展示距离的远近，100 米对应白色，0 米对应黑色</td><td>airsim.ImageType.DepthVis</td></tr><tr><td>DisparityNormalized</td><td>深度视差图，每个像素值是浮点型</td><td>airsim.ImageType.DisparityNormalized</td></tr><tr><td>Segmentation</td><td>分割图，不同 ID 号的物体用不同的颜色表示</td><td>airsim.ImageType.Segmentation</td></tr><tr><td>SurfaceNormals</td><td>表面法线，包含了比较丰富的细节信息</td><td>airsim.ImageType.SurfaceNormals</td></tr><tr><td>Infrared</td><td>红外图，与分割图类似，知识颜色变为 ID 号</td><td>airsim.ImageType.Infrared</td></tr></tbody></table>
+<h4 id="图像数据的格式">图像数据的格式</h4>
+<p>AirSim 中获得的图像有 3 种格式：PNG 格式、Array 格式、浮点型格式。通过在程序中设置不同的参数即可得到不同格式的图像。</p>
+<p>PNG 格式的图片是一种无损压缩的图片格式，由于其具有连续读出和写入的特性，所以非常适合于网络传播。其文件结构中包括：文件署名域和数据块（关键数据块、辅助数据块）。文件署名域的 8 个固定字节用来识别该文件是不是 PNG 格式的文件。数据块中包含了图像的大小、色深、颜色类型、压缩方式等信息。PNG 格式的图像是用字节的形式保存的，可以用图片查看器等软件打开。</p>
+<p>Array 格式是最原始的图像格式，在图像处理时都需要将图片转换成此格式。Array 是以向量的形式存储，彩色图像的每个像素点都有 RGB（红绿蓝）三个通道，所以向量的维度为：height \times width\times 3；而灰度图像每个像素点仅有一个通道，向量维度为：height\times width。每个值的取值范围是 0 ~ 255，其中0代表亮度最低，255代表亮度最高。例如第i行第j列的像素是红色的，则有 <code>img_rgb[i, j, :]=[255, 0, 0]</code>。另外需要注意的是在使用 OpenCV 库时，其默认的通道顺序为 BGR（蓝绿红），所以当图像的第i行第j列像素是红色时，则有 <code>img_rgb[i, j, :]=[0, 0, 255]</code>。</p>
+<p>浮点型格式的图像同样以向量的形式保存，维度为：height\times width，每个像素点的值是浮点型，适合深度图的保存。例如 DepthPlanar 图像中每个像素点的值表示此像素点到相平面的距离。</p>
+<p>将这3种图片保存格式的特点总结如下表所示。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>图像类型</th><th>存储形式</th><th>是否压缩</th><th>适合保存的图片类型</th></tr></thead><tbody><tr><td>PNG 格式</td><td>bytes</td><td>无损压缩</td><td>彩色图、分割图、表面法线图、红外图</td></tr><tr><td>Array 格式</td><td>bytes</td><td>无</td><td>彩色图、分割图、表面法线图、红外图</td></tr><tr><td>浮点型格式</td><td>float</td><td>无</td><td>深度图</td></tr></tbody></table>
+<p>通过一个简单的例子来进一步说明，下面的代码实现的功能是：使用同一个相机分别读取 3 种类型的图片： PNG 格式彩色图、Array 格式彩色图、浮点型深度图，最后打印出图片的一些信息。</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#24292E">response </span><span style="color:#D73A49">=</span><span style="color:#24292E"> client.simGetImages([</span></span>
+<span class="line"><span style="color:#6A737D">    # png format</span></span>
+<span class="line"><span style="color:#24292E">    airsim.ImageRequest(</span><span style="color:#005CC5">0</span><span style="color:#24292E">, airsim.ImageType.Scene, </span><span style="color:#E36209">pixels_as_float</span><span style="color:#D73A49">=</span><span style="color:#005CC5">False</span><span style="color:#24292E">, </span><span style="color:#E36209">compress</span><span style="color:#D73A49">=</span><span style="color:#005CC5">True</span><span style="color:#24292E">),</span></span>
+<span class="line"><span style="color:#24292E">    airsim.ImageRequest(</span><span style="color:#005CC5">0</span><span style="color:#24292E">, airsim.ImageType.Scene, </span><span style="color:#E36209">pixels_as_float</span><span style="color:#D73A49">=</span><span style="color:#005CC5">False</span><span style="color:#24292E">, </span><span style="color:#E36209">compress</span><span style="color:#D73A49">=</span><span style="color:#005CC5">False</span><span style="color:#24292E">),</span></span>
+<span class="line"><span style="color:#24292E">    airsim.ImageRequets(</span><span style="color:#005CC5">0</span><span style="color:#24292E">, airsim.ImageType.DepthPlanar, </span><span style="color:#E36209">pixels_as_float</span><span style="color:#D73A49">=</span><span style="color:#005CC5">True</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(</span><span style="color:#032F62">"PNG 格式彩色图的前 8 个字节："</span><span style="color:#24292E">, np.frombuffer(response[</span><span style="color:#005CC5">0</span><span style="color:#24292E">].image_date_uint8[</span><span style="color:#005CC5">0</span><span style="color:#24292E">:</span><span style="color:#005CC5">8</span><span style="color:#24292E">], np.uint8))</span></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(</span><span style="color:#032F62">"PNG 格式彩色图的字节个数："</span><span style="color:#24292E">, </span><span style="color:#005CC5">len</span><span style="color:#24292E">(response[</span><span style="color:#005CC5">0</span><span style="color:#24292E">].image_data_uint8))</span></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(</span><span style="color:#032F62">"Array 格式彩色图的字节个数："</span><span style="color:#24292E">, </span><span style="color:#005CC5">len</span><span style="color:#24292E">(response[</span><span style="color:#005CC5">1</span><span style="color:#24292E">].image_data_uint8))</span></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(</span><span style="color:#032F62">"浮点型格式深度图任一像素的值："</span><span style="color:#24292E">, response[</span><span style="color:#005CC5">2</span><span style="color:#24292E">].image_data_float[random.randint(</span><span style="color:#005CC5">0</span><span style="color:#24292E">, </span><span style="color:#005CC5">10000</span><span style="color:#24292E">)])</span></span></code></pre>
+<h4 id="图片文件的格式">图片文件的格式</h4>
+<p>首先要区分图像数据与图片文件的不同。</p>
+<p>图像数据是保存在内存中的数据，大部分是在程序运行的时候通过 API 读取到的，可以从 AirSim APIs 获得，也可以直接从文件中获得，当程序运行结束，或者内存释放掉的时候，这些数据也就随之消失了。</p>
+<p>图片文件是保存在硬盘中的文件，有不同的后缀名格式的文件，可以用图像查看器等软件打开。常用的图片文件格式有：</p>
+<ul>
+<li><code>.jpg</code> 格式：不带透明通道的有损压缩格式，广泛应用于互联网和数码相机领域；</li>
+<li><code>.png</code> 格式：便携式网络图形，无损压缩的位图，有较高的压缩比；</li>
+<li><code>.tif</code> 格式：非失真的压缩格式，占用空间较大，通常用于书籍和海报等数专业的领域;</li>
+<li><code>.bmp</code> 格式:是 Windows 操作系统中的标准图像文件格式,通常不压缩,文件所占空间较大.</li>
+</ul> </div> </div> <aside class="article-toc"> <div id="post-toc-card"> <div id="toc-card-style" class="toc-card"> <div id="toc-card-div"> <nav id="toc"> <span class="sidebar-title">目录</span> <ol class="toc"></ol> </nav> </div> </div> </div> </aside> </div> </article>  <footer id="footer"> <div id="footer-wrap"> <div>
+&copy; 2022 - 2026 ColdRain <span id="footer-icon"><i class="fa-solid fa-cloud-rain fa-fw"></i></span>
+Powered by Astro
+</div> </div> </footer> </main> <div id="preview" hidden> <img id="preview-content" alt=""> </div> </div> <canvas id="background" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1"></canvas> <script src="/js/background.min.js"></script> <script src="/js/site.js"></script> </body> </html>
