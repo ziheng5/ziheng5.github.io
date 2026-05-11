@@ -1,0 +1,238 @@
+#loading[hidden],
+#preview[hidden],
+#menu-curtain[hidden],
+#mobile-menu .items[hidden],
+#post-toc-card[hidden] {
+  display: none !important;
+}
+
+#mobile-menu .title {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  line-height: inherit;
+  width: 100%;
+}
+
+#home-info {
+  color: inherit;
+  display: block;
+  cursor: pointer;
+}
+
+#home-info:hover {
+  opacity: 1 !important;
+}
+
+.paged-home {
+  margin-top: 100px !important;
+}
+
+.content .astro-code {
+  padding: 52px 24px 24px;
+  white-space: pre;
+}
+
+.content .astro-code[data-language]::before {
+  background: linear-gradient(to right, #ed6ea0 0%, #ec8c69 100%);
+  border-radius: 0 0 8px 8px;
+  box-shadow: 1px 1px 0.75rem #ed6ea14d;
+  color: #fff;
+  content: attr(data-language);
+  font-family: "Fira Code", "Noto Sans SC", monospace;
+  font-size: 12px;
+  font-weight: 700;
+  left: 24px;
+  letter-spacing: 0;
+  line-height: 1;
+  padding: 10px 14px;
+  position: absolute;
+  text-transform: uppercase;
+  top: 0;
+  z-index: 1;
+}
+
+.content .astro-code code {
+  background: transparent;
+  border-radius: 0;
+  line-height: 1.8;
+  padding: 0;
+}
+
+.content a {
+  overflow-wrap: anywhere;
+}
+
+.content img {
+  cursor: zoom-in;
+}
+
+#timeline-wrap {
+  display: block !important;
+}
+
+#timeline-wrap .timeline {
+  overflow: hidden;
+  transform: translateY(0);
+  transition: height 0.34s ease, margin-bottom 0.34s ease, opacity 0.24s ease, transform 0.34s ease, visibility 0.34s ease;
+}
+
+#timeline-wrap .timeline.search-hidden {
+  margin-bottom: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-12px);
+  visibility: hidden;
+}
+
+.friends-page {
+  max-width: 1180px;
+}
+
+.friends-header {
+  margin-bottom: 22px;
+}
+
+.friends-container {
+  display: grid !important;
+  gap: 18px !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  margin-top: 24px !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+.friend-card {
+  align-items: center !important;
+  background: #fff !important;
+  border: 1px solid #dbe6f3 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 28px #2233440d !important;
+  color: #1e3e3f !important;
+  display: grid !important;
+  gap: 16px !important;
+  grid-template-columns: 72px minmax(0, 1fr) 28px !important;
+  height: auto !important;
+  min-height: 126px !important;
+  padding: 18px !important;
+  text-decoration: none !important;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease !important;
+  width: auto !important;
+}
+
+.friend-card:hover {
+  border-color: #9abbf7 !important;
+  box-shadow: 0 16px 36px #22334418 !important;
+  opacity: 1 !important;
+  transform: translateY(-4px) !important;
+}
+
+.friend-avatar {
+  align-items: center !important;
+  background: #eef6ff !important;
+  border-radius: 8px !important;
+  display: flex !important;
+  flex: none !important;
+  height: 72px !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  width: 72px !important;
+}
+
+.friend-avatar img {
+  animation: none !important;
+  background: transparent !important;
+  border-radius: 8px !important;
+  display: block !important;
+  height: 72px !important;
+  object-fit: cover !important;
+  width: 72px !important;
+}
+
+.friend-info {
+  display: block !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+}
+
+.friend-title-row {
+  align-items: baseline;
+  display: flex;
+  gap: 10px;
+  min-width: 0;
+}
+
+.friend-info h3 {
+  flex: 0 1 auto;
+  font-size: 18px !important;
+  line-height: 1.35;
+  margin: 0 !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.friend-host {
+  color: #7b8d9a;
+  flex: 1 1 auto;
+  font-family: "Fira Code", "Noto Sans SC", monospace;
+  font-size: 12px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.friend-info p {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  color: #5c6b72 !important;
+  display: -webkit-box;
+  font-size: 14px !important;
+  line-height: 1.65 !important;
+  margin: 10px 0 0 !important;
+  overflow: hidden;
+}
+
+.friend-arrow {
+  align-items: center;
+  color: #9abbf7;
+  display: flex;
+  height: 28px;
+  justify-content: center;
+  width: 28px;
+}
+
+@media (max-width: 768px) {
+  .paged-home {
+    margin-top: 70px !important;
+  }
+
+  .friends-container {
+    grid-template-columns: 1fr !important;
+  }
+
+  .friend-card {
+    grid-template-columns: 60px minmax(0, 1fr) 24px !important;
+    min-height: 112px !important;
+    padding: 14px !important;
+  }
+
+  .friend-avatar,
+  .friend-avatar img {
+    height: 60px !important;
+    width: 60px !important;
+  }
+
+  .friend-title-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .friend-info h3 {
+    white-space: normal;
+  }
+}
