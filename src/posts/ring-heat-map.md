@@ -4,9 +4,8 @@ date: 2025-07-08 23:30:57
 tags:
     - 统计学
     - 数学建模
-    - 绘图
 categories:
-    - 绘图
+    - 数学
 description: |
     📊 如何用 Python 绘制环形热力图呢？
 ---

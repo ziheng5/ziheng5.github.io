@@ -2,7 +2,7 @@
 title: 常用假设检验方法及 Python 实现
 date: 2025-05-22 18:08:49
 tags:
-    - 统计学
+    - 数学建模
     - 机器学习
 categories: 
     - 数学
