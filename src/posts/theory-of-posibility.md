@@ -1,29 +1,141 @@
 ---
-title: Coldrain 的 27 考研数一概率论笔记
+title: Coldrain 的 27 考研数一概统笔记
 date: 2026-05-14 17:30:00
 tags: 
     - 考研数学
 categories: 
     - 数学
 description: |
-    Coldrain 的概率论备考笔记（施工中 🚧）
+    Coldrain 的概率论备考笔记，涵盖了基础 + 强化的所有内容（施工中 🚧）
 ---
 
 > ### 写在前面
 >
 > Coldrain 在第一轮基础复习的时候并没有留下任何笔记，直到概率论刷题的时候，发现知识点比较零散容易忘记，做题卡住了，遂准备从第二轮基础复习开始好好留下笔记，便于知识点检索与记忆
 >
-> 至于为什么选择以 blog 的形式记录，因为 Coldrain 平时没有手写笔记的习惯💦
+> 至于为什么选择以 blog 的形式记录，因为 Coldrain 平时没有手写笔记的习惯，而且 blog 形式的笔记可以在任何设备上随时随地打开💦
 >
 > 本笔记参考书目包括：
 > - 27 版的**余丙森**概率论（基础与强化在同一本书中）
 > - 26 版的**方皓**概率论基础与强化两本书
 > - 27 版的**张宇**概率论基础 9 讲
-> - 本科概率论留下的笔记（和社团的朋友们共同编辑的）
+> - 本科概率论留下的笔记（和社团的朋友们共同整理的）
 
 ## 1. 随机事件及其概率
 
+> ✍ 本部分内容过于简单，所以这里只记录重点公式与结论
+
+
+1. 对立运算
+   - $P(\overline{A}) = 1- P(A)$
+
+2. 加法运算（并集）
+   - $P(A\cup B) = P(A+B) = P(A) + P(B) - P(AB)$
+   - $P(A\cup B \cup C) = P(A+B+C) = P(A) + P(B) + P(C)- P(AB) - P(AC) - P(BC) + P(ABC)$
+ 
+> 💡 加法运算这里 Coldrain 刻意将 “$\cup$” 与 “+” 都写了上去，因为在有些题目中将“并”运算换成加法运算可以**快速化简**冗长的随机事件表达式
+
+3. 互不相容
+   - $P(AB) = 0$
+
+4. 两事件独立
+   - $P(AB) = P(A) P(B)$
+
+> 💡 两事件独立，进而有：
+> - $P(A\cup B) = P(A) + P(B) - P(A)P(B) = 1 - P(\overline{A})P(\overline{B})$
+
+5. 减法运算
+   - $P(A-B) = P(A\overline{B}) = P(A) - P(AB)$
+
+6. 乘法运算（交集）
+   - $P(AB) = P(B)P(A|B) = P(A) P(B|A)$
+
+7. 条件概率
+   - $P(B|A) = \dfrac{P(AB)}{P(A)}$
+
+> 💡 条件概率常用性质
+> - $P(B|A) + P(\overline{B}|A) = 1$
+> - $P(A_1 \cup A_2 | B) = P(A_1 | B) + P(A_2 |B) - P(A_1 A_2 |B)$
+> - $P(A_1 - A_2 | B) = P(A_1 | B) - P(A_1 A_2 |B)$
+> - $A$ 与 $B$ 独立时，有 $P(AB|C) = P(A|C) P(B|C)$
+
+8. 全概率公式
+   - $P(B) = \sum\limits_{i=1}^{n} P(A_i)P(B|A_i)$
+
+9. 贝叶斯公式
+   - $P(A_i|B) = \dfrac{P(A_i B)}{P(B)} = \dfrac{P(A_i)P(B|A_i)}{P(B)}$
+
+
+> ⚠️ 本章易错细节
+> - $P(A) = 0$，不代表 $A$ 为空集！
+
+
+
 ## 2. 一维随机变量及其分布
+
+
+### 2.1 分布函数
+
+1. 分布函数的定义：$F(x) = P\{X \le x\}, -\infty < x< \infty$
+
+2. 分布函数的性质（一般出选择题）
+   - （1）单调不减性：$F(x)$ 是单调非减函数
+   - （2）有界性：$0\le F(x) \le 1$
+   - （3）右连续性：对任意 $x_0$ 有 $\lim\limits_{x\to x_0^+} F(x) = F(x_0)$ 即 $F(x_0 + 0) = F(x_0)$
+
+
+### 2.2 常见离散型随机变量及其分布律
+
+1. 0-1 分布
+   - $X～B(1, p)$
+
+2. 二项分布
+   - $X～B(n, p)$
+   - $P\{X = k\} = C_n^k p^k (1-p)^{n-k}$
+
+3. 泊松分布
+   - $X～P(\lambda)$
+   - $P\{X = k\} = \dfrac{\lambda^{k}}{k!} e^{-\lambda}$
+
+> 💡 **泊松定理（用于近似计算）**
+>
+> 设随机变量 $X～B(n, p)$，若 $\lim\limits_{n\to +\infty} np = \lambda$
+>
+> 则 $\lim\limits_{n\to +\infty} C_n^k p^k (1-p)^{n-k} = \dfrac{\lambda^{k}}{k!} e^{-\lambda} = \dfrac{(np)^{k}}{k!} e^{-(np)}$
+
+4. 几何分布
+   - $P\{ X = k\} = (1-p)^{k-1} p$
+   - 几何分布具有**无记忆性**，即 $P\{ X > m+n | X > m\} = P\{ X > n\}$
+
+5. 超几何分布
+   - $P\{ X = k\} = \dfrac{C_M^k C_{N-M}^{n-k}}{C_N^n}$
+
+### 2.3 常见连续型随机变量及其概率密度
+
+1. 均匀分布
+   - $X～U(a, b)$
+   - 概率密度：$f(x) = \begin{cases} \dfrac{1}{b-a}, & a<x<b \\ 0,& otherwise \end{cases}$
+   - 分布函数：$F(X) = \begin{cases} 0, & x<a \\ \dfrac{x-a}{b-a}, & a\le x < b \\ 1, & x\ge b \end{cases}$
+
+2. 指数分布
+   - $X～E(\lambda)$
+   - 概率密度：$f(x) = \begin{cases} \lambda e^{-\lambda x}, & x>0 \\ 0, & otherwise\end{cases}$
+   - 分布函数：$F(X) = \begin{cases} 0, & x\le 0 \\ 1-e^{-\lambda x}, & x>0\end{cases}$
+   - 指数分布也具有**无记忆性**
+
+
+3. 正态分布
+   - $X～N(\mu, \sigma^2)$
+   - 概率密度：$f(x) = \dfrac{1}{\sqrt{2\pi} \sigma} e^{- \frac{(x-\mu)^2}{2\sigma^2}}, -\infty < x < +\infty$
+   - 分布函数：$F(X) = \dfrac{1}{\sqrt{2\pi}\sigma} \int^{x}_{-\infty} e^{-\frac{(t-\mu)^2}{2\sigma^2}} dt$
+
+> 💡 正态分布的性质：
+> - 当 $\mu =0 , \sigma^2=1$ 时，$X～N(0, 1)$ 称为标准正态分布，密度函数为 $\varphi(x)$，分布函数为 $\Phi(x)$
+>
+> - 对任意 $X～N(\mu, \sigma^2)$，有 $\dfrac{X - \mu}{\sigma}～N(0, 1)$
+> - $\Phi(-a) = 1 - \Phi(a)$
+> - $aX+b ～N(a\mu + b, a^2\sigma^2)$
+
 
 ## 3. 二维随机变量及其分布
 
