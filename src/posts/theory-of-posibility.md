@@ -1,5 +1,5 @@
 ---
-title: Coldrain 的 27 考研数一概统学习笔记
+title: Coldrain 的 27 考研数一概统拾遗
 date: 2026-05-14 17:30:00
 tags: 
     - 考研数学
@@ -9,7 +9,7 @@ description: |
     Coldrain 的概率论备考笔记，涵盖了基础 + 强化的所有内容，以及一些题解拾遗（施工中 🚧）
 ---
 
-> ### 写在前面
+> ✍ 写在前面
 >
 > Coldrain 在第一轮基础复习的时候并没有留下任何笔记，直到概率论刷题的时候，发现知识点比较零散容易忘记，做题卡住了，遂准备从第二轮基础复习开始好好留下笔记，便于知识点检索与记忆
 >
@@ -17,11 +17,7 @@ description: |
 >
 > 本笔记内容并没有全覆盖，过于基础的公式与结论未在本笔记中记录，故本笔记可用于一轮学习结束之后对重难考点进行查漏补缺，但请不要用于替代考研书籍来进行一轮复习
 >
-> 本笔记参考书目包括：
-> - 27 版的**余丙森**概率论（基础与强化在同一本书中）
-> - 26 版的**方皓**概率论基础与强化两本书
-> - 27 版的**张宇**概率论基础 9 讲
-> - 本科概率论留下的笔记（和社团的朋友们共同整理的）
+> “岂不闻天无绝人之路，只要我想走，路就在脚下。”—— 25 奥本海豚
 
 ## 1. 随机事件及其概率
 
@@ -162,11 +158,32 @@ description: |
 > - $aX+b ～N(a\mu + b, a^2\sigma^2)$
 
 
+
+
+
 ## 3. 二维随机变量及其分布
 
 
 ### 3.1 二维随机变量及其分布
 1. 二维随机变量 $(X, Y)$ 落在矩形区域 $D = \{ (X, Y) | x_1 < X \le x_2, y_1 < Y \le y_2\}$ 上的概率为 $P\{x_1 < X \le x_2, y_1 < Y \le y_2\} = F(x_2, y_2) - F(x_1, y_2) - F(x_2, y_1) + F(x_1, y_1)$
+
+2. 二维随机变量的边缘分布
+   - （1）$F_X(x) = F(X, +\infty) = \lim\limits_{y\to +\infty}F(X, Y)$
+   - （2）$F_Y(y) = F(+\infty, Y) = \lim\limits_{x\to +\infty}F(X, Y)$
+
+3. 卷积公式（应对特殊分布）：
+   - （1）$Z = X + Y$：$f_Z(z) = \int^{+\infty}_{-\infty} f(x, z-x) dx = \int^{+\infty}_{-\infty} f(z-y, y) dy$
+   - （2）$Z = X - Y$：$f_Z(z) = \int^{+\infty}_{-\infty} f(x, x-z) dx = \int^{+\infty}_{-\infty} f(z+y, y) dy$
+
+> 💡 当 $X$ 与 $Y$ 相互独立时，有：
+> - （1）$Z = X + Y$：$f_Z(z) = \int^{+\infty}_{-\infty} f_X(x)f_Y(z-x) dx = \int^{+\infty}_{-\infty} f_X(z-y)f_Y(y) dy$
+> - （2）$Z = X - Y$：$f_Z(z) = \int^{+\infty}_{-\infty} f_X(x)f_Y(x-z) dx = \int^{+\infty}_{-\infty} f_X(z+y)f_Y(y) dy$
+
+4. 二维连续随机变量：$F(X, Y) = \int^{x}_{-\infty} \int^{y}_{-\infty}f(x, y) dxdy$
+
+> 💡 做题的时候经常使用：$F(X, Y) = \int^{x}_{-\infty} \int^{y}_{-\infty}f(u, v) dudv$，这样方便区分 $x, y$
+
+
 
 
 ### 3.2 二维随机变量的独立性
@@ -176,6 +193,11 @@ description: |
 3. 二维连续型随机变量独立的充要条件：$f(x, y) = f_X(x) f_Y(y)$
 
 4. 若 $X$ 与 $Y$ 相互独立，则其函数 $f(X)$ 与 $g(Y)$ 也相互独立
+
+5. 若 $X$ 与 $Y$ 相互独立，则
+   - （1）若 $X～P(\lambda_1)$，$Y～P(\lambda_2)$，则 $X+Y ～P(\lambda_1+\lambda_2)$
+   - （2）若 $X～B(m, p)$，$Y～B(n, p)$，则 $X+Y ～B(m+n, p)$
+   - （3）若 $X～E(\lambda_1)$，$Y～E(\lambda_2)$，则 $\min\{X, Y\} ～E(\lambda_1 + \lambda_2)$
 
 ### 3.3 二维均匀分布
 1. 定义：设 $G$ 为平面上面积为 $A$ 的有界区域，$(X, Y)$ 服从区域 $G$ 上的均匀分布，则有 $f(x, y) = \begin{cases} \dfrac{1}{A}, & (x, y) \in G \\  0, & otherwise \end{cases}$
@@ -197,8 +219,89 @@ description: |
    - （3）$X$ 与 $Y$ 的非零线性组合 $(aX + bY, cX + dY)$ 也遵从二维正态分布
    - （4）$X$ 与 $Y$ 的线性组合 $aX + bY$ 仍为正态分布，即 $aX + bY ～N(a\mu_1 + b\mu_2, a^2\sigma_1^2 + b^2\sigma_2^2 + 2ab\rho\sigma_1\sigma_2)$
 
+### 3.5 连续型随机变量 (X, Y) 的分布函数 F(x, y)
+1. 求解方法：设 $F(x, y) = \int^{x}_{-\infty} \int^{y}_{-\infty} f(u, v) dudv$，然后分类讨论，画图求解
+
 
 ## 4. 数字特征
+### 4.1 随机变量的数学期望和方差
+1. 离散型随机变量的数学期望：$E(X) = \sum\limits_{k=1}^{\infty} x_k p_k$
+2. 连续型随机变量的数学期望：$E(X) = \int^{+\infty}_{-\infty} xf(x)dx$
+3. 一维随机变量函数的数学期望：
+   - 设 $Y = g(X)$
+   - （1）离散型：$E(Y) = E(g(X)) = \sum\limits_{k=1}^{\infty} g(x_k) p_k$
+   - （2）连续型：$E(Y) = E(g(X)) = \int^{+\infty}_{-\infty} g(x)f(x)dx$
+
+4. 二维随机变量函数的数学期望：
+   - 设 $Z = g(X, Y)$
+   - （1）离散型：$E(Z) = E(g(X, Y)) = \sum\limits_{i=1}^{+\infty} \sum\limits_{j=1}^{+\infty} g(x_i, y_j) p_{ij}$
+   - （2）连续型：$E(Z) = E(g(X, Y)) = \int^{+\infty}_{-\infty} \int^{+\infty}_{-\infty} g(x, y) f(x, y) dx dy$
+
+5. 数学期望的性质：
+   - （1）$E(c) = c$
+   - （2）$E(cX) = cE(X)$
+   - （3）$E(aX + bY) = aE(X) + bE(Y)$
+   - （4）若 $X$ 与 $Y$ 相互独立，则 $E(XY) = E(X) E(Y)$
+
+6. 方差的计算：$D(X) = E[X - E(X)]^2 = E(X^2) - [E(X)]^2$
+
+7. 方差的性质：
+   - （1）$D(c) = 0$
+   - （2）$D(cX) = c^2 D(X)$，$D(aX + b) = a^2 D(X)$
+   - （3）$D(X \pm Y) = D(X) + D(Y) \pm 2Cov(X, Y)$
+   - （4）若 $X$ 与 $Y$ 是相互独立的随机变量 $\Rightarrow D(X\pm Y) = D(X) + D(Y)$
+   - （5）$D(X\pm Y) = D(X) + D(Y) \Leftrightarrow X$ 与 $Y$ 不相关
+   - （6）$X$ 与 $Y$ 相互独立，且 $E(X) = E(Y) = 0 \Rightarrow D(XY) = D(X) D(Y)$ 
+
+8. 常见随机变量分布的数学期望与方差
+
+|分布名称|符号|分布列或概率密度|数学期望|方差|
+|:---:|:---:|:---:|:---:|:---:|
+|0-1 分布|$B(1, p)$|$P\{X=k\}=p^k(1-p)^{1-k}$|$p$|$p(1-p)$|
+|二项分布|$B(n, p)$|$P\{X=k\}=C_n^kp^k(1-p)^{1-k}$|$np$|$np(1-p)$|
+|泊松分布|$P(\lambda)$|$P\{X=k\}=\dfrac{\lambda^k}{k!} e^{-\lambda}$|$\lambda$|$\lambda$|
+|几何分布|$G(p)$|$P\{X=k\}=(1-p)^{k-1}p$|$\dfrac{1}{p}$|$\dfrac{1-p}{p^2}$|
+|超几何分布|$H(N, M, n)$| 待续 |$\dfrac{nM}{N}$|$\dfrac{nM}{N}(1-\dfrac{M}{N})(\dfrac{N-n}{N-1})$|
+|均匀分布|$U(a, b)$|$f(x) = \dfrac{1}{b-a}$|$\dfrac{a+b}{2}$|$\dfrac{(b-a)^2}{12}$|
+|指数分布|$E(\lambda)$|$f(x) = \lambda e^{-\lambda}$|$\dfrac{1}{\lambda}$|$\dfrac{1}{\lambda^2}$|
+|正态分布|$N(\mu, \sigma^2)$|$f(x) = \dfrac{1}{\sqrt{2\pi} \sigma} e^{-\frac{(x-\mu)^2}{2\sigma^2}}$|$\mu$|$\sigma^2$|
+|卡方分布|$\chi^2(n)$| 待续 |$n$|$2n$|
+
+9. $\max\{...\}$ 与 $\min\{...\}$
+    - （1）$U = \max\{X, Y\} = \dfrac{X + Y + | X - Y |}{2}$
+    - （2）$V = \min\{X, Y\} = \dfrac{X + Y - |X - Y|}{2}$
+    - 由上面两个式子，有 $U + V = X + Y$，$U - V = |X - Y|$、$UV = XY$
+    - 进而，$E(U+V) = E(X+Y)$，$E(U-V) = E(|X-Y|)$，$E(UV) = E(XY)$
+
+
+### 4.2 协方差与相关系数
+1. 协方差的计算：$Cov(X, Y) = E\{[X - E(X)][Y - E(Y)]\} = E(XY) - E(X)E(Y)$
+
+2. 协方差的性质
+   - （1）$Cov(X, Y) = Cov(Y, X)$
+   - （2）$Cov(X, Y) = D(X)$
+   - （3）$Cov(X, c) = 0$
+   - （4）$Cov(aX, bY) = abCov(X, Y)$
+   - （5）$Cov(X_1+X_2, Y) = Cov(X_1, Y) + Cov(X_2, Y)$
+   - （6）如果 $X$ 与 $Y$ 相互独立 $\Rightarrow Cov(X, Y) = 0$
+
+3. 相关系数 $\rho_{XY} = \dfrac{Cov(X, Y)}{\sqrt{D(X)} \sqrt{D(Y)}}$
+
+4. 相关系数的性质：
+   - （1）$|\rho_{XY}| = 1$ 的充要条件是：存在常数 $a, b(a\neq 0)$ 使 $P\{Y = aX + b\} = 1$。且 $a>0$ 时 $\rho_{XY} = 1$，$a<0$ 时 $\rho_{XY} = -1$
+
+5. 随机变量不相关：$\rho_{XY} = 0$（或 $Cov(X, Y) = 0$），则 $X$ 与 $Y$ 不相关
+
+6. 不相关与独立
+   - （1）用韦恩图来表示的话，`独立` 是被包含在 `不相关` 里的，即独立一定不相关，但不相关不代表独立
+   - （2）当 $X$ 和 $Y$ 的联合分布为二维正态分布时，独立等价于相关
+
+
+### 4.3 随机变量的矩
+1. $k$ 阶原点矩：$E(X^k)$
+2. $k$ 阶中心矩：$E\{[X - E(X)]^k\}$
+3. $k+l$ 阶混合原点矩：$E(X^k Y^l)$
+4. $k+l$ 阶混合中心矩：$E\{[X - E(X)]^k [Y - E(Y)]^l\}$
 
 ## 5. 大数定律和中心极限定理
 
@@ -350,3 +453,8 @@ description: |
 
 
 ## 8. 假设检验
+
+
+
+
+## 参考文献
