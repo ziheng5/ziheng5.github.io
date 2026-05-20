@@ -103,7 +103,7 @@ description: |
    - $P\{X = k\} = C_n^k p^k (1-p)^{n-k}$
 
 3. 泊松分布
-   - $X～P(\lambda)$
+   - $X～P(\lambda)$，其中 $\lambda \ge 0$
    - $P\{X = k\} = \dfrac{\lambda^{k}}{k!} e^{-\lambda}$
 
 > 💡 **泊松定理（用于近似计算）**
@@ -139,7 +139,7 @@ description: |
    - 分布函数：$F(X) = \begin{cases} 0, & x<a \\ \dfrac{x-a}{b-a}, & a\le x < b \\ 1, & x\ge b \end{cases}$
 
 2. 指数分布
-   - $X～E(\lambda)$
+   - $X～E(\lambda)$，其中 $\lambda \ge 0$
    - 概率密度：$f(x) = \begin{cases} \lambda e^{-\lambda x}, & x>0 \\ 0, & otherwise\end{cases}$
    - 分布函数：$F(X) = \begin{cases} 0, & x\le 0 \\ 1-e^{-\lambda x}, & x>0\end{cases}$
    - 指数分布也具有**无记忆性**
@@ -183,7 +183,9 @@ description: |
 
 > 💡 做题的时候经常使用：$F(X, Y) = \int^{x}_{-\infty} \int^{y}_{-\infty}f(u, v) dudv$，这样方便区分 $x, y$
 
-
+5. 二维连续随机变量的边缘概率密度：
+   - （1）$f_X(x) \int^{+\infty}_{-\infty} f(x, y)dy$
+   - （2）$f_Y(y) \int^{+\infty}_{-\infty} f(x, y)dx$
 
 
 ### 3.2 二维随机变量的独立性
@@ -215,9 +217,11 @@ description: |
 
 2. 性质：
    - （1）两个边缘分布都是正态分布，即 $X～N(\mu_1, \sigma_1^2)$、$Y～N(\mu_2, \sigma_2^2)$
-   - （2）$X$ 与 $Y$ 相互独立的充要条件是 $\rho = 0$
+   - （2）$X$ 与 $Y$ 相互独立 $\Leftrightarrow \rho_{XY} = \rho = 0 \Leftrightarrow X$ 与 $Y$ 不相关
    - （3）$X$ 与 $Y$ 的非零线性组合 $(aX + bY, cX + dY)$ 也遵从二维正态分布
    - （4）$X$ 与 $Y$ 的线性组合 $aX + bY$ 仍为正态分布，即 $aX + bY ～N(a\mu_1 + b\mu_2, a^2\sigma_1^2 + b^2\sigma_2^2 + 2ab\rho\sigma_1\sigma_2)$
+   - （5）令 $\begin{cases} U = a_1 X + b_1 Y \\ V = a_2 X + b_2 Y\end{cases}$，当 $\begin{vmatrix}  a_1 & b_1 \\ a_2 & b_2 \end{vmatrix} \ne 0$ 时，$(U, V)$ 服从二维正态分布
+
 
 ### 3.5 连续型随机变量 (X, Y) 的分布函数 F(x, y)
 1. 求解方法：设 $F(x, y) = \int^{x}_{-\infty} \int^{y}_{-\infty} f(u, v) dudv$，然后分类讨论，画图求解
@@ -304,6 +308,40 @@ description: |
 4. $k+l$ 阶混合中心矩：$E\{[X - E(X)]^k [Y - E(Y)]^l\}$
 
 ## 5. 大数定律和中心极限定理
+### 5.1 大数定律
+1. **切比雪夫不等式**：设随机变量 $X$ 的数学期望 $E(X)$ 和方差 $D(X)$ 均存在，则对任意 $\epsilon >0 $，有
+   - $P\{|X - E(X)| \ge \epsilon\} \le \dfrac{D(X)}{\epsilon^2}$
+   - 或 $P\{|X - E(X)| < \epsilon\} > 1 - \dfrac{D(X)}{\epsilon^2}$
+
+> 💡 Coldrain 是这样记的：$\ge \epsilon \le$
+
+2. **切比雪夫大数定律**：设随机变量 $X_1, X_2, ..., X_n$ 相互独立，且数学期望和方差都存在，且存在常数 $c$，使 $D(X_i)\le c, i=1, 2, ...$，则对任意正数 $\epsilon$，有
+   - $\lim\limits_{n\to \infty}P\{|\dfrac{1}{n} \sum\limits_{k=1}^{n} X_k - \dfrac{1}{n} \sum\limits_{k=1}^{n} E(X_k)|<\epsilon \} = 1$
+   - 该定理表明：当 $n$ 很大时，$\dfrac{1}{n}\sum\limits_{k=1}^{n} X_k \overset{P}{\longrightarrow} \dfrac{1}{n}\sum\limits_{k=1}^{n}E(X_k)$
+
+> 下面两个大数定律都是**切比雪夫大数定律**的特殊形式
+
+3. **伯努利大数定律**：设 $X_1, X_2, ..., X_n$ 独立且同分布于 0-1 分布 $B(1, p)$，则对任意正数 $\epsilon$，有
+   - $\lim\limits_{n\to \infty} P\{|\dfrac{1}{n}\sum\limits_{i=1}^{n}X_i - p|<\epsilon\} = 1$
+
+> 💡 **伯努利大数定律的等价形式**
+>
+> 设 $n$ 次独立重复事件 A 发生的次数为 $n_A ～B(n, p)$，则对任意正数 $\epsilon$ 有：
+> - $\lim\limits_{n\to \infty} P\{|\dfrac{n_A}{n} - p|<\epsilon\} = 1$
+
+4. **辛钦大数定律**：设 $X_1, X_2, ..., X_n$ 独立且同分布，且有相同数学期望 $E(X_i) = \mu$，则对任意正数 $\epsilon$，有
+   - $\lim\limits_{n\to \infty} P\{|\dfrac{1}{n}\sum\limits_{i=1}^{n}X_i - \mu|<\epsilon\} = 1$
+
+### 5.2 中心极限定理
+1. **列维-林德伯格中心极限定理（独立、同分布、相同期望方差）**：设 $X_1, X_2, ..., X_n$ 独立且同分布，且有相同数学期望 $E(X_i) = \mu$ 和方差 $D(X_i) = \sigma^2$，则对任意实数 $x$，有
+   - $\lim\limits_{n\to\infty} P\{\dfrac{\frac{1}{n}\sum_{i=1}^{n}X_i - \mu}{\sigma / \sqrt{n}} \le x\} = \int^{x}_{-\infty} \dfrac{1}{\sqrt{2\pi}} e^{-\frac{t^2}{2}} dt = \Phi(x)$
+   - 定理表明：当 $n$ 充分大时，$\overline{X} = \dfrac{1}{n}\sum\limits_{i=1}^{n}X_i$ 近似服从正态分布 $N(\mu, \sigma^2)$，其标准化 $\dfrac{\overline{X} - \mu}{\sigma / \sqrt{n}}$ 近似服从标准正态分布 $N(0, 1)$
+
+2. **棣莫佛-拉普拉斯中心极限定理（二项分布的极限是正态）**：设随机变量 $Y_n ～B(n, p)$，则对任意实数 $x$，有
+   - $\lim\limits_{n\to\infty} P\{\dfrac{Y_n - np}{\sqrt{np(1-p)}} \le x\} = \int^{x}_{-\infty} \dfrac{1}{\sqrt{2\pi}} e^{-\frac{t^2}{2}} dt = \Phi(x)$
+   - 定理表明：当 $n$ 充分大时，$Y_n$ 近似服从正态分布 $N(np, np(1-p))$，其标准化随机变量 $\dfrac{Y_n - np}{\sqrt{np(1-p)}}$ 近似服从标准正态分布 $N(0, 1)$，即正态分布是二项分布的极限分布
+
+
 
 ## 6. 数理统计的基本概念
 
