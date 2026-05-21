@@ -1,12 +1,12 @@
 ---
-title: Coldrain 的 27 考研数一概统拾遗
+title: Coldrain 的 27 考研数一概统强化阶段拾遗
 date: 2026-05-14 17:30:00
 tags: 
     - 考研数学
 categories: 
     - 数学
 description: |
-    Coldrain 的概率论备考笔记，涵盖了基础 + 强化的所有内容，以及一些题解拾遗（施工中 🚧）
+    Coldrain 的概率论备考笔记，涵盖了基础 + 强化的重要内容，以及一些题解拾遗（施工中 🚧）
 ---
 
 > ✍ 写在前面
@@ -335,11 +335,11 @@ description: |
 ### 5.2 中心极限定理
 1. **列维-林德伯格中心极限定理（独立、同分布、相同期望方差）**：设 $X_1, X_2, ..., X_n$ 独立且同分布，且有相同数学期望 $E(X_i) = \mu$ 和方差 $D(X_i) = \sigma^2$，则对任意实数 $x$，有
    - $\lim\limits_{n\to\infty} P\{\dfrac{\frac{1}{n}\sum_{i=1}^{n}X_i - \mu}{\sigma / \sqrt{n}} \le x\} = \int^{x}_{-\infty} \dfrac{1}{\sqrt{2\pi}} e^{-\frac{t^2}{2}} dt = \Phi(x)$
-   - 定理表明：当 $n$ 充分大时，$\overline{X} = \dfrac{1}{n}\sum\limits_{i=1}^{n}X_i$ 近似服从正态分布 $N(\mu, \sigma^2)$，其标准化 $\dfrac{\overline{X} - \mu}{\sigma / \sqrt{n}}$ 近似服从标准正态分布 $N(0, 1)$
+   - 定理表明：当 $n$ 充分大时，$\overline{X} = \dfrac{1}{n}\sum\limits_{i=1}^{n}X_i\overset{近似}{～}N(\mu, \sigma^2)$，其标准化 $\dfrac{\overline{X} - \mu}{\sigma / \sqrt{n}}$ 近似服从标准正态分布 $N(0, 1)$
 
 2. **棣莫佛-拉普拉斯中心极限定理（二项分布的极限是正态）**：设随机变量 $Y_n ～B(n, p)$，则对任意实数 $x$，有
    - $\lim\limits_{n\to\infty} P\{\dfrac{Y_n - np}{\sqrt{np(1-p)}} \le x\} = \int^{x}_{-\infty} \dfrac{1}{\sqrt{2\pi}} e^{-\frac{t^2}{2}} dt = \Phi(x)$
-   - 定理表明：当 $n$ 充分大时，$Y_n$ 近似服从正态分布 $N(np, np(1-p))$，其标准化随机变量 $\dfrac{Y_n - np}{\sqrt{np(1-p)}}$ 近似服从标准正态分布 $N(0, 1)$，即正态分布是二项分布的极限分布
+   - 定理表明：当 $n$ 充分大时，$Y_n\overset{近似}{～}N(np, np(1-p))$，其标准化随机变量 $\dfrac{Y_n - np}{\sqrt{np(1-p)}}$ 近似服从标准正态分布 $N(0, 1)$，即正态分布是二项分布的极限分布
 
 
 
@@ -352,23 +352,26 @@ description: |
 2. 样本的性质：
    - **独立性**：$X_1, X_2, ..., X_n$ 相互独立
    - **代表性**：$X_i$ 与 $X$ 同分布
+   - 无变量重叠的连续函数 $U(X_1, X_2, ..., X_k)$ 和 $V(X_{k+1}, X_{k+2}, ..., X_{n})$ 相互独立
 
 ### 6.2 统计量
 
-1. 统计量：样本 $X_1, X_2, ..., X_n$ 的**不含总体任何未知参数**的函数 $g(X_1, X_2, ..., X_n)$
+1. **统计量**：样本 $X_1, X_2, ..., X_n$ 的**不含总体任何未知参数**的函数 $g(X_1, X_2, ..., X_n)$
 
-2. 常见统计量
+2. **常见统计量**
     - （1）样本均值：$\overline{X} = \dfrac{1}{n} \sum\limits_{i=1}^{n} X_i$
     - （2）样本方差：$S^2 = \dfrac{1}{n-1}\sum\limits^{n}_{i=1}(X_i - \overline{X})^2 = \dfrac{1}{n-1} (\sum\limits_{i=1}^{n} X_i^2 - n \overline{X})$
     - （3）样本标准差 $S = \sqrt{S^2}$
     - （4）样本 $k$ 阶原点矩 $A_k = \dfrac{1}{n} \sum\limits_{i=1}^{n} X_i^k$
     - （5）样本 $k$ 阶中心矩 $B_k = \dfrac{1}{n} \sum\limits_{i=1}^{n} (X_i - \overline{X})^k$
-    - （6）顺序统计量：$X_1^* = \min\{X_1, X_2, ..., X_n\}$，$X_2^* = \max\{X_1, X_2, ..., X_n\}$
+    - （6）顺序统计量：$X_1^* = \min\{X_1, X_2, ..., X_n\}$，$X_2^* = \max\{X_1, X_2, ..., X_n\}$，其分布函数分别为
+      - $F_{\min}(x) = P\{\min(X_1, X_2, ..., X_n) \le x\} = 1 - [1-F(x)]^n$
+      - $F_{\max}(x) = P\{\max(X_1, X_2, ..., X_n) \le x\} = [F(x)]^n$
 
-> 重要结论：
-> - $E(\overline{X}) = E(X)$
-> - $D(\overline{X}) = \dfrac{D(X)}{n}$
-> - $E(S^2) = D(X)$
+> **重要结论**
+> - $E(\overline{X}) = E(X) = \mu$
+> - $D(\overline{X}) = \dfrac{D(X)}{n} = \dfrac{\sigma^2}{n}$
+> - $E(S^2) = D(X) = \sigma^2$
 
 ### 6.3 卡方分布
 
@@ -383,28 +386,71 @@ description: |
 ### 6.4 t 分布
 1. 定义：设 $X～N(0, 1)$，$Y～\chi^2(n)$，且 $X$ 与 $Y$ 相互独立，则称 $T = \dfrac{X}{\sqrt{Y/n}}$ 为服从自由度为 $n$ 的 $t$ 分布，记作 $T～t(n)$
 
+2. 性质：
+   - （1）$t$ 分布概率密度 $f(x)$ 为偶函数，函数图像关于 $y$ 轴对称，则 $t_{1-\alpha}(n) = -t_{\alpha}(n)$
+   - （2）当 $n\to \infty$ 时，$t$ 分布 $T\overset{近似}{～}N(0, 1)$
+   - （3）$T^2 ～ F(1, n)$
+
+> ⚠️ 易错题：余丙森强化`例 6.5、6.7`
+
 ### 6.5 F 分布
 1. 定义：设 $X～\chi^2(n_1)$，$Y～\chi^2(n_2)$，且 $X$ 与 $Y$ 相互独立，则称 $F = \dfrac{X/n_1}{Y/n_2}$ 为服从第一自由度为 $n_1$，第二自由度为 $n_2$ 的 $F$ 分布，记作 $F～F(n_1, n_2)$
 
 2. F 分布的性质
    - （1）若 $F～F(n_1, n_2)$，则 $\dfrac{1}{F} ～ F(n_2, n_1)$
    - （2）若 $T～t(n)$，则 $T^2 = \dfrac{X^2}{Y/n} ～ F(1, n)$
+   - （3）$F_{1-\alpha}(n_1, n_2) = \dfrac{1}{F_{\alpha}(n_2, n_1)}$
 
 ### 6.6 上侧 alpha 分位点
 
-原本是正态分布里面的那个标准正态分布查表法，这里也可以推广到 $\chi^2$、$t$、$F$ 分布中，此处暂时没什么好写的，可以去看一下参考书上的图
+原本是正态分布里面的那个标准正态分布查表法，这里也可以推广到 $\chi^2$、$t$、$F$ 分布中
+
+1. $\chi^2$ 分布的上侧 $\alpha$ 分位点
+   - $P\{\chi^2 > \chi^2_{\alpha}(n)\} = \int^{+\infty}_{\chi^2_{\alpha}(n)}f(x)dx = \alpha$
+
+2. $t$ 分布的上侧 $\alpha$ 分位点
+   - $P\{T > t_{\alpha}(n)\} = \int^{+\infty}_{t_{\alpha}(n)}f(x)dx = \alpha$
+
+3. $F$ 分布的上侧 $\alpha$ 分位点
+   - $P\{F > F_{\alpha}(n_1, n_2)\} = \int^{+\infty}_{F_{\alpha}(n_1, n_2)}f(x)dx = \alpha$
 
 ### 6.7 单正态总体下常用统计量的分布
-1. 设 $X ～ N(\mu, \sigma^2)$，$(X_1, X_2, ..., X_n)$ 为来自总体 $X$ 的简单随机样本，则：
+设 $X ～ N(\mu, \sigma^2)$，$(X_1, X_2, ..., X_n)$ 为来自总体 $X$ 的简单随机样本，则
+
+1. 关于 $\overline{X}$
    - （1）$\overline{X} = \dfrac{1}{n}\sum\limits_{i=1}^{n} X_i ～ N(\mu, \dfrac{\sigma^2}{n})$
-   - （2）$U = \dfrac{\overline{X} - \mu}{\sigma/\sqrt{n}} ～ N(0, 1)$
-   - （3）$\overline{X}$ 与 $S^2$ 相互独立，且 $\dfrac{(n-1)S^2}{\sigma^2} = \dfrac{\sum\limits_{i=1}^{n} (X_i - \overline{X})^2}{\sigma^2} ～ \chi^2(n - 1)$
-   - （4）$\dfrac{\sum\limits_{i=1}^{n} (X_i - \mu)^2}{\sigma^2} ～ \chi^2(n)$（提示：$\dfrac{X_i - \mu}{\sigma} ～ N(0, 1)$）
-   - （5）$T = \dfrac{\overline{X} - \mu}{S / \sqrt{n}} ～ t(n-1)$
+   - （2）$\dfrac{\overline{X} - \mu}{\frac{\sigma}{\sqrt{n}}}～N(0, 1)$
+   - （3）$\overline{X}$ 与 $S^2$ 相互独立，且有 $\dfrac{\overline{X} - \mu}{\frac{S}{\sqrt{n}}}～t(n - 1)$
+
+2. 关于 $S^2$
+   - （1）$\overline{X}$ 与 $S^2$ 相互独立，且 $\dfrac{(n-1)S^2}{\sigma^2} = \dfrac{\sum\limits_{i=1}^{n} (X_i - \overline{X})^2}{\sigma^2} ～ \chi^2(n - 1)$
+   - （2）$\dfrac{\sum\limits_{i=1}^{n} (X_i - \mu)^2}{\sigma^2} ～ \chi^2(n)$（提示：$\dfrac{X_i - \mu}{\sigma} ～ N(0, 1)$）
+
+> ⚠️ 东西有点多，但一定要熟练掌握！
 
 ### 6.8 双正态总体
-（这个真的会考吗...💦）
+设 $X_1, X_2, ..., X_{n_1}$ 和 $Y_1, Y_2, ..., Y_{n_2}$ 分别为来自正态分布 $N(\mu_1, \sigma_1^2)$ 和 $N(\mu_2, \sigma_2^2)$ 的简单随机样本，且两组样本相互独立，令两个样本的均值和方差分别为
+   - $\overline{X} = \dfrac{1}{n_1}\sum\limits_{i=1}^{n_1}X_i$
+   - $S_1^2 = \dfrac{1}{n_1 - 1} \sum\limits_{i=1}^{n_1} (X_i - \overline{X})^2$
+   - $\overline{Y} = \dfrac{1}{n_2}\sum\limits_{i=1}^{n_2}Y_i$
+   - $S_2^2 = \dfrac{1}{n_2 - 1} \sum\limits_{i=1}^{n_2} (Y_i - \overline{Y})^2$
 
+则有
+
+1. 关于均值
+   - $\overline{X} \pm \overline{Y} ～ N(\mu_1 \pm \mu_2, \dfrac{\sigma_1^2}{n_1} + \dfrac{\sigma_2^2}{n_2})$
+   - $\dfrac{(\overline{X} \pm \overline{Y}) - (\mu_1 \pm \mu_2) }{\sqrt{\dfrac{\sigma_1^2}{n_1} + \dfrac{\sigma_2^2}{n_2}}}～N(0, 1)$
+
+2. 关于方差
+   - $\dfrac{(n_1 - 1)S_1^2}{\sigma_1^2} + \dfrac{(n_2 - 1)S_2 ^2}{\sigma_2^2} ～\chi^2 (n_1 + n_2 - 2)$
+   - $\dfrac{\dfrac{1}{\sigma_1^2} \sum\limits_{i=1}^{n_1}(X_i -\mu_1)^2 / n_1}{\dfrac{1}{\sigma_2^2} \sum\limits_{i=1}^{n_2}(Y_i -\mu_2)^2 / n_2} = \dfrac{ \sum\limits_{i=1}^{n_1}(X_i- \mu_1)^2 / (n_1\sigma_1^2)}{ \sum\limits_{i=1}^{n_2}(Y_i -\mu_2)^2 / (n_2 \sigma_2^2)} ～F(n_1, n_2)$
+   - $\dfrac{S_1^2 / \sigma_1^2}{S_2^2 / \sigma_2^2}～F(n_1-1, n_2 - 1)$
+
+3. 设 $\sigma_1^2 = \sigma_2^2 = \sigma^2$，则有
+   - $T = \dfrac{(\overline{X} - \overline{Y}) - (\mu_1 - \mu_2)}{S_W^2 \sqrt{\dfrac{1}{n_1} + \dfrac{1}{n_2}}}～t(n_1 + n_2 - 2)$
+   - $S_W^2 = \dfrac{(n_1-1)S_1^2 + (n_2 - 1)S_2^2}{n_1 + n_2 - 2}$
+
+> 💡 这里可以看看 27 余丙森强化`例 6.4`
 
 ## 7. 参数估计
 ### 7.1 参数的点估计、估计量、估计值
@@ -439,28 +485,33 @@ description: |
    - 由大数定律，$A_k \overset{P}{\longrightarrow} \mu_k$，$A_1 \overset{P}{\longrightarrow} \mu_1$、$A_2 \overset{P}{\longrightarrow} \mu_2$、$B_k \overset{P}{\longrightarrow} D(X)$
 
 
-5. 计算方法：按照低阶矩优先原理，建立方程（组），从中解出未知参数
-   - （1）当 $k=1$ 时，建立方程：若 $E(X)$ 含 $\theta$，令 $\overline{X} = E(X)$，解出 $\hat{\theta}$
-   - （2）当 $k=2$ 时，最常用的两个方程为 $\begin{cases} \overline{X} = E(X) \\ \dfrac{1}{n}\sum\limits_{i=1}^{n}X_i^2 = E(X^2) \end{cases}$ 或 $\begin{cases} \overline{X} = E(X) \\ \dfrac{1}{n}(\sum\limits_{i=1}^{n}X_i^2 - n\overline{X}^2) = \dfrac{1}{n} \sum\limits_{i=1}^{n}(X_i - \overline{X})^2 = D(X) \end{cases}$
+5. 计算方法：设总体 $X$ 的分布函数为 $F(x;\theta_1, ..., \theta_k)$，其中 $\theta_i (i = 1,2,..., k)$ 为待估参数，$X_1, X_2, ..., X_n$ 为总体 $X$ 的一个样本，则求矩估计的步骤为
+   - （1）求出总体矩（原点矩或中心矩）$E(X^i)$ 或 $E[X - E(X)]^i$
+   - （2）令总体矩等于相应的样本矩，得方程组，即 
+     - 原点矩 $\dfrac{1}{n} \sum\limits_{j=1}^{n}X_j^i = E(X^i)$
+     - 或样本矩 $\dfrac{1}{n} \sum\limits_{j=1}^{n}(X_j - \overline{X})^i = E[X - E(X)]^i$
+   - （3）解上面的方程组，得 $\theta_i$ 的矩估计值为 $\hat{\theta}_i(x_1, x_2, ..., x_n)$，$\theta_i$ 的矩估计量为 $\hat{\theta}_i(X_1, X_2, ..., X_n)$
+
+> ⚠️ 有 $k$ 个未知参数就求到 $k$ 阶原点矩或中心矩，为方便计算，一般取原点矩
 
 ### 7.3 最大似然估计法
 1. 似然函数：样本 $X_1, X_2, ..., X_n$ 取到观察值 $x_1, x_2, ..., x_n$ 的概率 $L(\theta)$
-   - （1）**离散型**：$X$ 分布律为 $P\{X=x\} = p(x;\theta)$，则似然函数 $L(\theta) = P\{X_1 = x_1, X_2=x_2, ..., X_n=x_n\} = \prod\limits^{n}_{i=1} P\{X_i=x_i\} = \prod\limits^{n}_{i=1} p\{x_i; \theta\}$
+   - （1）**离散型**：$X$ 分布律为 $P\{X=x_i\} = p(x_i;\theta)$，则似然函数 $L(\theta) = P\{X_1 = x_1, X_2=x_2, ..., X_n=x_n\} = \prod\limits^{n}_{i=1} P\{X_i=x_i\} = \prod\limits^{n}_{i=1} p\{x_i; \theta\}$
    - （2）**连续型**：$X$ 概率密度为 $f(x) = f(x; \theta)$，则似然函数 $L(\theta) = \prod\limits_{i=1}^{n} f(x_i; \theta)$
 
 2. 思想：在 $\theta$ 的取值范围内求 $\hat{\theta}$ 使 $L(\hat{\theta}) = \max L(\theta)$
 
 3. 解题步骤：
-   - （1）写出似然函数 $L(\theta)$，取对数 $\ln{L(\theta)}$
-   - （2）对 $\theta$ 求导，令导函数为 0，计算得到驻点
-   - （3）再针对具体情况分析
+   - （1）写出似然函数 $L(\theta) = \begin{cases} \prod\limits^{n}_{i=1} p\{x_i; \theta\} & Discrete \\ \prod\limits_{i=1}^{n} f(x_i; \theta) & Continuous \end{cases}$
+   - （2）求似然函数 $L(\theta)$ 的最大值点，若 $L(\theta)$ 或 $\ln L(\theta)$ 可微且易于计算，则可令 $\dfrac{dL(\theta)}{d\theta} = 0$ 或 $\dfrac{ d \ln L(\theta)}{d\theta} = 0$，从而解得 $\theta$（若 $X$ 的分布中包含多个未知量，即 $\theta = (\theta_1, \theta_2, ..., \theta_n)$，则可以分别令偏导数等于 0 解出对应的 $\theta_i$）
+   - （3）解出来的 $\theta$ 就是最大似然估计值 $\hat{\theta}_i(x_1, x_2, ..., x_n)$，最大似然估计量为 $\hat{\theta}_i(X_1, X_2, ..., X_n)$
 
 4. 最大似然估计的不变性：
    - 设 $\hat{\theta}$ 是未知参数 $\theta$ 的最大似然估计，对于 $\theta$ 的函数 $g(\theta)$，如果 $g(\theta)$ 具有单值反函数，则 $g(\hat{\theta})$ 为 $g(\theta)$ 的最大似然估计
 
 ### 7.4 估计量的评选标准
 
-1. 无偏性：
+1. **无偏性**：
    - 设 $\hat{\theta}$ 为 $\theta$ 的估计量，若 $E(\hat{\theta}) = \theta$，则 $\hat{\theta}$ 为**无偏估计量**，否则为**有偏估计量**
    - 若 $\lim\limits_{n \to 0} E(\hat{\theta}) = \theta$，则称 $\hat{\theta}$ 为 $\theta$ 的**渐近无偏估计**
 
@@ -470,25 +521,36 @@ description: |
 > - （3）设 $\hat{\theta_1}, \hat{\theta_2}, ..., \hat{\theta_n}$ 均为 $\theta$ 的无偏估计，$c_1, c_2, ..., c_n$ 为常数且 $\sum\limits_{i=1}^{n}c_i = 1$，则 $c_1\hat{\theta_1} + c_2\hat{\theta_2} + ... + c_n\hat{\theta_n}$ 仍是 $\theta$ 的无偏估计
 
 
-2. 有效性：
+2. **有效性**：
    - 设 $\hat{\theta_1}, \hat{\theta_2}$ 均为 $\theta$ 的无偏估计，若 $D(\hat{\theta_1}) < D(\hat{\theta_2})$，则称 $\hat{\theta_1}$ 比 $\hat{\theta_2}$ 更有效
 
-3. 一致性（相合性）：
+3. **一致性（相合性）**：
    - 若对 $\forall \epsilon > 0$，有 $\lim\limits_{n\to \infty} P\{|\hat{\theta} - \theta| < \epsilon\} = 1$，则称 $\hat{\theta}$ 为 $\theta$ 的一致估计量或相合估计量
 
-4. 置信区间：$P\{\hat{\theta_1} < \theta < \hat{\theta_2}\} = 1 - \alpha$，则称 $(\hat{\theta_1}, \hat{\theta_2})$ 为未知参数 $\theta$ 的置信度为 $1- \alpha$ 的置信区间。
 
-5. 正态总体下参数 $\mu, \sigma^2$ 的置信区间（设总体 $X～N(\mu, \sigma^2)$，求取置信度为 $1-\alpha$）
+### 7.5 区间估计
+1. 置信区间：$P\{\hat{\theta_1} < \theta < \hat{\theta_2}\} \ge 1 - \alpha$，则称 $(\hat{\theta_1}, \hat{\theta_2})$ 为未知参数 $\theta$ 的置信水平（置信度）为 $1- \alpha$ 的置信区间。
+
+2. **单正态总体**下参数 $\mu, \sigma^2$ 的置信区间（设总体 $X～N(\mu, \sigma^2)$，求取置信度为 $1-\alpha$）
 
 
 | 题意 | 枢轴量 | 双侧置信区间 | 单侧置信限 |
 |:---: | :---: | :---: | :---: |
-|$\sigma^2$ 已知，估$\mu$|$$Z = \frac{\overline{X} - \mu}{\sigma / \sqrt{n}} \sim N\left(0, 1\right)$$|$$\left(\overline{X} - \frac{\sigma}{\sqrt{n}}z_{\alpha/2}, \overline{X} + \frac{\sigma}{\sqrt{n}}z_{\alpha/2}\right)$$|$$\overline{\mu} = \overline{X} + \frac{\sigma}{\sqrt{n}}z_{\green\alpha} \\ \underline{\mu} = \overline{X} - \frac{\sigma}{\sqrt{n}}z_{\green\alpha}$$|
-|$\sigma^2$ 未知，估$\mu$|$$T = \frac{\overline{X} - \mu}{S / \sqrt{n}} \sim t\left(\red{n - 1}\right)$$|$$\left(\overline{X} - \frac{S}{\sqrt{n}}t_{\alpha/2}\left(\red{n - 1}\right), \overline{X} + \frac{S}{\sqrt{n}}t_{\alpha/2}\left(\red{n - 1}\right)\right)$$|$$\overline{\mu} = \overline{X} + \frac{S}{\sqrt{n}}t_{\green\alpha}\left(\red{n - 1}\right) \\ \underline{\mu} = \overline{X} - \frac{S}{\sqrt{n}}t_{\green\alpha}\left(\red{n - 1}\right)$$|
-|$\mu$ 已知，估$\sigma^2$|$$\chi^2 = \frac{\sum\limits^n_{i=1}\left(X_i - \mu\right)^2}{\sigma^2} \sim \chi^2\left(n\right)$$|$$\left(\frac{\sum\limits^n_{i=1}\left(X_i - \mu\right)^2}{\chi^2_{\alpha/2}\left(n\right)}, \frac{\sum\limits^n_{i=1}\left(X_i - \mu\right)^2}{\chi^2_{1-\alpha/2}\left(n\right)}\right)$$|$$\overline{\sigma^2} = \frac{\sum\limits^n_{i=1}\left(X_i - \mu\right)^2}{\chi^2_{1-\green\alpha}\left(n\right)} \\ \underline{\sigma^2} = \frac{\sum\limits^n_{i=1}\left(X_i - \mu\right)^2}{\chi^2_{\green\alpha}\left(n\right)}$$|
-|$\mu$ 未知，估$\sigma^2$|$$\chi^2 = \frac{\left(n - 1\right) S^2}{\sigma^2} \sim \chi^2\left(n - 1\right)$$|$$\left(\frac{\left(n - 1\right) S^2}{\chi^2_{\alpha/2}\left(n - 1\right)}, \frac{\left(n - 1\right) S^2}{\chi^2_{1 - \alpha/2}\left(n - 1\right)}\right)$$|$$\overline{\sigma^2} = \frac{\left(n - 1\right) S^2}{\chi^2_{1 - \green\alpha}\left(n - 1\right)} \\ \underline{\sigma^2} = \frac{\left(n - 1\right) S^2}{\chi^2_{\green\alpha}\left(n - 1\right)}$$|
+|$\sigma^2$ 已知，估 $\mu$|$$Z = \dfrac{\overline{X} - \mu}{\sigma / \sqrt{n}} \sim N\left(0, 1\right)$$|$$\left(\overline{X} - \dfrac{\sigma}{\sqrt{n}}z_{\alpha/2}, \overline{X} + \dfrac{\sigma}{\sqrt{n}}z_{\alpha/2}\right)$$|$$\overline{\mu} = \overline{X} + \dfrac{\sigma}{\sqrt{n}}z_{\green\alpha} \\ \underline{\mu} = \overline{X} - \dfrac{\sigma}{\sqrt{n}}z_{\green\alpha}$$|
+|$\sigma^2$ 未知，估 $\mu$|$$T = \dfrac{\overline{X} - \mu}{S / \sqrt{n}} \sim t\left(\red{n - 1}\right)$$|$$\left(\overline{X} - \dfrac{S}{\sqrt{n}}t_{\alpha/2}\left(\red{n - 1}\right), \overline{X} + \dfrac{S}{\sqrt{n}}t_{\alpha/2}\left(\red{n - 1}\right)\right)$$|$$\overline{\mu} = \overline{X} + \dfrac{S}{\sqrt{n}}t_{\green\alpha}\left(\red{n - 1}\right) \\ \underline{\mu} = \overline{X} - \dfrac{S}{\sqrt{n}}t_{\green\alpha}\left(\red{n - 1}\right)$$|
+|$\mu$ 已知，估 $\sigma^2$|$$\chi^2 = \dfrac{\sum\limits^n_{i=1}\left(X_i - \mu\right)^2}{\sigma^2} \sim \chi^2\left(n\right)$$|$$\left(\dfrac{\sum\limits^n_{i=1}\left(X_i - \mu\right)^2}{\chi^2_{\alpha/2}\left(n\right)}, \dfrac{\sum\limits^n_{i=1}\left(X_i - \mu\right)^2}{\chi^2_{1-\alpha/2}\left(n\right)}\right)$$|$$\overline{\sigma^2} = \dfrac{\sum\limits^n_{i=1}\left(X_i - \mu\right)^2}{\chi^2_{1-\green\alpha}\left(n\right)} \\ \underline{\sigma^2} = \dfrac{\sum\limits^n_{i=1}\left(X_i - \mu\right)^2}{\chi^2_{\green\alpha}\left(n\right)}$$|
+|$\mu$ 未知，估 $\sigma^2$|$$\chi^2 = \dfrac{\left(n - 1\right) S^2}{\sigma^2} \sim \chi^2\left(n - 1\right)$$|$$\left(\dfrac{\left(n - 1\right) S^2}{\chi^2_{\alpha/2}\left(n - 1\right)}, \dfrac{\left(n - 1\right) S^2}{\chi^2_{1 - \alpha/2}\left(n - 1\right)}\right)$$|$$\overline{\sigma^2} = \dfrac{\left(n - 1\right) S^2}{\chi^2_{1 - \green\alpha}\left(n - 1\right)} \\ \underline{\sigma^2} = \dfrac{\left(n - 1\right) S^2}{\chi^2_{\green\alpha}\left(n - 1\right)}$$|
 
+3. **双正态总体**均值和方差的置信水平为 $1-\alpha$ 的区间估计
 
+| 待估参数 | 其他参数 | 双侧置信区间 |
+|:---:|:---:|:---:|
+|$\mu_1 - \mu_2$|$\sigma_1^2,\sigma_2^2$ 已知|$\left( \overline{X} - \overline{Y} - u_{\alpha/2}\sqrt{\dfrac{\sigma_1^2}{n_1} + \dfrac{\sigma_2^2}{n_2}}, \overline{X} - \overline{Y} + u_{\alpha/2}\sqrt{\dfrac{\sigma_1^2}{n_1} + \dfrac{\sigma_2^2}{n_2}}  \right)$|
+|$\mu_1 - \mu_2$|$\sigma_1^2,\sigma_2^2$ 未知但 $\sigma_1^2 = \sigma_2^2$|$\left( \overline{X} - \overline{Y} - t_{\alpha/2}(n_1+n_2-2) S_w \sqrt{\dfrac{1}{n_1} + \dfrac{1}{n_2}}, \overline{X} - \overline{Y} + t_{\alpha/2}(n_1+n_2-2) S_w \sqrt{\dfrac{1}{n_1} + \dfrac{1}{n_2}} \right)$|
+|$\dfrac{\sigma_1^2}{\sigma_2^2}$|$\mu_1, \mu_2$ 已知|$\left( \dfrac{\frac{1}{n_1} \sum\limits_{i=1}^{n}(X_i - \mu_1) / \frac{1}{n_2} \sum\limits_{i=1}^{n}(Y_i - \mu_2)}{F_{\alpha/2}(n_1, n_2)}, \dfrac{\frac{1}{n_1} \sum\limits_{i=1}^{n}(X_i - \mu_1) / \frac{1}{n_2} \sum\limits_{i=1}^{n}(Y_i - \mu_2)}{F_{1- \alpha/2}(n_1, n_2)} \right)$|
+|$\dfrac{\sigma_1^2}{\sigma_2^2}$|$\mu_1, \mu_2$ 未知|$\left(\dfrac{S_1^2}{S_2^2} \cdot \dfrac{1}{F_{\alpha/2}(n_1 - 1, n_2 - 1)}, \dfrac{S_1^2}{S_2^2} \cdot \dfrac{1}{F_{1-\alpha/2}(n_1 - 1, n_2 - 1)}\right)$|
+
+- 其中 $S_w^2 = \dfrac{(n_1 - 1)S_1^2 + (n_2 - 1)S_2^2}{n_1 + n_2 -2 }$
 
 ## 8. 假设检验
 
