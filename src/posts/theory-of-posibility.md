@@ -562,6 +562,17 @@ description: |
 
 - 其中 $S_w^2 = \dfrac{(n_1 - 1)S_1^2 + (n_2 - 1)S_2^2}{n_1 + n_2 -2 }$
 
+> 💡 **置信水平的意义**：
+>
+> 用同一种抽样方法反复抽样、反复构造置信区间时，其中大约有 $1- \alpha$ 的比例能够包含真实参数
+>
+> 比如：$1 - \alpha = 95%$
+>
+> 上面这个置信度的含义是：如果我们反复抽样 100 次，并且每次都按同样的方法算一个置信区间，那么大约有 95 个区间会包含真实参数总体，大约 5 个区间不包含真实参数
+>
+> 那么，置信水平越高，区间通常越宽；置信水平越低，区间通常越窄
+
+
 ## 8. 假设检验
 
 ### 8.1 假设检验的定义与常用概念
@@ -579,8 +590,8 @@ description: |
    - 拒绝域的边界称为临界点
 
 5. **假设检验的两类错误**
-   - （1）第一类错误（弃真错误）：原假设 $H_0$ 为真时拒绝原假设
-   - （2）第二类错误（取伪错误）：备择假设 $H_1$ 为真时接受原假设
+   - （1）第一类错误（弃真错误）：原假设 $H_0$ 为真时**拒绝**原假设 $H_0$
+   - （2）第二类错误（取伪错误）：备择假设 $H_1$ 为真时**接受**原假设 $H_0$
 
 ### 8.2 显著性检验
 
@@ -594,15 +605,33 @@ description: |
    - （3）给出显著性水平 $\alpha(0<\alpha<1)$，并依据第一类错误的概率等于 $\alpha$ 求出拒绝域
    - （4）根据样本值计算检验统计量 $T$ 的观测值，当观测值落在拒绝域内则拒绝原假设 $H_0$，否则接受原假设 $H_0$
 
+> ⚠️ 题目如果说要检验什么，那么原假设 $H_0$ 就应该设为要检验的命题的逆命题
+
 3. **显著性水平为 $\alpha$ 的单正态总体均值和方差的假设检验**
 
-| 原假设 $H_0$ | 已知条件 | 所用统计量及其分布 | 备择假设 $H_1$ | $H_0$ 的拒绝域 |
-|:---:|:---:|:---:|:---:|:---:|
-| $\mu = \mu_0$ | $\sigma^2$ 已知 | $U = \dfrac{\overline{X} - \mu_0}{\sigma_0 / \sqrt{n}} ～N(0, 1)$ | $\mu \ne \mu_0$ | $\begin{vmatrix} U \end{vmatrix} \ge u_{\frac{\alpha}{2}}$ |
-| $\mu = \mu_0$ | $\sigma^2$ 未知 | $T = \dfrac{\overline{X} - \mu_0}{S / \sqrt{n}} ～t(n - 1)$ | $\mu \ne \mu_0$ | $ \begin{vmatrix} T \end{vmatrix}  \ge t_{\frac{\alpha}{2}}(n-1)$ |
-| $\sigma^2 = \sigma_0^2$ | $\mu$ 已知 | $\chi^2 = \dfrac{1}{\sigma_0^2} \sum\limits_{i=1}^{n} (X_i - \mu_0)^2 ～ \chi^2(n)$ | $\sigma^2\ne\sigma_0^2$ | $\chi^2 \le \chi^2_{1-\frac{\alpha}{2}}(n)$ 或 $\chi^2 \ge \chi^2_{\frac{\alpha}{2}}(n)$ |
-| $\sigma^2 = \sigma_0^2$ | $\mu$ 未知 | $\chi^2 = \dfrac{(n-1)S^2}{\sigma_0^2} ～ \chi^2(n-1)$ | $\sigma^2 \ge \chi^2_{\frac{\alpha}{2}}(n)$ | $\chi^2 \le \chi^2_{1-\frac{\alpha}{2}}(n-1)$ 或 $\chi^2 \ge \chi^2_{\frac{\alpha}{2}}(n-1)$ |
+| $H_0 \leftrightarrow H_1$ | $H_0$ 为真时检验统计量及其分布 | $H_0$ 的拒绝域 $W$ |
+|:---:|:---:|:---:|
+|$\mu = \mu_0 \leftrightarrow \mu \ne \mu_0$|（$\sigma^2$ 已知） $\\$ $U = \dfrac{\overline{X} - \mu_0}{\sigma / \sqrt{n}} ～N(0, 1)$|$\begin{vmatrix} U \end{vmatrix} \ge u_{\frac{\alpha}{2}}$|
+|$\mu \le \mu_0 \leftrightarrow \mu > \mu_0$|同上|$U\ge u_{\alpha}$|
+|$\mu \ge \mu_0 \leftrightarrow \mu < \mu_0$|同上|$U \le -u_{\alpha}$|
+|$\mu = \mu_0 \leftrightarrow \mu \ne \mu_0$|（$\sigma^2$ 未知） $\\$ $T = \dfrac{\overline{X} - \mu_0}{S / \sqrt{n}} ～t(n-1)$|$\begin{vmatrix} T \end{vmatrix} \ge t_{\frac{\alpha}{2}}(n-1)$|
+|$\mu \le \mu_0 \leftrightarrow \mu > \mu_0$|同上|$T\ge t_{\alpha}(n-1)$|
+|$\mu \ge \mu_0 \leftrightarrow \mu < \mu_0$|同上|$T\le -t_{\alpha}(n-1)$|
+|$\sigma^2 = \sigma_0^2 \leftrightarrow \sigma^2 \ne \sigma_0^2$|（$\mu$ 已知）$\\$ $\chi^2 = \dfrac{\sum\limits_{i=1}^{n}(X_i - \mu)^2}{\sigma_0^2} ～\chi^2(n)$|$\chi^2 \ge \chi^2_{\frac{\alpha}{2}(n)}$ 或 $\chi^2 \le \chi^2_{1-\frac{\alpha}{2}(n)}$|
+|$\sigma^2 \le \sigma_0^2 \leftrightarrow \sigma^2 > \sigma_0^2$|同上|$\chi^2 \ge \chi^2_{\alpha}(n)$|
+|$\sigma^2 \ge \sigma_0^2 \leftrightarrow \sigma^2 < \sigma_0^2$|同上|$\chi^2 \le \chi^2_{1-\alpha}(n)$|
+|$\sigma^2 = \sigma_0^2 \leftrightarrow \sigma^2 \ne \sigma_0^2$|（$\mu$ 未知）$\\$ $\chi^2 = \dfrac{(n-1)S^2}{\sigma_0^2}～\chi^2(n-1)$|$\chi^2 \ge \chi^2_{\frac{\alpha}{2}(n-1)}$ 或 $\chi^2 \le \chi^2_{1-\frac{\alpha}{2}(n-1)}$|
+|$\sigma^2 \le \sigma_0^2 \leftrightarrow \sigma^2 > \sigma_0^2$|同上|$\chi^2 \ge \chi^2_{\alpha}(n-1)$|
+|$\sigma^2 \ge \sigma_0^2 \leftrightarrow \sigma^2 < \sigma_0^2$|同上|$\chi^2 \le \chi^2_{1-\alpha}(n-1)$|
 
+4. **双正态总体**
+
+（🚧 待施工）
+
+> 🐱 有没有感觉拒绝域就是上面 7.5 置信区间取反喵？
+
+
+1. **显著性水平的意义**：原假设 $H_0$ 成立，经检验 $H_0$ 被拒绝的概率（可以理解为犯错的概率）
 
 ## 参考文献
 
