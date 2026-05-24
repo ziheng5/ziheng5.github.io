@@ -4,9 +4,9 @@ date: 2026-05-14 17:30:00
 tags: 
     - 考研数学
 categories: 
-    - 数学
+    - 考研数学
 description: |
-    Coldrain 的概率论备考笔记，涵盖了基础 + 强化的重要内容，以及一些题解拾遗（施工中 🚧）
+    Coldrain 的概率论备考笔记，涵盖了基础 + 强化的重要内容，以及一些题解拾遗
 ---
 
 > ✍ 写在前面
@@ -590,8 +590,8 @@ description: |
    - 拒绝域的边界称为临界点
 
 5. **假设检验的两类错误**
-   - （1）第一类错误（弃真错误）：原假设 $H_0$ 为真时**拒绝**原假设 $H_0$
-   - （2）第二类错误（取伪错误）：备择假设 $H_1$ 为真时**接受**原假设 $H_0$
+   - （1）第一类错误（弃真错误）：原假设 $H_0$ 为真时，但检验结果为**拒绝**原假设 $H_0$
+   - （2）第二类错误（取伪错误）：原假设 $H_0$ 不真时，但检验结果为**接受**原假设 $H_0$
 
 ### 8.2 显著性检验
 
@@ -599,11 +599,12 @@ description: |
    - （1）显著性水平：在假设检验中允许犯第一类错误的概率记为 $\alpha(0<\alpha<1)$，则 $\alpha$ 称为显著性水平，它体现了对弃真错误的控制程度
    - （2）显著性检验：只控制第一类错误概率 $\alpha$ 的统计检验，称为显著性检验
 
-2. **显著性检验的一般步骤**
+2. **显著性检验的一般步骤（大题套路）**
    - （1）根据实际问题提出原假设 $H_0$
-   - （2）选择合适的检验统计量 $T$ 并写出拒绝域的形式
+   - （2）如果为单侧检验（$\ge$ 或 $\le$），那么可以将原假设 $H_0$ 或备择假设 $H_1$ 转化到边界处（例如原假设 $H_0:\mu \ge 10$ 可以转化为 $H_0: \mu = 10$）
+   - （3）选择合适的检验统计量 $T$ 并写出拒绝域 $W$ 的形式
    - （3）给出显著性水平 $\alpha(0<\alpha<1)$，并依据第一类错误的概率等于 $\alpha$ 求出拒绝域
-   - （4）根据样本值计算检验统计量 $T$ 的观测值，当观测值落在拒绝域内则拒绝原假设 $H_0$，否则接受原假设 $H_0$
+   - （4）根据题目所给样本值计算检验统计量 $T$ 的观测值，当观测值落在拒绝域内则拒绝原假设 $H_0$，否则接受原假设 $H_0$
 
 > ⚠️ 题目如果说要检验什么，那么原假设 $H_0$ 就应该设为要检验的命题的逆命题
 
@@ -617,21 +618,39 @@ description: |
 |$\mu = \mu_0 \leftrightarrow \mu \ne \mu_0$|（$\sigma^2$ 未知） $\\$ $T = \dfrac{\overline{X} - \mu_0}{S / \sqrt{n}} ～t(n-1)$|$\begin{vmatrix} T \end{vmatrix} \ge t_{\frac{\alpha}{2}}(n-1)$|
 |$\mu \le \mu_0 \leftrightarrow \mu > \mu_0$|同上|$T\ge t_{\alpha}(n-1)$|
 |$\mu \ge \mu_0 \leftrightarrow \mu < \mu_0$|同上|$T\le -t_{\alpha}(n-1)$|
-|$\sigma^2 = \sigma_0^2 \leftrightarrow \sigma^2 \ne \sigma_0^2$|（$\mu$ 已知）$\\$ $\chi^2 = \dfrac{\sum\limits_{i=1}^{n}(X_i - \mu)^2}{\sigma_0^2} ～\chi^2(n)$|$\chi^2 \ge \chi^2_{\frac{\alpha}{2}(n)}$ 或 $\chi^2 \le \chi^2_{1-\frac{\alpha}{2}(n)}$|
+|$\sigma^2 = \sigma_0^2 \leftrightarrow \sigma^2 \ne \sigma_0^2$|（$\mu$ 已知）$\\$ $\chi^2 = \dfrac{\sum\limits_{i=1}^{n}(X_i - \mu)^2}{\sigma_0^2} ～\chi^2(n)$|$\chi^2 \ge \chi^2_{\frac{\alpha}{2}}(n)$ 或 $\chi^2 \le \chi^2_{1-\frac{\alpha}{2}}(n)$|
 |$\sigma^2 \le \sigma_0^2 \leftrightarrow \sigma^2 > \sigma_0^2$|同上|$\chi^2 \ge \chi^2_{\alpha}(n)$|
 |$\sigma^2 \ge \sigma_0^2 \leftrightarrow \sigma^2 < \sigma_0^2$|同上|$\chi^2 \le \chi^2_{1-\alpha}(n)$|
-|$\sigma^2 = \sigma_0^2 \leftrightarrow \sigma^2 \ne \sigma_0^2$|（$\mu$ 未知）$\\$ $\chi^2 = \dfrac{(n-1)S^2}{\sigma_0^2}～\chi^2(n-1)$|$\chi^2 \ge \chi^2_{\frac{\alpha}{2}(n-1)}$ 或 $\chi^2 \le \chi^2_{1-\frac{\alpha}{2}(n-1)}$|
+|$\sigma^2 = \sigma_0^2 \leftrightarrow \sigma^2 \ne \sigma_0^2$|（$\mu$ 未知）$\\$ $\chi^2 = \dfrac{(n-1)S^2}{\sigma_0^2}～\chi^2(n-1)$|$\chi^2 \ge \chi^2_{\frac{\alpha}{2}}(n-1)$ 或 $\chi^2 \le \chi^2_{1-\frac{\alpha}{2}}(n-1)$|
 |$\sigma^2 \le \sigma_0^2 \leftrightarrow \sigma^2 > \sigma_0^2$|同上|$\chi^2 \ge \chi^2_{\alpha}(n-1)$|
 |$\sigma^2 \ge \sigma_0^2 \leftrightarrow \sigma^2 < \sigma_0^2$|同上|$\chi^2 \le \chi^2_{1-\alpha}(n-1)$|
 
-4. **双正态总体**
-
-（🚧 待施工）
 
 > 🐱 有没有感觉拒绝域就是上面 7.5 置信区间取反喵？
 
 
-1. **显著性水平的意义**：原假设 $H_0$ 成立，经检验 $H_0$ 被拒绝的概率（可以理解为犯错的概率）
+4. **双正态总体**
+
+| $H_0 \leftrightarrow H_1$ | $H_0$ 为真时检验统计量及其分布 | $H_0$ 的拒绝域 $W$ |
+|:---:|:---:|:---:|
+|$\mu_1 = \mu_2 \leftrightarrow \mu_1 \ne \mu_2$|（$\sigma_1^2, \sigma_2^2$ 均未知，但 $\sigma_1^2 = \sigma_2^2$） $\\$ $T = \dfrac{\overline{X} - \overline{Y}}{S / \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}} ～t(n_1 + n_2 -2)$|$\begin{vmatrix} T \end{vmatrix} \ge t_{\frac{\alpha}{2}}(n_1 + n_2 -2)$|
+|$\mu_1 \le \mu_2 \leftrightarrow \mu_1 > \mu_2$|同上|$T\ge t_{\alpha}(n_1 + n_2 -2)$|
+|$\mu_1 \ge \mu_2 \leftrightarrow \mu_1 < \mu_2$|同上|$T\le -t_{\alpha}(n_1 + n_2 -2)$|
+|$\sigma_1^2 = \sigma_2^2 \leftrightarrow \sigma_1^2 \ne \sigma_2^2$|（$\mu_1, \mu_2$ 未知）$\\$ $F = \dfrac{S_1^2}{S_2^2}～F(n_1-1, n_2-1)$|$F \ge F_{\frac{\alpha}{2}}(n_1-1, n_2-1)$ 或 $F \le F_{1-\frac{\alpha}{2}}(n_1-1, n_2-1)$|
+|$\sigma_1^2 \le \sigma_2^2 \leftrightarrow \sigma_1^2 > \sigma_2^2$|同上|$F \ge F_{\alpha}(n_1-1, n_2-1)$|
+|$\sigma_1^2 \ge \sigma_2^2 \leftrightarrow \sigma_1^2 < \sigma_2^2$|同上|$F \le F_{1-\alpha}(n_1-1, n_2-1)$|
+
+
+5. **显著性水平的意义**：原假设 $H_0$ 成立，经检验 $H_0$ 被拒绝的概率（可以理解为犯错的概率）
+
+> 💡 来看个典型例题
+>
+> ![problem81](/images/theory_of_possibility/problem81.png)
+> 
+> ![answer81](/images/theory_of_possibility/answer81.png)
+> 
+
+
 
 ## 参考文献
 
