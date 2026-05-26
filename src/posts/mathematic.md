@@ -87,10 +87,33 @@ description: |
    - 设 $\{x_n\}$ 为一数列，若存在常数 $a$，对于任意 $\epsilon > 0$（不论它多小），总存在正整数 $N$，使得当 $n> N$ 时，$|x_n - a| < \epsilon$ 恒成立，则称常数 $a$ 是数列 $\{x_n\}$ 的极限，或者称数列 $\{x_n\}$ **收敛**于 $a$，记为：$\lim\limits_{n\to \infty} x_n=a$
    - 如果不存在这样的常数 $a$，则称数列 $\{x_n\}$ 是**发散**的
 
-2. **数列收敛与其子列收敛的关系**
-   - 若数列 $\{a_n\}$ 收敛，则其任何子列 $\{a_{n_k}\}$ 也收敛，且 $\lim\limits_{k\to \infty} a_{n_k} = \lim\limits_{n \to \infty} a_n$
+2. **收敛数列的基本性质**
+   - （1）唯一性：若 $\lim\limits_{n\to \infty} x_n = a$，则 $a$ 必唯一
+   - （2）有界性：$\lim\limits_{n\to\infty} x_n = a $，则 $\{x_n\}$ 必有界
+   - （3）保号性：$\lim\limits_{n\to\infty}x_n = a>0(<0)$，则 $\exist$ 正整数 $N$，当 $n>N$ 时，$x_n > 0(<0)$
+   - （4）保序性（易错）：设 $x_n < y_n(x_n > y_n)$，且 $\lim\limits_{n\to\infty}x_n$，$\lim\limits_{n\to\infty}y_n$ 均存在，则 $\lim\limits_{n\to\infty}x_n \le \lim\limits_{n\to\infty}y_n (\lim\limits_{n\to\infty}x_n \ge \lim\limits_{n\to\infty}y_n)$
 
-3. **海涅定理**
+> ⚠️ 关于**保序性**的易错点
+>
+> - 上面关于保序性的说法，正着说是对的，但是反过来就错了，即 $\lim\limits_{n\to\infty}x_n \le \lim\limits_{n\to\infty}y_n (\lim\limits_{n\to\infty}x_n \ge \lim\limits_{n\to\infty}y_n)$ 不能倒推 $x_n < y_n(x_n > y_n)$，因为取等号的时候 $x_n, y_n$ 上下振荡，无法判断大小！
+>
+> - 只有当 $\lim\limits_{n\to\infty}x_n < \lim\limits_{n\to\infty}y_n (\lim\limits_{n\to\infty}x_n > \lim\limits_{n\to\infty}y_n)$ 时才能说明 $n\to N$ 时有 $x_n < y_n (x_n > y_n)$
+>
+> - 由此，要注意当数列极限相关的题目中出现 $\textcolor{red}{=, \le, \ge}$ 时，说明 $\textcolor{red}{出题老头要使阴招了！}$
+>
+> - 比如下面这题：
+>
+> ![problem1](/images/mathematic/problem1.png)
+
+3. **数列收敛与其子列收敛的关系**
+   - 若数列 $\{a_n\}$ 收敛，则其任何子列 $\{a_{n_k}\}$ 也收敛，且 $\lim\limits_{k\to \infty} a_{n_k} = \lim\limits_{n \to \infty} a_n$
+   - 特别的，$\lim\limits_{n\to \infty} x_n = a \Leftrightarrow \lim\limits_{k\to \infty} x_{2k} = \lim\limits_{k\to \infty} x_{2k+1} = a$
+
+> ⚠️ 数列子列易错点
+>
+> - 假如题目告诉你 $\lim\limits_{k\to \infty} x_{3k} = \lim\limits_{k\to \infty} x_{3k+1} = a$，无法说明 $\{x_n\}$ 极限存在！因为缺少了 $\lim\limits_{k\to \infty} x_{3k+2} = a$
+
+4. **海涅定理**
    - 设 $f(x)$ 在去心邻域 $\dot{U}(x_0,\delta)$ 内有定义，则 $\lim\limits_{x\to x_0}f(x) = A$ 存在 $\Leftrightarrow$ 对任意 $\dot{U}(x_0,\delta)$ 内以 $x_0$ 为极限的数列 $\{x_n\}(x_n \ne x_0)$，极限 $\lim\limits_{n \to \infty} f(x) = A$ 存在
    - 如 $f(x) = \dfrac{1}{x} \sin \dfrac{1}{x}$，$x \to 0$ 时
      - （1）若取 $x_n = \dfrac{1}{n\pi} \to 0$，则 $f(x_n) = n\pi \cdot \sin(n\pi)$，故 $\lim\limits_{n\to \infty} f(x_n) = 0$
@@ -98,3 +121,31 @@ description: |
      - （3）根据海涅定理，极限 $\lim\limits_{x\to 0} \dfrac{1}{x} \sin \dfrac{1}{x}$ 不存在且 $x\to 0$ 时 $\dfrac{1}{x} \sin \dfrac{1}{x}$ 为无界量
 
 
+5. **数列极限存在准则**
+   - （1）夹逼准则：$\begin{cases} z_n \le x_n \le y_n  \\ \lim\limits_{n\to \infty} y_n = \lim\limits_{n\to \infty} z_n= a \end{cases} \Rightarrow \lim\limits_{n\to\infty} = a$
+   - （2）单调有界收敛准则：单调有界数列必有极限
+     - 设数列 $\{a_n\}$ 单调递增，若数列 $\{a_n\}$ 无上界（极限不存在），则 $\lim\limits_{n\to\infty}a_n = + \infty$
+     - 设数列 $\{a_n\}$ 单调递减，若数列 $\{a_n\}$ 无下界（极限不存在），则 $\lim\limits_{n\to\infty}a_n = - \infty$
+
+
+> 💡 $\{x_n\}$ 与 $\{f(x_n)\}$
+> - $\{x_n\}$ 收敛 $\overset{f(x_n) 连续}{\underset{f(x_n) 与 x_n 的映射一一对应 or 具有反函数（连续单调），且\textcolor{red}{极限存在于 f(x_n) 的值域内}}{\rightleftharpoons}}$ $\{f(x_n)\}$ 收敛
+> - 考试常考：“给定 $\{x_n\}$ 收敛判断 $\{f(x_n)\}$ 是否收敛”、“给定 $\{x_n\}$ 发散判断 $\{f(x_n)\}$ 是否发散”、“给定 $\{f(x_n)\}$ 收敛判断 $\{x_n\}$ 是否收敛”、“给定 $\{f(x_n)\}$ 发散判断 $\{x_n\}$ 是否发散”
+
+
+> 💡 关于单调有界收敛准则相关证明题
+> - 单调性：设 $x_{n+1} = f(x_n)$，则当 $f(x)$ 单调递增时，有 $\begin{cases} 若 x_1<x_2，则 \{x_n\} 单调递增 \\ 若 x_1>x_2，则 \{x_n\} 单调递减 \end{cases}$；而当 $f(x)$ 单调递减时，$\{x_n\}$ 一定不单调
+> - 有界性：根据 $x_{n+1} = f(x_n)$ 先斩后奏算出极限值 $A$，然后利用数学归纳法证明 $A$ 为一个上界
+>
+> - 例题（除了下面这道还有 27 张宇基础例 2.14）：
+>
+> ![problem2](/images/mathematic/problem2.png)
+>
+> - “师爷真是装糊涂的天才！”
+
+6. **压缩映射定理**
+   - （1）方法一：对数列 $\{x_n\}$，若存在常数 $k(0<k<1)$，使得 $ 0 \le \textcolor{red}{|x_{n+1} -a| \le k|x_n -a|} \le k^2 |x_{n-1} - a| \le ... \le k^n |x_1 -a|$，那么根据夹逼准则，有 $\lim\limits_{n \to \infty} |x_{n+1} -a| = 0$ 即 $\{x_n\}$ 收敛于 $a$
+   - （2）方法二：对数列 $\{x_n\}$，若 $x_{n+1} = f(x_n)$，$f(x)$ 可导，$a$ 为 $f(x) = x$ 的唯一解，且对任意 $x \in R$，有 $|f'(x)| \le k <1$，则 $\{x_n\}$ 收敛于 $a$
+   - ![problem2](/images/mathematic/problem2.png)
+
+## 3. 一元函数微分学
