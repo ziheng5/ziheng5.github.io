@@ -49,12 +49,15 @@ description: |
 
 > ⚠️ **差值型表达式不能随便用等价无穷小替换！**（1000a 第一讲 19 题）
 >
-> 等价无穷小一般适用于**乘除结构**，比如 $\lim\limits_{x \to 0} \dfrac{\sin x}{x} = 1$，在此式子中可以使用 $\sin x ～ x$
+> - 等价无穷小一般适用于**乘除结构**，比如 $\lim\limits_{x \to 0} \dfrac{\sin x}{x} = 1$，在此式子中可以使用 $\sin x ～ x$
 >
-> 但对于 $\dfrac{e^x + xe^x}{e^x - 1} - \dfrac{1}{x}$，该式子为 “两个无穷大量相减”，最后结果依赖于 $e^x - 1$ 的二阶项，故必须先通分才能使用等价无穷小
-
+> - 但对于 $\dfrac{e^x + xe^x}{e^x - 1} - \dfrac{1}{x}$，该式子为 “两个无穷大量相减”，最后结果依赖于 $e^x - 1$ 的二阶项，故必须先通分才能使用等价无穷小
+>
+> - 更严格的条件是：对于 $\lim\limits_{x\to 0} \dfrac{f(x) \pm g(x)}{x^k}$，若想要使用无穷小等价代换，必须要求分子多项式中代换出 $x^l$，其中 $l \ge k$。如果代换不出来，请老老实实使用泰勒公式展开到至少 $k$ 阶
 
 5. **泰勒公式**：设 $f(x)$ 在 $x=0$ 处 $n$ 阶可导，则有 $f(x) = f(0) + f'(0)x + \dfrac{f''(0)}{2!} x^2 + ... + \dfrac{f^{(n)}(0)}{n!} x^n = \sum\limits_{k=0}^{n} \dfrac{f^{(k)}(0)}{k!} (x-0)^k$
+
+> 💡 等价无穷小是泰勒公式展开的一种特殊情况
 
 > 💡 常用泰勒展开式
 > - $\sin x = x - \dfrac{x^3}{3!} + o(x^3)$
@@ -72,14 +75,28 @@ description: |
    - （1）可去间断点：$\lim\limits_{x\to x_0} f(x)= A \ne f(x_0) $（$f(x_0)$ 甚至可以无定义）
    - （2）跳跃间断点：$\lim\limits_{x\to x_0^-} f(x) \ne \lim\limits_{x\to x_0^+} f(x)$
    - （3）无穷间断点：$\lim\limits_{x \to x_0} f(x) = \infty$ 或 $\lim\limits_{x \to x_0^+} f(x) = \infty$ 或 $\lim\limits_{x \to x_0^-} f(x) = \infty$
-   - （4）震荡间断点：$\lim\limits_{x \to x_0} f(x)$ 震荡不存在
+   - （4）振荡间断点：$\lim\limits_{x \to x_0} f(x)$ 震荡不存在
 
 > 💡 前两个为**第一类间断点**，后两个为**第二类间断点**
 
+> ⚠️ 求间断点时注意事项：
+> - （1）如果发现分子分母可以通分，千万不要消，因为消去的那一项是个可去间断点 🌚
+> 
 
 7. **两个重要极限**
    - （1）$\lim\limits_{x\to 0} \dfrac{\sin x}{x} = 1$
    - （2）$\lim\limits_{x\to \infty} (1 + \dfrac{1}{x})^{x} = e$
+
+
+8. **求渐近线**
+   - （1）垂直渐近线：找函数分母为 0 的点，若分母为 0 的点为 $x_0$，接下来求其极限，若 $\lim\limits_{x\to x_0} f(x) = \infty$，则直线 $x=x_0$ 为曲线 $y = f(x)$ 的垂直渐近线
+   - （2）水平渐近线：若 $\lim\limits_{x\to\infty}f(x) = A$，则直线 $y = A$ 为曲线 $y = f(x)$ 的水平渐近线（若 $\lim\limits_{x\to + \infty}f(x) = A$，则曲线右侧有一水平渐近线；若 $\lim\limits_{x\to-\infty}f(x) = A$，则曲线左侧有一水平渐近线）
+   - （3）斜渐近线：$k = \lim\limits_{x\to \infty} \dfrac{f(x)}{x} = \lim\limits_{x\to \infty}f'(x)$，$b = \lim\limits_{x\to\infty} [f(x) - kx]$
+
+> ⚠️ 渐近线注意事项：
+> - （1）求取渐近线的时候，要小心 $x\to +\infty$ 和 $x\to -\infty$ 两个位置渐近线不同的情况！
+> - （2）斜渐近线的求取还有一种快捷方法：利用泰勒展开后略去高阶无穷小直接得到斜渐近线
+
 
 ## 2. 数列极限
 

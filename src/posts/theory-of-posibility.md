@@ -157,8 +157,9 @@ description: |
 > - $\Phi(-a) = 1 - \Phi(a)$
 > - $aX+b ～N(a\mu + b, a^2\sigma^2)$
 
-
-
+> ⚠️ 正态分布常考难点
+> - 做题的时候，给定类似于 $f(x) = A e^{x(B - x)}$ 要能看出来是正态分布
+> - 计算 $E(e^X) = \int^{+\infty}_{-\infty} e^x \dfrac{1}{\sqrt{2\pi} \sigma} e^{\frac{(x-\mu)^2}{2\sigma^2}} $，思路是将这个积分里的式子转换成另一个正态分布的的概率密度函数（27 张宇 1000a P70 第 9 题）
 
 
 ## 3. 二维随机变量及其分布
@@ -213,7 +214,7 @@ description: |
 ### 3.4 二维正态分布
 1. 定义：
    - $(X, Y)～N(\mu_1, \mu_2, \sigma_1^2, \sigma_2^2, \rho)$
-   - $f(x ,y) = \dfrac{1}{2\pi \sigma_1 \sigma_2 \sqrt{1-\rho^2}} \exp \{-\dfrac{1}{2(1-\rho^2)}[\dfrac{(x-\mu_1)^2}{\sigma_1^2} - 2\rho \dfrac{(x-\mu_1)(y-\mu_2)}{\sigma_1 \sigma_2} + \dfrac{(y-\mu_2)^2]}{\sigma_2^2}] \}$
+   - $f(x ,y) = \dfrac{1}{2\pi \sigma_1 \sigma_2 \sqrt{1-\rho^2}} \exp \{-\dfrac{1}{(1-\rho^2)}[\dfrac{(x-\mu_1)^2}{2\sigma_1^2} - \rho \dfrac{(x-\mu_1)(y-\mu_2)}{\sigma_1 \sigma_2} + \dfrac{(y-\mu_2)^2]}{2\sigma_2^2}] \}$
 
 > 💡 公式里的 $\rho$ 是 $X$ 与 $Y$ 的相关系数（Pearson 相关系数），在后面的章节里面会学到，计算方式为：$ \rho = \dfrac{Cov(X, Y)}{\sigma_1 \sigma_2} = \dfrac{E(XY) - E(X)E(Y)}{\sigma_1 \sigma_2}$
 
@@ -289,7 +290,7 @@ description: |
    - （3）$Cov(X, c) = 0$
    - （4）$Cov(aX, bY) = abCov(X, Y)$
    - （5）$Cov(X_1+X_2, Y) = Cov(X_1, Y) + Cov(X_2, Y)$
-   - （6）如果 $X$ 与 $Y$ 相互独立 $\Rightarrow Cov(X, Y) = 0$
+   - （6）如果 $X$ 与 $Y$ 相互独立 $\Rightarrow$ $X$ 与 $Y$ 不相关 $\Leftrightarrow$ $Cov(X, Y) = 0$
 
 3. 相关系数 $\rho_{XY} = \dfrac{Cov(X, Y)}{\sqrt{D(X)} \sqrt{D(Y)}}$
 
