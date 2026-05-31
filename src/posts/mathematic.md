@@ -1,5 +1,5 @@
 ---
-title: Coldrain 的 27 考研数一高数强化阶段拾遗
+title: Coldrain 的 27 考研数一高数强化阶段拾遗（1-12讲）
 date: 2026-05-24 16:13:00
 tags: 
     - 考研数学
@@ -28,15 +28,18 @@ description: |
 
 2. **函数极限的定义**：$\lim\limits_{x \to x_0} f(x) =A \Leftrightarrow \forall \epsilon > 0, \exist \delta > 0$，当 $0<|x-x_0|<\delta$ 时，有 $|f(x) -A| < \epsilon$
 
+3. **函数极限的局部保号性**
+   - （1）$\lim\limits_{x\to x_0} f(x) = A < 0 \Rightarrow$ 存在 $x_0$ 的去心领域使 $f(x) < 0$
+   - （2）$\lim\limits_{x\to x_0} f(x) = A > 0 \Rightarrow$ 存在 $x_0$ 的去心领域使 $f(x) > 0$
 
-3. **无穷小的比阶**
+4. **无穷小的比阶**
    - （1）高阶无穷小：$\lim \dfrac{\alpha(x)}{\beta(x)} = 0$，则 $\alpha(x)$ 为 $\beta(x)$ 的高阶无穷小
    - （2）低阶无穷小：$\lim \dfrac{\alpha(x)}{\beta(x)} = \infty$，则 $\alpha(x)$ 为 $\beta(x)$ 的低阶无穷小
    - （3）同阶无穷小：$\lim \dfrac{\alpha(x)}{\beta(x)} = c \ne 0$，则 $\alpha(x)$ 为 $\beta(x)$ 的同阶无穷小
    - （4）等价无穷小：$\lim \dfrac{\alpha(x)}{\beta(x)} = 1$，则 $\alpha(x)$ 为 $\beta(x)$ 的等价无穷小
    - （5）$k$ 阶无穷小：$\lim \dfrac{\alpha(x)}{[\beta(x)]^k} = c \ne 0$，则 $\alpha(x)$ 为 $\beta(x)$ 的 $k$ 阶无穷小
 
-4. $x\to 0$ **时常用等价无穷小**
+5. $x\to 0$ **时常用等价无穷小**
    - $\sin x ～ x$
    - $\tan x ～ x$
    - $\arcsin x ～ x$
@@ -55,7 +58,7 @@ description: |
 >
 > - 更严格的条件是：对于 $\lim\limits_{x\to 0} \dfrac{f(x) \pm g(x)}{x^k}$，若想要使用无穷小等价代换，必须要求分子多项式中代换出 $x^l$，其中 $l \ge k$。如果代换不出来，请老老实实使用泰勒公式展开到至少 $k$ 阶
 
-5. **泰勒公式**：设 $f(x)$ 在 $x=0$ 处 $n$ 阶可导，则有 $f(x) = f(0) + f'(0)x + \dfrac{f''(0)}{2!} x^2 + ... + \dfrac{f^{(n)}(0)}{n!} x^n = \sum\limits_{k=0}^{n} \dfrac{f^{(k)}(0)}{k!} (x-0)^k$
+6. **泰勒公式**：设 $f(x)$ 在 $x=0$ 处 $n$ 阶可导，则有 $f(x) = f(0) + f'(0)x + \dfrac{f''(0)}{2!} x^2 + ... + \dfrac{f^{(n)}(0)}{n!} x^n = \sum\limits_{k=0}^{n} \dfrac{f^{(k)}(0)}{k!} (x-0)^k$
 
 > 💡 等价无穷小是泰勒公式展开的一种特殊情况
 
@@ -71,7 +74,7 @@ description: |
 
 > 💡 两函数乘积的泰勒展开，等于各自泰勒展开相乘，即 $f(x)g(x)$ 的泰勒展开等于 $f(x)$ 的泰勒展开乘 $g(x)$
 
-6. **间断点**
+7. **间断点**
    - （1）可去间断点：$\lim\limits_{x\to x_0} f(x)= A \ne f(x_0) $（$f(x_0)$ 甚至可以无定义）
    - （2）跳跃间断点：$\lim\limits_{x\to x_0^-} f(x) \ne \lim\limits_{x\to x_0^+} f(x)$
    - （3）无穷间断点：$\lim\limits_{x \to x_0} f(x) = \infty$ 或 $\lim\limits_{x \to x_0^+} f(x) = \infty$ 或 $\lim\limits_{x \to x_0^-} f(x) = \infty$
@@ -83,12 +86,12 @@ description: |
 > - （1）如果发现分子分母可以通分，千万不要消，因为消去的那一项是个可去间断点 🌚
 > 
 
-7. **两个重要极限**
+8. **两个重要极限**
    - （1）$\lim\limits_{x\to 0} \dfrac{\sin x}{x} = 1$
    - （2）$\lim\limits_{x\to \infty} (1 + \dfrac{1}{x})^{x} = e$
 
 
-8. **求渐近线**
+9. **求渐近线**
    - （1）垂直渐近线：找函数分母为 0 的点，若分母为 0 的点为 $x_0$，接下来求其极限，若 $\lim\limits_{x\to x_0} f(x) = \infty$，则直线 $x=x_0$ 为曲线 $y = f(x)$ 的垂直渐近线
    - （2）水平渐近线：若 $\lim\limits_{x\to\infty}f(x) = A$，则直线 $y = A$ 为曲线 $y = f(x)$ 的水平渐近线（若 $\lim\limits_{x\to + \infty}f(x) = A$，则曲线右侧有一水平渐近线；若 $\lim\limits_{x\to-\infty}f(x) = A$，则曲线左侧有一水平渐近线）
    - （3）斜渐近线：$k = \lim\limits_{x\to \infty} \dfrac{f(x)}{x} = \lim\limits_{x\to \infty}f'(x)$，$b = \lim\limits_{x\to\infty} [f(x) - kx]$
@@ -165,4 +168,44 @@ description: |
    - （2）方法二：对数列 $\{x_n\}$，若 $x_{n+1} = f(x_n)$，$f(x)$ 可导，$a$ 为 $f(x) = x$ 的唯一解，且对任意 $x \in R$，有 $|f'(x)| \le k <1$，则 $\{x_n\}$ 收敛于 $a$
    - ![problem2](/images/mathematic/problem2.png)
 
-## 3. 一元函数微分学
+
+7. **无界与无穷大的区别**
+   - （1）无界数列只需要存在一个无穷大的子列即可
+   - （2）无穷大的数列需要所有子列均为无穷大
+   - （3）看看例题：
+   - ![problem3](/images/mathematic/problem3.png)
+
+
+## 3. 一元函数微分学（概念）
+
+
+1. **导数的定义式（增量式）**：
+   - $f'(x_0) = \lim\limits_{\Delta x \to 0} \dfrac{\Delta y}{\Delta x} = \lim\limits_{\Delta x \to 0} \dfrac{f(x_0 + \Delta x) - f(x_0)}{ \Delta x}$
+   - 可导的定义：函数 $f(x)$ 在 $x_0$ 处存在上述极限（**左右极限均存在且相等**），则在 $x_0$ 处可导
+   - 注意，上式中的 $\Delta x$ 可以被广义化为趋于 0 的 “🐶”
+
+2. **导数的函数式**：$f'(x_0) = \lim\limits_{x\to x_0} \dfrac{f(x) - f(x_0)}{x - x_0}$
+
+> ❓ 易错概念：连续、可导，傻傻分不清？
+> - （1）连续：对于任意函数 $f(x)$，$f(x)$ 在 $x_0$ 处有定义且**左右极限均等于** $f(x_0)$，那么称 $f(x)$ 在 $x_0$ 点连续（注意，这里只是一点连续，而不是邻域连续！很容易犯错喵 🐱）
+> - （2）导数：导数的条件比连续要苛刻一点，不仅要求在 $x_0$ 处连续，还要求 $f'(x_0) = \lim\limits_{\Delta x \to 0} \dfrac{\Delta y}{\Delta x} = \lim\limits_{\Delta x \to 0} \dfrac{f(x_0 + \Delta x) - f(x_0)}{ \Delta x}$ 存在（即左导数等于右导数），才能说明在 $x_0$ 点可导！
+>
+> 这一部分可以去看没咋了、吃尽天下面的[解析](https://www.bilibili.com/video/BV1EedRYeEuH/?vd_source=ff8e405dabd5438e702cff8ed19ed966)
+
+
+3. $f(x)$ **与** $|f(x)|$（必考，哪个难就考哪个 🌚）
+   - （1）设 $f(x)$ 在 $x_0$ 处连续 $ \Rightarrow|f(x)|$ 在 $x_0$ 处连续
+   - （2）设 $f(x)$ 在 $x_0$ 处可导，则
+      - a. $f(x_0) \ne 0 \Rightarrow |f(x)|$ 在 $x_0$ 处可导且 $[|f(x_0)|]' = \begin{cases} f'(x_0), & f(x_0) > 0 \\ -f'(x_0), & f(x_0) < 0 \end{cases}$
+      - b. $f(x_0) = 0$ 且 $\begin{cases} f'(x_0) = 0 \Rightarrow |f(x)| 在 x_0 处可导且 [|f(x_0)|]' = 0\\ f'(x_0) \ne 0 \Rightarrow |f(x)| 在 x_0 处不可导 \end{cases}$
+
+4. **可微的判别**
+   - （1）写增量 $\Delta y = f(x_0 + \Delta x) - f(x_0)$
+   - （2）写线性增量 $A\Delta x = f'(x_0) \Delta x$
+   - （3）作极限 $\lim\limits_{\Delta x \to 0} \dfrac{\Delta y - A \Delta x}{\Delta x}$
+   - （4）若上述极限等于 0，则 $f(x)$ 在 $x_0$ 处可微
+
+> 💡 可微 $\Leftrightarrow$ 可导
+
+
+## 4. 一元函数微分学（计算）
