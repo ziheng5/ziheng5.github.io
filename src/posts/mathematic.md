@@ -71,6 +71,8 @@ description: |
 > - $\ln(1+x) = x - \dfrac{x^2}{2} + \dfrac{x^3}{3} + o(x^3)$
 > - $e^x = 1 + x + \dfrac{x^2}{2!} + \dfrac{x^3}{3!} + o(x^3)$
 > - $(1+x)^{\alpha} = 1 + \alpha x + \dfrac{\alpha(\alpha - 1)}{2!}x^2 + o(x^2)$
+> - $\dfrac{1}{1+x} = 1 - x + x^2 - x^3 + o(x^3)$
+> - $\dfrac{1}{1-x} = 1 + x + x^2 + x^3 + o(x^3)$
 
 > 💡 两函数乘积的泰勒展开，等于各自泰勒展开相乘，即 $f(x)g(x)$ 的泰勒展开等于 $f(x)$ 的泰勒展开乘 $g(x)$
 
@@ -190,6 +192,8 @@ description: |
 > - （1）连续：对于任意函数 $f(x)$，$f(x)$ 在 $x_0$ 处有定义且**左右极限均等于** $f(x_0)$，那么称 $f(x)$ 在 $x_0$ 点连续（注意，这里只是一点连续，而不是邻域连续！很容易犯错喵 🐱）
 > - （2）导数：导数的条件比连续要苛刻一点，不仅要求在 $x_0$ 处连续，还要求 $f'(x_0) = \lim\limits_{\Delta x \to 0} \dfrac{\Delta y}{\Delta x} = \lim\limits_{\Delta x \to 0} \dfrac{f(x_0 + \Delta x) - f(x_0)}{ \Delta x}$ 存在（即左导数等于右导数），才能说明在 $x_0$ 点可导！
 >
+> - 例题：【1000a.3.10】、【1000a.4.8】
+>
 > 这一部分可以去看没咋了、吃尽天下面的[解析](https://www.bilibili.com/video/BV1EedRYeEuH/?vd_source=ff8e405dabd5438e702cff8ed19ed966)
 
 
@@ -209,3 +213,29 @@ description: |
 
 
 ## 4. 一元函数微分学（计算）
+
+1. **基本求导公式（只记了后面几个）**
+   - $(\arcsin x)' = \dfrac{1}{\sqrt{1 - x^2}}$
+   - $(\arccos x)' = -\dfrac{1}{\sqrt{1 - x^2}}$
+   - $(\cot x)' = -\csc^2 x = -\dfrac{1}{\sin^2 x}$
+   - $(\arctan x)' = \dfrac{1}{1 + x^2}$
+   - $(arccot x)' = -\dfrac{1}{1 + x^2}$
+   - $(\sec x)' = \sec x \tan x = \dfrac{\sin x}{\cos^2 x}$
+   - $(\csc x)' = -\csc x \cot x = -\dfrac{\cos x}{\sin^2 x}$
+   - $[\ln(x + \sqrt{x^2 + 1})]' = \dfrac{1}{\sqrt{x^2 + 1}} $
+   - $[\ln(x + \sqrt{x^2 - 1})]' = \dfrac{1}{\sqrt{x^2 - 1}} $
+
+2. **分段函数的导数**
+   - （1）在分段点 $x_0$ 处用导数定义来求导数，即用 $\lim\limits_{x\to x_0} \dfrac{f(x) - f(x_0)}{x - x_0}$ 分别求出左右导数后，看是否相等来判断分段点导数
+   - （2）在非分段点用求导公式
+
+3. **反函数的导数**：设 $y = f(x)$ 为单调、可导函数，且 $f'(x) \ne 0$，则存在反函数 $x = \varphi(y)$，且 $\dfrac{dx}{dy} = \dfrac{1}{\frac{dy}{dx}}$，即 $\varphi'(y) = \dfrac{1}{f'(x)}$
+
+4. $n$ **阶导数**
+   - （1）归纳法：逐次求导，找到规律，得出通式
+   - （2）莱布尼茨公式：设 $u = u(x)$、$v = v(x)$ 均 $n$ 阶可导，则 $(u \pm v)^{(n)} = u^{(n)} + v^{(n)}$、$(uv)^{(n)} = \sum\limits_{k=0}^{n} C_n^k u^{(n-k)} v^{(n)}$
+   - （3）泰勒展开法（一般用于求 $f^{(n)}(0)$）
+
+
+
+## 5. 一元函数微分学（应用）
