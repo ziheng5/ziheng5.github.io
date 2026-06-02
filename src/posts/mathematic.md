@@ -186,6 +186,15 @@ description: |
    - 可导的定义：函数 $f(x)$ 在 $x_0$ 处存在上述极限（**左右极限均存在且相等**），则在 $x_0$ 处可导
    - 注意，上式中的 $\Delta x$ 可以被广义化为趋于 0 的 “🐶”
 
+> 💡 高阶前向差分公式（经常用于处理离散信号）
+>
+> - （0）引例：$f''(x) = \lim\limits_{h\to 0} \dfrac{f'(x+h) - f'(x)}{h} = \lim\limits_{h\to 0} \dfrac{\frac{f(x+h+h) - f(x + h)}{h} - \frac{f(x+h) - f(x)}{h}}{h} = \lim\limits_{h\to 0} \dfrac{f(x+2h) - 2f(x+h) + f(x)}{h^2}$
+>
+> - （1）设 $\Delta_h f(x) = f(x+h) - f(x)$，那么一阶导数可以写成 $f'(x) = \lim\limits_{h\to 0} \dfrac{f(x+h) - f(x)}{h} = \lim\limits_{h\to 0}\dfrac{\Delta_h f(x)}{h}$
+> - （2）设 $\Delta_h^2 f(x) = f(x+2h) - 2f(x+h) +f(x)$，那么二阶导数可以写成 $f''(x) = \lim\limits_{h\to 0} \dfrac{f(x+2h) - 2f(x+h) + f(x)}{h^2} = \lim\limits_{h\to 0}\dfrac{\Delta_h^2 f(x)}{h^2}$
+> - （3）以此类推到 $n$ 阶，$\Delta_h^nf(x) = \sum\limits_{k=0}^{n} (-1)^{n-k} C_{n}^{k} f(x + kh)$，则有 $f^{(n)}(x) = \lim\limits_{h\to 0} \dfrac{\Delta^n_h f(x)}{h^n}$
+
+
 2. **导数的函数式**：$f'(x_0) = \lim\limits_{x\to x_0} \dfrac{f(x) - f(x_0)}{x - x_0}$
 
 > ❓ 易错概念：连续、可导，傻傻分不清？
@@ -215,15 +224,21 @@ description: |
 ## 4. 一元函数微分学（计算）
 
 1. **基本求导公式（只记了后面几个）**
-   - $(\arcsin x)' = \dfrac{1}{\sqrt{1 - x^2}}$
-   - $(\arccos x)' = -\dfrac{1}{\sqrt{1 - x^2}}$
+   - $(\arcsin \dfrac{x}{a})' = \dfrac{1}{\sqrt{a^2 - x^2}}$
+   - $(\arccos \dfrac{x}{a})' = -\dfrac{1}{\sqrt{a^2 - x^2}}$
    - $(\cot x)' = -\csc^2 x = -\dfrac{1}{\sin^2 x}$
-   - $(\arctan x)' = \dfrac{1}{1 + x^2}$
-   - $(arccot x)' = -\dfrac{1}{1 + x^2}$
+   - $(\arctan \dfrac{x}{a})' = \dfrac{a}{a^2 + x^2}$
+   - $(arccot \dfrac{x}{a})' = -\dfrac{a}{a^2 + x^2}$
    - $(\sec x)' = \sec x \tan x = \dfrac{\sin x}{\cos^2 x}$
    - $(\csc x)' = -\csc x \cot x = -\dfrac{\cos x}{\sin^2 x}$
-   - $[\ln(x + \sqrt{x^2 + 1})]' = \dfrac{1}{\sqrt{x^2 + 1}} $
-   - $[\ln(x + \sqrt{x^2 - 1})]' = \dfrac{1}{\sqrt{x^2 - 1}} $
+   - $[\ln(x + \sqrt{x^2 + a^2})]' = \dfrac{1}{\sqrt{x^2 + a^2}} $
+   - $[\ln(x + \sqrt{x^2 - a^2})]' = \dfrac{1}{\sqrt{x^2 - a^2yi}} $
+
+> 💡 还有一些比较重要的，后面积分部分会经常碰到的奇妙形式：
+> - $[ \ln(\sec x  + \tan x) ]' = \sec x$
+> - $[\ln(\csc x - \cot x)]' = \csc x$
+
+
 
 2. **分段函数的导数**
    - （1）在分段点 $x_0$ 处用导数定义来求导数，即用 $\lim\limits_{x\to x_0} \dfrac{f(x) - f(x_0)}{x - x_0}$ 分别求出左右导数后，看是否相等来判断分段点导数
@@ -233,7 +248,7 @@ description: |
 
 4. $n$ **阶导数**
    - （1）归纳法：逐次求导，找到规律，得出通式
-   - （2）莱布尼茨公式：设 $u = u(x)$、$v = v(x)$ 均 $n$ 阶可导，则 $(u \pm v)^{(n)} = u^{(n)} + v^{(n)}$、$(uv)^{(n)} = \sum\limits_{k=0}^{n} C_n^k u^{(n-k)} v^{(n)}$
+   - （2）莱布尼茨公式：设 $u = u(x)$、$v = v(x)$ 均 $n$ 阶可导，则 $(u \pm v)^{(n)} = u^{(n)} + v^{(n)}$、$(uv)^{(n)} = \sum\limits_{k=0}^{n} C_n^k u^{(n-k)} v^{(k)}$
    - （3）泰勒展开法（一般用于求 $f^{(n)}(0)$）
 
 
