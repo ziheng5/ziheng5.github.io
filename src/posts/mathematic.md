@@ -48,7 +48,9 @@ description: |
    - $e^x -1 ～ x$
    - $\alpha^x - 1 ～ x \ln(\alpha)$
    - $1 - \cos x ～ \dfrac{1}{2} x^2$
+   - $1 - \cos^a x ～ \dfrac{a}{2} x^2$
    - $(1+x)^{\alpha} - 1 ～ \alpha x$
+   - $\ln (x + \sqrt{1 + x^2}) ～ x$
 
 > ⚠️ **差值型表达式不能随便用等价无穷小替换！**（1000a 第一讲 19 题）
 >
@@ -69,7 +71,7 @@ description: |
 > - $\tan x = x + \dfrac{x^3}{3} + o(x^3)$
 > - $\arctan x = x - \dfrac{x^3}{3} + o(x^3)$
 > - $\ln(1+x) = x - \dfrac{x^2}{2} + \dfrac{x^3}{3} + o(x^3)$
-> - $e^x = 1 + x + \dfrac{x^2}{2!} + \dfrac{x^3}{3!} + o(x^3)$
+> - $e^x = 1 + x + \dfrac{x^2}{2!} + \dfrac{x^3}{3!} + o(x^3) \Rightarrow a^x = e^{x\ln a} = 1 + x\ln 2 +  \dfrac{(x\ln 2)^2}{2!} + ...$
 > - $(1+x)^{\alpha} = 1 + \alpha x + \dfrac{\alpha(\alpha - 1)}{2!}x^2 + o(x^2)$
 > - $\dfrac{1}{1+x} = 1 - x + x^2 - x^3 + o(x^3)$
 > - $\dfrac{1}{1-x} = 1 + x + x^2 + x^3 + o(x^3)$
@@ -101,6 +103,10 @@ description: |
 > ⚠️ 渐近线注意事项：
 > - （1）求取渐近线的时候，要小心 $x\to +\infty$ 和 $x\to -\infty$ 两个位置渐近线不同的情况！
 > - （2）斜渐近线的求取还有一种快捷方法：利用泰勒展开后略去高阶无穷小直接得到斜渐近线
+
+10. **局部保号性（必考点）**：
+    - （1）如果 $f(x) \to A(x \to x_0)$ 且 $A > 0$（或 $A<0$），那么存在常数 $\delta > 0$，使得当 $0 < |x - x_0| < \delta$ 时，有 $f(x) > 0$（或 $f(x)<0$）
+    - （2）如果在 $x_0$ 的某去心领域内 $f(x) \ge 0$（或 $f(x) \le 0$）且 $\lim\limits_{x\to x_0}f(x) = A $，则 $A\ge 0$（或 $A \le 0$）
 
 
 ## 2. 数列极限
