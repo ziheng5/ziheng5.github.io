@@ -1,5 +1,5 @@
 ---
-title: Coldrain 的 27 考研数一高数强化阶段拾遗（1-12讲）
+title: Coldrain 的 27 考研数一高数强化阶段拾遗
 date: 2026-05-24 16:13:00
 tags: 
     - 考研数学
@@ -73,7 +73,7 @@ description: |
 > - $\ln(1+x) = x - \dfrac{x^2}{2} + \dfrac{x^3}{3} + o(x^3)$
 > - $e^x = 1 + x + \dfrac{x^2}{2!} + \dfrac{x^3}{3!} + o(x^3) \Rightarrow a^x = e^{x\ln a} = 1 + x\ln 2 +  \dfrac{(x\ln 2)^2}{2!} + ...$
 > - $(1+x)^{\alpha} = 1 + \alpha x + \dfrac{\alpha(\alpha - 1)}{2!}x^2 + o(x^2)$
-> - $\dfrac{1}{1+x} = 1 - x + x^2 - x^3 + o(x^3)$
+> - $\dfrac{1}{1+x} = 1 - x + x^2 - x^3 + o(x^3)$ （其实就是上面 $\ln (1+x)$ 的泰勒展开求一次导，下面的也同理）
 > - $\dfrac{1}{1-x} = 1 + x + x^2 + x^3 + o(x^3)$
 
 > 💡 两函数乘积的泰勒展开，等于各自泰勒展开相乘，即 $f(x)g(x)$ 的泰勒展开等于 $f(x)$ 的泰勒展开乘 $g(x)$
@@ -265,21 +265,34 @@ description: |
 
 3. **反函数的导数**：设 $y = f(x)$ 为单调、可导函数，且 $f'(x) \ne 0$，则存在反函数 $x = \varphi(y)$，且 $\dfrac{dx}{dy} = \dfrac{1}{\frac{dy}{dx}}$，即 $\varphi'(y) = \dfrac{1}{f'(x)}$
 
+> **💡 反函数的二阶导数**
+>
+> - 在 $y = f(x)$ 单调且二阶可导的情况下，若 $f'(x) \ne 0$，则存在反函数 $x = \varphi(y)$，记 $f'(x) = y'_x$、$\varphi '(y) = x'_y$，那么：
+> - （1）$y'_x = \dfrac{1}{x'_y}$
+> - （2）$y''_{xx} = - \dfrac{x''_{yy}}{(x'_y)^3}$
+
 4. $n$ **阶导数**
    - （1）归纳法：逐次求导，找到规律，得出通式
    - （2）莱布尼茨公式：设 $u = u(x)$、$v = v(x)$ 均 $n$ 阶可导，则 $(u \pm v)^{(n)} = u^{(n)} + v^{(n)}$、$(uv)^{(n)} = \sum\limits_{k=0}^{n} C_n^k u^{(n-k)} v^{(k)}$
    - （3）泰勒展开法（一般用于求 $f^{(n)}(0)$）
 
 
+
 ## 5. 一元函数微分学（几何应用）
 1. **极值点**：其定义为 $x=x_0$ 点在其邻域内取得最大值或最小值（可以是导数不存在的点）
-2. **极值点与拐点的重要结论**：
+2. **拐点**：**连续曲线**的凹弧和凸弧的分界点称为该曲线的拐点（拐点的判断标准是在该点处左右两侧二阶导数符号相反，也就是说拐点处可能是 $f''(x_0) = 0$，也可能是 $f''(x_0^+) = \pm \infty = -f''(x_0^-)$）
+
+> ⚠️ 关于凹凸性的易错点：
+> - ❌ 当 $f''(x_0) > 0$ 时，曲线 $f(x)$ 在 $x_0$ 的某邻域内是凹的：错，一个点的二阶导数怎么能确定邻域的凹凸性呢？
+
+
+3. **极值点与拐点的重要结论**：
    - （1）曲线的可导点不可同时为极值点和拐点；曲线的不可导点可以同时为极值点和拐点
    - （2）设多项式函数 $f(x) = (x - a)^n g(x)(n>1)$ 且 $g(a) \ne 0$，则当 $n$ 为偶数时，$x=a$ 是 $f(x)$ 的极值点，$n$ 为奇数时，$(a, 0)$ 是曲线的拐点
    - （3）【张宇基础 30 讲 P149，感觉很难用到，先插个眼，等考到了再回来补】
 
-3. **曲率**：$k = \dfrac{|y''|}{[1 + (y')^2]^{\frac{3}{2}}}$
-4. **曲率半径**：$R = \dfrac{1}{k} = \dfrac{[1 + (y')^2]^{\frac{3}{2}}}{|y''|} (y''\ne 0)$
+4. **曲率**：$k = \dfrac{|y''|}{[1 + (y')^2]^{\frac{3}{2}}}$
+5. **曲率半径**：$R = \dfrac{1}{k} = \dfrac{[1 + (y')^2]^{\frac{3}{2}}}{|y''|} (y''\ne 0)$
 
 ## 6. 一元函数微分学（中值定理）
 
@@ -299,4 +312,110 @@ description: |
 
 8. **柯西中值定理**：设 $f(x), g(x)$ 满足在 $[a, b]$ 上连续、在 $(a, b)$ 上可导、$g'(x) \ne 0$，则存在 $\xi \in (a, b)$ 使得 $\dfrac{f(b) - f(a)}{g(b) - g(a)} = \dfrac{f'(\xi)}{g'(\xi)}$
 
-9. **泰勒公式**
+> 💡 常用的一阶化归逆用形式（没事多推一推，看到具体形式能想到如何逆用即可）
+>
+> - （1）$[f(x) \cdot x^n]' = x^{n-1} [xf'(x) + nf(x)]$
+> - （2）$[f(x) \cdot e^{nx}]'  = e^{nx}[f'(x) + n f(x)]$
+> - （3）$[f(x) \cdot e^{x^n}]' = e^{x^n} [f'(x) + nx^{n-1}f(x)]$
+> - （4）$[f(x) \cdot e^{\varphi(x)}]' = e^{\varphi(x)} [f'(x) + f(x) \varphi '(x)]$
+> - （5）$\{f(x)\cdot e^{\int^x_0 [f(t)]^{n-1} dt}\}' = e^{\int^x_0 [f(t)]^{n-1} dt} \{f'(x) +[f(x)]^n\}$
+> - （6）$[f(x) \cdot f'(x)]' = [f'(x)]^2 + f(x) \cdot f''(x)$
+> - （7）$[f(x) \cdot g(x)]' = f'(x)g(x) + f(x)g'(x)$
+> - （8）$[f(x) \cdot \arctan x]' = f'(x) \arctan x + \dfrac{f(x)}{1+x^2}$
+> - （9）$[f(x) \cdot \sin x]' = f'(x) \sin x + f(x) \cos x = [f'(x) \tan x + f(x)]\cos x$
+> - （10）$[\dfrac{f(x)}{x}]' = \dfrac{f'(x)x - f(x)}{x^2}$
+> - （11）$[\dfrac{f'(x)}{f(x)}]' = \dfrac{f''(x) f(x) - [f'(x)]^2}{f^2(x)}$
+> - （12）$[\ln f(x)]' = \dfrac{f'(x)}{f(x)}$（再导一次就变成（11）了）
+
+> 💡 常用二阶化归逆用（还有第二关？）
+>
+> - $[f(x) \cdot e^x]'' = e^x [f''(x) + 2f'(x) + f(x)]$
+
+
+## 7. 一元函数微分学（物理应用）
+
+> 💡 这一章似乎没有什么好说的，做题时要注意题目里有些变量不会直接告诉你，而是隐含在题目背景里的，比如时间 $t$
+
+
+## 8. 一元函数积分学的概念和性质
+
+1. **连和与连积的极限**
+   - （1）基本型（能凑成 $\dfrac{i}{n}$）：用 $\lim\limits_{n\to \infty} \sum\limits_{i=1 or 0}^{n} f(0 + \dfrac{1-0}{n}i) \dfrac{1-0}{n} = \int^1_0 f(x) dx$
+   - （2）放缩型（凑不成 $\dfrac{i}{n}$）：夹逼准则或放缩
+   - （3）变量型（$\dfrac{x}{n} i$）：用 $\lim\limits_{n\to \infty} \sum\limits_{i=1 or 0}^{n} f(0 + \dfrac{x-0}{n}i) \dfrac{x-0}{n} = \int^x_0 f(t) dt$
+
+> ⚠️ 上面的式子 $\lim\limits_{n\to \infty} \sum\limits_{i=1 or 0}^{n} f(0 + \dfrac{x-0}{n}i) \dfrac{x-0}{n} = \int^x_0 f(t) dt$ 很重要，其中的 $x$ 可以替换成其他常数或变量
+
+2. **连续与可积的易错点**
+   - （1）若 $f(x)$ 在 $[a, b]$ 上连续，则 $f(x)$ 在 $(a, b)$ 内存在原函数，且为 $\inf_a^x f(t)dt$
+   - （2）但若 $f(x)$ 在 $[a, b]$ 上连续，则 $f(x)$ 在 $(a, b)$ 内不一定存在原函数！（比如符号函数）
+   - （3）连续一定可积、可积一定有界，但有界不一定可积、可积不一定连续（即使函数有间断点，也可能可积，比如符号函数）
+
+
+3. **反常积分的敛散性**
+   - （1）
+
+
+4. **反常积分敛散性判别（⭐ 重难点）**
+   - （1）基本结论（要背下来）
+     - $\int^1_0 \dfrac{1}{x^p} dx \begin{cases} 收敛，& 0<p<1 \\ 发散，& p\ge 1 \end{cases}$，$\int^1_0 \dfrac{\ln x}{x^p} dx \begin{cases} 收敛，& 0 \le p<1 \\ 发散，& p\ge 1 \end{cases}$
+     - $\int^{+\infty}_1 \dfrac{1}{x^p} dx \begin{cases} 收敛，& p>1 \\ 发散，& p\le 1 \end{cases}$，$\int^{+\infty}_1 \dfrac{\ln x}{x^p} dx \begin{cases} 收敛，& p>1  \\ 发散，& p\le 1 \end{cases}$
+   - （2）二级结论（做题时遇到的）
+     -  若 $\int^{+\infty}_{0}f(x)dx$ 收敛，则 $\int^{+\infty}_{0}f^2(x)dx$ 收敛，反之错误（证明：$\int^{+\infty}_{0}f(x)dx$ 收敛 $\Rightarrow \lim\limits_{x\to +\infty} f(x) = 0 \Rightarrow \lim\limits_{x\to +\infty} \dfrac{f^2(x)}{f(x)} = 0 \Rightarrow$ 由比较判别法可知 $\int^{+\infty}_{0}f^2(x)dx$ 收敛）
+
+> ⚠️ 注意：
+> - （1）第一行基本结论中 $0<p$ 是因为该函数为“反常积分”，如果题目没有明确说这是个反常积分，则取值范围可以 $\le 0$
+> - （2）在上述基本结论中，$\ln x$ 形式上不起作用（一般只有 $x\to 1$ 时才起作用，要注意区分。比如例题 $\int^1_0 \dfrac{\ln x}{x^p (1-x)^q}$ 中，拆成 $(0, \dfrac{1}{2})$ 和 $(\dfrac{1}{2}, 1)$ 两个部分后，在第二个部分中 $\ln x$ 是起作用的，而在第一个部分中不起作用，可以直接抹去）
+> - （3）题目中经常需要用到比较判别法，要多训练
+
+> ⚠️ 关于反常积分的易错点：对于 $\int^4_0 \dfrac{1}{x-2}dx$，其柯西主值为 0。但是！因为按定义必须将其分开成 $\int^2_0 \dfrac{1}{x-2} dx$ 和 $\int^4_2 \dfrac{1}{x-2} dx$，这两个式子都发散，所以原积分发散！
+
+
+## 9. 一元函数积分学的计算
+1. **容易遗忘的重要积分公式**
+   - （1）$\int \dfrac{dx}{\cos x} = \int \sec x dx = \ln|\sec x + \tan x| + C$
+   - （2）$\int \dfrac{dx}{\sin x} = \int \csc x dx = \ln|\csc x - \cot x| + C$
+   - （3）$\int \sec ^2 x dx = \tan x + C$
+   - （4）$\int \csc ^2 x dx = -\cot x + C$
+   - （5）$\int \dfrac{1}{\sqrt{x^2 \pm a^2}} dx = \ln|x + \sqrt{x^2 \pm a^2}| + C$
+   - （6）$\int \dfrac{1}{\sqrt{a^2 - x^2}} dx = \arcsin \dfrac{x}{a} + C$
+   - （7）$\int \sqrt{x^2 + a^2} dx = \dfrac{x}{2} \sqrt{x^2 + a^2} + \dfrac{a^2}{2} \ln (x + \sqrt{x^2 + a^2}) + C$
+   - （8）$\int \sqrt{x^2 - a^2} dx = \dfrac{x}{2} \sqrt{x^2 - a^2} - \dfrac{a^2}{2} \ln |x + \sqrt{x^2 - a^2}| + C$
+   - （9）$\int \sqrt{a^2 - x^2} dx = \dfrac{x}{2} \sqrt{a^2 - x^2} + \dfrac{a^2}{2}\arcsin \dfrac{x}{a} + C$
+
+
+## 15. 微分方程
+
+1. **一阶线性微分方程**
+   - 形如 $y' + p(x) y =q(x)$ 的方程叫做一阶线性微分方程，其中 $p(x)$、$q(x)$ 为连续函数
+   - 通解：$y = e^{-\int p(x)dx} [\int e^{\int p(x)dx} \cdot q(x)dx + C]$
+   - 其推导过程为：在原微分方程两边同时乘 $e^{\int p(x)dx}$
+
+2. **伯努利方程**
+   - 形如 $\dfrac{dy}{dx} + p(x)y = q(x) y^n (n\ne 0, 1)$
+   - 解法：
+     - （1）先变形为 $y^{-n} \cdot \dfrac{dy}{dx} + p(x)y^{1-n} = q(x)$
+     - （2）令 $z = y^{1-n}$ 可得 $\dfrac{dz}{dx} = (1-n) y^{-n} \dfrac{dy}{dx}$，则 $\dfrac{1}{1-n} \dfrac{dz}{dx} + p(x)z = q(x)$
+     - （3）解此一阶线性微分方程
+
+3. **二阶常系数齐次线性微分方程**
+   - 形如 $y'' + py' + qy = 0$，其中 $p$、$q$ 为常数
+   - 通解：先写出对应的特征方程 $r^2 + pr + q = 0$（对原微分方程令 $y = e^{rx}$ 得到的）
+     - （1）特征方程有两个不等实根：通解为 $y = C_1 e^{r_1 x} + C_2 e^{r_2 x}$
+     - （2）特征方程有两个相等实根：通解为 $y = (C_1 + C_2 x) e^{rx}$
+     - （3）特征方程有共轭复根 $\alpha \pm \beta i$：通解为 $y = e^{\alpha x} (C_1 \cos\beta x + C_2 \sin\beta x)$
+
+4. **二阶常系数非齐次线性微分方程**
+   - 形如 $y'' + py' + qy = f(x)(f(x) \ne 0)$
+   - 解的结构：
+     - （1）若 $y_1^*(x)$ 是 $y'' + py' + qy = f_1(x)$ 的解，$y_2^*(x)$ 是 $y'' + py' + qy = f_2(x)$ 的解，那么 $y_1^*(x) + y_2^*(x)$ 是 $y'' + py' + qy = f_1(x) + f_2(x)$ 的解（线性）
+     - （2）若 $y_1^*$、$y_2^*$ 都是 $y'' + py' + qy = f(x)$ 的特解，则 $y_1^* - y_2^*$ 对应齐次方程的解
+   - 当自由项 $f(x) = P_n(x) e^{\alpha x}$ （$P_n(x)$ 为 $x$ 的 $n$ 次多项式）时，特解为 $y^* = e^{\alpha x}Q_n(x) x^k$，其中：
+     - （1）$e^{\alpha x} $ 照抄
+     - （2）$Q_n(x)$ 为 $x$ 的 $n$ 次多项式
+     - （3）$k = \begin{cases} 0, & \alpha 不是特征根 \\ 1, & \alpha 是单特征根 \\ 2, & \alpha 是二重特征根 \end{cases}$
+   - 当自由项 $f(x) = e^{\alpha x} [P_m(x) \cos \beta x + P_n(x) \sin \beta x]$ 时，特解为 $y^* = e^{\alpha x} [Q_l^{(1)}(x) \cos \beta x + Q_l^{(2)}(x) \sin\beta x] x^k$
+     - （1）$e^{\alpha x}$ 照抄
+     - （2）$l = \max \{m, n\}$，$Q_l^{(1)}(x)$、$Q_l^{(2)}(x)$ 分别为 $x$ 的两个不同的 $l$ 次多项式
+     - （3）$k = \begin{cases} 0, & \alpha\pm\beta i 不是特征根 \\ 1, & \alpha\pm\beta i 是特征根 \end{cases}$
+

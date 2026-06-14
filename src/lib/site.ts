@@ -1,5 +1,5 @@
 export const site = {
-  title: "Cold Rain's Blog",
+  title: "Coldrain's Blog",
   subtitle: "冷雨的博客",
   description: "銀の龍の背に乗って...",
   author: "ColdRain",
