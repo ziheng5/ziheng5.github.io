@@ -287,7 +287,7 @@ description: |
 
 
 3. **极值点与拐点的重要结论**：
-   - （1）曲线的可导点不可同时为极值点和拐点；曲线的不可导点可以同时为极值点和拐点
+   - （1）曲线的$\textcolor{red}{可导}$点不可同时为极值点和拐点；曲线的$\textcolor{red}{不可导}$点可以同时为极值点和拐点
    - （2）设多项式函数 $f(x) = (x - a)^n g(x)(n>1)$ 且 $g(a) \ne 0$，则当 $n$ 为偶数时，$x=a$ 是 $f(x)$ 的极值点，$n$ 为奇数时，$(a, 0)$ 是曲线的拐点
    - （3）【张宇基础 30 讲 P149，感觉很难用到，先插个眼，等考到了再回来补】
 
@@ -346,17 +346,17 @@ description: |
 
 > ⚠️ 上面的式子 $\lim\limits_{n\to \infty} \sum\limits_{i=1 or 0}^{n} f(0 + \dfrac{x-0}{n}i) \dfrac{x-0}{n} = \int^x_0 f(t) dt$ 很重要，其中的 $x$ 可以替换成其他常数或变量
 
-2. **连续与可积的易错点**
-   - （1）若 $f(x)$ 在 $[a, b]$ 上连续，则 $f(x)$ 在 $(a, b)$ 内存在原函数，且为 $\inf_a^x f(t)dt$
-   - （2）但若 $f(x)$ 在 $[a, b]$ 上连续，则 $f(x)$ 在 $(a, b)$ 内不一定存在原函数！（比如符号函数）
+2. **连续、原函数存在、可积的易错点**
+   - （1）若 $f(x)$ 在 $[a, b]$ 上连续，则 $f(x)$ 在 $(a, b)$ 内存在原函数，且为 $\int_a^x f(t)dt$
+   - （2）但若 $f(x)$ 在 $[a, b]$ 上不连续，则 $f(x)$ 在 $(a, b)$ 内不一定存在原函数！（比如符号函数）
    - （3）连续一定可积、可积一定有界，但有界不一定可积、可积不一定连续（即使函数有间断点，也可能可积，比如符号函数）
+   - （4）对于含有第一类间断点、无穷间断点的函数在包含该间断点的区间内**必无**原函数
+   - （5）对于含有振荡间断点的函数在包含该间断点的区间内**可能**有原函数
+   - （6）原函数存在与可积没有必然联系，原函数存在不一定可积，可积不一定存在原函数
 
+> 💡 只要函数 $f(x)$ 在某区间上可导，则其导函数 $f'(x)$ 在该区间上一定没有第一类间断点和无穷间断点
 
-3. **反常积分的敛散性**
-   - （1）
-
-
-4. **反常积分敛散性判别（⭐ 重难点）**
+1. **反常积分敛散性判别（⭐ 重难点）**
    - （1）基本结论（要背下来）
      - $\int^1_0 \dfrac{1}{x^p} dx \begin{cases} 收敛，& 0<p<1 \\ 发散，& p\ge 1 \end{cases}$，$\int^1_0 \dfrac{\ln x}{x^p} dx \begin{cases} 收敛，& 0 \le p<1 \\ 发散，& p\ge 1 \end{cases}$
      - $\int^{+\infty}_1 \dfrac{1}{x^p} dx \begin{cases} 收敛，& p>1 \\ 发散，& p\le 1 \end{cases}$，$\int^{+\infty}_1 \dfrac{\ln x}{x^p} dx \begin{cases} 收敛，& p>1  \\ 发散，& p\le 1 \end{cases}$
@@ -379,10 +379,15 @@ description: |
    - （4）$\int \csc ^2 x dx = -\cot x + C$
    - （5）$\int \dfrac{1}{\sqrt{x^2 \pm a^2}} dx = \ln|x + \sqrt{x^2 \pm a^2}| + C$
    - （6）$\int \dfrac{1}{\sqrt{a^2 - x^2}} dx = \arcsin \dfrac{x}{a} + C$
-   - （7）$\int \sqrt{x^2 + a^2} dx = \dfrac{x}{2} \sqrt{x^2 + a^2} + \dfrac{a^2}{2} \ln (x + \sqrt{x^2 + a^2}) + C$
-   - （8）$\int \sqrt{x^2 - a^2} dx = \dfrac{x}{2} \sqrt{x^2 - a^2} - \dfrac{a^2}{2} \ln |x + \sqrt{x^2 - a^2}| + C$
+   - （7）$\int - \dfrac{1}{\sqrt{a^2 - x^2}} dx = \arccos \dfrac{x}{a} + C$
+   - （8）$\int \sqrt{x^2 \pm a^2} dx = \dfrac{x}{2} \sqrt{x^2 \pm a^2} \pm \dfrac{a^2}{2} \ln |x + \sqrt{x^2 \pm a^2}| + C$
    - （9）$\int \sqrt{a^2 - x^2} dx = \dfrac{x}{2} \sqrt{a^2 - x^2} + \dfrac{a^2}{2}\arcsin \dfrac{x}{a} + C$
+   - （10）$\int \tan x dx = -\ln |\cos x| + C$
+   - （11）$\int \tan^2 x dx = \tan x - x + C$
 
+> 💡 换元积分时的三角换元法出现的三角函数嵌套问题
+>
+> - 在求解积分的时候经常需要用到三角函数进行换元，比如 $x = a\tan t / a\cot t / a\cos t / a\sin t / a\sec t / a\csc t$，当出现三角函数套反三角函数时，要记得使用几何方法（画个直角三角形）将其拆分成 $x$ 非三角函数，比如 $\sin(\arctan \dfrac{x}{a}) = \dfrac{x}{\sqrt{x^2 + a^2}}$
 
 ## 15. 微分方程
 
