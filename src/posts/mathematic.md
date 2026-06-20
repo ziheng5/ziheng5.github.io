@@ -372,6 +372,11 @@ description: |
 
 
 ## 9. 一元函数积分学的计算
+
+> ⚠️ 本章极其容易犯错的细节：
+> - （1）当定积分上下限区间内$\textcolor{red}{包含间断点}$时，必须将定积分拆开来算！
+> - （2）换元、变限积分求导等问题中，要小心 $-\sqrt{x^2}$ 等需要考虑$\textcolor{red}{正负号变换}$的细节！比如【1000a.9.17】
+
 1. **容易遗忘的重要积分公式**
    - （1）$\int \dfrac{dx}{\cos x} = \int \sec x dx = \ln|\sec x + \tan x| + C$
    - （2）$\int \dfrac{dx}{\sin x} = \int \csc x dx = \ln|\csc x - \cot x| + C$
@@ -388,6 +393,18 @@ description: |
 > 💡 换元积分时的三角换元法出现的三角函数嵌套问题
 >
 > - 在求解积分的时候经常需要用到三角函数进行换元，比如 $x = a\tan t / a\cot t / a\cos t / a\sin t / a\sec t / a\csc t$，当出现三角函数套反三角函数时，要记得使用几何方法（画个直角三角形）将其拆分成 $x$ 非三角函数，比如 $\sin(\arctan \dfrac{x}{a}) = \dfrac{x}{\sqrt{x^2 + a^2}}$
+
+
+2. **万能公式**：
+   - 令 $t = \tan \dfrac{x}{2}$，则 $\sin x = \dfrac{2t}{1+t^2}$，$\cos x = \dfrac{1-t^2}{1+t^2}$
+   - 一般用于求解 $\int \dfrac{1}{a+b\sin x} dx$ 或 $\int \dfrac{1}{a+b\cos x} dx$
+   - 【1000a.9.1.(23)(24)】
+
+
+> 💡 还有一种原函数不易求解的非奇非偶函数在**对称区间**上的积分，还有一种比较特立独行的题目：
+>
+> - $\int^1_{-1} x\ln(1+e^x) dx \\ = \int^1_0 x\ln(1+e^x)dx + \int^0_{-1} x\ln(1+e^x)dx \\ = \int^1_0 x\ln(1+e^x)dx + \int^0_{-1} x\ln(1+e^x)dx \\ =\int^1_0 x\ln(1+e^x)dx + \int^0_{1} (-x)\ln(1+e^{-x})d(-x) \\ =\int^1_0 x\ln(1+e^x)dx - \int^1_{0} x\ln(1+e^{-x})dx \\ =\int^1_0 x\ln(\dfrac{1+e^x}{1+e^{-x}})dx \\ =\int^1_0 x\ln e^xdx \\ = \int^1_0 x^2 dx$
+
 
 ## 15. 微分方程
 

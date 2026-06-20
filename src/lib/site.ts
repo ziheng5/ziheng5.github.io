@@ -18,8 +18,7 @@ export const menu = [
   { label: "Archives", icon: "box-archive", theme: "solid", href: "/archives/" },
   { label: "Categories", icon: "bookmark", theme: "solid", href: "/categories/杂谈/" },
   { label: "Tags", icon: "tags", theme: "solid", href: "/tags/杂谈/" },
-  { label: "Links", icon: "link", theme: "solid", href: "/friends/" },
-  { label: "Favorites", icon: "star", theme: "solid", href: "/favorites/" }
+  { label: "Links", icon: "link", theme: "solid", href: "/friends/" }
 ];
 
 export const iconLinks = [
@@ -39,22 +38,4 @@ export const friends = [
   { name: "T.本秋", url: "https://blog.texsd.eu.org/", avatar: "https://blog.texsd.eu.org/imgs/avatar_hu_574f01a50f8ac821.webp", desc: "Nothing's true, everything's permitted." },
   { name: "BlueSpace", url: "https://blog.bluespace.ren/", avatar: "https://blog.bluespace.ren/img/soine.png", desc: "欢迎来到一个...常年精神内耗者的空间..._" },
   { name: "Tianyi Lyu", url: "https://lvmolvmo.github.io/", avatar: "https://lvmolvmo.github.io/images/android-chrome-192x192.png", desc: "From blurry images to clear decisions: I connect the dots, literally. ( ͡° ͜ʖ ͡°)" }
-];
-
-export const favorites = [
-  {
-    name: "工具文档",
-    items: [
-      { name: "Hexo 文档", url: "https://hexo.io/", desc: "快速、简洁且高效的博客框架", icon: "book" },
-      { name: "NapCatQQ 文档", url: "https://napneko.github.io/", desc: "现代化的基于 NTQQ 的 Bot 协议端实现", icon: "book" },
-      { name: "NoneBot", url: "https://nonebot.dev/", desc: "跨平台 Python 异步机器人框架", icon: "book" },
-      { name: "LangChain", url: "https://docs.langchain.com/", desc: "强大的代理工程平台", icon: "book" }
-    ]
-  },
-  {
-    name: "实用工具",
-    items: [
-      { name: "AnyRouter", url: "https://anyrouter.top/", desc: "公益中转站", icon: "car" }
-    ]
-  }
 ];
