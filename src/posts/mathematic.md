@@ -374,7 +374,7 @@ description: |
 ## 9. 一元函数积分学的计算
 
 > ⚠️ 本章极其容易犯错的细节：
-> - （1）当定积分上下限区间内$\textcolor{red}{包含间断点}$时，必须将定积分拆开来算！
+> - （1）当定积分上下限区间内$\textcolor{red}{包含瑕点}$时，必须将定积分拆开来算！
 > - （2）换元、变限积分求导等问题中，要小心 $-\sqrt{x^2}$ 等需要考虑$\textcolor{red}{正负号变换}$的细节！比如【1000a.9.17】
 
 1. **容易遗忘的重要积分公式**
@@ -401,9 +401,44 @@ description: |
    - 【1000a.9.1.(23)(24)】
 
 
-> 💡 还有一种原函数不易求解的非奇非偶函数在**对称区间**上的积分，还有一种比较特立独行的题目：
+3. **第二类换元法**：
+   - 如果被积函数非常复杂，可以尝试令 $x = g(u)$，引入新的自变量 $u$，使 $f(x) = f[g(u)] = h(u)$，若 $h(u)$ 更简单，则换元成功
+   - 常见的换元包括（看到下面的形式要敏感）：
+     - （1）三角换元：$x = a\tan t / a\cot t / a\sin t / a\cos t / a\sec t / a\csc t$
+     - （2）根式换元：$\sqrt[n]{\dfrac{ax + b}{cx + d}} = u$ 或 $\sqrt{e^x + 1} = u$
+     - （3）倒数代换：$x = \dfrac{1}{t}$
+     - （4）区间转换：$x = at + c$（$a$ 一般为负数，该代换用途主要为：代换完之后不仅将原函数转换为特殊形式，还能改变积分上下限至其他积分上，比如 $\int^a_b f(x)dx = \int^a_b f(a+b -x)dx$）
+     - （5）
+
+
+> 💡 还有一种原函数不易求解的非奇非偶函数在**关于定义域对称区间**上的积分（或者对折定义域之后可以相消的积分），比较特立独行的题目，非常重要：
 >
-> - $\int^1_{-1} x\ln(1+e^x) dx \\ = \int^1_0 x\ln(1+e^x)dx + \int^0_{-1} x\ln(1+e^x)dx \\ = \int^1_0 x\ln(1+e^x)dx + \int^0_{-1} x\ln(1+e^x)dx \\ =\int^1_0 x\ln(1+e^x)dx + \int^0_{1} (-x)\ln(1+e^{-x})d(-x) \\ =\int^1_0 x\ln(1+e^x)dx - \int^1_{0} x\ln(1+e^{-x})dx \\ =\int^1_0 x\ln(\dfrac{1+e^x}{1+e^{-x}})dx \\ =\int^1_0 x\ln e^xdx \\ = \int^1_0 x^2 dx$
+> - 【1000b.9.12】$\int^1_{-1} x\ln(1+e^x) dx \\ = \int^1_0 x\ln(1+e^x)dx + \int^0_{-1} x\ln(1+e^x)dx \\ = \int^1_0 x\ln(1+e^x)dx + \int^0_{-1} x\ln(1+e^x)dx \\ =\int^1_0 x\ln(1+e^x)dx + \int^0_{1} (-x)\ln(1+e^{-x})d(-x) \\ =\int^1_0 x\ln(1+e^x)dx - \int^1_{0} x\ln(1+e^{-x})dx \\ =\int^1_0 x\ln(\dfrac{1+e^x}{1+e^{-x}})dx \\ =\int^1_0 x\ln e^xdx \\ = \int^1_0 x^2 dx$
+> - 【1000b.9.26】$\int^5_{-1} \dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} dx \\ = \int^5_2 \dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} dx + \int^2_{-1} \dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} dx \\ = \int^5_2 \dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} dx + \int^2_5 \dfrac{1}{1 + 2^{\sqrt[3]{2-t}}} d(4-t) \\ = \int^5_2 \dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} dx + \int^5_2 \dfrac{1}{1 + 2^{-\sqrt[3]{t-2}}} dt \\ = \int^5_2 \dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} dx + \int^5_2 \dfrac{1}{1 + 2^{-\sqrt[3]{x-2}}} dx \\ = \int^5_2 (\dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} + \dfrac{1}{1 + 2^{-\sqrt[3]{x-2}}} )dx \\ = \int^5_2 (\dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} + \dfrac{2^{\sqrt[3]{x-2}}}{1 + 2^{\sqrt[3]{x-2}}} )dx \\ = \int^5_2 1 dx$
+> - 【1000b.9.28】$\int^{+\infty}_0 \dfrac{x\ln x}{1+x^4} dx \\ = \int^{+\infty}_1 \dfrac{x\ln x}{1+x^4} dx + \int^{1}_0 \dfrac{x\ln x}{1+x^4} dx \\ = \int^{+\infty}_1 \dfrac{x\ln x}{1+x^4} dx + \int^{1}_{+\infty} \dfrac{\frac{1}{t}\ln (\frac{1}{t})}{1+(\frac{1}{t})^4} d(\frac{1}{t}) \\ = \int^{+\infty}_1 \dfrac{x\ln x}{1+x^4} dx + \int^{1}_{+\infty} \dfrac{\frac{1}{t} (-\ln t)}{1+(\frac{1}{t})^4} (-\dfrac{1}{t^2})dt \\ = \int^{+\infty}_1 \dfrac{x\ln x}{1+x^4} dx - \int^{+\infty}_{1} \dfrac{t \ln t}{1+t^4} dt \\ =0$
+
+## 10. 一元函数微分学的几何应用
+
+1. **计算面积**
+   - （1）直角坐标系下：$S = \int^a_b |f_1(x) - f_2(x)| dx$
+   - （2）极坐标系下（扇形区域）：$S = \int^{\beta}_{\alpha} \dfrac{1}{2} |r_2^2(\theta) - r_1^2(\theta)| d\theta$
+
+2. **平面曲线绕定直线旋转**
+   - （1）设平面曲线 $L$：$y=f(x)$，$a\le x\le b$ 且 $f(x)$ 可导
+   - （2）定直线 $L_0$：$Ax + By + C = 0$ 且 $L_0$ 的任一条垂线与 $L$ 至多有一个交点
+   - （3）则 $L$ 绕 $L_0$ 旋转一周的旋转体体积：$V = \dfrac{\pi}{(A^2+B^2)^{\frac{3}{2}}} \int^b_a [Ax +Bf(x) +C]^2 |Af'(x) -B|dx$
+
+3. **平均值**：$\overline{f} = \dfrac{1}{b-a} \int^b_a f(x) dx$
+
+4. **平面曲线的弧长**
+   - （1）$y = y(x)(a\le x\le b)$：$s = \int^b_a \sqrt{1 + [y'(x)]^2} dx$
+   - （2）$r = r(\theta)(\alpha\le \theta\le\beta)$：$s = \int^{\beta}_{\alpha} \sqrt{[r(\theta)]^2 + [r'(\theta)]^2} d\theta$
+   - （3）$\begin{cases} x = x(t) \\ y=y(t) \end{cases}(\alpha\le t\le\beta)$：$s = \int^{\beta}_{\alpha} \sqrt{[x'(t)]^2 + [y'(t)]^2} dt$
+
+5. **旋转曲面面积**
+   - （1）$y = y(x)(a\le x\le b)$ 绕 $x$ 轴旋转：$S = 2\pi \int^b_a |y(x)| \sqrt{1 + [y'(x)]^2} dx$
+   - （2）$r = r(\theta)(\alpha\le \theta\le\beta)$ 绕 $x$ 轴旋转：$S = 2\pi \int^{\beta}_{\alpha} |r(\theta) \sin \theta| \sqrt{[r(\theta)]^2 + [r'(\theta)]^2} d\theta$
+   - （3）$\begin{cases} x = x(t) \\ y=y(t) \end{cases}(\alpha\le t\le\beta)$ 绕 $x$ 轴旋转：$S = 2\pi \int^{\beta}_{\alpha} |y(t)| \sqrt{[x'(t)]^2 + [y'(t)]^2} dt$
 
 
 ## 15. 微分方程
