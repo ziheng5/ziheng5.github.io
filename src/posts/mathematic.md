@@ -423,17 +423,21 @@ description: |
    - （1）直角坐标系下：$S = \int^a_b |f_1(x) - f_2(x)| dx$
    - （2）极坐标系下（扇形区域）：$S = \int^{\beta}_{\alpha} \dfrac{1}{2} |r_2^2(\theta) - r_1^2(\theta)| d\theta$
 
-2. **平面曲线绕定直线旋转**
+2. **平面曲线绕定直线旋转体体积**
    - （1）设平面曲线 $L$：$y=f(x)$，$a\le x\le b$ 且 $f(x)$ 可导
    - （2）定直线 $L_0$：$Ax + By + C = 0$ 且 $L_0$ 的任一条垂线与 $L$ 至多有一个交点
    - （3）则 $L$ 绕 $L_0$ 旋转一周的旋转体体积：$V = \dfrac{\pi}{(A^2+B^2)^{\frac{3}{2}}} \int^b_a [Ax +Bf(x) +C]^2 |Af'(x) -B|dx$
+   - （4）设平面图形 $D = \{(r, \theta) | 0 \le r \le r(\theta), \theta\in[\alpha, \beta]\subset [0, \pi] \}$，则 $D$ 绕极轴（一般是 $x$ 轴）旋转一周所得旋转体的体积为 $V = \dfrac{2}{3} \int^{\beta}_{\alpha} r^3(\theta) \sin\theta d\theta$
 
 3. **平均值**：$\overline{f} = \dfrac{1}{b-a} \int^b_a f(x) dx$
 
 4. **平面曲线的弧长**
-   - （1）$y = y(x)(a\le x\le b)$：$s = \int^b_a \sqrt{1 + [y'(x)]^2} dx$
-   - （2）$r = r(\theta)(\alpha\le \theta\le\beta)$：$s = \int^{\beta}_{\alpha} \sqrt{[r(\theta)]^2 + [r'(\theta)]^2} d\theta$
-   - （3）$\begin{cases} x = x(t) \\ y=y(t) \end{cases}(\alpha\le t\le\beta)$：$s = \int^{\beta}_{\alpha} \sqrt{[x'(t)]^2 + [y'(t)]^2} dt$
+   - （1）$y = y(x)(a\le x\le b)$：$s = \int^b_a ds = \int^b_a \sqrt{1 + [y'(x)]^2} dx$
+   - （2）$r = r(\theta)(\alpha\le \theta\le\beta)$：$s = \int^{\beta}_{\alpha} ds = \int^{\beta}_{\alpha} \sqrt{[r(\theta)]^2 + [r'(\theta)]^2} d\theta$
+   - （3）$\begin{cases} x = x(t) \\ y=y(t) \end{cases}(\alpha\le t\le\beta)$：$s = \int^{\beta}_{\alpha} ds = \int^{\beta}_{\alpha} \sqrt{[x'(t)]^2 + [y'(t)]^2} dt$
+
+> 💡 这里记录的是 $ds = \sqrt{1 + [y'(x)]^2} dx$ 或另外两个形式，实际上也可以旋转一下坐标系，即 $ds = \sqrt{1 + [y'(x)]^2} dx = \sqrt{1 + [x'(y)]^2} dy$
+
 
 5. **旋转曲面面积**
    - （1）$y = y(x)(a\le x\le b)$ 绕 $x$ 轴旋转：$S = 2\pi \int^b_a |y(x)| \sqrt{1 + [y'(x)]^2} dx$
