@@ -444,6 +444,12 @@ description: |
    - （2）$r = r(\theta)(\alpha\le \theta\le\beta)$ 绕 $x$ 轴旋转：$S = 2\pi \int^{\beta}_{\alpha} |r(\theta) \sin \theta| \sqrt{[r(\theta)]^2 + [r'(\theta)]^2} d\theta$
    - （3）$\begin{cases} x = x(t) \\ y=y(t) \end{cases}(\alpha\le t\le\beta)$ 绕 $x$ 轴旋转：$S = 2\pi \int^{\beta}_{\alpha} |y(t)| \sqrt{[x'(t)]^2 + [y'(t)]^2} dt$
 
+> 💡 做题需要注意：
+> - 连续函数 $f(x)$ 的一个原函数表达形式常写为 $F(x) = \int^x_0 f(u) du$，考试时见到 $F(x) \int^x_0 f(u)du$，一般令 $F(x) = \int^x_0 f(u)du$，这样就有 $F'(x) = f(x)$，即得 $F'(x) F(x)$，于是 $\int F'(x) F(x) dx = \int F(x) d[F(x)] = \dfrac{1}{2} F^2(x) + C$，这个思路非常重要
+> - 上面这个思路主要出现在求平均值里（？）
+
+
+
 
 ## 15. 微分方程
 
