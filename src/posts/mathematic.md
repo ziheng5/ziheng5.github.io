@@ -411,13 +411,17 @@ description: |
      - （5）
 
 
-> 💡 还有一种原函数不易求解的非奇非偶函数在**关于定义域对称区间**上的积分（或者对折定义域之后可以相消的积分），比较特立独行的题目，非常重要：
+> 💡 还有一种原函数不易求解的非奇非偶函数在**关于定义域对称区间**上的积分（或者对折定义域之后可以相消的积分），比较特立独行的题目，非常重要（可以看看第 11 章的区间再现部分）：
 >
 > - 【1000b.9.12】$\int^1_{-1} x\ln(1+e^x) dx \\ = \int^1_0 x\ln(1+e^x)dx + \int^0_{-1} x\ln(1+e^x)dx \\ = \int^1_0 x\ln(1+e^x)dx + \int^0_{-1} x\ln(1+e^x)dx \\ =\int^1_0 x\ln(1+e^x)dx + \int^0_{1} (-x)\ln(1+e^{-x})d(-x) \\ =\int^1_0 x\ln(1+e^x)dx - \int^1_{0} x\ln(1+e^{-x})dx \\ =\int^1_0 x\ln(\dfrac{1+e^x}{1+e^{-x}})dx \\ =\int^1_0 x\ln e^xdx \\ = \int^1_0 x^2 dx$
 > - 【1000b.9.26】$\int^5_{-1} \dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} dx \\ = \int^5_2 \dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} dx + \int^2_{-1} \dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} dx \\ = \int^5_2 \dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} dx + \int^2_5 \dfrac{1}{1 + 2^{\sqrt[3]{2-t}}} d(4-t) \\ = \int^5_2 \dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} dx + \int^5_2 \dfrac{1}{1 + 2^{-\sqrt[3]{t-2}}} dt \\ = \int^5_2 \dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} dx + \int^5_2 \dfrac{1}{1 + 2^{-\sqrt[3]{x-2}}} dx \\ = \int^5_2 (\dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} + \dfrac{1}{1 + 2^{-\sqrt[3]{x-2}}} )dx \\ = \int^5_2 (\dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} + \dfrac{2^{\sqrt[3]{x-2}}}{1 + 2^{\sqrt[3]{x-2}}} )dx \\ = \int^5_2 1 dx$
 > - 【1000b.9.28】$\int^{+\infty}_0 \dfrac{x\ln x}{1+x^4} dx \\ = \int^{+\infty}_1 \dfrac{x\ln x}{1+x^4} dx + \int^{1}_0 \dfrac{x\ln x}{1+x^4} dx \\ = \int^{+\infty}_1 \dfrac{x\ln x}{1+x^4} dx + \int^{1}_{+\infty} \dfrac{\frac{1}{t}\ln (\frac{1}{t})}{1+(\frac{1}{t})^4} d(\frac{1}{t}) \\ = \int^{+\infty}_1 \dfrac{x\ln x}{1+x^4} dx + \int^{1}_{+\infty} \dfrac{\frac{1}{t} (-\ln t)}{1+(\frac{1}{t})^4} (-\dfrac{1}{t^2})dt \\ = \int^{+\infty}_1 \dfrac{x\ln x}{1+x^4} dx - \int^{+\infty}_{1} \dfrac{t \ln t}{1+t^4} dt \\ =0$
 
-## 10. 一元函数微分学的几何应用
+## 10. 一元函数积分学的几何应用
+
+> ⚠️ 本章重点习题：
+> - 【1000a-10-11】
+> - 【1000b-10-10、12、17、21、22、24】
 
 1. **计算面积**
    - （1）直角坐标系下：$S = \int^a_b |f_1(x) - f_2(x)| dx$
@@ -449,7 +453,36 @@ description: |
 > - 上面这个思路主要出现在求平均值里（？）
 
 
+6. **形心坐标**：
+   - （1）$\overline{x} = \dfrac{\iint\limits_{D} x d\sigma}{\iint\limits_{D}  d\sigma} = \dfrac{\int^b_a dx \int^{f(x)}_0 x dy}{\int^b_a dx \int^{f(x)}_0  dy} = \dfrac{\int^b_a xf(x) dx}{\int^b_a f(x) dx}$
+   - （2）$\overline{y} = \dfrac{\iint\limits_{D} y d\sigma}{\iint\limits_{D}  d\sigma} = \dfrac{\int^b_a dx \int^{f(x)}_0 y dy}{\int^b_a dx \int^{f(x)}_0  dy} = \dfrac{\frac{1}{2} \int^b_a f^2(x) dx}{\int^b_a f(x) dx}$
 
+
+## 11. 一元函数积分学的应用：积分等式与积分不等式
+
+> ⚠️ 本章重点习题：
+> - 【张宇强化.11.例1】
+
+1. **祖孙三代奇偶性**
+   - （1）$f(x)$ 为可导的奇函数 $\Rightarrow f'(x)$ 为偶函数
+   - （2）$f(x)$ 为可导的偶函数 $\Rightarrow f'(x)$ 为奇函数
+   - （3）$f(x)$ 为可积的奇函数 $\Rightarrow \int^x_0 f(t) dt$ 为偶函数（注意下限为 0）
+   - （4）$f(x)$ 为可积的偶函数 $\Rightarrow \int^x_0 f(t) dt$ 为奇函数（注意下限为 0）
+   - （5）$\int^a_{-a} f(x) dx = \dfrac{1}{2} \int^a_{-a} [f(x) + f(-x)]dx = \int^a_0 [f(x) + f(-x)] dx$（区间再现公式，比如 $f(x) = \dfrac{1}{1+e^x}, \dfrac{1}{1+e^{\frac{1}{x}}}, \dfrac{1}{1 + e^{-x}}$ 等，本身没有奇偶性，但可以借助上式处理成易积分的函数）
+
+2. **祖孙三代周期性**
+   - （1）若 $f(x)$ 是可导且以 $T$ 为周期的周期函数，则 $f'(x)$ 是以 $T$ 为周期的周期函数
+   - （2）若 $f(x)$ 是可积且以 $T$ 为周期的周期函数，则 $\int^x_0 f(t) dt$ 是以 $T$ 为周期的周期函数 $\Leftrightarrow \int^T_0 f(x) dx = 0$
+   - （3）若 $f(x)$ 是可积且以 $T$ 为周期的周期函数，则 $\int^T_0 f(x) dx = \int^{a+T}_{a} f(x) dx \Leftrightarrow \int^{a+nT}_{a} f(x) dx = n\int^{T}_0 f(x) dx$
+
+3. **区间再现大观 ⭐**
+   - （1）$\int^b_a f(x) dx = \int^b_a f(a+b - x) dx$
+   - （2）$\int^b_a f(x) dx = \dfrac{1}{2} \int^b_a [f(x) + f(a+b - x)] dx$
+   - （3）$\int^b_a f(x) dx = \int^{\frac{a+b}{2}}_a [f(x) + f(a+b - x)] dx$（$F(x) = f(x) +f(a+b-x)$ 关于 $x = \dfrac{a+b}{2}$ 对称）
+   - （4）$\int^{\pi}_0 xf(\sin x) dx = \dfrac{\pi}{2} \int^{\pi}_0 f(\sin x)dx$
+   - （5）$\int^{\pi}_0 xf(\sin x) dx = \pi \int^{\frac{\pi}{2}}_0 f(\sin x)dx$
+   - （6）$\int^{\frac{\pi}{2}}_{0} f(\sin x)dx = \int^{\frac{\pi}{2}}_{0} f(\cos x) dx$
+   - （7）$\int^{\frac{\pi}{2}}_{0} f(\sin x, \cos x)dx = \int^{\frac{\pi}{2}}_{0} f(\cos x, \sin x) dx$
 
 ## 15. 微分方程
 
