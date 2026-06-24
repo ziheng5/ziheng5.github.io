@@ -356,7 +356,7 @@ description: |
 
 > 💡 只要函数 $f(x)$ 在某区间上可导，则其导函数 $f'(x)$ 在该区间上一定没有第一类间断点和无穷间断点
 
-1. **反常积分敛散性判别（⭐ 重难点）**
+3. **反常积分敛散性判别（⭐ 重难点）**
    - （1）基本结论（要背下来）
      - $\int^1_0 \dfrac{1}{x^p} dx \begin{cases} 收敛，& 0<p<1 \\ 发散，& p\ge 1 \end{cases}$，$\int^1_0 \dfrac{\ln x}{x^p} dx \begin{cases} 收敛，& 0 \le p<1 \\ 发散，& p\ge 1 \end{cases}$
      - $\int^{+\infty}_1 \dfrac{1}{x^p} dx \begin{cases} 收敛，& p>1 \\ 发散，& p\le 1 \end{cases}$，$\int^{+\infty}_1 \dfrac{\ln x}{x^p} dx \begin{cases} 收敛，& p>1  \\ 发散，& p\le 1 \end{cases}$
@@ -408,7 +408,6 @@ description: |
      - （2）根式换元：$\sqrt[n]{\dfrac{ax + b}{cx + d}} = u$ 或 $\sqrt{e^x + 1} = u$
      - （3）倒数代换：$x = \dfrac{1}{t}$
      - （4）区间转换：$x = at + c$（$a$ 一般为负数，该代换用途主要为：代换完之后不仅将原函数转换为特殊形式，还能改变积分上下限至其他积分上，比如 $\int^a_b f(x)dx = \int^a_b f(a+b -x)dx$）
-     - （5）
 
 
 > 💡 还有一种原函数不易求解的非奇非偶函数在**关于定义域对称区间**上的积分（或者对折定义域之后可以相消的积分），比较特立独行的题目，非常重要（可以看看第 11 章的区间再现部分）：
@@ -483,6 +482,51 @@ description: |
    - （5）$\int^{\pi}_0 xf(\sin x) dx = \pi \int^{\frac{\pi}{2}}_0 f(\sin x)dx$
    - （6）$\int^{\frac{\pi}{2}}_{0} f(\sin x)dx = \int^{\frac{\pi}{2}}_{0} f(\cos x) dx$
    - （7）$\int^{\frac{\pi}{2}}_{0} f(\sin x, \cos x)dx = \int^{\frac{\pi}{2}}_{0} f(\cos x, \sin x) dx$
+
+4. **华里士公式（点火公式）**
+   - （1）$\int^{\frac{\pi}{2}}_0 \sin^n x dx = \int^{\frac{\pi}{2}}_0 \cos^n x dx = \begin{cases} \dfrac{n-1}{n} \times \dfrac{n-3}{n-2} \times ... \times \dfrac{2}{3} \times 1,& n 为大于 1 的奇数 \\ \dfrac{n-1}{n} \times \dfrac{n-3}{n-2} \times ... \times \dfrac{1}{2} \times \dfrac{\pi}{2},& n 为正偶数 \end{cases}$
+   - （2）$\int^{\pi}_0 \sin^n x dx = \begin{cases} 2\times \dfrac{n-1}{n} \times \dfrac{n-3}{n-2} \times ... \times \dfrac{2}{3} \times 1,& n 为大于 1 的奇数 \\ 2\times \dfrac{n-1}{n} \times \dfrac{n-3}{n-2} \times ... \times \dfrac{1}{2} \times \dfrac{\pi}{2},& n 为正偶数 \end{cases}$
+   - （3）$\int^{\pi}_0 \cos^n x dx = \begin{cases} 0 \\ 2\times \dfrac{n-1}{n} \times \dfrac{n-3}{n-2} \times ... \times \dfrac{1}{2} \times \dfrac{\pi}{2},& n 为正偶数 \end{cases}$
+   - （4）$\int^{2\pi}_0 \cos^n x dx = \int^{2\pi}_0 \sin^n x dx = \begin{cases} 0 \\ 4\times \dfrac{n-1}{n} \times \dfrac{n-3}{n-2} \times ... \times \dfrac{1}{2} \times \dfrac{\pi}{2},& n 为正偶数 \end{cases}$
+
+5. **积分中值定理**
+   - （1）若函数 $f(x)$ 在 $[a, b]$ 上连续，则存在 $\xi \in [a, b]$，使得 $\int^b_a f(x) dx = f(\xi) (b-a)$
+   - （2）需要把积分值表示成函数值的时候要想到这个中值定理，反之，某些特殊函数值也可以用定积分表示（比如 $\dfrac{\pi}{4} = \int^{+\infty}_1 \dfrac{1}{1+x^2} dx$）
+   - （3）推广：若 $f(x)$ 在 $[a, b]$ 上连续，$g(x)$ 在 $[a, b]$ 上可积且不变号，则存在 $\xi \in (a, b)$，使得 $\int^b_a f(x) g(x) dx = f(\xi) \int^b_a g(x) dx$
+
+> 💡 积分中值定理（3）推广的证明（其实是基础 30 讲里的原题）：
+>
+> - 设 $F(x) = \int^x_0 f(t) g(t) dt$，$G(x) = \int^x_0 g(t) dt$
+> - 根据柯西中值定理，存在 $\xi \in (a, b)$ 使得 $\dfrac{F(b) - F(a)}{G(b) - G(a)} = \dfrac{F'(\xi)}{G'(\xi)}$
+> - 即 $\dfrac{\int^b_a f(t)g(t) dt}{\int^b_a g(t)} = \dfrac{f(\xi)g(\xi)}{g(\xi)}$
+> - 化简得到 $\int^b_a f(x) g(x) dx = f(\xi) \int^b_a g(x) dx$
+
+
+6. **定积分不等式问题**
+   - （1）比较定理：设 $f(x)$，$g(x)$ 连续，则 $f(x) \le g(x) \Rightarrow \int^b_a f(x) dx \le \int^b_a g(x) dx, b>a$
+   - （2）估值定理：设 $f(x)$ 连续，则 $m\le f(x) \le M \Rightarrow m(b-a) \le \int^b_a f(x) dx \le M(b-a), b>a$
+   - （3）绝对值不等式：设 $f(x)$ 连续，则 $|\int^b_a f(x) dx| \le \int^b_a |f(x)| dx, b>a$
+
+
+> 💡 协方差恒等式【1000a-11-8】：
+> - （1）在 $[0, 1]$ 上：$\int^1_0 f(x)g(x) dx - \int^1_0 f(x) dx \int^1_0 g(x) dx = \dfrac{1}{2} \int^1_0 \int^1_0 [f(x) - f(y)][g(x) - g(y)] dx dy$
+> - （2）在 $[a, b]$ 上：设 $L = b-a$，则 $\dfrac{1}{L}\int^b_a f(x)g(x) dx - (\dfrac{1}{L}\int^b_a f(x) dx)(\dfrac{1}{L} \int^b_a g(x) dx )= \dfrac{1}{2L^2} \dfrac{1}{2} \int^b_a \int^b_a [f(x) - f(y)][g(x) - g(y)] dx dy$
+> - （3）离散形式：$\dfrac{1}{n} \sum\limits^{n}_{i=1} a_i b_i - (\dfrac{1}{n} \sum\limits_{i=1}^{n} a_i)(\dfrac{1}{n} \sum\limits_{i=1}^{n} b_i) = \dfrac{1}{2n^2} \sum\limits^n_{i=1} \sum\limits^n_{j=1} (a_i - a_j)(b_i - b_j)$
+> - （4）如果离散形式里的两个数列都是递增的，右边 $\ge 0$，则有：$ \dfrac{1}{n} \sum\limits^{n}_{i=1} a_i b_i \ge (\dfrac{1}{n} \sum\limits^n_{i=1} a_i)(\dfrac{1}{n} \sum\limits^n_{i=1} b_i) $（离散版切比雪夫不等式）
+> - （5）把 $x$ 看成一个随机变量，那么就有：$E[fg] - E[f]E[g] = \dfrac{1}{2} E\{[f(X)-f(Y)][g(X) - g(Y)]\}$，其中 $X, Y$ 是两个独立同分布的随机变量
+
+> 💡 一类数形结合的创新题型【1000b-11-3】
+> 
+> 设 $f(x)$ 是 $[0, 1]$ 上的可导函数，$f(0) = f(1) = 1$，$\max\limits_{0\le x\le 1} \{|f'(x)|\} = 1$，则 $\int^1_0 f(x) dx$ 的范围为：
+> - （1）设 $F(x) = f(x) - x - 1$，则 $F'(x) = f'(x) - 1 \le 0 \Rightarrow F(x)$ 单调递减，所以：
+>     -  $F(x) < F(0) = 0$ 即 $f(x) \le x+1$
+>     -  $F(x) > F(1) = -1$ 即 $f(x) > x$
+> - （2）设 $F(x) = f(x) + x$，则 $F'(x) = f'(x) + 1 \ge 0 \Rightarrow F(x)$ 单调递增，所以：
+>     -  $F(x) < F(1) = 2$ 即 $f(x) < 2 - x$
+>     -  $F(x) > F(0) = 1$ 即 $f(x) > 1 - x$
+> - （3）所以 $f(x)$ 在 $y=x$、$y=x+1$、$y=2-x$、$y=1-x$ 四条线围城的区域内
+> - （4）计算面积可以得到 $\dfrac{3}{4} < \int^1_0 f(x) dx < \dfrac{5}{4}$
+
 
 ## 15. 微分方程
 
