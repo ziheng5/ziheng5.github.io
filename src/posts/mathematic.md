@@ -430,6 +430,11 @@ description: |
 > - 【1000b.9.26】$\int^5_{-1} \dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} dx \\ = \int^5_2 \dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} dx + \int^2_{-1} \dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} dx \\ = \int^5_2 \dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} dx + \int^2_5 \dfrac{1}{1 + 2^{\sqrt[3]{2-t}}} d(4-t) \\ = \int^5_2 \dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} dx + \int^5_2 \dfrac{1}{1 + 2^{-\sqrt[3]{t-2}}} dt \\ = \int^5_2 \dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} dx + \int^5_2 \dfrac{1}{1 + 2^{-\sqrt[3]{x-2}}} dx \\ = \int^5_2 (\dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} + \dfrac{1}{1 + 2^{-\sqrt[3]{x-2}}} )dx \\ = \int^5_2 (\dfrac{1}{1 + 2^{\sqrt[3]{x-2}}} + \dfrac{2^{\sqrt[3]{x-2}}}{1 + 2^{\sqrt[3]{x-2}}} )dx \\ = \int^5_2 1 dx$
 > - 【1000b.9.28】$\int^{+\infty}_0 \dfrac{x\ln x}{1+x^4} dx \\ = \int^{+\infty}_1 \dfrac{x\ln x}{1+x^4} dx + \int^{1}_0 \dfrac{x\ln x}{1+x^4} dx \\ = \int^{+\infty}_1 \dfrac{x\ln x}{1+x^4} dx + \int^{1}_{+\infty} \dfrac{\frac{1}{t}\ln (\frac{1}{t})}{1+(\frac{1}{t})^4} d(\frac{1}{t}) \\ = \int^{+\infty}_1 \dfrac{x\ln x}{1+x^4} dx + \int^{1}_{+\infty} \dfrac{\frac{1}{t} (-\ln t)}{1+(\frac{1}{t})^4} (-\dfrac{1}{t^2})dt \\ = \int^{+\infty}_1 \dfrac{x\ln x}{1+x^4} dx - \int^{+\infty}_{1} \dfrac{t \ln t}{1+t^4} dt \\ =0$
 
+
+4. **Gamma 函数**
+   - 定义：$\Gamma(\alpha) = \int^{+\infty}_0 x^{\alpha - 1} e^{-x} dx$
+   - $\int^{+\infty}_{0} e^{-x^2} dx = \dfrac{\sqrt{\pi}}{2}$
+
 ## 10. 一元函数积分学的几何应用
 
 > ⚠️ 本章重点习题：
@@ -469,6 +474,11 @@ description: |
 6. **形心坐标**：
    - （1）$\overline{x} = \dfrac{\iint\limits_{D} x d\sigma}{\iint\limits_{D}  d\sigma} = \dfrac{\int^b_a dx \int^{f(x)}_0 x dy}{\int^b_a dx \int^{f(x)}_0  dy} = \dfrac{\int^b_a xf(x) dx}{\int^b_a f(x) dx}$
    - （2）$\overline{y} = \dfrac{\iint\limits_{D} y d\sigma}{\iint\limits_{D}  d\sigma} = \dfrac{\int^b_a dx \int^{f(x)}_0 y dy}{\int^b_a dx \int^{f(x)}_0  dy} = \dfrac{\frac{1}{2} \int^b_a f^2(x) dx}{\int^b_a f(x) dx}$
+
+
+7. **重心坐标**
+   - （1）$\overline{x} = \dfrac{\iint\limits_{D} x \rho d\sigma}{\iint\limits_{D} \rho d\sigma} $
+   - （2）$\overline{y} = \dfrac{\iint\limits_{D} y \rho d\sigma}{\iint\limits_{D} \rho d\sigma} $
 
 
 ## 11. 一元函数积分学的应用：积分等式与积分不等式
