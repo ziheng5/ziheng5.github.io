@@ -168,7 +168,7 @@ description: |
 
 
 > ⚠️ $\{x_n\}$ 与 $\{f(x_n)\}$
-> - $\{x_n\}$ 收敛 $\overset{f(x_n) 连续}{\underset{f(x_n) 在区间上严格连续单调，且\textcolor{red}{极限存在于 f(x_n) 的值域内}}{\rightleftharpoons}}$ $\{f(x_n)\}$ 收敛
+> - $\{x_n\}$ 收敛 $\overset{f(x) 连续（或者弱一点极限存在）}{\underset{f(x) 在区间上严格连续单调，且\textcolor{red}{f(x) 与 x 必须一一映射，不能有重根}}{\rightleftharpoons}}$ $\{f(x_n)\}$ 收敛
 > - 考试常考：“给定 $\{x_n\}$ 收敛判断 $\{f(x_n)\}$ 是否收敛”、“给定 $\{x_n\}$ 发散判断 $\{f(x_n)\}$ 是否发散”、“给定 $\{f(x_n)\}$ 收敛判断 $\{x_n\}$ 是否收敛”、“给定 $\{f(x_n)\}$ 发散判断 $\{x_n\}$ 是否发散”
 
 
@@ -414,6 +414,7 @@ description: |
    - 一般用于求解 $\int \dfrac{1}{a+b\sin x} dx$ 或 $\int \dfrac{1}{a+b\cos x} dx$
    - 【1000a.9.1.(23)(24)】
 
+> 💡 要是看到 $\int \dfrac{1}{a + b\sin^2 x}$、$\int \dfrac{1}{a + b\cos^2 x}$，可以设 $t \tan x$，一定要敏感！
 
 3. **第二类换元法**：
    - 如果被积函数非常复杂，可以尝试令 $x = g(u)$，引入新的自变量 $u$，使 $f(x) = f[g(u)] = h(u)$，若 $h(u)$ 更简单，则换元成功
@@ -433,7 +434,8 @@ description: |
 
 4. **Gamma 函数**
    - 定义：$\Gamma(\alpha) = \int^{+\infty}_0 x^{\alpha - 1} e^{-x} dx$
-   - $\int^{+\infty}_{0} e^{-x^2} dx = \dfrac{\sqrt{\pi}}{2}$
+   - $\Gamma(\alpha + 1) = \alpha \Gamma(\alpha)$
+   - $\Gamma(\dfrac{1}{2}) = \int^{\infty}_{0}x^{-\frac{1}{2}} e^{-x} dx  = 2\int^{\infty}_{0} e^{-x} d\sqrt{x} =   2\int^{+\infty}_{0} e^{-x^2} dx = \sqrt{\pi}$
 
 ## 10. 一元函数积分学的几何应用
 
