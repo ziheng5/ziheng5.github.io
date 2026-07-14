@@ -69,10 +69,10 @@ python ssfconv -t fcitx5 你下载的皮肤.ssf 你下载的皮肤（换个名�
 > `Crypto` 包安装之后，如果依然出现 `ModuleNotFoundError: No module named 'Crypto'` 报错，**不要慌张**，大概率是文件命名出现了问题（可能是 `Crypto` 的作者没有处理好相关操作吧 💦），`conda` 环境的解决思路如下：
 > - 首先，打开 `conda` 环境的包文件夹，默认是在 `/home/coldrain/.conda/envs/ENVIRENMENT_NAME/lib/python3.X/site-packages` 下（`ENVIRONMENT_NAME` 为你的环境名称，`python3.X` 为环境中对应版本的 python 文件夹）。
 > - 然后，将 `crypto` 和 `crypto-1.4.1.dist-info` 两个文件的首字母改成大写，即 `Crypto` 和 `Crypto-1.4.1.dist-info`。
-> - 检查目录下面有没有 `pycroptodome` 文件夹，如果没有的话，运行下面的命令安装：
+> - 检查目录下面有没有 `pycryptodome` 文件夹，如果没有的话，运行下面的命令安装：
 >
 > ```bash
-> pip install pycroptodome
+> pip install pycryptodome
 > ```
 
 执行命令后，会在当前目录下生成皮肤文件夹，文件树如下：

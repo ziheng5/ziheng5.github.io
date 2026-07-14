@@ -126,14 +126,16 @@ description: |
 
 > ⚠️ 本章重点习题：
 > - 【🐙 强化-15-例3、8】
-> - 【1000b-15-6、9、13、15、29、30、31、33、34、39】
+> - 【1000b-15-6、9、13、15、29、30、31、33、34、39、40】
 
 1. **一阶线性微分方程**
    - 形如 $y' + p(x) y =q(x)$ 的方程叫做一阶线性微分方程，其中 $p(x)$、$q(x)$ 为连续函数
    - 通解：$y = e^{-\int p(x)dx} [\int e^{\int p(x)dx} \cdot q(x)dx + C]$
    - 其推导过程为：在原微分方程两边同时乘 $e^{\int p(x)dx}$
 
-> 💡 还可以写成 $y = e^{-\int^x_{x_0} p(x)dx} [\int^x_{x_0} e^{\int^x_{x_0} p(x)dx} \cdot q(x)dx + C]$，其中 $x_0$ 可以按照方便解题的原则来设置
+> 💡 小细节：
+> - 还可以写成 $y = e^{-\int^x_{x_0} p(x)dx} [\int^x_{x_0} e^{\int^x_{x_0} p(x)dx} \cdot q(x)dx + C]$，其中 $x_0$ 可以按照方便解题的原则来设置
+> - 一般情况下题目中遇到 $p(x) = \dfrac{1}{x}$ 这种形式时，$y = e^{-\int p(x)dx} [\int e^{\int p(x)dx} \cdot q(x)dx + C]$ 中的那个 $\int p(x)dx$ 积分出来$\textcolor{red}{不用加绝对值}$（讲解视频：[传送门](https://www.bilibili.com/video/BV1GtKnzjEQr/?)），但也有$\textcolor{red}{特例}$：$y' - \dfrac{1}{2x} y = x$，如果不加绝对值的话解中包含 $\sqrt{x}$ 限定了 $x>0$ 而原题中并未有此限定（但这种特例不太可能会考，因为太偏了）
 
 2. **伯努利方程**
    - 形如 $\dfrac{dy}{dx} + p(x)y = q(x) y^n (n\ne 0, 1)$
@@ -142,14 +144,23 @@ description: |
      - （2）令 $z = y^{1-n}$ 可得 $\dfrac{dz}{dx} = (1-n) y^{-n} \dfrac{dy}{dx}$，则 $\dfrac{1}{1-n} \dfrac{dz}{dx} + p(x)z = q(x)$
      - （3）解此一阶线性微分方程
 
-3. **二阶常系数齐次线性微分方程**
+
+3. **全微分方程**
+   - 若函数 $P(x, y), Q(x, y)$ 在单连通区域 $D$ 上具有一阶连续偏导数，且在 $D$ 内满足 $\dfrac{\partial Q}{\partial x} = \dfrac{\partial P}{\partial y}$，则 $Pdx + Qdy$ 是某二元函数 $u(x, y)$ 的全微分
+   - 若一阶微分方程写成 $P(x,y ) dx + Q(x, y)dy = 0$ 的形式时，等式左端表达式是 $u(x, y)$ 的全微分，则称该式子为全微分方程
+   - 解题思路就是通过 $\dfrac{\partial Q}{\partial x} = \dfrac{\partial P}{\partial y}$ 来求解方程
+
+> 💡 全微分的积分与路径无关，因此由 $P(x,y ) dx + Q(x, y)dy = 0$ 求解二元函数 $u(x, y)$ 时可以采用折线法，选取一条简单的折线来进行积分，参考【1000b-15-40】
+
+
+4. **二阶常系数齐次线性微分方程**
    - 形如 $y'' + py' + qy = 0$，其中 $p$、$q$ 为常数
    - 通解：先写出对应的特征方程 $r^2 + pr + q = 0$（对原微分方程令 $y = e^{rx}$ 得到的）
      - （1）特征方程有两个不等实根：通解为 $y = C_1 e^{r_1 x} + C_2 e^{r_2 x}$
      - （2）特征方程有两个相等实根：通解为 $y = (C_1 + C_2 x) e^{rx}$
      - （3）特征方程有共轭复根 $\alpha \pm \beta i$：通解为 $y = e^{\alpha x} (C_1 \cos\beta x + C_2 \sin\beta x)$
 
-4. **二阶常系数非齐次线性微分方程**
+5. **二阶常系数非齐次线性微分方程**
    - 形如 $y'' + py' + qy = f(x)(f(x) \ne 0)$
    - 解的结构：
      - （1）若 $y_1^*(x)$ 是 $y'' + py' + qy = f_1(x)$ 的解，$y_2^*(x)$ 是 $y'' + py' + qy = f_2(x)$ 的解，那么 $y_1^*(x) + y_2^*(x)$ 是 $y'' + py' + qy = f_1(x) + f_2(x)$ 的解（线性）
@@ -163,7 +174,7 @@ description: |
      - （2）$l = \max \{m, n\}$，$Q_l^{(1)}(x)$、$Q_l^{(2)}(x)$ 分别为 $x$ 的两个不同的 $l$ 次多项式
      - （3）$k = \begin{cases} 0, & \alpha\pm\beta i 不是特征根 \\ 1, & \alpha\pm\beta i 是特征根 \end{cases}$
 
-5. **一阶齐次微分方程求解**（真的不是 🐙 的小巧思吗...）
+6. **一阶齐次微分方程求解**（真的不是 🐙 的小巧思吗...）
    - （1）能写成 $y' = f(\dfrac{y}{x})$：令 $u = \dfrac{y}{x}$，则 $y = ux, \dfrac{dy}{dx} = u + x\dfrac{du}{dx}$
    - （2）能写成 $\dfrac{1}{y'} = f(\dfrac{x}{y})$：令 $u = \dfrac{x}{y}$，则 $x = uy, \dfrac{dx}{dy} = u + y \dfrac{du}{dy}$
    - （3）能写成 $y' = f(\dfrac{ax + by + c}{a_1x + b_1y + c_1})$：
@@ -172,11 +183,11 @@ description: |
      - c. 若 $c \ne 0$ 或 $c_1 \ne 0$，且 $\dfrac{a}{a_1} \ne \dfrac{b}{b_1}$ 时，由 $\begin{cases} ax +by + c = 0 \\ a_1 x + b_1 y + c = 0 \end{cases}$ 解得 $x_0, y_0$，然后令 $\begin{cases} x = X + x_0 \\ y = Y + y_0 \end{cases}$，则 $y' = f(\dfrac{ax + by + c}{a_1x + b_1 y + c_1}) = f(\dfrac{aX + bY}{ a_1 X + b_1 Y})$，再令 $u = \dfrac{Y}{X}$
 
 
-6. **二阶可降阶微分方程的求解**
+7. **二阶可降阶微分方程的求解**
    - （1）能写成 $y'' = f(x, y')$ 或 $y'' = f(y')$：缺 $y$，令 $y' = p$（求解时要小心 $\textcolor{red}{p \equiv 0}$ 的解）
    - （2）能写成 $y'' = f(y, y')$：缺 $x$，令 $y' = p, y'' = \dfrac{dp}{dx} = \dfrac{dp}{dy} \dfrac{dy}{dx} = p\dfrac{dp}{dy}$
 
-7. **欧拉方程**
+8. **欧拉方程**
    - （1）形如 $x^2 y'' + px y' + qy = f(x)$
    - （2）解法
      - a. 当 $x > 0$ 时，令 $x = e^t$，则 $t = \ln x, \dfrac{dt}{dx} = \dfrac{1}{x}$，于是 $\dfrac{dy}{dx} = \dfrac{dy}{dt} \dfrac{dt}{dx} = \dfrac{1}{x} \dfrac{dy}{dt}$、$\dfrac{d^2 y}{dx^2} = -\dfrac{1}{x^2} \dfrac{dy}{dt} + \dfrac{1}{x} \dfrac{d}{dx}(\dfrac{dy}{dt}) = -\dfrac{1}{x^2} \dfrac{dy}{dt} + \dfrac{1}{x^2} \dfrac{d^2 y}{d t^2}$
@@ -189,7 +200,7 @@ description: |
 > - 令 $z = \dfrac{1}{x}$，则 $\dfrac{dz}{dy} = \dfrac{dz}{dx}  \dfrac{dx}{dy} = -\dfrac{1}{x^2} \dfrac{dx}{dy}$
 > - 然后方程就只剩 $z$ 和 $y$ 了，计算也很简单
 
-8. **n 阶常系数齐次线性微分方程求解**
+9. **n 阶常系数齐次线性微分方程求解**
    - （1）若 $\lambda$ 为单实根，则写 $Ce^{\lambda x}$
    - （2）若 $\lambda$ 为 $k$ 重实根，则写 $(C_1 + C_2 x + C_3 x^2 + \cdots + C_k x^{k-1}) e^{\lambda x}$
    - （3）若 $\lambda$ 为单复根 $\alpha \pm \beta$，则写 $e^{\alpha x} (C_1 \cos \beta x + C_2 \sin \beta x)$
@@ -198,9 +209,68 @@ description: |
 ## 16. 无穷级数
 
 
+1. **正项级数及其敛散性判别**
+   - （1）收敛原理：正项级数 $\sum\limits_{n=1}^{\infty} u_n$ 收敛的充分必要条件是它的部分和数列 $\{S_n\}$ 有界
+   - （2）比较判别法：给出两个正项级数 $\sum\limits_{n=1}^{\infty} u_n$ 和 $\sum\limits_{n=1}^{\infty} v_n$，如果从某项起（前有限项不影响敛散性）有 $u_n \le v_n$ 成立，则
+     - a. 若 $\sum\limits_{n=1}^{\infty} v_n$ 收敛，则 $\sum\limits_{n=1}^{\infty} u_n$ 收敛
+     - b. 若 $\sum\limits_{n=1}^{\infty} u_n$ 发散，则 $\sum\limits_{n=1}^{\infty} v_n$ 发散
+   - （3）比较判别法的极限形式（无穷小比阶）：给出两个正项级数 $\sum\limits_{n=1}^{\infty} u_n$ 和 $\sum\limits_{n=1}^{\infty} v_n$，且 $\lim\limits_{n\to \infty} \dfrac{u_n}{v_n} = A$
+     - a. 若 $A = 0$，则当 $\sum\limits_{n=1}^{\infty} v_n$ 收敛时，$\sum\limits_{n=1}^{\infty} u_n$ 也收敛
+     - b. 若 $A = + \infty$，则当 $\sum\limits_{n=1}^{\infty} v_n$ 发散时，$\sum\limits_{n=1}^{\infty} u_n$ 也发散
+     - c. 若 $0 < A < +\infty$，则 $\sum\limits_{n=1}^{\infty} u_n$ 和 $\sum\limits_{n=1}^{\infty} v_n$ 有相同的敛散性（等价无穷小）
+   - （4）比值判别法（达朗贝尔判别法）：给出一正项级数 $\sum\limits_{n=1}^{\infty} u_n$，如果 $\lim\limits_{n\to \infty}\dfrac{u_{n+1}}{u_n} = \rho$，那么
+     - a. 若 $\rho < 1$，则 $\sum\limits_{n=1}^{\infty} u_n$ 收敛
+     - b. 若 $\rho > 1$，则 $\sum\limits_{n=1}^{\infty} u_n$ 发散
+     - c. 若 $\rho = 1$，则无法使用此方法
+   - （5）根值判别法（柯西判别法）：给出一正项级数 $\sum\limits_{n=1}^{\infty} u_n$，如果 $\lim\limits_{n\to \infty} \sqrt[n]{u_n} = p$
+     - a. 若 $\rho < 1$，则 $\sum\limits_{n=1}^{\infty} u_n$ 收敛
+     - b. 若 $\rho > 1$，则 $\sum\limits_{n=1}^{\infty} u_n$ 发散
+     - c. 若 $\rho = 1$，则此方法失效
+   - （6）积分判别法：设 $\sum\limits_{n=1}^{\infty} u_n$ 为正项级数，若存在 $[1, + \infty)$ 上单调减少的非负连续函数 $f(x)$，使得 $u_n = f(n)$，则级数 $\sum\limits_{n=1}^{\infty} u_n$ 与反常积分 $\int^{+\infty}_1 f(x) dx$ 的敛散性相同
 
 
-1. **傅里叶级数**：设函数 $f(x)$ 为周期为 $2l$ 的周期函数，且在 $[-l, l]$ 上可积，则
+> 💡 p 级数：
+> - $\sum\limits_{n=1}^{\infty} \dfrac{1}{n^p}$ 叫做 $p$ 级数
+> - $p$ 级数 $\sum\limits_{n=1}^{\infty} \dfrac{1}{n^p} \begin{cases} 发散, & p\le 1 \\ 收敛, & p>1 \end{cases}$
+
+> 💡 另外，本章放缩可能会用到的重要不等式如下：
+> - （1）$\ln n < \ln(n+1) < n$
+> - （2）$(\dfrac{n}{e})^n \le n! \le (\dfrac{n+1}{2})^n \le n^n$
+
+
+
+2. **交错级数及其敛散性判别**
+   - 莱布尼茨判别法（充分不必要）：给出一交错级数 $\sum\limits_{n=1}^{\infty} (-1)^{n-1}u_n, u_n >0$，若 $\{u_n\}$ 单调不增且 $\lim\limits_{n \to \infty} u_n = 0$，则此级数收敛
+
+3. **任意项级数及其敛散性判别（绝对值判别法）**
+   - （1）绝对收敛：设 $\sum\limits_{n=1}^{\infty} u_n$ 为任意项级数，若 $\sum\limits_{n=1}^{\infty} |u_n|$ 收敛，则称 $\sum\limits_{n=1}^{\infty} u_n$ 绝对收敛
+   - （2）条件收敛：设 $\sum\limits_{n=1}^{\infty} u_n$ 为任意项级数，若 $\sum\limits_{n=1}^{\infty} u_n$ 收敛，但 $\sum\limits_{n=1}^{\infty} |u_n|$ 发散，则称 $\sum\limits_{n=1}^{\infty} u_n$ 条件收敛
+
+> 💡 注意：
+> - （1）若 $\sum\limits_{n=1}^{\infty} |u_n|$ 收敛（即绝对收敛），则 $\sum\limits_{n=1}^{\infty} u_n$ 必收敛
+> - （2）若 $\sum\limits_{n=1}^{\infty} u_n$、$\sum\limits_{n=1}^{\infty} v_n$ 均绝对收敛，则 $\sum\limits_{n=1}^{\infty} (u_n \pm v_n)$ 绝对收敛
+> - （3）若 $\sum\limits_{n=1}^{\infty} u_n$ 绝对收敛，$\sum\limits_{n=1}^{\infty} v_n$ 条件收敛，则 $\sum\limits_{n=1}^{\infty} (u_n \pm v_n)$ 条件收敛
+> - （4）若 $\sum\limits_{n=1}^{\infty} u_n$、$\sum\limits_{n=1}^{\infty} v_n$ 均条件收敛，则 $\sum\limits_{n=1}^{\infty} (u_n \pm v_m)$ 收敛
+> - （5）如果级数 $\sum\limits_{n=1}^{\infty} |u_n|$ 发散，我们不能断定级数 $\sum\limits_{n=1}^{\infty} u_n$ 也发散
+> - （6）交错 $p$ 级数 $\sum\limits_{n=1}^{\infty} (-1)^{n-1} u_n \begin{cases} 绝对收敛, & p > 1 \\ 条件收敛, & 0<p \le 1 \end{cases}$
+
+
+4. **幂级数及其收敛域**
+   - （1）收敛点和发散点：给定 $x_0 \in I$，有 $\sum\limits_{n=1}^{\infty} u_n(x_0)$ 收敛，则称点 $x_0$ 为函数项级数 $\sum\limits_{n=1}^{\infty} u_n(x)$ 的收敛点；反之，则为发散点
+   - （2）收敛域：函数项级数 $\sum\limits_{n=1}^{\infty} u_n(x)$ 的所有收敛点的集合称为它的收敛域
+   - （3）阿贝尔定理：当幂级数 $\sum\limits_{n=0}^{\infty} a_n x^n$ 在点 $x = x_1(x_1\ne 0)$ 处收敛时，对于满足 $|x| < |x_1|$ 的一切 $x$，幂级数绝对收敛；当幂级数 $\sum\limits_{n=0}^{\infty} a_n x^n$ 在点 $x = x_2(x_2\ne 0)$ 处发散时，对于满足 $|x| > |x_2|$ 的一切 $x$，幂级数发散
+   - （4）收敛半径：若 $R\ge 0$ 满足条件：1️⃣ 当 $|x|< R$ 时，$\sum\limits_{n=0}^{\infty} a_n x^n$ 绝对收敛；2️⃣ 当 $|x| > R$ 时，$\sum\limits_{n=0}^{\infty} a_n x^n$ 发散。则称 $R$ 为幂级数 $\sum\limits_{n=0}^{\infty} a_n x^n$ 的收敛半径，区间 $(-R, R)$ 称为 $\sum\limits_{n=0}^{\infty} a_n x^n$ 的收敛区间
+
+5. **收敛域的求法**
+   - （1）对于不缺项幂级数 $\sum\limits_{n=0}^{\infty} a_n x^n$
+     - a. 收敛半径的求法：若 $\lim\limits_{n\to \infty} \begin{vmatrix} \dfrac{a_{n+1}}{a_n} \end{vmatrix} = \rho$ 或 $\lim\limits_{n\to \infty} \sqrt[n]{|a_n|} = \rho$，则 $\sum\limits_{n=0}^{\infty} a_n x^n$ 的收敛半径 $R$ 的表达式为 $R = \begin{cases} \dfrac{1}{\rho},& \rho\ne 0, \rho\ne +\infty \\ +\infty, & \rho=0 \\ 0, & \rho=+\infty \end{cases}$
+     - b. 收敛区间与收敛域：区间 $(-R, R)$ 为幂函数 $\sum\limits_{n=0}^{\infty} a_n x^n$ 的收敛区间，单独考查幂级数在 $\pm R$ 处的敛散性就可以确定其收敛域为 $(-R, R)$ 或 $[-R, R)$ 或 $(-R, R]$ 或 $[-R, R]$
+   - （2）对于缺项幂级数或一般函数项级数 $\sum\limits_{n=0}^{\infty} u_n(x)$
+     - a. 加绝对值，写成 $\sum\limits_{n=0}^{\infty} |u_n(x)|$
+     - b. 用正项级数的比值（或根值）判别法，令 $\lim\limits_{n \to \infty} \dfrac{|u_{n+1}(x)|}{|u_n(x)|}$（或 $\lim\limits_{n\to \infty} \sqrt[n]{|u_n(x)|}$）$<1$，求出收敛区间 $(a, b)$
+     - c. 单独讨论 $x=a, x=b$ 时 $\sum\limits_{n=0}^{\infty} u_n(x)$ 的敛散性，从而确定收敛域
+
+6. **傅里叶级数**：设函数 $f(x)$ 为周期为 $2l$ 的周期函数，且在 $[-l, l]$ 上可积，则
    - （1）傅里叶系数（以 $2l$ 为周期）：
      - $a_n = \dfrac{1}{l} \int^{l}_{-l} f(x) \cos \dfrac{n\pi}{l} x dx (n = 0, 1, 2,...)$
      - $b_n = \dfrac{1}{l} \int^{l}_{-l} f(x) \sin \dfrac{n\pi}{l} x dx (n = 0, 1, 2,...)$
@@ -211,9 +281,10 @@ description: |
 
 > 💡 关于傅里叶级数，建议搭配《信号与系统》中的解释来理解：[孟桥老师的信号课](https://www.bilibili.com/video/BV144411D73H?p=48)
 
-2. **周期奇延拓与周期偶延拓**
+7. **周期奇延拓与周期偶延拓**
    - （1）周期奇延拓：设 $f(x)$ 定义在 $[0, l]$ 上，令 $F(x) = \begin{cases} f(x), & 0<x\le l \\ -f(-x), & -l \le x < 0 \\ 0, & x=0 \end{cases}$，再令 $F(x)$ 为以 $2l$ 为周期的周期函数
    - （2）周期偶延拓：设 $f(x)$ 定义在 $[0, l]$ 上，令 $F(x) = \begin{cases} f(x), & 0\le x\le l \\ f(-x), & -l \le x < 0  \end{cases}$，再令 $F(x)$ 为以 $2l$ 为周期的周期函数
+
 
 
 
