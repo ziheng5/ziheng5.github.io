@@ -236,6 +236,8 @@ description: |
 > 💡 另外，本章放缩可能会用到的重要不等式如下：
 > - （1）$\ln n < \ln(n+1) < n$
 > - （2）$(\dfrac{n}{e})^n \le n! \le (\dfrac{n+1}{2})^n \le n^n$
+> - （3）$\begin{cases} \dfrac{x}{1+x} >\dfrac{1}{2}, & x>1 \\ \dfrac{x}{2} < \dfrac{x}{1+x} <x, &0<x<1 \end{cases}$
+> - （4）$\begin{cases} x< \dfrac{x}{1-x} < 2x, & 0<x<\dfrac{1}{2} \\  \dfrac{x}{1-x} >x, &0<x<1 \end{cases}$
 
 
 
@@ -253,6 +255,7 @@ description: |
 > - （4）若 $\sum\limits_{n=1}^{\infty} u_n$、$\sum\limits_{n=1}^{\infty} v_n$ 均条件收敛，则 $\sum\limits_{n=1}^{\infty} (u_n \pm v_m)$ 收敛
 > - （5）如果级数 $\sum\limits_{n=1}^{\infty} |u_n|$ 发散，我们不能断定级数 $\sum\limits_{n=1}^{\infty} u_n$ 也发散
 > - （6）交错 $p$ 级数 $\sum\limits_{n=1}^{\infty} (-1)^{n-1} u_n \begin{cases} 绝对收敛, & p > 1 \\ 条件收敛, & 0<p \le 1 \end{cases}$
+> - （7）若 $\sum\limits_{n=1}^{\infty} u_n$ 绝对收敛、$\sum\limits_{n=1}^{\infty} v_n$ 条件收敛，那么 $\sum\limits_{n=1}^{\infty} u_n v_n$ 绝对收敛（证明见【张宇强化高数-16-例32】）
 
 
 4. **幂级数及其收敛域**
@@ -260,6 +263,21 @@ description: |
    - （2）收敛域：函数项级数 $\sum\limits_{n=1}^{\infty} u_n(x)$ 的所有收敛点的集合称为它的收敛域
    - （3）阿贝尔定理：当幂级数 $\sum\limits_{n=0}^{\infty} a_n x^n$ 在点 $x = x_1(x_1\ne 0)$ 处收敛时，对于满足 $|x| < |x_1|$ 的一切 $x$，幂级数绝对收敛；当幂级数 $\sum\limits_{n=0}^{\infty} a_n x^n$ 在点 $x = x_2(x_2\ne 0)$ 处发散时，对于满足 $|x| > |x_2|$ 的一切 $x$，幂级数发散
    - （4）收敛半径：若 $R\ge 0$ 满足条件：1️⃣ 当 $|x|< R$ 时，$\sum\limits_{n=0}^{\infty} a_n x^n$ 绝对收敛；2️⃣ 当 $|x| > R$ 时，$\sum\limits_{n=0}^{\infty} a_n x^n$ 发散。则称 $R$ 为幂级数 $\sum\limits_{n=0}^{\infty} a_n x^n$ 的收敛半径，区间 $(-R, R)$ 称为 $\sum\limits_{n=0}^{\infty} a_n x^n$ 的收敛区间
+
+
+> 💡 结论 1：根据阿贝尔定理，已知 $\sum\limits_{n=0}^{\infty} a_n(x - x_0)^n$ 在某点 $x_1(x_1 \ne x_0)$ 的敛散性，确定该幂级数的收敛半径可分为以下三种情况：
+> - （1）若在 $x_1$ 处收敛，则收敛半径 $R \ge |x_1 - x_0|$
+> - （2）若在 $x_1$ 处发散，则收敛半径 $R \le |x_1 - x_0|$
+> - （3）若在 $x_1$ 处条件收敛，则收敛半径 $R = |x_1 - x_0|$
+
+> 💡 结论 2：已知 $\sum a_n(x - x_1)^n$ 的敛散性，讨论 $\sum b_n(x - x_2)^m$ 的敛散性
+> - （1）$(x - x_1)^n$ 与 $(x - x_2)^m$ 的转化一般通过初等变形来完成，包括：a.“平移”收敛区间；b. 提出或者乘以因式 $(x - x_0)^k$ 等
+> - （2）$a_n$ 与 $b_n$ 的转化一般通过微积分变形来完成，包括：a. 对级数逐项求导；b. 对级数逐项求积分等
+> - （3）以下三种情况，级数的收敛半径不变，收敛域呀具体问题具体分析：
+>   - a. 对级数提出或者乘以因式 $(x - x_0)^k$，或者作平移等，收敛半径不变
+>   - b. 对级数逐项求导，收敛半径不变，收敛域可能缩小
+>   - c. 对级数逐项积分，收敛半径不变，收敛域可能扩大
+
 
 5. **收敛域的求法**
    - （1）对于不缺项幂级数 $\sum\limits_{n=0}^{\infty} a_n x^n$
@@ -270,7 +288,20 @@ description: |
      - b. 用正项级数的比值（或根值）判别法，令 $\lim\limits_{n \to \infty} \dfrac{|u_{n+1}(x)|}{|u_n(x)|}$（或 $\lim\limits_{n\to \infty} \sqrt[n]{|u_n(x)|}$）$<1$，求出收敛区间 $(a, b)$
      - c. 单独讨论 $x=a, x=b$ 时 $\sum\limits_{n=0}^{\infty} u_n(x)$ 的敛散性，从而确定收敛域
 
-6. **傅里叶级数**：设函数 $f(x)$ 为周期为 $2l$ 的周期函数，且在 $[-l, l]$ 上可积，则
+6. **求和函数常用结论**（和泰勒展开一样，全部要背，不过这些推一遍也差不多记住了 🌚）
+   - （1）$\sum\limits_{n=0}^{\infty} x^n = \dfrac{1}{1 - x} , |x| < 1$
+   - （2）$\sum\limits_{n=1}^{\infty} n x^{n-1} = \dfrac{1}{(1-x)^2}, |x| < 1$（相当于结论（1）求一次导）
+   - （3）$\sum\limits_{n=2}^{\infty} n(n-1)x^{n-2} = \dfrac{2}{(1-x)^3}, |x| < 1$（相当于结论（1）求两次导）
+   - ⭐（4）$\sum\limits_{n=1}^{\infty} \dfrac{1}{n} x^n = -\ln (1- x), -1\le x < 1$
+   - （5）$\sum\limits_{n=0}^{\infty} \dfrac{1}{2n + 1} x^{2n + 1} = \dfrac{1}{2} \ln \dfrac{1+x}{1-x}, |x| < 1$
+   - （6）$\sum\limits_{n=0}^{\infty} \dfrac{(-1)^n}{2n + 1} x^{2n+1} = \arctan x, |x| \le 1$
+   - （7）$\sum\limits_{n=0}^{\infty} \dfrac{x^n}{n!} = e^x$
+   - （8）$\sum\limits_{n=0}^{\infty} \dfrac{1}{(2n)!} x^{2n} = \dfrac{e^x + e^{-x}}{2}$
+   - （9）$\sum\limits_{n=0}^{\infty} \dfrac{(-1)^n}{(2n+1)!} x^{2n+1} = \sin x$
+   - （10）$\sum\limits_{n=0}^{\infty} \dfrac{(-1)^n}{(2n)!} x^{2n} = \cos x$
+
+
+7. **傅里叶级数**：设函数 $f(x)$ 为周期为 $2l$ 的周期函数，且在 $[-l, l]$ 上可积，则
    - （1）傅里叶系数（以 $2l$ 为周期）：
      - $a_n = \dfrac{1}{l} \int^{l}_{-l} f(x) \cos \dfrac{n\pi}{l} x dx (n = 0, 1, 2,...)$
      - $b_n = \dfrac{1}{l} \int^{l}_{-l} f(x) \sin \dfrac{n\pi}{l} x dx (n = 0, 1, 2,...)$
@@ -281,7 +312,7 @@ description: |
 
 > 💡 关于傅里叶级数，建议搭配《信号与系统》中的解释来理解：[孟桥老师的信号课](https://www.bilibili.com/video/BV144411D73H?p=48)
 
-7. **周期奇延拓与周期偶延拓**
+8. **周期奇延拓与周期偶延拓**
    - （1）周期奇延拓：设 $f(x)$ 定义在 $[0, l]$ 上，令 $F(x) = \begin{cases} f(x), & 0<x\le l \\ -f(-x), & -l \le x < 0 \\ 0, & x=0 \end{cases}$，再令 $F(x)$ 为以 $2l$ 为周期的周期函数
    - （2）周期偶延拓：设 $f(x)$ 定义在 $[0, l]$ 上，令 $F(x) = \begin{cases} f(x), & 0\le x\le l \\ f(-x), & -l \le x < 0  \end{cases}$，再令 $F(x)$ 为以 $2l$ 为周期的周期函数
 
