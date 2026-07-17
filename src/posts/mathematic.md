@@ -68,7 +68,7 @@ description: |
 > - $\sin x = x - \dfrac{x^3}{3!} + o(x^3)$
 > - $\cos x = 1 - \dfrac{x^2}{2!} + \dfrac{x^4}{4!} + o(x^4)$
 > - $\arcsin x = x + \dfrac{x^3}{3!} + o(x^3)$
-> - $\tan x = x + \dfrac{x^3}{3} + o(x^3)$
+> - $\tan x = x + \dfrac{x^3}{3} + \dfrac{2x^5}{15} + o(x^3)$
 > - $\arctan x = x - \dfrac{x^3}{3} + o(x^3)$
 > - $\ln(1+x) = x - \dfrac{x^2}{2} + \dfrac{x^3}{3} + o(x^3)$
 > - $e^x = 1 + x + \dfrac{x^2}{2!} + \dfrac{x^3}{3!} + o(x^3) \Rightarrow a^x = e^{x\ln a} = 1 + x\ln 2 +  \dfrac{(x\ln 2)^2}{2!} + ...$

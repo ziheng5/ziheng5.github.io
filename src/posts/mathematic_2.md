@@ -1,5 +1,5 @@
 ---
-title: Coldrain 的 27 考研数一高数强化阶段拾遗（下）
+title: Coldrain 的 27 考研数一高数强化笔记（下）
 date: 2026-06-24 16:13:00
 tags: 
     - 考研数学
@@ -208,25 +208,39 @@ description: |
 
 ## 16. 无穷级数
 
+> 😭 太难了，难死我了
 
-1. **正项级数及其敛散性判别**
-   - （1）收敛原理：正项级数 $\sum\limits_{n=1}^{\infty} u_n$ 收敛的充分必要条件是它的部分和数列 $\{S_n\}$ 有界
-   - （2）比较判别法：给出两个正项级数 $\sum\limits_{n=1}^{\infty} u_n$ 和 $\sum\limits_{n=1}^{\infty} v_n$，如果从某项起（前有限项不影响敛散性）有 $u_n \le v_n$ 成立，则
+> ⚠️ 本章重点习题：
+> - 【1000b-16-1、7、8、10、14、17】
+>
+> 💡 本章注意事项：
+> - 计算和函数的时候，千万要注意 $\sum\limits_{n=1}$ 中下标 $n$ 的变化！
+
+1. **级数的性质**
+   - （1）$\sum\limits_{n=1}^{\infty} u_n$ 与 $\sum\limits_{n=1}^{\infty} ku_n$ 同敛散性，其中 $k \ne 0$
+   - （2）若 $\sum\limits_{n=1}^{\infty} u_n$ 和 $\sum\limits_{n=1}^{\infty} v_n$ 分别收敛于 $s, \sigma$，则 $\sum\limits_{n=1}^{\infty} (u_n \pm v_n)$ 收敛于 $s \pm \sigma$（收敛$\pm$收敛=收敛，收敛+发散=发散，发散+发散=发散）
+   - （3）改变级数**有限项**不影响级数的敛散性
+   - （4）收敛级数加括号仍收敛且和不变
+   - ⭐（5）$\sum\limits_{n=1}^{\infty} u_n$ 收敛 $\Rightarrow \lim\limits_{n \to \infty} u_n = 0$（逆否命题： $\lim\limits_{n \to \infty} u_n \ne 0$ $\Rightarrow \sum\limits_{n=1}^{\infty} u_n$ 不收敛）
+
+2. **正项级数及其敛散性判别**
+   - （1）收敛原理：正项级数 $\sum\limits_{n=1}^{\infty} u_n$ 收敛 $\Leftrightarrow S_n$ 有界
+   - （2）比较判别法（适合抽象级数，用放缩来证明有界）：给出两个正项级数 $\sum\limits_{n=1}^{\infty} u_n$ 和 $\sum\limits_{n=1}^{\infty} v_n$，如果从某项起（前有限项不影响敛散性）有 $u_n \le v_n$ 成立，则
      - a. 若 $\sum\limits_{n=1}^{\infty} v_n$ 收敛，则 $\sum\limits_{n=1}^{\infty} u_n$ 收敛
      - b. 若 $\sum\limits_{n=1}^{\infty} u_n$ 发散，则 $\sum\limits_{n=1}^{\infty} v_n$ 发散
-   - （3）比较判别法的极限形式（无穷小比阶）：给出两个正项级数 $\sum\limits_{n=1}^{\infty} u_n$ 和 $\sum\limits_{n=1}^{\infty} v_n$，且 $\lim\limits_{n\to \infty} \dfrac{u_n}{v_n} = A$
+   - （3）比较判别法的极限形式（无穷小比阶，适合初等函数构成的级数，即 $e,\sin,\ln$）：给出两个正项级数 $\sum\limits_{n=1}^{\infty} u_n$ 和 $\sum\limits_{n=1}^{\infty} v_n$，且 $\lim\limits_{n\to \infty} \dfrac{u_n}{v_n} = A$
      - a. 若 $A = 0$，则当 $\sum\limits_{n=1}^{\infty} v_n$ 收敛时，$\sum\limits_{n=1}^{\infty} u_n$ 也收敛
      - b. 若 $A = + \infty$，则当 $\sum\limits_{n=1}^{\infty} v_n$ 发散时，$\sum\limits_{n=1}^{\infty} u_n$ 也发散
      - c. 若 $0 < A < +\infty$，则 $\sum\limits_{n=1}^{\infty} u_n$ 和 $\sum\limits_{n=1}^{\infty} v_n$ 有相同的敛散性（等价无穷小）
-   - （4）比值判别法（达朗贝尔判别法）：给出一正项级数 $\sum\limits_{n=1}^{\infty} u_n$，如果 $\lim\limits_{n\to \infty}\dfrac{u_{n+1}}{u_n} = \rho$，那么
+   - （4）比值判别法（达朗贝尔判别法，适用于含阶乘的级数）：给出一正项级数 $\sum\limits_{n=1}^{\infty} u_n$，如果 $\lim\limits_{n\to \infty}\dfrac{u_{n+1}}{u_n} = \rho$，那么
      - a. 若 $\rho < 1$，则 $\sum\limits_{n=1}^{\infty} u_n$ 收敛
      - b. 若 $\rho > 1$，则 $\sum\limits_{n=1}^{\infty} u_n$ 发散
      - c. 若 $\rho = 1$，则无法使用此方法
-   - （5）根值判别法（柯西判别法）：给出一正项级数 $\sum\limits_{n=1}^{\infty} u_n$，如果 $\lim\limits_{n\to \infty} \sqrt[n]{u_n} = p$
+   - （5）根值判别法（柯西判别法，适合含 $n$ 次幂的级数）：给出一正项级数 $\sum\limits_{n=1}^{\infty} u_n$，如果 $\lim\limits_{n\to \infty} \sqrt[n]{u_n} = p$
      - a. 若 $\rho < 1$，则 $\sum\limits_{n=1}^{\infty} u_n$ 收敛
      - b. 若 $\rho > 1$，则 $\sum\limits_{n=1}^{\infty} u_n$ 发散
      - c. 若 $\rho = 1$，则此方法失效
-   - （6）积分判别法：设 $\sum\limits_{n=1}^{\infty} u_n$ 为正项级数，若存在 $[1, + \infty)$ 上单调减少的非负连续函数 $f(x)$，使得 $u_n = f(n)$，则级数 $\sum\limits_{n=1}^{\infty} u_n$ 与反常积分 $\int^{+\infty}_1 f(x) dx$ 的敛散性相同
+   - （6）积分判别法（近几年新增考点）：设 $\sum\limits_{n=1}^{\infty} u_n$ 为正项级数，若存在 $[1, + \infty)$ 上单调减少的非负连续函数 $f(x)$，使得 $u_n = f(n)$，则级数 $\sum\limits_{n=1}^{\infty} u_n$ 与反常积分 $\int^{+\infty}_1 f(x) dx$ 的敛散性相同
 
 
 > 💡 p 级数：
@@ -268,15 +282,20 @@ description: |
 > 💡 结论 1：根据阿贝尔定理，已知 $\sum\limits_{n=0}^{\infty} a_n(x - x_0)^n$ 在某点 $x_1(x_1 \ne x_0)$ 的敛散性，确定该幂级数的收敛半径可分为以下三种情况：
 > - （1）若在 $x_1$ 处收敛，则收敛半径 $R \ge |x_1 - x_0|$
 > - （2）若在 $x_1$ 处发散，则收敛半径 $R \le |x_1 - x_0|$
-> - （3）若在 $x_1$ 处条件收敛，则收敛半径 $R = |x_1 - x_0|$
+> - （3）若在 $x_1$ 处条件收敛，则收敛半径 $R = |x_1 - x_0|$（因为在两个端点处刚好一个收敛一个发散）
 
 > 💡 结论 2：已知 $\sum a_n(x - x_1)^n$ 的敛散性，讨论 $\sum b_n(x - x_2)^m$ 的敛散性
 > - （1）$(x - x_1)^n$ 与 $(x - x_2)^m$ 的转化一般通过初等变形来完成，包括：a.“平移”收敛区间；b. 提出或者乘以因式 $(x - x_0)^k$ 等
 > - （2）$a_n$ 与 $b_n$ 的转化一般通过微积分变形来完成，包括：a. 对级数逐项求导；b. 对级数逐项求积分等
-> - （3）以下三种情况，级数的收敛半径不变，收敛域呀具体问题具体分析：
+> - （3）以下三种情况，级数的收敛半径不变，收敛域要具体问题具体分析：
 >   - a. 对级数提出或者乘以因式 $(x - x_0)^k$，或者作平移等，收敛半径不变
->   - b. 对级数逐项求导，收敛半径不变，收敛域可能缩小
->   - c. 对级数逐项积分，收敛半径不变，收敛域可能扩大
+>   - b. 对级数逐项求导，收敛半径不变，收敛域可能缩小（端点处的敛散性可能发生改变）
+>   - c. 对级数逐项积分，收敛半径不变，收敛域可能扩大（端点处的敛散性可能发生改变）
+
+> 💡 做题时遇到的二级结论（【1000b-16-14】）：
+> - 对于 $\sum\limits_{n=0}^{\infty}(u_n + v_n)x^n$，设其收敛半径为 $R$，则有 $R = \min\{R_1, R_2\}(\textcolor{red}{R_1 \ne R_2})$，其中 $R_1,R_2$ 分别为 $\sum\limits_{n=0}^{\infty} u_n x^n$、$\sum\limits_{n=0}^{\infty} v_n x^n$ 的收敛半径。当 $R_1 = R_2$ 时，$R \ge R_1 = R_2$
+> - 👆 该结论理解起来很简单，但是学的时候容易遗漏，这里重点记忆一下
+
 
 
 5. **收敛域的求法**
@@ -288,20 +307,38 @@ description: |
      - b. 用正项级数的比值（或根值）判别法，令 $\lim\limits_{n \to \infty} \dfrac{|u_{n+1}(x)|}{|u_n(x)|}$（或 $\lim\limits_{n\to \infty} \sqrt[n]{|u_n(x)|}$）$<1$，求出收敛区间 $(a, b)$
      - c. 单独讨论 $x=a, x=b$ 时 $\sum\limits_{n=0}^{\infty} u_n(x)$ 的敛散性，从而确定收敛域
 
-6. **求和函数常用结论**（和泰勒展开一样，全部要背，不过这些推一遍也差不多记住了 🌚）
-   - （1）$\sum\limits_{n=0}^{\infty} x^n = \dfrac{1}{1 - x} , |x| < 1$
-   - （2）$\sum\limits_{n=1}^{\infty} n x^{n-1} = \dfrac{1}{(1-x)^2}, |x| < 1$（相当于结论（1）求一次导）
-   - （3）$\sum\limits_{n=2}^{\infty} n(n-1)x^{n-2} = \dfrac{2}{(1-x)^3}, |x| < 1$（相当于结论（1）求两次导）
-   - ⭐（4）$\sum\limits_{n=1}^{\infty} \dfrac{1}{n} x^n = -\ln (1- x), -1\le x < 1$
-   - （5）$\sum\limits_{n=0}^{\infty} \dfrac{1}{2n + 1} x^{2n + 1} = \dfrac{1}{2} \ln \dfrac{1+x}{1-x}, |x| < 1$
-   - （6）$\sum\limits_{n=0}^{\infty} \dfrac{(-1)^n}{2n + 1} x^{2n+1} = \arctan x, |x| \le 1$
-   - （7）$\sum\limits_{n=0}^{\infty} \dfrac{x^n}{n!} = e^x$
-   - （8）$\sum\limits_{n=0}^{\infty} \dfrac{1}{(2n)!} x^{2n} = \dfrac{e^x + e^{-x}}{2}$
-   - （9）$\sum\limits_{n=0}^{\infty} \dfrac{(-1)^n}{(2n+1)!} x^{2n+1} = \sin x$
-   - （10）$\sum\limits_{n=0}^{\infty} \dfrac{(-1)^n}{(2n)!} x^{2n} = \cos x$
+6. **求和函数常用结论**（和泰勒展开一样，$\textcolor{red}{全部要背}$，不过这些推一遍也差不多记住了 🌚）
+   - （1）母型级数（⭐⭐⭐ 考频最高，考试时不要推，直接套）
+     - $\sum\limits_{n=1}^{\infty} \dfrac{1}{n} x^n = -\ln (1- x), -1\le x < 1$（无缺项）
+     - $\sum\limits_{n=1}^{\infty} \dfrac{x^{2n-1}}{2n-1} = \dfrac{-\ln(1-x) - (-\ln(1 + x))}{2} = \dfrac{1}{2} \ln \dfrac{1+x}{1-x}, -1<x < 1$（缺项，只有奇次幂，即 $\sum\limits_{n=1}^{\infty} \dfrac{x^{2n-1}}{2n-1} = \dfrac{1}{2}\sum\limits_{n=1}^{\infty} \dfrac{x^n}{n} - \dfrac{1}{2}\sum\limits_{n=1}^{\infty} \dfrac{(-x)^n}{n}$，目前最热门的考点！）
+     - $\sum\limits_{n=0}^{\infty} \dfrac{x^{2n+1}}{2n+1}(-1)^n = \arctan x, |x| \le 1$（缺项 + 交错）
+   - （2）子型级数（⭐⭐ 用巧力，不要蛮力硬算）
+     - $\sum\limits_{n=0}^{\infty} (an^2 + bn + c)x^n = ax^2 \sum\limits_{n=0}^{\infty} n(n-1)x^{n-2} + (a + b)x \sum\limits_{n=0}^{\infty} nx^{n-1} + c \sum\limits_{n=0}^{\infty} x^n = ax^2[\dfrac{2}{(1-x)^3}] + (a + b)x[\dfrac{1}{(1-x)^2}] + c[\dfrac{1}{1-x}]$
+   - （3）阶乘级数（⭐ 收敛域都是 $(-\infty, +\infty)$）
+     - $\sum\limits_{n=0}^{\infty} \dfrac{x^n}{n!} = e^x$（不跳项+不交错）
+     - $\sum\limits_{n=0}^{\infty} \dfrac{x^{2n}}{(2n)!} = \dfrac{e^2 + e^{-x}}{2}$（跳项+不交错，从上面那个推出来的）
+     - $\sum\limits_{n=0}^{\infty} \dfrac{(-1)^n}{(2n+1)!} x^{2n+1} = \sin x$（跳项+交错）
+     - $\sum\limits_{n=0}^{\infty} \dfrac{(-1)^n}{(2n)!} x^{2n} = \cos x$（跳项+交错）
 
 
-7. **傅里叶级数**：设函数 $f(x)$ 为周期为 $2l$ 的周期函数，且在 $[-l, l]$ 上可积，则
+> ⚠️ 求和函数的易错点
+> - $n$ 和 $n+1$，不要被这个东西纠结住
+> - 阶数和系数一定要配齐！（真题中考过的求和函数的题目，无一例外都可以小猪佩奇）
+> - 收敛域内无定义的点，要记得补上对应的值，千万别忘了！
+> - $0^0 = 1$，小心 $x = 0、n = 0$ 的情况
+>
+> “拆配凑补”
+
+
+7. **函数展开为级数**（其实都是泰勒展开，下面列几个常考的）
+   - （1）$e^x = \sum\limits_{n=0}^{\infty} \dfrac{x^n}{n!} (-\infty < x < \infty)$
+   - （2）$\sin x = \sum\limits_{n=0}^{\infty} (-1)^n \dfrac{x^{2n+1}}{(2n+1)!} (-\infty < x < \infty)$
+   - （3）$\cos x = \sum\limits_{n=0}^{\infty} (-1)^n \dfrac{x^{2n}}{(2n)!} (-\infty < x < \infty)$
+   - （4）$\ln (x+1) = \sum\limits_{n=1}^{\infty} \dfrac{x^n}{n} (-1)^{n-1} (-1 < x \le 1)$
+   - （5）$\dfrac{1}{1 - x} = \sum\limits_{n=0}^{\infty} x^n (-1 < x < 1)$
+
+
+8. **傅里叶级数**：设函数 $f(x)$ 为周期为 $2l$ 的周期函数，且在 $[-l, l]$ 上可积，则
    - （1）傅里叶系数（以 $2l$ 为周期）：
      - $a_n = \dfrac{1}{l} \int^{l}_{-l} f(x) \cos \dfrac{n\pi}{l} x dx (n = 0, 1, 2,...)$
      - $b_n = \dfrac{1}{l} \int^{l}_{-l} f(x) \sin \dfrac{n\pi}{l} x dx (n = 0, 1, 2,...)$
