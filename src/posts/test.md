@@ -18,7 +18,7 @@ description: |
   - `Python`、`C/C++`、`MATLAB`、`Node.js`
 - `Minecraft`、`Stardew Valley`、`Arknights` 忠实玩家
 - 对嵌入式、FPV 感兴趣，已经有了一些小小的尝试
-- ENFJ-A 一枚
+- 喜欢边干活边听 Lofi Hiphop
 
 > Btw, I use Arch Linux...
 

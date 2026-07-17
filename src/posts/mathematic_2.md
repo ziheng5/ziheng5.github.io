@@ -208,13 +208,12 @@ description: |
 
 ## 16. 无穷级数
 
-> 😭 太难了，难死我了
+> 👉 本章强化阶段强烈推荐 26 年方浩强化无穷级数章节的课程，质量很高（尤其是小猪配齐）
 
 > ⚠️ 本章重点习题：
-> - 【1000b-16-1、7、8、10、14、17】
+> - 【1000b-16-1、7、8、10、14、17、20、24、36、39】
 >
-> 💡 本章注意事项：
-> - 计算和函数的时候，千万要注意 $\sum\limits_{n=1}$ 中下标 $n$ 的变化！
+> “这一章非常非常难”
 
 1. **级数的性质**
    - （1）$\sum\limits_{n=1}^{\infty} u_n$ 与 $\sum\limits_{n=1}^{\infty} ku_n$ 同敛散性，其中 $k \ne 0$
@@ -312,7 +311,7 @@ description: |
      - $\sum\limits_{n=1}^{\infty} \dfrac{1}{n} x^n = -\ln (1- x), -1\le x < 1$（无缺项）
      - $\sum\limits_{n=1}^{\infty} \dfrac{x^{2n-1}}{2n-1} = \dfrac{-\ln(1-x) - (-\ln(1 + x))}{2} = \dfrac{1}{2} \ln \dfrac{1+x}{1-x}, -1<x < 1$（缺项，只有奇次幂，即 $\sum\limits_{n=1}^{\infty} \dfrac{x^{2n-1}}{2n-1} = \dfrac{1}{2}\sum\limits_{n=1}^{\infty} \dfrac{x^n}{n} - \dfrac{1}{2}\sum\limits_{n=1}^{\infty} \dfrac{(-x)^n}{n}$，目前最热门的考点！）
      - $\sum\limits_{n=0}^{\infty} \dfrac{x^{2n+1}}{2n+1}(-1)^n = \arctan x, |x| \le 1$（缺项 + 交错）
-   - （2）子型级数（⭐⭐ 用巧力，不要蛮力硬算）
+   - （2）子型级数（⭐⭐ 尽量用巧力，不要蛮力硬算）
      - $\sum\limits_{n=0}^{\infty} (an^2 + bn + c)x^n = ax^2 \sum\limits_{n=0}^{\infty} n(n-1)x^{n-2} + (a + b)x \sum\limits_{n=0}^{\infty} nx^{n-1} + c \sum\limits_{n=0}^{\infty} x^n = ax^2[\dfrac{2}{(1-x)^3}] + (a + b)x[\dfrac{1}{(1-x)^2}] + c[\dfrac{1}{1-x}]$
    - （3）阶乘级数（⭐ 收敛域都是 $(-\infty, +\infty)$）
      - $\sum\limits_{n=0}^{\infty} \dfrac{x^n}{n!} = e^x$（不跳项+不交错）
