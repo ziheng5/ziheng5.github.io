@@ -28,7 +28,7 @@ description: |
 
 
 
-1. **上面四个概念的关系**
+2. **上面四个概念的关系**
 
 ![relationship](/images/mathematic/chapter13_1.png)
 
@@ -254,10 +254,10 @@ description: |
 
 
 
-2. **交错级数及其敛散性判别**
+3. **交错级数及其敛散性判别**
    - 莱布尼茨判别法（充分不必要）：给出一交错级数 $\sum\limits_{n=1}^{\infty} (-1)^{n-1}u_n, u_n >0$，若 $\{u_n\}$ 单调不增且 $\lim\limits_{n \to \infty} u_n = 0$，则此级数收敛
 
-3. **任意项级数及其敛散性判别（绝对值判别法）**
+4. **任意项级数及其敛散性判别（绝对值判别法）**
    - （1）绝对收敛：设 $\sum\limits_{n=1}^{\infty} u_n$ 为任意项级数，若 $\sum\limits_{n=1}^{\infty} |u_n|$ 收敛，则称 $\sum\limits_{n=1}^{\infty} u_n$ 绝对收敛
    - （2）条件收敛：设 $\sum\limits_{n=1}^{\infty} u_n$ 为任意项级数，若 $\sum\limits_{n=1}^{\infty} u_n$ 收敛，但 $\sum\limits_{n=1}^{\infty} |u_n|$ 发散，则称 $\sum\limits_{n=1}^{\infty} u_n$ 条件收敛
 
@@ -271,7 +271,7 @@ description: |
 > - （7）若 $\sum\limits_{n=1}^{\infty} u_n$ 绝对收敛、$\sum\limits_{n=1}^{\infty} v_n$ 条件收敛，那么 $\sum\limits_{n=1}^{\infty} u_n v_n$ 绝对收敛（证明见【张宇强化高数-16-例32】）
 
 
-4. **幂级数及其收敛域**
+5. **幂级数及其收敛域**
    - （1）收敛点和发散点：给定 $x_0 \in I$，有 $\sum\limits_{n=1}^{\infty} u_n(x_0)$ 收敛，则称点 $x_0$ 为函数项级数 $\sum\limits_{n=1}^{\infty} u_n(x)$ 的收敛点；反之，则为发散点
    - （2）收敛域：函数项级数 $\sum\limits_{n=1}^{\infty} u_n(x)$ 的所有收敛点的集合称为它的收敛域
    - （3）阿贝尔定理：当幂级数 $\sum\limits_{n=0}^{\infty} a_n x^n$ 在点 $x = x_1(x_1\ne 0)$ 处收敛时，对于满足 $|x| < |x_1|$ 的一切 $x$，幂级数绝对收敛；当幂级数 $\sum\limits_{n=0}^{\infty} a_n x^n$ 在点 $x = x_2(x_2\ne 0)$ 处发散时，对于满足 $|x| > |x_2|$ 的一切 $x$，幂级数发散
@@ -297,7 +297,7 @@ description: |
 
 
 
-5. **收敛域的求法**
+6. **收敛域的求法**
    - （1）对于不缺项幂级数 $\sum\limits_{n=0}^{\infty} a_n x^n$
      - a. 收敛半径的求法：若 $\lim\limits_{n\to \infty} \begin{vmatrix} \dfrac{a_{n+1}}{a_n} \end{vmatrix} = \rho$ 或 $\lim\limits_{n\to \infty} \sqrt[n]{|a_n|} = \rho$，则 $\sum\limits_{n=0}^{\infty} a_n x^n$ 的收敛半径 $R$ 的表达式为 $R = \begin{cases} \dfrac{1}{\rho},& \rho\ne 0, \rho\ne +\infty \\ +\infty, & \rho=0 \\ 0, & \rho=+\infty \end{cases}$
      - b. 收敛区间与收敛域：区间 $(-R, R)$ 为幂函数 $\sum\limits_{n=0}^{\infty} a_n x^n$ 的收敛区间，单独考查幂级数在 $\pm R$ 处的敛散性就可以确定其收敛域为 $(-R, R)$ 或 $[-R, R)$ 或 $(-R, R]$ 或 $[-R, R]$
@@ -306,7 +306,7 @@ description: |
      - b. 用正项级数的比值（或根值）判别法，令 $\lim\limits_{n \to \infty} \dfrac{|u_{n+1}(x)|}{|u_n(x)|}$（或 $\lim\limits_{n\to \infty} \sqrt[n]{|u_n(x)|}$）$<1$，求出收敛区间 $(a, b)$
      - c. 单独讨论 $x=a, x=b$ 时 $\sum\limits_{n=0}^{\infty} u_n(x)$ 的敛散性，从而确定收敛域
 
-6. **求和函数常用结论**（和泰勒展开一样，$\textcolor{red}{全部要背}$，不过这些推一遍也差不多记住了 🌚）
+7. **求和函数常用结论**（和泰勒展开一样，$\textcolor{red}{全部要背}$，不过这些推一遍也差不多记住了 🌚）
    - （1）母型级数（⭐⭐⭐ 考频最高，考试时不要推，直接套）
      - $\sum\limits_{n=1}^{\infty} \dfrac{1}{n} x^n = -\ln (1- x), -1\le x < 1$（无缺项）
      - $\sum\limits_{n=1}^{\infty} \dfrac{x^{2n-1}}{2n-1} = \dfrac{-\ln(1-x) - (-\ln(1 + x))}{2} = \dfrac{1}{2} \ln \dfrac{1+x}{1-x}, -1<x < 1$（缺项，只有奇次幂，即 $\sum\limits_{n=1}^{\infty} \dfrac{x^{2n-1}}{2n-1} = \dfrac{1}{2}\sum\limits_{n=1}^{\infty} \dfrac{x^n}{n} - \dfrac{1}{2}\sum\limits_{n=1}^{\infty} \dfrac{(-x)^n}{n}$，目前最热门的考点！）
@@ -329,7 +329,7 @@ description: |
 > “拆配凑补”
 
 
-7. **函数展开为级数**（其实都是泰勒展开，下面列几个常考的）
+8. **函数展开为级数**（其实都是泰勒展开，下面列几个常考的）
    - （1）$e^x = \sum\limits_{n=0}^{\infty} \dfrac{x^n}{n!} (-\infty < x < \infty)$
    - （2）$\sin x = \sum\limits_{n=0}^{\infty} (-1)^n \dfrac{x^{2n+1}}{(2n+1)!} (-\infty < x < \infty)$
    - （3）$\cos x = \sum\limits_{n=0}^{\infty} (-1)^n \dfrac{x^{2n}}{(2n)!} (-\infty < x < \infty)$
@@ -337,7 +337,7 @@ description: |
    - （5）$\dfrac{1}{1 - x} = \sum\limits_{n=0}^{\infty} x^n (-1 < x < 1)$
 
 
-8. **傅里叶级数**：设函数 $f(x)$ 为周期为 $2l$ 的周期函数，且在 $[-l, l]$ 上可积，则
+9. **傅里叶级数**：设函数 $f(x)$ 为周期为 $2l$ 的周期函数，且在 $[-l, l]$ 上可积，则
    - （1）傅里叶系数（以 $2l$ 为周期）：
      - $a_n = \dfrac{1}{l} \int^{l}_{-l} f(x) \cos \dfrac{n\pi}{l} x dx (n = 0, 1, 2,...)$
      - $b_n = \dfrac{1}{l} \int^{l}_{-l} f(x) \sin \dfrac{n\pi}{l} x dx (n = 0, 1, 2,...)$
@@ -348,7 +348,7 @@ description: |
 
 > 💡 关于傅里叶级数，建议搭配《信号与系统》中的解释来理解：[孟桥老师的信号课](https://www.bilibili.com/video/BV144411D73H?p=48)
 
-8. **周期奇延拓与周期偶延拓**
+10. **周期奇延拓与周期偶延拓**
    - （1）周期奇延拓：设 $f(x)$ 定义在 $[0, l]$ 上，令 $F(x) = \begin{cases} f(x), & 0<x\le l \\ -f(-x), & -l \le x < 0 \\ 0, & x=0 \end{cases}$，再令 $F(x)$ 为以 $2l$ 为周期的周期函数
    - （2）周期偶延拓：设 $f(x)$ 定义在 $[0, l]$ 上，令 $F(x) = \begin{cases} f(x), & 0\le x\le l \\ f(-x), & -l \le x < 0  \end{cases}$，再令 $F(x)$ 为以 $2l$ 为周期的周期函数
 
@@ -356,6 +356,90 @@ description: |
 
 
 
-## 17. 多元函数积分学（Part1）
+## 17. 多元函数积分学（Part1，空间几何基础）
+> 💡 本章重点习题：
+> - 【1000b-17-1、5、10、13、14】
+
+1. **向量的基本运算**：
+   - 设 $\vec{a} = (a_x, a_y, a_z)$，$\vec{b} = (b_x, b_y, b_z)$，$\vec{c} = (c_x, c_y, c_z)$
+   - （1）$\vec{a} \cdot \vec{b} = (a_x, a_y, a_z)\cdot (b_x, b_y, b_z)$
+   - （2）$\vec{a} \cdot \vec{b} = |\vec{a}||\vec{b}| \cos\theta$，$\cos\theta = \dfrac{\vec{a}\cdot\vec{b}}{|\vec{a}||\vec{b}|}$
+   - （3）$\vec{a} \times \vec{b} = \begin{vmatrix} \vec{i} & \vec{j} & \vec{k} \\ a_x & a_y & a_z \\ b_x & b_y & b_z \end{vmatrix}$（$\vec{a}$ 与 $\vec{b}$ 张成的区域面积为 $|\vec{a} \times \vec{b}|$）
+   - （4）$[\vec{a} \vec{b} \vec{c}] = (\vec{a} \times \vec{b})\cdot \vec{c} = \begin{vmatrix} a_x & a_y & a_z \\ b_x & b_y & b_z  \\ c_x & c_y & c_z \end{vmatrix}$（三个向量张成的体积）
+
+
+2. **方向导数**
+   - （1）概念：设 $f(x, y)$ 在点 $(a, b)$ 及其附近有定义，$\vec{l} = (\cos \alpha, \cos\beta)$ 是一单位向量，若极限 $\lim\limits_{t\to 0^+} \dfrac{f(a+t\cos\alpha, b+t\cos\beta) - f(a, b)}{t}$ 存在，则称其值为 $f(x, y)$ 在点 $(a, b)$ 沿方向 $\vec{l} = (\cos\alpha, \cos\beta)$ 的方向导数，记作 $\dfrac{\partial f}{\partial \vec{l}} |_{(a, b)}$
+   - （2）计算：若函数 $f(x, y)$ 在点 $(a, b)$ $\textcolor{red}{可微}$，则其在点 $(a, b)$ 沿任意方向 $\vec{l} = (\cos \alpha, \cos\beta)$ 的方向导数都存在，且 $\dfrac{\partial f}{\partial \vec{n}} |_{(a, b)} = \dfrac{\partial f}{\partial x} |_{(a, b)}\cos\alpha + \dfrac{\partial f}{\partial y} |_{(a, b)} \cos\beta = \mathbf{grad} f(a, b) \cdot \vec{l}^o$
+
+> 💡 这里的 $\vec{l}$ 是单位向量，$\vec{l}^o$ 是指归一化后的 $\vec{l}$，计算方向导数的时候千万不要忘记归一化！题目很多时候给的方向向量是没有经过归一化的！
+
+
+3. **梯度**
+   - （1）概念：设函数 $f(x, y)$ 在点 $(a, b)$ 及其附近有定义，若单位向量 $\vec{l_0}$ 满足 $\dfrac{\partial d}{\partial \vec{l_0}} |_{(a, b)} = \max\limits_{|\vec{l}| = 1} \{ \dfrac{\partial d}{\partial \vec{l}} |_{(a, b)} \}$，则称向量 $\dfrac{\partial d}{\partial \vec{l_0}} |_{(a, b)} \vec{l_0}$ 为函数 $f(x, y)$ 在点 $(a,  b)$ 的梯度，记作 $\mathbf{grad}f(a, b) = (f'_x, f'_y)|_{(a, b)} = f'_x(a, b)\vec{i} + f'_y(a, b) \vec{j}$（梯度是个向量）
+   - （2）梯度向量的几何意义：方向为取到最大方向导数的方向；长度为方向导数的最大值 
+   - （3）在可微条件下的梯度为 $\mathbf{grad}f(a, b) = (\dfrac{\partial f}{\partial x}, \dfrac{\partial f}{\partial y})|_{(a, b)}$，此时方向导数最大值 = 梯度的模值 $ = \sqrt{(f'_x)^2 + (f'_y)^2}|_{(a, b)}$
+
+> 💡 关于梯度的一些小结论：
+> - （1）$\mathbf{grad}(u \pm v) = \mathbf{grad}$
+> - （2）$\mathbf{grad}(uv) = v\mathbf{grad}u + u\mathbf{grad} v$
+> - （3）$\mathbf{grad}(\dfrac{u}{v}) = \dfrac{v\mathbf{grad}u - u\mathbf{grad}v}{v^2}$
+
+> ⚠️ 易错题：设 $f(x, y) = e^{-(x^2 + 2y^2)}$，曲线 $y = y(x)$ 上任意一点 $P(x, y)$ 的切线方向始终指向 $f(x, y)$ 变化率最大的方向，且 $y(1) = 2$，求 $y(x)$
+> - 这一题求梯度的时候要特别注意，求 $f(x, y)$ 梯度的时候，要把 $y$ 当成独立变量而不是关于 $x$ 的函数（实际上梯度计算时求偏导是对位置求偏导，即 $f'_x = f'_1$、$f'_y = f'_2$）
+
+
+4. **散度**
+   - 设向量场 $\vec{A}(x, y, z) = P(x, y, z)\vec{i} + Q(x, y, z) \vec{j} + R(x, y, z) \vec{k}$，则 $\mathbf{div} \vec{A} = \dfrac{\partial P}{\partial x} + \dfrac{\partial Q }{\partial y} + \dfrac{\partial R}{\partial z}$
+
+5. **旋度**
+   - 设向量场 $\vec{A}(x, y, z) = P(x, y, z)\vec{i} + Q(x, y, z) \vec{j} + R(x, y, z) \vec{k}$，则 $\mathbf{rot} = \begin{vmatrix} \vec{i} & \vec{j} & \vec{k} \\ \dfrac{\partial}{\partial x} & \dfrac{\partial}{\partial y} & \dfrac{\partial}{\partial z} \\ P & Q & R \end{vmatrix}$
+
+6. **多元函数的泰勒多项式**（老登说数二之前考过，但数一真的会考这种吗...）
+   - 设 $f(x, y)$ 二阶偏导数连续，记 $X_0 (x_0, y_0), \Delta X = (\Delta x, \Delta y) = (x-x_0, y-y_0)$，则 $f(x, y)$ 的二次泰勒多项式为 $f(x_0, y_0) + (f'_x, f'_y)|_{X_0} \begin{pmatrix} \Delta x \\ \Delta y \end{pmatrix} + \dfrac{1}{2!}(\Delta x, \Delta y) \begin{pmatrix} f''_{xx} & f''_{xy} \\ f''_{yx} & f''_{yy} \end{pmatrix} |_{X_0} \begin{pmatrix} \Delta x \\ \Delta y \end{pmatrix}$
+   - 其中，$(f'_x, f'_y)|_{X_0}$ 为 $f(x, y)$ 在 $X_0$ 点处的梯度
+
+7. **空间曲线的切线与法平面**
+   - a. 用参数方程给出曲线   
+      - （1）设曲线 $L$ 的方程为 $\begin{cases} x = x(t) \\ y = y(t) \\ z=z(t) \end{cases}, t\in [\alpha, \beta]$，点 $M_0$ 对应参数 $t = t_0$。又设曲线 $L$ 光滑，即 $x(t), y(t), z(t)$ 在 $[\alpha, \beta]$ 上一阶偏导数连续，且 $[x'(t)]^2 + [y'(t)]^2 + [z'(t)]^2 \ne 0$
+      - （2）则曲线 $L$ 在点 $M_0$ 处的切向量为 $\vec{\tau} = (x'(t_0), y'(t_0), z'(t_0))$
+      - （3）切线方程：$\dfrac{x - x(t_0)}{x'(t_0)} = \dfrac{y - y(t_0)}{y'(t_0)} = \dfrac{z - z(t_0)}{z'(t_0)}$
+      - （4）法平面方程为 $x'(t_0)[x - x(t_0)] + y'(t_0)[y - y(t_0)] + z'(t_0)[z - z(t_0)] = 0$
+   - b. 用方程组给出曲线：$\begin{cases} F(x, y, z) = 0 \\ G(x, y, z) = 0 \end{cases}$
+     - （1）当在 $\dfrac{\partial(F, G)}{\partial(y, z)}  = \begin{vmatrix} F'_y & F'_z \\ G'_y & G'_z \end{vmatrix} \ne 0$ 时，可以确定 $\begin{cases} x = x \\ y = y(x) \\ z = z(x) \end{cases}$
+     - （2）切向量：$\vec{\tau} = \begin{vmatrix} \vec{i} & \vec{j} & \vec{k} \\ F'_x & F'_y & F'_z \\ G'_x & G'_y & G'_z \end{vmatrix} = (A, B, C)$
+     - （3）切线：$\dfrac{x - x_0}{A} = \dfrac{y - y_0}{B} = \dfrac{z - z_0}{C}$
+     - （4）法平面：$A(x - x_0) + B(y - y_0) + C(z - z_0) = 0$
+
+> 💡 小技巧：
+> - （1）当曲线 $L$ 的方程是 $\begin{cases} y = y(x) \\ z = z(x) \end{cases}$ 时，可写成 $\begin{cases} x= x \\ y = y(x) \\ z=z(t) \end{cases}$，在点 $(x_0, y(x_0), z(x_0))$ 处的切向量为 $\vec{\tau} = (1, y'(x_0), z'(x_0))$
+
+8. **空间曲面的切平面和法线**
+   - （1）记光滑曲面 $\Sigma$ 方程为 $F(x, y, z) = 0$，且有 $(F'_x)^2 + (F'_y)^2 + (F'_z)^2 \ne 0$
+   - （2）则曲面 $\Sigma$ 在点 $(a, b , c)$ 处的法向量为 $\vec{n} = (F'_x(a, b, c), F'_y(a, b, c), F'_z(a, b, c))$（⭐⭐⭐ 重中之重）
+   - （3）切平面方程为 $F'_x(a, b, c)(x-a) + F'_y(a, b, c)(y-b) + F'_z(a, b, c)(z-c) = 0$
+   - （4）法线方程为：$\dfrac{x-a}{F'_x(a, b, c)} = \dfrac{y-b}{F'_y(a, b, c)} = \dfrac{z-c}{F'_z(a, b, c)}$
+
+> 💡 注意：
+> - （1）$\vec{n} = \mathbf{grad} F$
+> - （2）当曲面 $\Sigma$ 由显式方程 $z = f(x, y)$ 表示，且 $f(x, y)$ 具有一阶偏导时，其实可以直接看作 $F(x, y, z) = z - f(x, y) = 0$
+
+
+9. **旋转曲面**（曲线 $\Gamma$ 绕一条定直线旋转一周所形成的曲面）
+    - （1）曲线 $\Gamma \begin{cases} F(x, y, z) = 0 \\ G(x, y, z)=0 \end{cases}$ 绕直线 $L$：$\dfrac{x-x_0}{l} = \dfrac{y-y_0}{m} = \dfrac{z-z_0}{n}$ 旋转一周形成一个旋转曲面，求法如下
+    - （2）设直线 $L$ 取上一点 $M_0(x_0, y_0, z_0)$，方向向量为 $\vec{\tau} = (l, m, n)$
+    - （3）在母线 $\Gamma$ 上取一点 $M_1(x_1, y_1, z_1)$，则过 $M_1$ 的纬圆（过 $M_1$ 作直线 $L$ 的法线段后旋转一周转出来的圆）上任意一点 $P(x, y, z)$ 满足条件
+      - a. $\overrightarrow{M_1P} \bot \vec{\tau}$
+      - b. $|\overrightarrow{M_0P}| = |\overrightarrow{M_0M_1}|$
+      - 即 $\begin{cases} l(x-x_1)+m(y-y_1)+n(z-z_1) = 0 \\ (x-x_0)^2 + (y-y_0)^2 + (z-z_0)^2 = (x_1-x_0)^2 + (y_1-y_0)^2 + (z_1-z_0)^2 \end{cases}$
+    - （4）与方程 $F(x_1, y_1, z_1) = 0$ 和 $G(x_1, y_1, z_1)=0$ 联立消去 $x_1,y_1,z_1$ 即可得到旋转曲面的方程
 
 ## 18. 多元函数积分学（Part2）
+
+
+
+
+1. **空间图形的形心坐标公式**
+   - （1）$\overline{x} = \dfrac{\iiint\limits_{\Omega} x dv}{\iiint\limits_{\Omega} dv}$
+   - （2）$\overline{y} = \dfrac{\iiint\limits_{\Omega} y dv}{\iiint\limits_{\Omega} dv}$
+   - （3）$\overline{z} = \dfrac{\iiint\limits_{\Omega} z dv}{\iiint\limits_{\Omega} dv}$
