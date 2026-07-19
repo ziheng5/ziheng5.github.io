@@ -357,25 +357,72 @@ description: |
 
 
 ## 17. 多元函数积分学（Part1，空间几何基础）
+
+> 👉 本章强化阶段强烈推荐李艳芳老师的课，讲的非常非常详细，而且比 🐙 的要更深刻
+> 
 > 💡 本章重点习题：
 > - 【1000b-17-1、5、10、13、14】
+>
+> 此外，推荐学完线代二次型之后，回来再看看旋转双曲面、旋转抛物面，会有更深层次的理解
 
-1. **向量的基本运算**：
+1. **方向余弦**
+   - 非零向量 $\vec{r}$ 与三条坐标轴的夹角 $\alpha,\beta,\gamma$ 称为向量 $\vec{r}$ 的方向角，$(\cos\alpha, \cos\beta, \cos\gamma) = (\dfrac{x}{|\vec{r}|}, \dfrac{y}{|\vec{r}|}, \dfrac{y}{|\vec{r}|}) = \dfrac{1}{|\vec{r}|}(x, y, z) = \dfrac{\vec{r}}{|\vec{r}|} = \vec{e_r}$，其中 $\cos\alpha, \cos\beta, \cos\gamma$ 称为 $\vec{r}$ 的方向余弦
+
+
+2. **向量的基本运算**：
    - 设 $\vec{a} = (a_x, a_y, a_z)$，$\vec{b} = (b_x, b_y, b_z)$，$\vec{c} = (c_x, c_y, c_z)$
    - （1）$\vec{a} \cdot \vec{b} = (a_x, a_y, a_z)\cdot (b_x, b_y, b_z)$
    - （2）$\vec{a} \cdot \vec{b} = |\vec{a}||\vec{b}| \cos\theta$，$\cos\theta = \dfrac{\vec{a}\cdot\vec{b}}{|\vec{a}||\vec{b}|}$
-   - （3）$\vec{a} \times \vec{b} = \begin{vmatrix} \vec{i} & \vec{j} & \vec{k} \\ a_x & a_y & a_z \\ b_x & b_y & b_z \end{vmatrix}$（$\vec{a}$ 与 $\vec{b}$ 张成的区域面积为 $|\vec{a} \times \vec{b}|$）
-   - （4）$[\vec{a} \vec{b} \vec{c}] = (\vec{a} \times \vec{b})\cdot \vec{c} = \begin{vmatrix} a_x & a_y & a_z \\ b_x & b_y & b_z  \\ c_x & c_y & c_z \end{vmatrix}$（三个向量张成的体积）
+   - （3）$\vec{a} \times \vec{b} = \begin{vmatrix} \vec{i} & \vec{j} & \vec{k} \\ a_x & a_y & a_z \\ b_x & b_y & b_z \end{vmatrix}$（$\vec{a}$ 与 $\vec{b}$ 张成的区域面积为 $ |\vec{c}| = |\vec{a} \times \vec{b}| = |\vec{a}||\vec{b}| \sin \theta$）
+   - （4）混合积：$[\vec{a} \vec{b} \vec{c}] = (\vec{a} \times \vec{b})\cdot \vec{c} = \begin{vmatrix} a_x & a_y & a_z \\ b_x & b_y & b_z  \\ c_x & c_y & c_z \end{vmatrix}$（三个向量张成的体积）
+
+> 💡 常用性质：
+> - （1）$\vec{a} \times \vec{a} = 0$（因为张不成一个面积出来）
+> - （2）$\vec{b} \times \vec{a} = - \vec{a} \times \vec{b}$
+> - （3）向量积对数乘的结合律：$(\lambda \vec{a}) \times \vec{b} = \lambda(\vec{a} \times \vec{b}) = a \times (\lambda \vec{b})$（因为是行列式运算嘛）
+> - （4）混合积计算是满足右手系的（即从左到右字母是顺序的，如 abcd、bcda、cdab），因此有 $(\vec{a} \times \vec{b}) \cdot \vec{c} = (\vec{b} \times \vec{c}) \cdot \vec{a} = (\vec{c} \times \vec{a}) \cdot \vec{b}$，进而有 $(\vec{a} \times \vec{b}) \cdot \vec{c} = \vec{a}\cdot (\vec{b} \times \vec{c}) $
+> - （5）$(\vec{a} \times \vec{b}) \cdot \vec{c} \Leftrightarrow \vec{a},\vec{b},\vec{c}$ 共面（张不成一个空间出来）
 
 
-2. **方向导数**
+3. **平面方程常见形式**
+   - （1）点法式（点斜式）：$A(x - x_0) + B(y - y_0) + C(z - z_0) = 0$【$\vec{n} = (A, B, C)$ 为平面的法向量，理解方法：$(A, B, C) \cdot (x-x_0, y-y_0, z-z_0) = 0$】
+   - （2）一般形式：$Ax + By + Cz + D = 0$【$\vec{n} = (A, B , C)$ 为平面的一个法向量，其实相当于上面的点法式，不过将 $-Ax_0-By_0 -Cz_0$ 写成 $D$】
+   - （3）截距式（用的非常少）：设平面和三个坐标轴的交点截距分别为 $a, b, c$，则平面方程为 $\dfrac{x}{a} + \dfrac{y}{b} + \dfrac{z}{c} = 1$
+
+> 💡 平面与平面的夹角（考的不多，特此布防）
+>    - 设两个平面的法向量分别为 $\vec{n_1} = (A_1 , B_1, C_1)$、$\vec{n_2} = (A_2 , B_2, C_2)$，则 $\cos\theta = \dfrac{|\vec{n_1}\vec{n_2}|}{|\vec{n_1}||\vec{n_2}|} = > \dfrac{|A_1A_2 + B_1B_2 + C_1 C_2|}{\sqrt{A_1^2 + B_1^2 + C_1^2} \sqrt{A_2^2 + B_2^2 + C_2^2}}$
+
+4. **距离公式**
+   - （1）点到平面距离：点 $P_0(x_0, y_0, z_0)$ 到平面 $Ax + By + Cz + D = 0$ 的距离公式为 $d = \dfrac{|Ax_0 + By_0 + Cz_0 + D|}{\sqrt{A^2 + B^2 + C^2}}$
+   - （2）两平行平面之间的距离公式：$d = \dfrac{|Ax_0 + By_0 + Cz_0 + D_1|}{\sqrt{A^2 + B^2 + C^2}} = \dfrac{|D_0 - D_1|}{\sqrt{A^2 + B^2 + C^2}}$
+
+
+5. **空间直线方程的常见形式**（把空间直线看成两个平面的交线）
+   - （1）一般形式（两个平面相交）：$\begin{cases} A_1 x + B_1 y + C_1 z + D_1 = 0 \\ A_2 x + B_2 y + C_2 z + D_2 = 0 \end{cases}$
+   - （2）点向式（一般会和线性代数一块考）：$M_0(x_0, y_0 ,z_0)$ 为直线上一点，$\vec{s} = (m, n, p)$ 为直线的方向向量，则直线方程为 $\dfrac{x - x_0}{m} = \dfrac{y - y_0}{n} = \dfrac{z - z_0}{p}$【我们约定：在点向式方程中，若分母为零，则分子也为零】
+   - （3）参数方程（用的比较多）：令点向式中的 $\dfrac{x - x_0}{m} = \dfrac{y - y_0}{n} = \dfrac{z - z_0}{p} = t$，那么有 $\begin{cases} x = x_0 + mt \\ y = y_0 + nt \\ z = z_0 + pt \end{cases}$
+   - （4）两点式（其实完全就是点向式，可以不用记）：$\dfrac{x - x_0}{x_1 - x_0} = \dfrac{y - y_0}{y_1 - y_0} = \dfrac{z - z_0}{z_1 - z_0}$
+
+> 💡 直线与直线的夹角（用方向向量算）：$\cos \varphi = \dfrac{|m_1m_2 + n_1n_2 + p_1p_2|}{\sqrt{m_1^2 + n_1^2 + p_1^2}\sqrt{m_2^2 + n_2^2 + p_2^2}}$
+
+> 💡 平面与直线的夹角：$\sin\varphi = \dfrac{|Am + Bn + Cp|}{\sqrt{A^2 + B^2 + C^2}\sqrt{m^2 + n^2 + p^2}}$（注意这里是正弦，可以从几何的角度理解）
+
+
+
+6. **直线相关的距离公式**
+   - （1）点到直线的距离：设 $M_0$ 是直线外一点，$M$ 是直线上一点，直线方向向量为 $\vec{s}$，则点 $M_0$ 到直线 $L$ 的距离为 $d = \dfrac{|\overrightarrow{M_0M} \times \vec{s}|}{|\vec{s}|} = \dfrac{|\overrightarrow{M_0M} \times \vec{s}|}{\sqrt{m^2 + n^2 + p^2}}$
+   - （2）两条平行直线之间的距离：根据上面的式子，把直线上的点代入即可
+
+
+
+7. **方向导数**
    - （1）概念：设 $f(x, y)$ 在点 $(a, b)$ 及其附近有定义，$\vec{l} = (\cos \alpha, \cos\beta)$ 是一单位向量，若极限 $\lim\limits_{t\to 0^+} \dfrac{f(a+t\cos\alpha, b+t\cos\beta) - f(a, b)}{t}$ 存在，则称其值为 $f(x, y)$ 在点 $(a, b)$ 沿方向 $\vec{l} = (\cos\alpha, \cos\beta)$ 的方向导数，记作 $\dfrac{\partial f}{\partial \vec{l}} |_{(a, b)}$
    - （2）计算：若函数 $f(x, y)$ 在点 $(a, b)$ $\textcolor{red}{可微}$，则其在点 $(a, b)$ 沿任意方向 $\vec{l} = (\cos \alpha, \cos\beta)$ 的方向导数都存在，且 $\dfrac{\partial f}{\partial \vec{n}} |_{(a, b)} = \dfrac{\partial f}{\partial x} |_{(a, b)}\cos\alpha + \dfrac{\partial f}{\partial y} |_{(a, b)} \cos\beta = \mathbf{grad} f(a, b) \cdot \vec{l}^o$
 
 > 💡 这里的 $\vec{l}$ 是单位向量，$\vec{l}^o$ 是指归一化后的 $\vec{l}$，计算方向导数的时候千万不要忘记归一化！题目很多时候给的方向向量是没有经过归一化的！
 
 
-3. **梯度**
+8. **梯度**
    - （1）概念：设函数 $f(x, y)$ 在点 $(a, b)$ 及其附近有定义，若单位向量 $\vec{l_0}$ 满足 $\dfrac{\partial d}{\partial \vec{l_0}} |_{(a, b)} = \max\limits_{|\vec{l}| = 1} \{ \dfrac{\partial d}{\partial \vec{l}} |_{(a, b)} \}$，则称向量 $\dfrac{\partial d}{\partial \vec{l_0}} |_{(a, b)} \vec{l_0}$ 为函数 $f(x, y)$ 在点 $(a,  b)$ 的梯度，记作 $\mathbf{grad}f(a, b) = (f'_x, f'_y)|_{(a, b)} = f'_x(a, b)\vec{i} + f'_y(a, b) \vec{j}$（梯度是个向量）
    - （2）梯度向量的几何意义：方向为取到最大方向导数的方向；长度为方向导数的最大值 
    - （3）在可微条件下的梯度为 $\mathbf{grad}f(a, b) = (\dfrac{\partial f}{\partial x}, \dfrac{\partial f}{\partial y})|_{(a, b)}$，此时方向导数最大值 = 梯度的模值 $ = \sqrt{(f'_x)^2 + (f'_y)^2}|_{(a, b)}$
@@ -389,17 +436,17 @@ description: |
 > - 这一题求梯度的时候要特别注意，求 $f(x, y)$ 梯度的时候，要把 $y$ 当成独立变量而不是关于 $x$ 的函数（实际上梯度计算时求偏导是对位置求偏导，即 $f'_x = f'_1$、$f'_y = f'_2$）
 
 
-4. **散度**
+9. **散度**
    - 设向量场 $\vec{A}(x, y, z) = P(x, y, z)\vec{i} + Q(x, y, z) \vec{j} + R(x, y, z) \vec{k}$，则 $\mathbf{div} \vec{A} = \dfrac{\partial P}{\partial x} + \dfrac{\partial Q }{\partial y} + \dfrac{\partial R}{\partial z}$
 
-5. **旋度**
+10. **旋度**
    - 设向量场 $\vec{A}(x, y, z) = P(x, y, z)\vec{i} + Q(x, y, z) \vec{j} + R(x, y, z) \vec{k}$，则 $\mathbf{rot} = \begin{vmatrix} \vec{i} & \vec{j} & \vec{k} \\ \dfrac{\partial}{\partial x} & \dfrac{\partial}{\partial y} & \dfrac{\partial}{\partial z} \\ P & Q & R \end{vmatrix}$
 
-6. **多元函数的泰勒多项式**（老登说数二之前考过，但数一真的会考这种吗...）
+11. **多元函数的泰勒多项式**（老登说数二之前考过，但数一真的会考这种吗...）
    - 设 $f(x, y)$ 二阶偏导数连续，记 $X_0 (x_0, y_0), \Delta X = (\Delta x, \Delta y) = (x-x_0, y-y_0)$，则 $f(x, y)$ 的二次泰勒多项式为 $f(x_0, y_0) + (f'_x, f'_y)|_{X_0} \begin{pmatrix} \Delta x \\ \Delta y \end{pmatrix} + \dfrac{1}{2!}(\Delta x, \Delta y) \begin{pmatrix} f''_{xx} & f''_{xy} \\ f''_{yx} & f''_{yy} \end{pmatrix} |_{X_0} \begin{pmatrix} \Delta x \\ \Delta y \end{pmatrix}$
    - 其中，$(f'_x, f'_y)|_{X_0}$ 为 $f(x, y)$ 在 $X_0$ 点处的梯度
 
-7. **空间曲线的切线与法平面**
+12. **空间曲线的切线与法平面**
    - a. 用参数方程给出曲线   
       - （1）设曲线 $L$ 的方程为 $\begin{cases} x = x(t) \\ y = y(t) \\ z=z(t) \end{cases}, t\in [\alpha, \beta]$，点 $M_0$ 对应参数 $t = t_0$。又设曲线 $L$ 光滑，即 $x(t), y(t), z(t)$ 在 $[\alpha, \beta]$ 上一阶偏导数连续，且 $[x'(t)]^2 + [y'(t)]^2 + [z'(t)]^2 \ne 0$
       - （2）则曲线 $L$ 在点 $M_0$ 处的切向量为 $\vec{\tau} = (x'(t_0), y'(t_0), z'(t_0))$
@@ -407,14 +454,15 @@ description: |
       - （4）法平面方程为 $x'(t_0)[x - x(t_0)] + y'(t_0)[y - y(t_0)] + z'(t_0)[z - z(t_0)] = 0$
    - b. 用方程组给出曲线：$\begin{cases} F(x, y, z) = 0 \\ G(x, y, z) = 0 \end{cases}$
      - （1）当在 $\dfrac{\partial(F, G)}{\partial(y, z)}  = \begin{vmatrix} F'_y & F'_z \\ G'_y & G'_z \end{vmatrix} \ne 0$ 时，可以确定 $\begin{cases} x = x \\ y = y(x) \\ z = z(x) \end{cases}$
-     - （2）切向量：$\vec{\tau} = \begin{vmatrix} \vec{i} & \vec{j} & \vec{k} \\ F'_x & F'_y & F'_z \\ G'_x & G'_y & G'_z \end{vmatrix} = (A, B, C)$
+     - （2）切向量：$\vec{\tau} = \begin{vmatrix} \vec{i} & \vec{j} & \vec{k} \\ F'_x & F'_y & F'_z \\ G'_x & G'_y & G'_z \end{vmatrix} = (A, B, C)$（相当于两条法向量求向量积）
      - （3）切线：$\dfrac{x - x_0}{A} = \dfrac{y - y_0}{B} = \dfrac{z - z_0}{C}$
      - （4）法平面：$A(x - x_0) + B(y - y_0) + C(z - z_0) = 0$
 
 > 💡 小技巧：
 > - （1）当曲线 $L$ 的方程是 $\begin{cases} y = y(x) \\ z = z(x) \end{cases}$ 时，可写成 $\begin{cases} x= x \\ y = y(x) \\ z=z(t) \end{cases}$，在点 $(x_0, y(x_0), z(x_0))$ 处的切向量为 $\vec{\tau} = (1, y'(x_0), z'(x_0))$
+> - （2）将曲线的一般方程转化为参数方程的常用技巧：有二元一次方程时直接令其中一元为 t、见到椭圆或圆时使用三角换元等（换元之后别忘了取值范围的确定）
 
-8. **空间曲面的切平面和法线**
+13. **空间曲面的切平面和法线**
    - （1）记光滑曲面 $\Sigma$ 方程为 $F(x, y, z) = 0$，且有 $(F'_x)^2 + (F'_y)^2 + (F'_z)^2 \ne 0$
    - （2）则曲面 $\Sigma$ 在点 $(a, b , c)$ 处的法向量为 $\vec{n} = (F'_x(a, b, c), F'_y(a, b, c), F'_z(a, b, c))$（⭐⭐⭐ 重中之重）
    - （3）切平面方程为 $F'_x(a, b, c)(x-a) + F'_y(a, b, c)(y-b) + F'_z(a, b, c)(z-c) = 0$
@@ -425,7 +473,7 @@ description: |
 > - （2）当曲面 $\Sigma$ 由显式方程 $z = f(x, y)$ 表示，且 $f(x, y)$ 具有一阶偏导时，其实可以直接看作 $F(x, y, z) = z - f(x, y) = 0$
 
 
-9. **旋转曲面**（曲线 $\Gamma$ 绕一条定直线旋转一周所形成的曲面）
+14. **旋转曲面**（曲线 $\Gamma$ 绕一条定直线旋转一周所形成的曲面）
     - （1）曲线 $\Gamma \begin{cases} F(x, y, z) = 0 \\ G(x, y, z)=0 \end{cases}$ 绕直线 $L$：$\dfrac{x-x_0}{l} = \dfrac{y-y_0}{m} = \dfrac{z-z_0}{n}$ 旋转一周形成一个旋转曲面，求法如下
     - （2）设直线 $L$ 取上一点 $M_0(x_0, y_0, z_0)$，方向向量为 $\vec{\tau} = (l, m, n)$
     - （3）在母线 $\Gamma$ 上取一点 $M_1(x_1, y_1, z_1)$，则过 $M_1$ 的纬圆（过 $M_1$ 作直线 $L$ 的法线段后旋转一周转出来的圆）上任意一点 $P(x, y, z)$ 满足条件
@@ -434,12 +482,18 @@ description: |
       - 即 $\begin{cases} l(x-x_1)+m(y-y_1)+n(z-z_1) = 0 \\ (x-x_0)^2 + (y-y_0)^2 + (z-z_0)^2 = (x_1-x_0)^2 + (y_1-y_0)^2 + (z_1-z_0)^2 \end{cases}$
     - （4）与方程 $F(x_1, y_1, z_1) = 0$ 和 $G(x_1, y_1, z_1)=0$ 联立消去 $x_1,y_1,z_1$ 即可得到旋转曲面的方程
 
+15. **投影曲线**（后面的线面积分会用到）
+    - 设空间曲线 $C$ 的一般方程为 $\begin{cases} F(x, y, z) = 0 \\ G(x, y, z) = 0 \end{cases}$，由该方程组消去变量 $z$ 后得到的方程 $H(x, y) = 0$ 为空间曲线在 $xOy$ 平面上的投影曲线
+    - 其他坐标面上的投影曲线求法类似
+    - 特殊情况：当出现 $\begin{cases} F(x, y) = 0 \\ G(x, y, z) = 0 \end{cases}$ 这样的空间曲线时，则其在 $xOy$ 平面上的投影曲线为 $\begin{cases} F(x, y) = 0 \\ z = 0 \end{cases}$，其他情况以此类推
+
+
+
 ## 18. 多元函数积分学（Part2）
-
-
 
 
 1. **空间图形的形心坐标公式**
    - （1）$\overline{x} = \dfrac{\iiint\limits_{\Omega} x dv}{\iiint\limits_{\Omega} dv}$
    - （2）$\overline{y} = \dfrac{\iiint\limits_{\Omega} y dv}{\iiint\limits_{\Omega} dv}$
    - （3）$\overline{z} = \dfrac{\iiint\limits_{\Omega} z dv}{\iiint\limits_{\Omega} dv}$
+
