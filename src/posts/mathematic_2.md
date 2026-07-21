@@ -492,8 +492,72 @@ description: |
 ## 18. 多元函数积分学（Part2）
 
 
-1. **空间图形的形心坐标公式**
-   - （1）$\overline{x} = \dfrac{\iiint\limits_{\Omega} x dv}{\iiint\limits_{\Omega} dv}$
-   - （2）$\overline{y} = \dfrac{\iiint\limits_{\Omega} y dv}{\iiint\limits_{\Omega} dv}$
-   - （3）$\overline{z} = \dfrac{\iiint\limits_{\Omega} z dv}{\iiint\limits_{\Omega} dv}$
+1. **三重积分的和式积分**：$\iiint\limits_{\Omega} g(x, y, z) dv = \lim\limits_{n\to \infty}\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{n}\sum\limits_{k=1}^{n} g(a + \dfrac{b-a}{n}i, c + \dfrac{d-c}{n}j, e + \dfrac{f-e}{n}k) \cdot \dfrac{b-a}{n} \cdot \dfrac{d-c}{n} \cdot \dfrac{f-e}{n}$，其中 $\Omega = \{(x, y, z) | a\le x\le b, c\le y \le d, e\le z\le f\}$
 
+
+> 💡 三重积分计算技巧：
+> - （1）遇到积分到后面很难算等情况时，要记得尝试交换积分次序
+> - （2）注意观察被积函数和积分区域，看情况使用三重积分的普通对称性和轮换对称性（这一块的技巧和二重积分部分完全一样）
+
+2. **三重积分的柱面坐标系积分**
+   - （1）令 $\begin{cases} x = r\cos \theta \\ y = r\sin\theta \end{cases}$
+   - （2）则有 $\iiint\limits_{\Omega} f(x, y, z) dxdydz = \iiint\limits_{\Omega} f(r\cos\theta, r\sin\theta, z) r drd\theta dz$
+
+
+
+3. **三重积分的球面坐标系积分**
+   - （1）适用场合：
+     - a. 被积函数中包含 $\begin{cases} f(x^2+y^2+z^2) \\ f(x^2 + y^2) \end{cases}$
+     - b. 积分区域为 $\begin{cases} 球或球的部分 \\ 锥或锥的部分 \end{cases}$
+   - （2）计算方法：
+     - a. 令 $\begin{cases} x = r\sin\varphi\cos\theta \\ y = r\sin\varphi\sin\theta \\ z = r\cos\varphi \end{cases}$
+     - c. $dv = r^2 \sin\varphi d\theta d\varphi dr$
+
+> 💡关于积分换元
+> - 在前面二重积分的地方，我们知道换元的时候，比如 $\begin{cases} x = r\cos\theta \\ y = r\sin\theta \end{cases}$，有 $d\sigma = dxdy = \begin{vmatrix} \dfrac{\partial x}{\partial r} & \dfrac{\partial x}{\partial \theta} \\ \dfrac{\partial y}{\partial r} & \dfrac{\partial x}{\partial \theta} \end{vmatrix} drd\theta$
+> - 这里同理有 $dv = dxdydz = \begin{vmatrix} \dfrac{\partial x}{\partial r} & \dfrac{\partial x}{\partial \varphi} & \dfrac{\partial x}{\partial \theta} \\ \dfrac{\partial y}{\partial r} & \dfrac{\partial y}{\partial \varphi} & \dfrac{\partial y}{\partial \theta} \\ \dfrac{\partial z}{\partial r} & \dfrac{\partial z}{\partial \varphi} & \dfrac{\partial z}{\partial \theta} \end{vmatrix} d\theta d\varphi dr = r^2\sin\varphi d\theta d\varphi dr$
+
+
+4. **空间图形的质心坐标公式**
+   - （1）$\overline{x} = \dfrac{\iiint\limits_{\Omega} x \rho(x, y, z) dv}{\iiint\limits_{\Omega} \rho(x, y, z) dv}$
+   - （2）$\overline{y} = \dfrac{\iiint\limits_{\Omega} y \rho(x, y, z) dv}{\iiint\limits_{\Omega} \rho(x, y, z) dv}$
+   - （3）$\overline{z} = \dfrac{\iiint\limits_{\Omega} z \rho(x, y, z) dv}{\iiint\limits_{\Omega} \rho(x, y, z) dv}$
+
+> 💡 当 $\rho(x, y, z)$ 为常数时，质心就是形心
+
+
+5. **积分的其他物理应用**（感觉不太可能考到啊...）
+   - （1）求引力：对于空间物体，若体密度为 $\rho(x, y, z)$，$\Omega$ 是物体所占的空间区域，则计算该物体对物体外一点 $M_0 (x_0, y_0, z_0)$ 处的质量为 $m$ 的质点的引力 $F_x, F_y, F_z$ 公式为：
+     - a. $F_x = Gm \iiint\limits_{\Omega} \dfrac{\rho(x, y, z) (x-x_0)}{[(x-x_0)^2 + (y-y_0)^2 + (z- z_0)^2]^{\frac{3}{2}}} dv$
+     - b. $F_y = Gm \iiint\limits_{\Omega} \dfrac{\rho(x, y, z) (y-y_0)}{[(x-x_0)^2 + (y-y_0)^2 + (z- z_0)^2]^{\frac{3}{2}}} dv$
+     - c. $F_z = Gm \iiint\limits_{\Omega} \dfrac{\rho(x, y, z) (z-z_0)}{[(x-x_0)^2 + (y-y_0)^2 + (z- z_0)^2]^{\frac{3}{2}}} dv$
+   - （2）求转动惯量（遇到再回来补吧）
+
+
+6. **第一类曲线积分**
+   - （1）定义：$\int_L f(x, y) ds = \lim\limits_{\lambda\to 0} \sum\limits_{i=1}^{n} f(\xi_i, \eta_i) \Delta s_i$，其中 $f(x, y)$ 叫做被积函数，$L$ 叫做被积弧段（相当于在三维坐标系下，某条空间曲线在 $xOy$ 平面上的投影曲线是 $f(x, y)$，沿着这条平面上的投影曲线进行积分计算）
+   - （2）性质
+     - a. 线性：$\int_L [\alpha f(x, y) + \beta g(x, y)] ds = \alpha \int_L f(x,y)ds + \beta \int_L g(x, y) ds$
+     - b. 可加性：若积分弧段 $L$ 可以划分成两段光滑曲线弧 $L_1, L_2$，则 $\int_L f(x,y)ds = \int_{L_1} f(x,y)ds + \int_{L_2} f(x,y)ds$
+     - c. 若在区域 $D$ 上， $f(x, y) $ 恒等于 1，$L$ 又是 $D$ 内的一条分段光滑曲线，$l$ 为 $L$ 的长度，则 $l = \int_L ds$
+     - d. 积分弧段是可以应用普通对称性和轮换对称性的
+   - （3）计算方式（是不是想到定积分那一块，有一个物理应用叫“求弧长”）
+     - a. 曲线 $L$ 由参数方程表示：设 $\begin{cases} x = \varphi(t) \\ y = \psi(t) \end{cases}$，$\varphi(t), \psi(t)$ 在 $[\alpha, \beta]$ 上具有一阶连续导数，且 $[\varphi'(t)]^2 + [\psi'(t)]^2 \ne 0$，则曲线积分 $\int_L f(x, y)ds$ 存在且 $\int_L f(x, y) ds = \int^{\beta}_{\alpha} f(\varphi(t), \psi(t)) [\sqrt{\varphi'(t)]^2 + [\psi'(t)]^2} dt$
+     - b. 曲线 $L$ 由 $y = \psi(x)(x_0 \le x \le x_1)$ 表示的情形：可以把这种情况看成特殊的参数方程 $\begin{cases} x = x \\ y = \psi(x) \end{cases} (x_0 \le x \le x_1)$，从而有 $\int_L f(x, y) ds = \int^{x_1}_{x_0} f(x, \psi(x)) \sqrt{1 + [\psi'(x)]^2} dx$
+     - c. 曲线 $L$ 由极坐标 $r = r(\theta)(\alpha \le \theta \le \beta)$ 表示的情形：$\int_L f(x, y) ds = \int^{\beta}_{\alpha} f(r(\theta) \cos \theta, r(\theta)\sin\theta) \sqrt{[r(\theta)]^2 + [r'(\theta)]^2} d\theta$
+
+> ⚠️ 计算曲线积分的时候是可以把曲线表达式（比如 $x^2 + y^2 = 1$）代入到被积函数 $f(x, y)$ 中的，但学完这一部分后，定积分、二重积分、三重积分的计算千万不要犯糊涂！
+
+
+> ❓ 假如说第一类曲线积分是沿着线的方向积分，那么下面第二类曲线积分就是把这个方向上的 $ds$ 变成向量然后拆分成 $dx$ 和 $dy$ 两个分量
+
+7. **第二类曲线积分**
+   - （1）原理：令向量值函数 $\vec{F}(x,y ) = P(x, y) \vec{i} + Q(x y) \vec{j}$，积分弧段为 $L$，注意到 $d\vec{r} = dx \vec{i} + dy \vec{j}$（可以将 $\vec{F}$ 看成变力，$L$ 是做功路径），那么 $\int_L \vec{F}(x, y) d\vec{r} = \int_L [P(x, y) \vec{i} + Q(x y) \vec{j}] \cdot (dx \vec{i} + dy \vec{j}) = \int_L P(x, y)dx + Q(x, y)dy$
+   - （2）性质：线性、可加性、有向性
+   - （3）计算（参数方程）：
+      - $\int_L P(x, y) dx + Q(x, y) dy  = \int^{\beta}_{\alpha} P(\varphi(t), \psi(t)) d[\varphi(t)] + Q(\varphi(t), \psi(t)) d[\psi(t)] = \int^{\beta}_{\alpha} [P(\varphi(t), \psi(t)) \varphi'(t) + Q(\varphi(t), \psi(t)) \psi'(t)] dt$（⚠️ 注意：下限 $\alpha$ 对应 $L$ 起点，$\beta$ 对应 $L$ 终点，$\alpha$ 不一定小于 $\beta$）
+
+
+8. **两类曲线积分之间的联系**
+   - （1）平面曲线弧 $L$ 上的两类曲线积分之间有这样一个联系：$\int_L Pdx + Qdy = \int_L (P\cos \alpha + Q\cos\beta) ds$，其中 $\alpha(x, y),\beta(x, y)$ 为有向曲线弧 $L$ 在 $(x,y )$ 处的切向量的方向角（其实就是 $\begin{cases} dx = \cos\alpha ds \\ dy =  \cos\beta ds \end{cases}$）
+   - （2）类似的，空间曲线弧 $\Gamma$ 上的两类曲线积分之间有这样一个联系：$\int_{\Gamma} Pdx + Qdy + Rdz = \int_{\Gamma} (P\cos \alpha + Q\cos\beta + R\cos\gamma)  ds$，其中 $\alpha(x, y, z),\beta(x, y, z),\gamma(x, y, z)$ 为有向曲线弧 $\Gamma$ 在 $(x,y )$ 处的切向量的方向角
