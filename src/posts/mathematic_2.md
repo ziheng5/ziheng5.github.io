@@ -150,7 +150,7 @@ description: |
    - 若一阶微分方程写成 $P(x,y ) dx + Q(x, y)dy = 0$ 的形式时，等式左端表达式是 $u(x, y)$ 的全微分，则称该式子为全微分方程
    - 解题思路就是通过 $\dfrac{\partial Q}{\partial x} = \dfrac{\partial P}{\partial y}$ 来求解方程
 
-> 💡 全微分的积分与路径无关，因此由 $P(x,y ) dx + Q(x, y)dy = 0$ 求解二元函数 $u(x, y)$ 时可以采用折线法，选取一条简单的折线来进行积分，参考【1000b-15-40】
+> 💡 全微分的积分与路径无关（其物理意义可以理解为保守场下变力沿曲线做工，与路径无关），因此由 $P(x,y ) dx + Q(x, y)dy = 0$ 求解二元函数 $u(x, y)$ 时可以采用折线法（或者干脆 $F(A) - F(B)$），选取一条简单的折线来进行积分，参考【1000b-15-40】
 
 
 4. **二阶常系数齐次线性微分方程**
@@ -490,7 +490,7 @@ description: |
 
 
 ## 18. 多元函数积分学（Part2）
-
+> 这一章主要是东西多，难倒不算太难
 
 1. **三重积分的和式积分**：$\iiint\limits_{\Omega} g(x, y, z) dv = \lim\limits_{n\to \infty}\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{n}\sum\limits_{k=1}^{n} g(a + \dfrac{b-a}{n}i, c + \dfrac{d-c}{n}j, e + \dfrac{f-e}{n}k) \cdot \dfrac{b-a}{n} \cdot \dfrac{d-c}{n} \cdot \dfrac{f-e}{n}$，其中 $\Omega = \{(x, y, z) | a\le x\le b, c\le y \le d, e\le z\le f\}$
 
@@ -561,3 +561,56 @@ description: |
 8. **两类曲线积分之间的联系**
    - （1）平面曲线弧 $L$ 上的两类曲线积分之间有这样一个联系：$\int_L Pdx + Qdy = \int_L (P\cos \alpha + Q\cos\beta) ds$，其中 $\alpha(x, y),\beta(x, y)$ 为有向曲线弧 $L$ 在 $(x,y )$ 处的切向量的方向角（其实就是 $\begin{cases} dx = \cos\alpha ds \\ dy =  \cos\beta ds \end{cases}$）
    - （2）类似的，空间曲线弧 $\Gamma$ 上的两类曲线积分之间有这样一个联系：$\int_{\Gamma} Pdx + Qdy + Rdz = \int_{\Gamma} (P\cos \alpha + Q\cos\beta + R\cos\gamma)  ds$，其中 $\alpha(x, y, z),\beta(x, y, z),\gamma(x, y, z)$ 为有向曲线弧 $\Gamma$ 在 $(x,y )$ 处的切向量的方向角
+
+
+9. **格林公式**（积分与路径无关）
+    - 设闭区域 $D$ 由分段光滑的封闭曲线 $L$ 围成，若函数 $P(x, y)$ 及 $Q(x, y)$ 在 $D$ 上具有一阶连续偏导数，则有 $\iint\limits_D (\dfrac{\partial Q}{\partial x} - \dfrac{\partial P}{\partial y}) dxdy = \oint_{L} Pdx + Qdy$（$\oint$ 代表闭合曲线），其中 $L$ 是 $D$ 的取正向（人在线上走，左手在 D 内）的边界曲线
+
+> ⚠️ 在使用格林公式的时候一定要注意使用条件 “$\textcolor{red}{P(x, y), Q(x, y) 在 D 上具有一阶连续偏导数}$”，出题老头可能会在这里挖坑骗你用格林公式。遇到这种情况，可以尝试使用 “挖洞法” 或 “补线法”
+
+
+10. **积分与路径无关**（参考保守场或无旋场）
+    - 设 $D$ 为平面中的单连通区域，函数 $P(x,y ), Q(x, y)$ 在 $D$ 上具有一阶连续偏导数，则下列条件相互等价
+    - （1）对于 $D$ 中任意分段光滑闭曲线 $C$ 都有 $\oint_C Pdx + Qdy  =0$
+    - （2）对于 $D$ 中从点 $M_1$ 到点 $M_2$ 的任意两条分段光滑曲线 $L_1, L_2$，都有 $\int_{L_1} Pdx + Qdy = \int_{L_2} Pdx + Qdy$
+    - （3）存在在 $D$ 上具有一阶连续偏导数的函数 $u(x, y)$，使得 $d[u(x, y)] = Pdx + Qdy$
+    - （4）在 $D$ 中恒有 $\dfrac{\partial Q}{\partial x} = \dfrac{\partial P}{\partial y}$
+
+> 💡 单连通就是整个闭合曲线可以慢慢缩成一个点的区域，复连通就是内部有一个或多个洞的区域
+
+
+11. **曲线积分的基本定理**（这不就是保守场嘛...）
+    - 设 $\overrightarrow{F}(x, y) = P(x, y) \vec{i} + Q(x, y) \vec{j}$ 是平面区域 $D$ 内的一个向量，若 $P(x, y)$ 与 $Q(x, y)$ 都在 $D$ 内连续，且存在一个数量函数 $f(x , y)$ 使得 $\overrightarrow{F} = \nabla f = \dfrac{\partial f }{\partial x} \vec{i} + \dfrac{\partial f}{\partial y} \vec{j}$，则曲线积分 $\int_L \overrightarrow{F} \cdot d\vec{r}$ 在 $D$ 内与路径无关，且 $\int_L \overrightarrow{F} \cdot d\vec{r} = f(B) - f(A)$，其中 $L$ 是位于 $D$ 内起点为 $A$ 终点为 $B$ 的任意光滑曲线
+
+> 💡 看到这里有没有想到 15 讲微分方程部分的那个全微分方程 $P(x, y) dx + Q(x, y) dy$？这里再补充几点：
+>
+> - （1）$P(x, y)dx + Q(x, y)dy$ 为全微分的充分必要条件：设区域 $D$ 是一个$\textcolor{red}{单连通}$区域，若函数 $P(x, y)$ 与 $Q(x, y)$ 在 $D$ 内具有一阶连续偏导数，则 $P(x, y) dx + Q(x, y)dy$ 在 $D$ 内为某一函数 $u(x, y)$ 的全微分的充分必要条件是 $\textcolor{red}{\dfrac{\partial Q}{\partial x} = \dfrac{\partial P}{\partial y}}$ 在 $D$ 内恒成立
+> - （2）若一个微分方程能写成 $P(x, y) dx + Q(x, y) dy = 0$ 的形式，而 $P(x, y) dx + Q(x, y) dy$ 为某一个函数 $u(x, y) $ 的全微分，则上述方程称为全微分方程，$u(x, y) = C$ 是它的隐式通解，其中 $C$ 为任意常数
+> - （3）已知某微分式，我们求其原函数 $u(x, y)$ 的方法一般有三种：折线法、积分法、凑微分法（要求经验丰富）
+>     - a. 折线法：$u(x, y) = \int^{(x, y)}_{(a, b)} Pdx + Qdy$
+>     - b. 积分法：$u(x, y) = \int \dfrac{\partial u}{\partial x} dx = ... + \varphi(y)$
+>     - c. 凑微分法（瞪眼法）：对经验要求比较高
+
+
+12. **第一类曲面积分**
+    - （1）定义：$\iint\limits_{\Sigma} f(x, y, z) dS = \lim\limits_{\lambda \to 0} \sum\limits_{i=1}^{n} f(\xi_i, \eta_i, \varsigma_i) \Delta S_i$
+    - （2）性质：和第一类曲线积分完全类似
+    - （3）计算：若积分曲面 $\Sigma$ 由方程 $z = z(x, y)$ 给出，$\Sigma$ 在 $xOy$ 面上的投影区域为 $D_{xy}$，函数 $z = z(x, y)$ 在 $D_{xy}$ 上具有一阶连续偏导数，被积函数 $f(x, y, z)$ 在 $\Sigma$ 上连续，则 $\iint\limits_{\Sigma} f(x, y, z) dS = \iint\limits_{D_{xy}} f(x, y, z(x, y)) \sqrt{[z'_x(x,y)]^2 + [z'_y(x, y)]^2 + 1} dx dy$（和第一类曲线积分也很类似）
+
+> 💡 算曲面积分的时候，曲面方程也是可以直接代入的
+
+13. **第二类曲面积分**（本质是通量）
+    - （1）定义：$\iint\limits_{\Sigma} R(x, y, z) dxdy = \lim\limits_{\lambda \to 0} \sum\limits_{i=1}^{n} R(\xi_i, \eta_i, \varsigma_i) (\Delta S_i)_{x, y}$
+    - （2）右手直角坐标系下有向曲面、法向量以及方向余弦的关系：
+    - ![p18-1](/images/mathematic/18-1.png) 
+    - （3）计算：$\iint\limits_{\Sigma} R(x, y, z) dxdy = \pm \iint\limits_{D_{xy}} R(x, y, z(x, y)) dxdy$（注意，投影区域是没有方向的，而是对投影谈方向），若 $\Sigma$ 取上侧，即 $\cos \gamma > 0$，则上式右端取正号，反之，若 $\Sigma$ 取下侧，即 $\cos \gamma < 0$，则上式右端取负号。
+    - （4）第二类曲线积分为零的三种特殊情况：
+      - a. 当曲面 $\Sigma$ 垂直于 $xOy$ 面时，$\iint\limits_{\Sigma} R(x, y, z) dxdy = 0$;
+      - b. 当曲面 $\Sigma$ 垂直于 $yOz$ 面时，$\iint\limits_{\Sigma} R(x, y, z) dydz = 0$;
+      - c. 当曲面 $\Sigma$ 垂直于 $zOx$ 面时，$\iint\limits_{\Sigma} R(x, y, z) dzdx = 0$;
+
+14. **两类曲面积分之间的联系**（2020 年考了一道当年很难的题）
+    - $\iint\limits_{\Sigma} Pdydz + Qdxdz + Rdxdy = \iint\limits_{\Sigma} (P\cos \alpha + Q\cos\beta + R\cos\gamma) dS$，其中 $\cos \alpha$、$\cos\beta$、$\cos\gamma$ 为有向曲面 $\Sigma$ 在点 $(x, y, z)$ 处的法向量的方向余弦（其实就是向量点积）
+      - $dS = \sqrt{(z'_x)^2 + (z'_y)^2 + 1} dx dy$
+      - $dS = \sqrt{1 + (x'_y)^2 + (x'_z)^2 } dy dz$
+      - $dS = \sqrt{(y'_x)^2 + 1 + (y'_z)^2 } dx dz$
