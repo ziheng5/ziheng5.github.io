@@ -490,7 +490,7 @@ description: |
 
 
 ## 18. 多元函数积分学（Part2）
-> 这一章主要是东西多，难倒不算太难
+> 这一章主要是东西多，难倒不算太难，整个这一章就是一个巨大的麦克斯韦方程组
 
 1. **三重积分的和式积分**：$\iiint\limits_{\Omega} g(x, y, z) dv = \lim\limits_{n\to \infty}\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{n}\sum\limits_{k=1}^{n} g(a + \dfrac{b-a}{n}i, c + \dfrac{d-c}{n}j, e + \dfrac{f-e}{n}k) \cdot \dfrac{b-a}{n} \cdot \dfrac{d-c}{n} \cdot \dfrac{f-e}{n}$，其中 $\Omega = \{(x, y, z) | a\le x\le b, c\le y \le d, e\le z\le f\}$
 
@@ -516,6 +516,7 @@ description: |
 > 💡关于积分换元
 > - 在前面二重积分的地方，我们知道换元的时候，比如 $\begin{cases} x = r\cos\theta \\ y = r\sin\theta \end{cases}$，有 $d\sigma = dxdy = \begin{vmatrix} \dfrac{\partial x}{\partial r} & \dfrac{\partial x}{\partial \theta} \\ \dfrac{\partial y}{\partial r} & \dfrac{\partial x}{\partial \theta} \end{vmatrix} drd\theta$
 > - 这里同理有 $dv = dxdydz = \begin{vmatrix} \dfrac{\partial x}{\partial r} & \dfrac{\partial x}{\partial \varphi} & \dfrac{\partial x}{\partial \theta} \\ \dfrac{\partial y}{\partial r} & \dfrac{\partial y}{\partial \varphi} & \dfrac{\partial y}{\partial \theta} \\ \dfrac{\partial z}{\partial r} & \dfrac{\partial z}{\partial \varphi} & \dfrac{\partial z}{\partial \theta} \end{vmatrix} d\theta d\varphi dr = r^2\sin\varphi d\theta d\varphi dr$
+> - 更一般的，设 $\begin{cases} x = x(u, v, w) \\ y = y(u, v, w) \\ z = z(u, v, w) \end{cases}$，则 $dxdydz =  \begin{vmatrix} \dfrac{\partial x}{\partial u} & \dfrac{\partial x}{\partial v} & \dfrac{\partial x}{\partial w} \\ \dfrac{\partial y}{\partial u} & \dfrac{\partial y}{\partial v} & \dfrac{\partial y}{\partial w} \\ \dfrac{\partial z}{\partial u} & \dfrac{\partial z}{\partial v} & \dfrac{\partial z}{\partial w} \end{vmatrix} dudvdw$
 
 
 4. **空间图形的质心坐标公式**
@@ -534,7 +535,7 @@ description: |
    - （2）求转动惯量（遇到再回来补吧）
 
 
-6. **第一类曲线积分**
+6. **第一类曲线积分**（不考虑方向，标量计算）
    - （1）定义：$\int_L f(x, y) ds = \lim\limits_{\lambda\to 0} \sum\limits_{i=1}^{n} f(\xi_i, \eta_i) \Delta s_i$，其中 $f(x, y)$ 叫做被积函数，$L$ 叫做被积弧段（相当于在三维坐标系下，某条空间曲线在 $xOy$ 平面上的投影曲线是 $f(x, y)$，沿着这条平面上的投影曲线进行积分计算）
    - （2）性质
      - a. 线性：$\int_L [\alpha f(x, y) + \beta g(x, y)] ds = \alpha \int_L f(x,y)ds + \beta \int_L g(x, y) ds$
@@ -545,6 +546,7 @@ description: |
      - a. 曲线 $L$ 由参数方程表示：设 $\begin{cases} x = \varphi(t) \\ y = \psi(t) \end{cases}$，$\varphi(t), \psi(t)$ 在 $[\alpha, \beta]$ 上具有一阶连续导数，且 $[\varphi'(t)]^2 + [\psi'(t)]^2 \ne 0$，则曲线积分 $\int_L f(x, y)ds$ 存在且 $\int_L f(x, y) ds = \int^{\beta}_{\alpha} f(\varphi(t), \psi(t)) [\sqrt{\varphi'(t)]^2 + [\psi'(t)]^2} dt$
      - b. 曲线 $L$ 由 $y = \psi(x)(x_0 \le x \le x_1)$ 表示的情形：可以把这种情况看成特殊的参数方程 $\begin{cases} x = x \\ y = \psi(x) \end{cases} (x_0 \le x \le x_1)$，从而有 $\int_L f(x, y) ds = \int^{x_1}_{x_0} f(x, \psi(x)) \sqrt{1 + [\psi'(x)]^2} dx$
      - c. 曲线 $L$ 由极坐标 $r = r(\theta)(\alpha \le \theta \le \beta)$ 表示的情形：$\int_L f(x, y) ds = \int^{\beta}_{\alpha} f(r(\theta) \cos \theta, r(\theta)\sin\theta) \sqrt{[r(\theta)]^2 + [r'(\theta)]^2} d\theta$
+   - （3）物理意义：空间质量不均匀的曲线的质量
 
 > ⚠️ 计算曲线积分的时候是可以把曲线表达式（比如 $x^2 + y^2 = 1$）代入到被积函数 $f(x, y)$ 中的，但学完这一部分后，定积分、二重积分、三重积分的计算千万不要犯糊涂！
 
@@ -558,6 +560,8 @@ description: |
       - $\int_L P(x, y) dx + Q(x, y) dy  = \int^{\beta}_{\alpha} P(\varphi(t), \psi(t)) d[\varphi(t)] + Q(\varphi(t), \psi(t)) d[\psi(t)] = \int^{\beta}_{\alpha} [P(\varphi(t), \psi(t)) \varphi'(t) + Q(\varphi(t), \psi(t)) \psi'(t)] dt$（⚠️ 注意：下限 $\alpha$ 对应 $L$ 起点，$\beta$ 对应 $L$ 终点，$\alpha$ 不一定小于 $\beta$）
 
 
+
+
 8. **两类曲线积分之间的联系**
    - （1）平面曲线弧 $L$ 上的两类曲线积分之间有这样一个联系：$\int_L Pdx + Qdy = \int_L (P\cos \alpha + Q\cos\beta) ds$，其中 $\alpha(x, y),\beta(x, y)$ 为有向曲线弧 $L$ 在 $(x,y )$ 处的切向量的方向角（其实就是 $\begin{cases} dx = \cos\alpha ds \\ dy =  \cos\beta ds \end{cases}$）
    - （2）类似的，空间曲线弧 $\Gamma$ 上的两类曲线积分之间有这样一个联系：$\int_{\Gamma} Pdx + Qdy + Rdz = \int_{\Gamma} (P\cos \alpha + Q\cos\beta + R\cos\gamma)  ds$，其中 $\alpha(x, y, z),\beta(x, y, z),\gamma(x, y, z)$ 为有向曲线弧 $\Gamma$ 在 $(x,y )$ 处的切向量的方向角
@@ -569,7 +573,7 @@ description: |
 > ⚠️ 在使用格林公式的时候一定要注意使用条件 “$\textcolor{red}{P(x, y), Q(x, y) 在 D 上具有一阶连续偏导数}$”，出题老头可能会在这里挖坑骗你用格林公式。遇到这种情况，可以尝试使用 “挖洞法” 或 “补线法”
 
 
-10. **积分与路径无关**（参考保守场或无旋场）
+10. **第二类曲线积分与路径无关**（参考保守场或无旋场）
     - 设 $D$ 为平面中的单连通区域，函数 $P(x,y ), Q(x, y)$ 在 $D$ 上具有一阶连续偏导数，则下列条件相互等价
     - （1）对于 $D$ 中任意分段光滑闭曲线 $C$ 都有 $\oint_C Pdx + Qdy  =0$
     - （2）对于 $D$ 中从点 $M_1$ 到点 $M_2$ 的任意两条分段光滑曲线 $L_1, L_2$，都有 $\int_{L_1} Pdx + Qdy = \int_{L_2} Pdx + Qdy$
@@ -578,6 +582,9 @@ description: |
 
 > 💡 单连通就是整个闭合曲线可以慢慢缩成一个点的区域，复连通就是内部有一个或多个洞的区域
 
+> 💡 对于空间中第二类曲线积分计算技巧：
+> - （1）直接计算：参数方程（见上面）或斯托克斯公式（见下面）
+> - （2）对于无旋场，即旋度 $\textbf{rot} F = 0$ 时，可以更换积分路径（积分与路径无关）
 
 11. **曲线积分的基本定理**（这不就是保守场嘛...）
     - 设 $\overrightarrow{F}(x, y) = P(x, y) \vec{i} + Q(x, y) \vec{j}$ 是平面区域 $D$ 内的一个向量，若 $P(x, y)$ 与 $Q(x, y)$ 都在 $D$ 内连续，且存在一个数量函数 $f(x , y)$ 使得 $\overrightarrow{F} = \nabla f = \dfrac{\partial f }{\partial x} \vec{i} + \dfrac{\partial f}{\partial y} \vec{j}$，则曲线积分 $\int_L \overrightarrow{F} \cdot d\vec{r}$ 在 $D$ 内与路径无关，且 $\int_L \overrightarrow{F} \cdot d\vec{r} = f(B) - f(A)$，其中 $L$ 是位于 $D$ 内起点为 $A$ 终点为 $B$ 的任意光滑曲线
@@ -592,25 +599,42 @@ description: |
 >     - c. 凑微分法（瞪眼法）：对经验要求比较高
 
 
-12. **第一类曲面积分**
+12. **第一类曲面积分**（不考虑方向）
     - （1）定义：$\iint\limits_{\Sigma} f(x, y, z) dS = \lim\limits_{\lambda \to 0} \sum\limits_{i=1}^{n} f(\xi_i, \eta_i, \varsigma_i) \Delta S_i$
     - （2）性质：和第一类曲线积分完全类似
     - （3）计算：若积分曲面 $\Sigma$ 由方程 $z = z(x, y)$ 给出，$\Sigma$ 在 $xOy$ 面上的投影区域为 $D_{xy}$，函数 $z = z(x, y)$ 在 $D_{xy}$ 上具有一阶连续偏导数，被积函数 $f(x, y, z)$ 在 $\Sigma$ 上连续，则 $\iint\limits_{\Sigma} f(x, y, z) dS = \iint\limits_{D_{xy}} f(x, y, z(x, y)) \sqrt{[z'_x(x,y)]^2 + [z'_y(x, y)]^2 + 1} dx dy$（和第一类曲线积分也很类似）
+    - （4）物理意义：空间质量不规则曲面的质量
 
 > 💡 算曲面积分的时候，曲面方程也是可以直接代入的
 
-13. **第二类曲面积分**（本质是通量）
+13. **第二类曲面积分**（本质是通量，要考虑方向）
     - （1）定义：$\iint\limits_{\Sigma} R(x, y, z) dxdy = \lim\limits_{\lambda \to 0} \sum\limits_{i=1}^{n} R(\xi_i, \eta_i, \varsigma_i) (\Delta S_i)_{x, y}$
     - （2）右手直角坐标系下有向曲面、法向量以及方向余弦的关系：
     - ![p18-1](/images/mathematic/18-1.png) 
     - （3）计算：$\iint\limits_{\Sigma} R(x, y, z) dxdy = \pm \iint\limits_{D_{xy}} R(x, y, z(x, y)) dxdy$（注意，投影区域是没有方向的，而是对投影谈方向），若 $\Sigma$ 取上侧，即 $\cos \gamma > 0$，则上式右端取正号，反之，若 $\Sigma$ 取下侧，即 $\cos \gamma < 0$，则上式右端取负号。
-    - （4）第二类曲线积分为零的三种特殊情况：
+    - （4）第二类曲面积分为零的三种特殊情况：
       - a. 当曲面 $\Sigma$ 垂直于 $xOy$ 面时，$\iint\limits_{\Sigma} R(x, y, z) dxdy = 0$;
       - b. 当曲面 $\Sigma$ 垂直于 $yOz$ 面时，$\iint\limits_{\Sigma} R(x, y, z) dydz = 0$;
       - c. 当曲面 $\Sigma$ 垂直于 $zOx$ 面时，$\iint\limits_{\Sigma} R(x, y, z) dzdx = 0$;
+      - d. 对称点的值相等但方向相反时通量为零（🐙 书上的 “类对称”）
+    - （5）还有一种特殊情况，就是当散度 $\textbf{div} F = 0$ 时，所给的是无源场，通过任何封闭曲面（且无奇点在内部）的通量为 0，此时可以换个面积分；即使是非封闭曲面，散度为 0 时也可以换个面积分
 
 14. **两类曲面积分之间的联系**（2020 年考了一道当年很难的题）
     - $\iint\limits_{\Sigma} Pdydz + Qdxdz + Rdxdy = \iint\limits_{\Sigma} (P\cos \alpha + Q\cos\beta + R\cos\gamma) dS$，其中 $\cos \alpha$、$\cos\beta$、$\cos\gamma$ 为有向曲面 $\Sigma$ 在点 $(x, y, z)$ 处的法向量的方向余弦（其实就是向量点积）
       - $dS = \sqrt{(z'_x)^2 + (z'_y)^2 + 1} dx dy$
       - $dS = \sqrt{1 + (x'_y)^2 + (x'_z)^2 } dy dz$
       - $dS = \sqrt{(y'_x)^2 + 1 + (y'_z)^2 } dx dz$
+
+15. **高斯公式**（三重积分与两类曲面积分的转换）
+    - 设空间闭区域 $\Omega$ 由分片光滑的闭曲线 $\Sigma$ 所围成，若函数 $P(x, y, z), Q(x, y, z), R(x, y, z)$ 在 $\Omega$ 上$\textcolor{red}{具有一阶连续偏导数}$，则有 $\iiint\limits_{\Omega} (\dfrac{\partial P}{\partial x} + \dfrac{\partial Q}{\partial y} + \dfrac{\partial R}{\partial z}) dv = \oiint\limits_{\Sigma} Pdydz + Qdxdz + Rdxdy = \oiint\limits_{\Sigma} P\cos\alpha + Q\cos\beta + R\cos\gamma dS$
+    - 其中 $\Sigma$ 是 $\Omega$ 的整个边界曲面的外侧，$\cos\alpha, \cos\beta, \cos\gamma$ 是 $\Sigma$ 在点 $(x, y, z)$ 处的法向量的方向余弦
+
+> 💡 高斯公式一般考挖洞、补线/补面，或者两种同时出现（26 年考到了）
+
+16. **斯托克斯公式**（出现频率会稍微低一点）
+    - 设 $\Gamma$ 为分段光滑的空间有向闭曲线，$\Sigma$ 为以 $\Gamma$ 为边界的分片光滑的有向曲面，$\Gamma$ 的正向与 $\Sigma$ 的侧符合右手法则。若函数 $P(x, y, z), Q(x, y, z), R(x, y, z)$ 在曲面 $\Sigma$（连同边界 $\Gamma$）上$\textcolor{red}{具有一阶连续偏导数}$，则有 $\iint\limits_{\Sigma} (\dfrac{\partial R}{\partial y} - \dfrac{\partial Q}{\partial z} ) dydz + (\dfrac{\partial P}{\partial z} - \dfrac{\partial R}{\partial x} ) dxdz + (\dfrac{\partial Q}{\partial x} - \dfrac{\partial P}{\partial y} ) dxdy = \oint_{\Gamma} Pdx + Qdy + Rdz$
+    - 上述写法不太好记，可以写成下面的形式：$\oint_{\Gamma} Pdx + Qdy + Rdz = \iint\limits_{\Sigma} \begin{vmatrix} dydz & dxdz & dxdy \\ \dfrac{\partial}{\partial x} & \dfrac{\partial}{\partial y} & \dfrac{\partial}{\partial z} \\ P & Q & R \end{vmatrix} = \iint\limits_{\Sigma} \begin{vmatrix} \cos\alpha & \cos\beta & \cos\gamma \\ \dfrac{\partial}{\partial x} & \dfrac{\partial}{\partial y} & \dfrac{\partial}{\partial z} \\ P & Q & R \end{vmatrix} dS$，其中 $\vec{n} = (\cos\alpha, \cos\beta, \cos\gamma)$ 是有向曲面 $\Sigma$ 在点 $(x, y, z)$ 处的单位法向量
+
+> 💡 Tips：
+> - 斯托克斯的旋度转化为高斯散度，$\mathbf{rot} = \begin{vmatrix} \vec{i} & \vec{j} & \vec{k} \\ \dfrac{\partial}{\partial x} & \dfrac{\partial}{\partial y} & \dfrac{\partial}{\partial z} \\ P & Q & R \end{vmatrix} = (\dfrac{\partial R}{\partial y} - \dfrac{\partial Q}{\partial z} ) \vec{i} + (\dfrac{\partial P}{\partial z} - \dfrac{\partial R}{\partial x} ) \vec{j} + (\dfrac{\partial Q}{\partial x} - \dfrac{\partial P}{\partial y} ) \vec{k}$
+> - 格林公式就是这玩意的特殊情况
