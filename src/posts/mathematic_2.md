@@ -491,6 +491,8 @@ description: |
 
 ## 18. 多元函数积分学（Part2）
 > 这一章主要是东西多，难倒不算太难，整个这一章就是一个巨大的麦克斯韦方程组
+>
+> 本章重点习题：【1000b-18-1、3、6、7、10、15、16、22、23、24、25、26、27】
 
 1. **三重积分的和式积分**：$\iiint\limits_{\Omega} g(x, y, z) dv = \lim\limits_{n\to \infty}\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{n}\sum\limits_{k=1}^{n} g(a + \dfrac{b-a}{n}i, c + \dfrac{d-c}{n}j, e + \dfrac{f-e}{n}k) \cdot \dfrac{b-a}{n} \cdot \dfrac{d-c}{n} \cdot \dfrac{f-e}{n}$，其中 $\Omega = \{(x, y, z) | a\le x\le b, c\le y \le d, e\le z\le f\}$
 
@@ -525,6 +527,8 @@ description: |
    - （3）$\overline{z} = \dfrac{\iiint\limits_{\Omega} z \rho(x, y, z) dv}{\iiint\limits_{\Omega} \rho(x, y, z) dv}$
 
 > 💡 当 $\rho(x, y, z)$ 为常数时，质心就是形心
+
+> 💡 做题时还有一种常用代换：$\iiint\limits_{\Omega} y dxdydz = \int^a_b dz \iint\limits_{D} y dxdy = \int^a_b \overline{y} S_D dz $
 
 
 5. **积分的其他物理应用**（感觉不太可能考到啊...）
@@ -618,12 +622,18 @@ description: |
       - c. 当曲面 $\Sigma$ 垂直于 $zOx$ 面时，$\iint\limits_{\Sigma} R(x, y, z) dzdx = 0$;
       - d. 对称点的值相等但方向相反时通量为零（🐙 书上的 “类对称”）
     - （5）还有一种特殊情况，就是当散度 $\textbf{div} F = 0$ 时，所给的是无源场，通过任何封闭曲面（且无奇点在内部）的通量为 0，此时可以换个面积分；即使是非封闭曲面，散度为 0 时也可以换个面积分
+    - （6）合一投影法：$\iint\limits_{\Sigma} Pdydz + Qdxdz + Rdxdy = \iint\limits_{\Sigma} (P, Q, R) \cdot (dydz, dxdz, dxdy) = \iint\limits_{\Sigma} (P, Q, R) \cdot \vec{n} \cdot dxdy$（其中 $\vec{n}$ 取决于曲面方向，和上表中相符，这里以投影到 $xOy$ 面为例）
+
+
+
+
 
 14. **两类曲面积分之间的联系**（2020 年考了一道当年很难的题）
     - $\iint\limits_{\Sigma} Pdydz + Qdxdz + Rdxdy = \iint\limits_{\Sigma} (P\cos \alpha + Q\cos\beta + R\cos\gamma) dS$，其中 $\cos \alpha$、$\cos\beta$、$\cos\gamma$ 为有向曲面 $\Sigma$ 在点 $(x, y, z)$ 处的法向量的方向余弦（其实就是向量点积）
       - $dS = \sqrt{(z'_x)^2 + (z'_y)^2 + 1} dx dy$
       - $dS = \sqrt{1 + (x'_y)^2 + (x'_z)^2 } dy dz$
       - $dS = \sqrt{(y'_x)^2 + 1 + (y'_z)^2 } dx dz$
+
 
 15. **高斯公式**（三重积分与两类曲面积分的转换）
     - 设空间闭区域 $\Omega$ 由分片光滑的闭曲线 $\Sigma$ 所围成，若函数 $P(x, y, z), Q(x, y, z), R(x, y, z)$ 在 $\Omega$ 上$\textcolor{red}{具有一阶连续偏导数}$，则有 $\iiint\limits_{\Omega} (\dfrac{\partial P}{\partial x} + \dfrac{\partial Q}{\partial y} + \dfrac{\partial R}{\partial z}) dv = \oiint\limits_{\Sigma} Pdydz + Qdxdz + Rdxdy = \oiint\limits_{\Sigma} P\cos\alpha + Q\cos\beta + R\cos\gamma dS$
