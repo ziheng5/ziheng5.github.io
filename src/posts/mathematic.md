@@ -314,7 +314,7 @@ description: |
 7. **拉格朗日中值定理**：设 $f(x)$ 在 $[a, b]$ 上连续、$(a, b)$ 上可导，则存在 $\xi \in (a, b)$ 使得 $f(b) - f(a) = f'(\xi)(b-a)$，或 $f'(\xi) = \dfrac{f(b) - f(a)}{ b-a}$
 
 > ⚠️ 拉格朗日中值定理的证明要会！
-> - （1）设 $F(x) = f(x) - [\dfrac{f(b) - f(a)}{b-a} (x-a) - f(a)]$
+> - （1）设 $F(x) = f(x) - [\dfrac{f(b) - f(a)}{b-a} (x-a) + f(a)]$
 > - （2）易知 $F(a) = F(b) = 0$
 > - （3）用罗尔定理得 $\exist \xi \in (a, b)$ 使得 $F'(\xi) = f'(\xi) - \dfrac{f(b) - f(a)}{b - a} = 0$
 > - （4）得证
