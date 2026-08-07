@@ -91,7 +91,7 @@ description: |
 > 
 
 8. **两个重要极限**
-   - （1）$\lim\limits_{x\to 0} \dfrac{\sin x}{x} = 1$
+   - （1）$\lim\limits_{x\to 0} \dfrac{\sin x}{x} = 1$（在信号与系统中，$\dfrac{\sin x}{x}$ 被称为 Sa 函数，即 $Sa(x) = \dfrac{\sin x}{x}$）
    - （2）$\lim\limits_{x\to \infty} (1 + \dfrac{1}{x})^{x} = e$
 
 
@@ -106,7 +106,7 @@ description: |
 
 10. **局部保号性（必考点）**：
     - （1）如果 $f(x) \to A(x \to x_0)$ 且 $A > 0$（或 $A<0$），那么存在常数 $\delta > 0$，使得当 $0 < |x - x_0| < \delta$ 时，有 $f(x) > 0$（或 $f(x)<0$）
-    - （2）如果在 $x_0$ 的某去心领域内 $f(x) \ge 0$（或 $f(x) \le 0$）且 $\lim\limits_{x\to x_0}f(x) = A $，则 $A\ge 0$（或 $A \le 0$）
+    - （2）如果在 $x_0$ 的某去心邻域内 $f(x) \ge 0$（或 $f(x) \le 0$）且 $\lim\limits_{x\to x_0}f(x) = A $，则 $A\ge 0$（或 $A \le 0$）
 
 11. **变上限积分型极限**（张宇强化）
     - （1）一型（$f\to 0$）：当 $x\to 0$ 时，$f(x) ～ ax^m$，$a\ne 0$ 且 $m$ 为正整数，则有 $\int_{0}^{x} f(t) dt ～ \int_{0}^{x} at^m dt$
@@ -185,7 +185,7 @@ description: |
 6. **压缩映射定理**
    - （1）方法一：对数列 $\{x_n\}$，若存在常数 $k(0<k<1)$，使得 $ 0 \le \textcolor{red}{|x_{n+1} -a| \le k|x_n -a|} \le k^2 |x_{n-1} - a| \le ... \le k^n |x_1 -a|$，那么根据夹逼准则，有 $\lim\limits_{n \to \infty} |x_{n+1} -a| = 0$ 即 $\{x_n\}$ 收敛于 $a$
    - （2）方法二：对数列 $\{x_n\}$，若 $x_{n+1} = f(x_n)$，$f(x)$ 可导，$a$ 为 $f(x) = x$ 的唯一解，且对任意 $x \in R$，有 $|f'(x)| \le k <1$，则 $\{x_n\}$ 收敛于 $a$
-   - ![problem2](/images/mathematic/problem2.png)
+   - ![problem2](/images/mathematic/problem2_2.png)
 
 
 7. **无界与无穷大的区别**
@@ -319,13 +319,17 @@ description: |
 > - （3）用罗尔定理得 $\exist \xi \in (a, b)$ 使得 $F'(\xi) = f'(\xi) - \dfrac{f(b) - f(a)}{b - a} = 0$
 > - （4）得证
 
+> 💡 拉格朗日中值定理的妙用：
+> - （1）做题时如果遇到 $\int^{x+1}_{x} f(t)dt$（或者 $x+1$ 和 $x$ 同时出现的情况）且给定了 $f(x)$ 相关条件的话，要能够联想到拉格朗日中值定理（比如【880-1-综合题-二-2、6】）
+> - （2）遇到复杂算式，若遇到 $f(x) - g(x)$ 的形式，且 $f(x)$ 和 $g(x)$ 在特定点处的极限值相等、算式形式相近，要想到拉格朗日中值定理（比如 【880-1-综合题-三-6、7】）
+
 8. **柯西中值定理**：设 $f(x), g(x)$ 满足在 $[a, b]$ 上连续、在 $(a, b)$ 上可导、$g'(x) \ne 0$，则存在 $\xi \in (a, b)$ 使得 $\dfrac{f(b) - f(a)}{g(b) - g(a)} = \dfrac{f'(\xi)}{g'(\xi)}$
 
 > ⚠️ 柯西的证明也要会！
 > - （1）设 $F(x) = f(x) - \{\dfrac{f(b) - f(a)}{g(b)-g(a)} [g(x)-g(a)] - f(a)\}$
 > - （2）剩下的过程和上面拉格朗日证明一样
 
-> 💡 常用的一阶化归逆用形式（没事多推一推，看到具体形式能想到如何逆用即可，也可以去看看[没咋了的专题视频](https://www.bilibili.com/video/BV1BHdqYUEgu/?)）
+> 💡 常用的一阶化归逆用形式（没事多推一推，看到具体形式能想到如何逆用即可，也可以去看看[没咋了的专题视频](https://www.bilibili.com/video/BV1BHdqYUEgu/?)），例题：【880-2-解答题-10】
 >
 > - （1）$[f(x) \cdot x^n]' = x^{n-1} [xf'(x) + nf(x)]$
 > - （2）$[f(x) \cdot e^{nx}]'  = e^{nx}[f'(x) + n f(x)]$

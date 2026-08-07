@@ -70,7 +70,7 @@ description: |
    - （2）充分条件：设 $f(x, y)$ 在 $(x_0, y_0)$ 的某邻域内连续且有一阶或二阶连续偏导数，又 $f_x'(x_0, y_0) = f_y'(x_0, y_0) = 0$，记 $\begin{cases} f_{xx}''(x_0, y_0)=A \\ f_{xy}''(x_0, y_0)=B \\ f_{yy}''(x_0, y_0)=C \end{cases}$，则 $\Delta = AC - B^2 \begin{cases} >0 \Rightarrow 极值 {\begin{cases} A <0 \Rightarrow 极大值 \\ A>0 \Rightarrow 极小值 \end{cases}} \\ <0 \Rightarrow 非极值 \\ =0 \Rightarrow 方法失效，另寻他法 \end{cases}$
 
 
-8. **拉格朗日数乘法求多元函数条件极值**
+8. **拉格朗日数乘法求多元函数条件极值**（这一块可以去看看 epsilon-delta 的视频）
    - 求 $u = f(x, y, z)$ 在条件 $\varphi(x, y, z)= 0$ 下的极值
    - （1）令 $F(x, y, z, \lambda) = f(x, y, z) + \lambda \varphi(x, y, z)$
    - （2）解方程组：$\begin{cases} F_x' = f_x'(x, y , z) + \lambda \varphi_x'(x, y, z) = 0 \\ F_y' = f_y'(x, y , z) + \lambda \varphi_y'(x, y, z) = 0 \\ F_z' = f_z'(x, y , z) + \lambda \varphi_z'(x, y, z) = 0 \\ F_{\lambda}' = \varphi(x, y, z) = 0 \end{cases}$ 得到 $x= x_0, y=y_0, z = z_0$
