@@ -31,7 +31,7 @@ description: |
    - （6）把某行（某列）的 $k$ 倍加到另一行（或列），行列式值不变
 
 > 💡 行列式与矩阵的区别
-> - 注意区分 $k|A|$ 和 $kA$：$k \begin{pmatrix} a & b \\ c & d \end{pmatrix} = \begin{pmatrix} ka & kb \\ kc & kd \end{pmatrix}$
+> - 注意区分 $k|A|$ 和 $kA$：$k \begin{pmatrix} a & b \\ c & d \end{pmatrix} = \begin{pmatrix} ka & kb \\ kc & kd \end{pmatrix}$（$|kA| = k^n |A|$）
 > - 注意区分 $A + B$ 和 $|A| + |B|$：$\begin{pmatrix} a_1 & b_1 \\ c_1 & d_1 \end{pmatrix} + \begin{pmatrix} a_2 & b_2 \\ c_2 & d_2 \end{pmatrix} = \begin{pmatrix} a_1 + a_2 & b_1 + b_2 \\ c_1+c_2 & d_1+d_2 \end{pmatrix}$，而 $\begin{vmatrix} a_1 & b_1 \\ c_1 & d_1 \end{vmatrix} + \begin{vmatrix} a_2 & b_2 \\ c_1 & d_1 \end{vmatrix} = \begin{vmatrix} a_1 + a_2 & b_1 + b_2 \\ c_1 & d_1 \end{vmatrix}$
 
 3. **行列式展开公式**
@@ -50,8 +50,8 @@ description: |
 5. **余子式与代数余子式的线性组合运算**
    - $k_1 A_{i1} + k_2 A_{i2} + \cdots + k_n A_{in} = \begin{vmatrix} \vdots & \vdots & \vdots & \vdots \\ k_1 & k_2 & \cdots & k_n \\ \vdots & \vdots & \vdots & \vdots \end{vmatrix}$
 
-6. **克莱姆法则**
-   - （1）对 $n$ 个方程 $n$ 个未知数的非齐次线性方程组 $\begin{cases} a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n = b_1  \\ a_{21}x_1 + a_{22}x_2 + \cdots + a_{2n}x_n = b_2 \\ \cdots \\ a_{n1}x_1 + a_{n2}x_2 + \cdots + a_{nn}x_n = b_n \end{cases}$，若系数行列式 $D = \begin{vmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots &  & \vdots \\ a_{n1} & a_{n2} & \cdots & a_{nn} \end{vmatrix} \ne 0$，则方程组有唯一解，且解为 $x_i = \dfrac{D_i}{D}$，其中 $D_i$ 是由常数项 $b_1, b_2, \cdots, b_n$ 替换掉 $D$ 中的第 $i$ 列元素得到的行列式（反之，$D = 0$ 时方程组有无穷多的解）
+6. **克莱姆法则**（有时候有奇效）
+   - （1）对 $n$ 个方程 $n$ 个未知数的非齐次线性方程组 $\begin{cases} a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n = b_1  \\ a_{21}x_1 + a_{22}x_2 + \cdots + a_{2n}x_n = b_2 \\ \cdots \\ a_{n1}x_1 + a_{n2}x_2 + \cdots + a_{nn}x_n = b_n \end{cases}$，若系数行列式 $D = \begin{vmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots &  & \vdots \\ a_{n1} & a_{n2} & \cdots & a_{nn} \end{vmatrix} \ne 0$（$\Leftrightarrow$ 系数矩阵 $A$ 可逆 $\Leftrightarrow$ 矩阵 $A$ 满秩），则方程组有唯一解，且解为 $x_i = \dfrac{D_i}{D}$，其中 $D_i$ 是由常数项 $b_1, b_2, \cdots, b_n$ 替换掉 $D$ 中的第 $i$ 列元素得到的行列式（反之，$D = 0$ 时方程组有无穷多的解）
    - （2）对 $n$ 个方程 $n$ 个未知数的齐次线性方程组 $\begin{cases} a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n = 0  \\ a_{21}x_1 + a_{22}x_2 + \cdots + a_{2n}x_n = 0 \\ \cdots \\ a_{n1}x_1 + a_{n2}x_2 + \cdots + a_{nn}x_n = 0 \end{cases}$，若 $D \ne 0$ 则齐次方程组只有 0 解；若 $D = 0$ 则齐次方程组有非零解
 
 
@@ -59,7 +59,6 @@ description: |
    - （1）设 $\alpha_1$、$\alpha_2$、$\alpha_3$ 均为三维列向量，矩阵 $A = (\alpha_1, \alpha_2, \alpha_3)$，已知 $|A|$ 求 $B = (\alpha_1 + \alpha_2 + \alpha_3, \alpha_1 + 2\alpha_2 + 4\alpha_3, \alpha_1 + 3\alpha_2 + 9\alpha_3)$（思路：$B = (\alpha_1, \alpha_2, \alpha_3)\cdot \begin{pmatrix} 1 & 1 & 1 \\ 1 & 2 & 4 \\ 1 & 3 & 9 \end{pmatrix}$）
    - （2）三阶矩阵 $A, B$ 满足 $A^2 B - A - B = E$，其中 $E$ 为三阶单位矩阵，已知 $A$ 求 $|B|$（提示：$AB = 0$，则有 $r(A) + r(B) \le n$；行列式不为 0，则矩阵满秩）
    - （3）$B$ 是 3 阶正交矩阵，且 $|B| < 0$，$A$ 是三阶矩阵，且 $|A - B| = 6$，求 $|E - BA^T|$（提示：正交矩阵的行列式要么等于 1，要么等于 -1，且 $E = BB^T = B^TB$）
-   - （4）
 
 ## 2. 矩阵
 
@@ -69,8 +68,8 @@ description: |
    - （3）$E_{ij}(c)$ 表示单位矩阵 $E$ 的第 $j$ 行乘以 $c$ 加到第 $i$ 行（或第 $i$ 列乘以 $c$ 加到第 $j$ 列）所得的初等矩阵（不建议记，写法有争议，老头不太会考）
 
 2. **左行右列定理**：
-   - 矩阵 $A$ 左乘初等矩阵 $P$ 得到 $PA$，相当于对 $A$ 作了一次与 $P$ 完全相同的初等行变换
-   - 矩阵 $A$ 右乘初等矩阵 $P$ 得到 $AP$，相当于对 $A$ 作了一次与 $P$ 完全相同的初等列变换
+   - （1）矩阵 $A$ 左乘初等矩阵 $P$ 得到 $PA$，相当于对 $A$ 作了一次与 $P$ 完全相同的初等行变换
+   - （2）矩阵 $A$ 右乘初等矩阵 $P$ 得到 $AP$，相当于对 $A$ 作了一次与 $P$ 完全相同的初等列变换
    - 例如 $\begin{pmatrix} 1 & 0 & 0 \\ 2 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix} \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \end{pmatrix} = \begin{pmatrix} 1 & 2 & 3 \\ 6 & 9 & 12 \\ 7 & 8 & 9 \end{pmatrix}$
    - 提示：利用初等矩阵将初等变换过程转化为用初等矩阵左乘、右乘矩阵，从而建立等式关系
 
@@ -81,7 +80,7 @@ description: |
    - （4）此外，根据 $|A|A^{-1} = A^*$，还可以得到伴随矩阵的关系
 
 
-> 💡 上述三种初等矩阵都是可逆矩阵
+> 💡 上述三种初等矩阵都是可逆矩阵（矩阵 $A$ 可逆 $\Leftrightarrow |A| \ne 0$）
 
 
 4. **伴随矩阵**
@@ -91,13 +90,17 @@ description: |
      - b. $|A^*| = |A|^{n-1}$
      - c. $A^* = |A|A^{-1}$
      - d. $(AB)^* = B^* A^*$（穿透性质）
+     - e. $(A^T)^* = (A^*)^T$，$(A^{-1})^* = (A^*)^{-1}$，$(A^*)^* = |A|^{n-2} A$
+
+> ⚠️ 注意伴随矩阵的下标！这里也可能会出考题 🌚【880-十-基础题-选择-3】
+
 
 5. **矩阵的秩相关结论**（要牢记）
    - （1）$0 \le r(A_{m\times n}) \le \min\{m, n\}$
    - （2）$r(kA) = r(A)(k\ne 0)$
    - （3）$r(A) = r(PA) = r(AQ) = r(PAQ)$（$P,Q$ 均可逆，即 $A$ 做初等变换之后秩不变）
    - （4）$r(AB) \le \min \{r(A), r(B)\}$（$\textcolor{red}{秩越乘越小}$）
-   - （5）若 $AB = O$，$r(A) + r(B) \le n$（$\textcolor{red}{重中之重}$，考研最喜欢考这个了）
+   - （5）若 $A_{m\times n}B_{n\times s} = O$，$r(A) + r(B) \le n$（$\textcolor{red}{重中之重}$，考研最喜欢考这个了）
    - （6）$r(A + B) \le r([A, B]) \le r(A) + r(B)$
    - （7）$r(A^*) = \begin{cases} n, r(A) = n \\ 1, r(A) = n-1 \\ 0, r(A) < n-1 \end{cases}$（$\textcolor{red}{一定要记住}$）
    - （8）$r(A) = r(A^T) = r(AA^T) = r(A^TA)$（后面在方程组那里会用到）
@@ -110,6 +113,7 @@ description: |
    - （15）$r(\begin{pmatrix} A & O \\ C & B \end{pmatrix}) \ge r(A) + r(B)$（$A$ 可逆时取等号）
    - （16）若 $A$ 满秩，则 $|A| \ne 0$，进而矩阵 $A$ 可逆（可逆的充要条件是 $|A|\ne 0$），所以 $AB$ 相当于对矩阵 $B$ 做初等行变换，从而 $r(AB) = r(B)$ 
    - （17）$\alpha$ 为 $n$ 维列向量，则 $r(\alpha \alpha^T) = 1$
+   - （18）秩为 1 的 $n$ 阶方阵 $A$，$A^n = [tr(A)]^{n-1} A$（不知道是不是 🐙 的小巧思）
 
 > 💡 上述结论的证明：
 > - （9）$A^2 = A \Rightarrow A(E-A) = 0 \Rightarrow r(A) + r(E-A) \le n$（用结论 5），又根据结论 6 有 $r(A) + r(E - A) \ge r(E) = n$，两边一夹故有 $r(A) + r(A - E) = n$
@@ -120,6 +124,9 @@ description: |
    - （2）分块对角矩阵的幂：$\begin{pmatrix} A_1 & & & \\ & A_2 & & \\ & & \ddots & \\ & & & A_n \end{pmatrix}^n = \begin{pmatrix} A_1^n & & & \\ & A_2^n & & \\ & & \ddots & \\ & & & A_n^n \end{pmatrix}$（分块副对角矩阵的幂没有这个规律）
    - （3）分块对角矩阵的逆：若 $B, C$ 分别是 $m$ 阶与 $n$ 阶可逆矩阵，则 $\begin{pmatrix} B & O \\ O & C \end{pmatrix}^{-1} = \begin{pmatrix} B^{-1} & O \\ O & C^{-1} \end{pmatrix}$，$\begin{pmatrix} O & B \\ C & O \end{pmatrix}^{-1} = \begin{pmatrix} O & C^{-1} \\ B^{-1} & O \end{pmatrix}$
    - （4）分块矩阵的转置：$\begin{pmatrix} A & B \end{pmatrix} ^T = \begin{pmatrix} A^T \\ B^T \end{pmatrix}$，$\begin{pmatrix} A \\ B \end{pmatrix}^T = \begin{pmatrix} A^T & B^T \end{pmatrix}$
+
+
+
 
 7. **矩阵乘法的进一步解读**（$\textcolor{red}{非常重要}$）
    - 若 $A$ 是 $m\times n$ 矩阵，$B$ 是 $n\times s$ 矩阵且 $AB = O$，对 $B$ 和 $O$ 矩阵按列分块有 $AB = A [b_1, b_2, \cdots, b_s] = [Ab_1, Ab_2, ..., Ab_s] = [0,0,..., 0]$，$Ab_i = 0$，即 $B$ 的列向量是齐次方程组 $Ax = 0$ 的解
@@ -174,13 +181,13 @@ description: |
 
 
 4. **极大线性无关组**（这一块的内容比较死板）
-   - （1）定义：若向量组 $\alpha_1, \alpha_2, \cdots, \alpha_s$ 中存在 $r$ 个（这个 $r$ 就是秩）向量 $\alpha_{i1}, \alpha_{i2}, \cdots, \alpha_{ir}$ 线性相关，且再添加任一个 $\alpha_j(j=1,2,\cdots, s)$ 就有 $\alpha_{i1}, \alpha_{i2} , \cdots, \alpha_{ir}, \alpha_{j}$ 线性相关，则称 $\alpha_{i1}, \alpha_{i2}, \cdots, \alpha_{ir}$ 是向量组 $\alpha_1, \alpha_2, \cdots, \alpha_s$ 的一个极大线性无关组，向量组 $\alpha_1, \alpha_2, \cdots, \alpha_s$ 的极大线性无关组 $\alpha_{i1}, \alpha_{i2}, \cdots, \alpha_{ir}$ 中所含向量个数 $r$，称为向量组的秩，记为 $r(\alpha_1, \alpha_2, \cdots, \alpha_s)$
+   - （1）定义：若向量组 $\alpha_1, \alpha_2, \cdots, \alpha_s$ 中存在 $r$ 个（这个 $r$ 就是秩）向量 $\alpha_{i1}, \alpha_{i2}, \cdots, \alpha_{ir}$ 线性无关，且再添加任一个 $\alpha_j(j=1,2,\cdots, s)$ 就有 $\alpha_{i1}, \alpha_{i2} , \cdots, \alpha_{ir}, \alpha_{j}$ 线性相关，则称 $\alpha_{i1}, \alpha_{i2}, \cdots, \alpha_{ir}$ 是向量组 $\alpha_1, \alpha_2, \cdots, \alpha_s$ 的一个极大线性无关组，向量组 $\alpha_1, \alpha_2, \cdots, \alpha_s$ 的极大线性无关组 $\alpha_{i1}, \alpha_{i2}, \cdots, \alpha_{ir}$ 中所含向量个数 $r$，称为向量组的秩，记为 $r(\alpha_1, \alpha_2, \cdots, \alpha_s)$
    - （2）若向量组的秩为 $r$，则：
      - a. 其中任意 $r$ 个向量都可为其最大无关组？（❌）
      - b. 其中任意 $r$ 个线性无关的向量都可以为其最大无关组？（✅）
      - c. 其中多于 $r$ 个向量组成的向量组一定线性相关？（✅）
      - d. 其中 $r$ 个向量组成的向量组一定线性无关？（❌）
-   - （3）求极大线性无关组的方法（利用初等行变换不改变列向量组的线性相关性）
+   - （3）求极大线性无关组的方法（利用初等行变换不改变列向量组的线性相关性，也因此求解的时候只能都作初等行变换或都作列变换）
      - a. 构造 $A = [\alpha_1, \alpha_2, \cdots, \alpha_s]$
      - b. $A$ 行变换为阶梯形矩阵
      - c. 算出台阶数，按列找出一个秩为 $r$ 的子矩阵即可
@@ -233,6 +240,15 @@ description: |
 > - （14）对于向量组等价问题，要牢牢记住那三个充要条件
 > - （15）对于前面提到的 $AB = C$ 题型，有进一步补充：若 $B$ 可逆，则 $AB$ 的列等价于 $A$ 的列（证明要会）；若 $A$ 可逆，则 $AB$ 的行等价于 $B$ 的行（乘以可逆矩阵，相当于做行变换和列变换）
 > - （16）此外，初等行列变换也是相当重要的：初等行变换对应行等价，且不改变列的相关性；初等列变换对于列等价，且不改变行的线性相关性
+
+7. **向量空间**（似乎很少遇到，先记着）
+   - （1）基本概念：若 $\xi_1, \xi_2, \cdots, \xi_n$ 是 $n$ 维向量空间 $R^n$ 中的线性无关的有序向量组，则任一向量 $\alpha \in R$ 均可由 $\xi_1, \xi_2, \cdots, \xi_n$ 线性表示为 $\alpha = a_1\xi_1 + a_2\xi_2 + \cdots, a_n\xi_n$，称有序向量组 $\xi_1, \xi_2, \cdots, \xi_n$ 是 $R^n$ 的一个基，基向量的个数 $n$ 称为空间的维度，而 $[a_1, a_2, \cdots, a_n]$ 称为向量 $\alpha$ 在基 $\xi_1, \xi_2, \cdots, \xi_n$ 下的坐标
+   - （2）基变换公式：$[\eta_1, \eta_2, \cdots, \eta_n] = [\xi_1, \xi_2, \cdots, \xi_n]\begin{pmatrix} c_{11} & c_{12} & \cdots & c_{1n} \\ c_{21} & c_{22} & \cdots & c_{2n} \\ \vdots & \vdots & \ddots & \vdots \\ c_{n1} & c_{n2} & \cdots & c_{nn} \end{pmatrix} = [\xi_1, \xi_2, \cdots, \xi_n]C$，其中 $C$ 为由基 $\xi_1, \xi_2, \cdots, \xi_n$ 到基 $\eta_1, \eta_2, \cdots, \eta_n$ 的过渡矩阵（$C$ 的第 $i$ 列是 $\eta_i$ 在基 $\xi_1, \xi_2, \cdots, \xi_n$ 下的坐标，且过渡矩阵为可逆矩阵）
+   - （3）坐标变换公式：设 $\alpha$ 在基 $\xi_1, \xi_2, \cdots, \xi_n$ 和 $\eta_1, \eta_2, \cdots, \eta_n$ 下的坐标分别为 $x = [x_1, x_2, \cdots, x_n]^T$ 和 $y = [y_1, y_2, \cdots, y_n]^T$，那么 $ \alpha = [\xi_1, \xi_2, \cdots, \xi_n]x = [\eta_1, \eta_2, \cdots, \eta_n]y \Leftrightarrow x = Cy$（或 $y = C^{-1}x$）
+
+8. **施密特正交化**（用来求标准正交基的）
+   - $\beta_1 = \alpha_1$
+   - $\beta_2 = \alpha_2 - \dfrac{(\alpha_2, \beta_1)}{(\beta_1, \beta_1)} \beta_1$
 
 
 ## 4. 线性方程组
