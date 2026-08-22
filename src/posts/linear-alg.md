@@ -241,15 +241,17 @@ description: |
 > - （15）对于前面提到的 $AB = C$ 题型，有进一步补充：若 $B$ 可逆，则 $AB$ 的列等价于 $A$ 的列（证明要会）；若 $A$ 可逆，则 $AB$ 的行等价于 $B$ 的行（乘以可逆矩阵，相当于做行变换和列变换）
 > - （16）此外，初等行列变换也是相当重要的：初等行变换对应行等价，且不改变列的相关性；初等列变换对于列等价，且不改变行的线性相关性
 
-7. **向量空间**（似乎很少遇到，先记着）
+7. **向量空间**
    - （1）基本概念：若 $\xi_1, \xi_2, \cdots, \xi_n$ 是 $n$ 维向量空间 $R^n$ 中的线性无关的有序向量组，则任一向量 $\alpha \in R$ 均可由 $\xi_1, \xi_2, \cdots, \xi_n$ 线性表示为 $\alpha = a_1\xi_1 + a_2\xi_2 + \cdots, a_n\xi_n$，称有序向量组 $\xi_1, \xi_2, \cdots, \xi_n$ 是 $R^n$ 的一个基，基向量的个数 $n$ 称为空间的维度，而 $[a_1, a_2, \cdots, a_n]$ 称为向量 $\alpha$ 在基 $\xi_1, \xi_2, \cdots, \xi_n$ 下的坐标
    - （2）基变换公式：$[\eta_1, \eta_2, \cdots, \eta_n] = [\xi_1, \xi_2, \cdots, \xi_n]\begin{pmatrix} c_{11} & c_{12} & \cdots & c_{1n} \\ c_{21} & c_{22} & \cdots & c_{2n} \\ \vdots & \vdots & \ddots & \vdots \\ c_{n1} & c_{n2} & \cdots & c_{nn} \end{pmatrix} = [\xi_1, \xi_2, \cdots, \xi_n]C$，其中 $C$ 为由基 $\xi_1, \xi_2, \cdots, \xi_n$ 到基 $\eta_1, \eta_2, \cdots, \eta_n$ 的过渡矩阵（$C$ 的第 $i$ 列是 $\eta_i$ 在基 $\xi_1, \xi_2, \cdots, \xi_n$ 下的坐标，且过渡矩阵为可逆矩阵）
    - （3）坐标变换公式：设 $\alpha$ 在基 $\xi_1, \xi_2, \cdots, \xi_n$ 和 $\eta_1, \eta_2, \cdots, \eta_n$ 下的坐标分别为 $x = [x_1, x_2, \cdots, x_n]^T$ 和 $y = [y_1, y_2, \cdots, y_n]^T$，那么 $ \alpha = [\xi_1, \xi_2, \cdots, \xi_n]x = [\eta_1, \eta_2, \cdots, \eta_n]y \Leftrightarrow x = Cy$（或 $y = C^{-1}x$）
 
-8. **施密特正交化**（用来求标准正交基的）
+8. **施密特正交化**（用来求正交基的，考试最多考到 $\beta_3$）
    - $\beta_1 = \alpha_1$
    - $\beta_2 = \alpha_2 - \dfrac{(\alpha_2, \beta_1)}{(\beta_1, \beta_1)} \beta_1$
+   - $\beta_3 = \alpha_3 - \dfrac{(\alpha_3, \beta_1)}{(\beta_1, \beta_1)} \beta_1 - \dfrac{(\alpha_3, \beta_2)}{(\beta_2, \beta_2)} \beta_2$
 
+> ⚠️ 求完正交基后，别忘了标准化为标准正交基
 
 ## 4. 线性方程组
 
@@ -259,10 +261,11 @@ description: |
      - b. $r(A) = r < n$ 时（即线性相关时），方程组有非零解，且有 $n - r$ 个线性无关解
    - （2）解的性质：
      - a. 若 $A \xi_1 = 0, A\xi_2  = 0 $，则 $A(k_1 \xi_1 + k_2 \xi_2)= 0$，其中 $k_1, k_2$ 为任意常数
-     - b. 类消去律：若 $A_{m\times n}$，$r(A) = n$（满秩），$AB = AB$，则 $B = C$
+     - b. 类消去律：若 $A_{m\times n}$，$r(A) = n$（满秩），$AB = AC$，则 $B = C$
    - （3）基础解系和解的结构
      - a. 基础解系满足：是方程组 $Ax = 0$ 的解、线性无关、方程组 $Ax = 0$ 的任意解均可由 $\xi_1, \xi_2, \cdots, \xi_n$ 线性表示
      - b. 通解：$k_1 \xi_1 + k_2 \xi_2 + \cdots + k_n \xi_n$
+     - c. 基础解系中向量个数 $s = n - r(A)$（如果是 $A_{m\times n}$，则是 $s = n - r(A)$）
    - （4）求解方式：
      - a. 先将系数矩阵初等行变换为行阶梯形矩阵，阶梯数位 $r = r(A)$
      - b. 按列找出一个秩为 $r$ 的子矩阵，剩余列位置的未知数设为自由变量
@@ -278,11 +281,12 @@ description: |
      - a. 设 $\eta_1, \eta_2$ 都是 $Ax = b$ 的解，则 $\eta_1 - \eta_2$ 是它的导出组 $Ax = 0$ 的解
      - b. 设 $\eta_1, \eta_2, \cdots, \eta_s$ 都是 $Ax = b$ 的解，则 $k_1 \eta_1 + k_2\eta_2 + \cdots + k_s \eta_s = \begin{cases} 是 Ax = b 的解,& 当 k_1 + k_2 + \cdots + k_s = 1 \\ 是 Ax = 0 的解,& 当 k_1 + k_2 + \cdots + k_s = 0 \end{cases}$（证明方法就是左乘一个 $A$）
      - c. 设 $\eta$ 是 $Ax = b$ 的一个解，$\xi$ 是它的导出组 $Ax = 0$ 的解，则 $\xi + \eta$ 是 $Ax = b$ 的解
+   - （3）求解方法：先求齐次解，再求特解，合并得到通解
 
 
 > 💡 小结论：$Ax = 0$ 有 $n -r(A)$ 个线性无关的解，则 $Ax = \beta$ 至多有 $n - r(A) + 1$ 个线性无关的解（反过来，若 $Ax = \beta$ 有 $n - r(A) + 1$ 个线性无关的解，则 $Ax = 0$ 至少有 $n -r(A)$ 个线性无关的解）
 
-3. **克拉默法则**（有时候有奇效）
+3. **克拉默法则**（这里重新回顾一下）
    - （1）内容：对 $n$ 个方程 $n$ 个未知数（$n\times n$ 的方阵）的非齐次线性方程组 $A_{n\times n}x = b$，若 $|A| \ne 0$（满秩），则方程组有唯一解，且解为 $x_i = \dfrac{|A_i|}{|A|}$（其中 $A_i$ 是指将 $A$ 的第 $i$ 列用 $b$ 替换）
    - （2）例子：设 $A = \begin{pmatrix} a_{11} & a_{12} & 0 \\ a_{21} & a_{22} & 0 \\ 0 & 0 & 1 \end{pmatrix}$，$A\begin{pmatrix} x_1 \\ x_2 \\ x_3 \end{pmatrix} =\begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix}$，则有 $x_1 = \dfrac{|A_1|}{|A|} = \dfrac{\begin{vmatrix} \textcolor{red}{0} & a_{12} & 0 \\ \textcolor{red}{0} & a_{22} & 0 \\ \textcolor{red}{1} & 0 & 1 \end{vmatrix}}{|A|} = 0$
 
@@ -296,7 +300,7 @@ description: |
    - （1）$Ax = 0, Bx = 0$ 是同解方程组的充要条件：
      - a. $Ax = 0$ 的解满足 $Bx = 0$ 且 $Bx = 0$ 的解满足 $Ax = 0$
      - b. $r(A) = r(B)$ 且 $Ax = 0$ 的解满足 $Bx = 0$
-     - c. $r(A) = r(B) = r(\begin{pmatrix} A \\ B \end{pmatrix})$
+     - c. $r(A) = r(B) = r(\begin{pmatrix} A \\ B \end{pmatrix})$（三秩相同）
    - （2）综上，同解方程组有一个更本质的表达：行向量组等价（用这个做题更快）
    - （3）同解方程组的常用结论：
      - ⭐⭐⭐ a. $Ax = 0$ 和 $Bx = 0$ 同解 $\Leftrightarrow A$ 与 $B$ 行向量组等价 $\Leftrightarrow r(A) = r(B) = r(\begin{pmatrix} A \\ B \end{pmatrix}) \Rightarrow r(A) = r(B)$
@@ -342,7 +346,8 @@ description: |
      - ![problem2](/images/mathematic/linear2.png)
      - b. $f(x)$ 为多项式，若矩阵 $A$ 满足 $f(A) = O$，$\lambda$ 是 $A$ 的任一特征值，则 $\lambda$ 满足 $f(\lambda) = 0$
      - c. 虽然 $A^T$ 的特征值与 $A$ 相同，但特征向量不再是 $\xi$，要单独计算才能得出
-     - d. $A^*$：$\dfrac{|A|}{\lambda_1} = \dfrac{\lambda_1 \lambda_2 \cdots \lambda_n}{\lambda_1} = \lambda_2 \lambda_3 \cdots \lambda_n$（即剩余特征值之积）
+     - d. $A^*$ 的特征值其一：$\dfrac{|A|}{\lambda_1} = \dfrac{\lambda_1 \lambda_2 \cdots \lambda_n}{\lambda_1} = \lambda_2 \lambda_3 \cdots \lambda_n$（即剩余特征值之积）
+     - e. $A^2 = A \Leftrightarrow A^2 - A = 0 \Leftrightarrow\lambda^2 - \lambda = 0 \Leftrightarrow$ 特征值只能为 0 或 1
 
 4. **用特征向量命题**
    - （1）$\xi(\ne 0)$ 是 $A$ 的属于 $\lambda_0$ 的特征向量 $\Leftrightarrow \xi$ 是 $(\lambda_0 E - A) x = 0$ 的非零解
@@ -366,8 +371,28 @@ description: |
 > - （3）$A^n = [tr(A)]^{n-1} \cdot A$
 > - （4）$A$ 的特征值为 $tr(A)$ 和 $n-1$ 个 0（可以从方程组的角度来理解）$\begin{cases} 一定可以相似对角化（A～\Lambda）,  & tr(A) \ne 0 \\ 不能相似对角化, & tr(A) = 0 \end{cases}$
 
-5. **A 的相似对角化**
-   - （1）定义：$P^{-1} A P = \Lambda$（这里 $P$ 的每一个列向量都是其所在列的特征值对应的特征向量）
+
+5. **相似矩阵**
+   - （1）定义：设 $A, B$ 是两个 $n$ 阶方阵，若存在 $n$ 阶可逆矩阵 $P$ 使得 $P^{-1}AP = B$，则称 $A$ 相似于 $B$，记为 $A～B$
+   - （2）相似矩阵的性质
+     - a. $A～A$
+     - b. 若 $A～B$，$B～C$，则 $A～C$
+     - c. 若 $A～B$，则 $|A| = |B|$、$r(A) = r(B)$、$tr(A) = tr(B)$、$\lambda_A = \lambda_B$（或 $|\lambda E - A| = |\lambda E - B|$）、$r(\lambda E - A) = r(\lambda E - B)$，且 $A, B$ 的各阶主子式之和相等
+   - （3）重要结论：
+     - a. $A～B \Rightarrow A^T ～B^T, A^{-1} ～B^{-1}, A^*～B^*$（后面两个要求 $A$ 可逆）
+     - b. $A～B \Rightarrow A^m ～B^m, f(A)～f(B)$
+     - c. $A～B, B～\Lambda \Rightarrow A～\Lambda$
+     - d. $A～\Lambda, B～\Lambda \Rightarrow A～B$
+     - e. $A～C, B～D \Rightarrow \begin{pmatrix} A & O \\ O & B \end{pmatrix} ～ \begin{pmatrix} C & O \\ O & D \end{pmatrix}$
+
+> ⚠️ 矩阵相似和等价的区别
+> - （1）矩阵等价只要求两个矩阵同型即可，而矩阵相似要求两个矩阵为同型$\textcolor{red}{方阵}$
+> - （2）相似必等价，等价不一定相似
+> - （3）等价只要求 $PAQ = B$（$P, Q$ 均可逆），但相似要求 $P^{-1}AP = B$
+
+
+6. **A 的相似对角化**
+   - （1）定义：$P^{-1} A P = \Lambda$（这里 $P$ 的每一个列向量都是其所在列的特征值一一对应的特征向量，即 $P = [\xi_1, \xi_2, \cdots, \xi_n], \Lambda = \begin{pmatrix} \lambda_1 & & & \\ & \lambda_2 & & \\ & & \ddots & \\ & & & \lambda_n \end{pmatrix}$）
    - （2）充要条件
      - a. $A$ 有 $n$ 个线性无关的特征向量 $\Leftrightarrow A～\Lambda$
      - b. $n_i = n - r(\lambda_i E - A) \Leftrightarrow A～\Lambda$（$n_i$ 重根下有 $n_i$ 个线性无关的特征向量，就可以相似对角化）
@@ -380,27 +405,22 @@ description: |
    - （4）必要条件：
      - a. $A～\Lambda \Rightarrow r(A)$ 等于非零特征值的个数（重根按重数算）
 
-6. **相似矩阵**
-   - （1）定义：设 $A, B$ 是两个 $n$ 阶方阵，若存在 $n$ 阶可逆矩阵 $P$ 使得 $P^{-1}AP = B$，则称 $A$ 相似于 $B$，记为 $A～B$
-   - （2）相似矩阵的性质
-     - a. $A～A$
-     - b. 若 $A～B$，$B～C$，则 $A～C$
-     - c. 若 $A～B$，则 $|A| = |B|$、$r(A) = r(B)$、$tr(A) = tr(B)$、$\lambda_A = \lambda_B$（或 $|\lambda E - A| = |\lambda E - B|$）、$r(\lambda E - A) = r(\lambda E - B)$
-   - （3）重要结论：
-     - a. $A～B \Rightarrow A^T ～B^T, A^{-1} ～B^{-1}, A^*～B^*$（后面两个要求 $A$）可逆
-     - b. $A～B \Rightarrow A^m ～B^m, f(A)～f(B)$
-     - c. $A～B, B～\Lambda \Rightarrow A～\Lambda$
-     - d. $A～\Lambda, B～\Lambda \Rightarrow A～B$
+
 
 7. **实对称矩阵**
    - （1）若 $A$ 为实对称矩阵，则
      - a. 特征值均为实数，特征向量均为实向量
      - b. 不同特征值对应的特征向量正交（即 $\lambda_1 \ne \lambda_2 \Rightarrow \xi_1 \perp \xi_2 \Rightarrow (\xi_1, \xi_2) = 0$，建方程）
      - c. 可用正交矩阵相似对角化（即存在正交矩阵 $P$ 使 $P^{-1} A P = P^T AP = \Lambda$）
+   - （2）实对称矩阵相似对角化的基本步骤：
+     - a. 求特征值
+     - b. 求特征值对应的特征向量
+     - c. 将特征向量正交化、单位化
+     - d. 令 $Q$ 为单位正交化之后的特征向量组成的矩阵，则 $Q$ 为正交矩阵，且 $Q^{-1}AQ = Q^T AQ = \Lambda$
 
 > 💡 正交比线性无关更强一些
 
-8. **正交矩阵**（前面第二章有相关定义）
+8. **正交矩阵**
    - （1）正交矩阵的特征值 $\lambda \in \{1, -1\}$
    - （2）若 $A$ 为正交矩阵，则 $A^T A= E$
      - $\Leftrightarrow A^{-1} = A^T$
@@ -423,23 +443,36 @@ description: |
 
 > 💡 遇到 $f(x_1, x_2, x_3) = (x_1 - x_2 + x_3)^2 + (x_2 + x_3)^2 + (x_1 + ax_3)^2$ 这种比较麻烦的形式，直接令 $y_1 = x_1 - x_2 + x_3 , y_2 = x_2 + x_3 , y_3 = x_1 + ax_3$，那么有 $\begin{pmatrix} y_1 \\ y_2 \\ y_3 \end{pmatrix} = \begin{pmatrix} 1 & -1 & 1 \\ 0 & 1 & 1 \\ 1 & 0 & a \end{pmatrix} \begin{pmatrix} x_1 \\ x_2 \\ x_3 \end{pmatrix} = B \begin{pmatrix} x_1 \\ x_2 \\ x_3 \end{pmatrix}$，那么根据 $f = y_1^2 + y_2^2 + y_3^2 = y^T y = (Bx)^TBx = x^TB^TBx$，即二次型矩阵等于 $B^TB$
 
+3. **矩阵合同**
+   - （1）定义：设 $A, B$ 为 $n$ 阶方阵，若存在可逆矩阵 $C$ 使得 $C^T AC = B$，则称 $A$ 与 $B$ 合同，记作 $A\simeq B$
+   - （2）合同的性质：
+     - a. $A\simeq A$
+     - b. 若 $A\simeq B$，则 $B\simeq A$
+     - c. 若 $A \simeq B, B\simeq C$，则 $A \simeq C$
+     - d. $r(A) = r(B)$
+   - （3）两个实对称矩阵合同的充要条件：有相同的正负惯性指数
+   - ![linear5](/images/mathematic/linear5.png)
 
-2. **二次型的标准形、规范形**
+> 💡 上面图里的 $Q^T = Q^{-1} \Rightarrow Q$ 是正交矩阵
+
+4. **二次型的标准形、规范形**
    - （1）定义：
      - a. 若二次型中只含有平方项，没有交叉项（即所有交叉项的系数均为 0），即形如 $d_1x_1^2 + d_2x_2^2 + \cdots + d_nx_n^2$ 的二次型称为标准形（系数不唯一）
      - b. 若标准型中，系数 $d_i(i=1, 2, \cdots, n)$ 仅为 $1, -1, 0$，即形如 $x_1^2 + \cdots + x_p^2 - x_{p-1}^2 - \cdots x_{p+q}^2$ 的二次型称为规范形（系数唯一）
-     - c. 任何二次型均可以通过配方法（作可逆线性变换）化为标准形及规范形，用矩阵语言表述：任何实对称矩阵 $A$ 必存在可逆矩阵 $C$ 使得 $C^TAC = \Lambda$（这个对角矩阵是不唯一的）
-     - d. 任何二次型也可以通过正交变换化成标准形，用矩阵语言表述即是任何实对称矩阵 $A$ 一定存在正交矩阵 $Q$ 使得 $Q^{-1}AQ = Q^TAQ = \Lambda$（这个对角矩阵是唯一的，表征的是特征值的排布，是沟通矩阵相似与二次型的桥梁，高级双料特工）
-   - （2）坐标变换和惯性定理
+   - （2）常用定理
+     - a. 任何二次型均可以通过配方法（作可逆线性变换）化为标准形及规范形，用矩阵语言表述：任何实对称矩阵 $A$ 必存在可逆矩阵 $C$ 使得 $C^TAC = \Lambda$（这个对角矩阵是不唯一的）
+     - b. 任何二次型也可以通过正交变换化成标准形，用矩阵语言表述即是任何实对称矩阵 $A$ 一定存在正交矩阵 $Q$ 使得 $Q^{-1}AQ = Q^TAQ = \Lambda$（正交矩阵不唯一，但这个对角矩阵是唯一的，表征的是特征值的排布，是沟通矩阵相似与二次型的桥梁，高级双料特工）
+   - （3）坐标变换和惯性定理
      - a. 坐标变换：$\begin{pmatrix} x_1 \\ x_2 \\ x_3 \end{pmatrix} = \begin{pmatrix} c_{11} & c_{12} & c_{13} \\ c_{21} & c_{22} & c_{23} \\ c_{31} & c_{32} & c_{33} \end{pmatrix}  \begin{pmatrix} y_1 \\ y_2 \\ y_3 \end{pmatrix}$（其中 $C$ 是可逆矩阵）
      - b. 无论选取什么样的可逆线性变换，将二次型化成标准形或规范形，其正项个数 $p$，负项个数 $q$ 都是不变的，$p$ 称为正惯性指数，$q$ 称为负惯性指数
+     - c. 两个二次型（或者叫实对称矩阵）合同的充要条件是有相同的正、负惯性指数，或有相同的秩及正（或负）惯性指数，或有相同的正、负特征值个数
 
 
 
 
 > 💡 $C^TAC$ 变换称为合同变换，而矩阵相似那个地方的变换是 $P^{-1}AP$，不要搞混，一定要区分开来
 
-3. **配方法化标准形**
+5. **配方法化标准形**
    - （1）必备工具
      - a. $(a + b)^2 = a^2 + 2ab + b^2$
      - b. $(a + b + c)^2 = a^2 + b^2 + c^2 + 2ab + 2ac + 2bc$
@@ -449,7 +482,7 @@ description: |
    - （4）其他常用技巧：
      - a. 遇到大量交叉项或交叉项不好处理的时候，可以通过 $\begin{cases} x_1 = y_1 + y_2 \\ x_2 = y_1 - y_2 \\ x_3 = y_3 \end{cases}$ （根据实际情况灵活构造）来构造平方项，然后再用 $z = By$ 来构造出规范形和 $x = Cz$
 
-4. **正交变换法**（和配方法的地位不相上下，但没法像配方法一样一步配到规范形）
+6. **正交变换法**（和配方法的地位不相上下，但没法像配方法一样一步配到规范形）
    - 基本步骤对于 $f = x^T Ax$
    - （1）求 $A$ 的特征值 $\lambda_1, \lambda_2, \cdots, \lambda_n$
    - （2）求 $A$ 的对应于特征值 $\lambda_1, \lambda_2, \cdots, \lambda_n$ 的特征向量 $\xi_1, \xi_2, \cdots, \xi_n$
@@ -472,3 +505,16 @@ description: |
 >
 > ⚠️ 不过要注意，$(...)^2 - (...)^2$ 就不行了
 
+
+7. **正定二次型及其判别**
+   - （1）定义：$n$ 元二次型 $f(x_1, x_2, \cdots, x_n) = x^TAx$，若对任意 $x = [x_1, x_2, \cdots, x_n]^T \ne 0$，均有 $x^TAx  > 0$，则称 $f$ 为正定二次型，称二次型对应的矩阵 $A$ 为正定矩阵
+   - （2）二次型正定的充要条件
+     - a. 对任意 $x\ne 0$ 有 $x^TAx > 0$
+     - b. $f$ 的正惯性指数 $p = n$
+     - c. 存在可逆矩阵 $D$ 使得 $A=  D^TD = ||D||^2$
+     - d. $A\simeq E$
+     - e. $A$ 的特征值 $\lambda_i > 0$
+     - f. $A$ 的全部顺序主子式均大于 0
+   - （3）二次型正定的必要条件
+     - a. $a_{ii} > 0$
+     - b. $|A| > 0$

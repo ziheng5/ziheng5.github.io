@@ -36,19 +36,14 @@ description: |
 3. 互不相容
    - $P(AB) = 0$
 
-4. 两事件独立
-   - $P(AB) = P(A) P(B)$
 
-> 💡 两事件独立，进而有：
-> - $P(A\cup B) = P(A) + P(B) - P(A)P(B) = 1 - P(\overline{A})P(\overline{B})$
-
-5. 减法运算
+4. 减法运算
    - $P(A-B) = P(A\overline{B}) = P(A) - P(AB)$
 
-6. 乘法运算（交集）
+5. 乘法运算（交集）
    - $P(AB) = P(B)P(A|B) = P(A) P(B|A)$
 
-7. 条件概率
+6. 条件概率
    - $P(B|A) = \dfrac{P(AB)}{P(A)}$
 
 > 💡 条件概率常用性质
@@ -57,11 +52,35 @@ description: |
 > - $P(A_1 - A_2 | B) = P(A_1 | B) - P(A_1 A_2 |B)$
 > - $A$ 与 $B$ 独立时，有 $P(AB|C) = P(A|C) P(B|C)$
 
-8. 全概率公式
+7. 全概率公式
    - $P(B) = \sum\limits_{i=1}^{n} P(A_i)P(B|A_i)$
 
-9. 贝叶斯公式
+8. 贝叶斯公式
    - $P(A_i|B) = \dfrac{P(A_i B)}{P(B)} = \dfrac{P(A_i)P(B|A_i)}{P(B)}$
+
+
+9. 事件的独立性
+   - （1）两事件独立：$P(AB) = P(A) P(B)$
+   - （2）重要结论
+     - a. $A$ 与 $B$ 独立 $\Leftrightarrow$ $A$ 与 $\overline{B}$ 独立 $\Leftrightarrow$ $\overline{A}$ 与 $B$ 独立 $\Leftrightarrow$ $\overline{A}$ 与 $\overline{B}$ 独立
+     - b. 概率为 0 和 1 的事件与任何一个事件都相互独立
+     - c. 设 $B \in (0, 1)$，则 $A$ 与 $B$ 独立 $\Leftrightarrow P(A|B) = P(A |\overline{B}) \Leftrightarrow P( A|B) + P(\overline{A} |\overline{B}) = 1 \Leftrightarrow P(A|\overline{B}) + P(\overline{A}|B) = 1$
+   - （3）$A, B, C$ 两两独立：
+     - a. $P(AB) = P(A)P(B)$
+     - b. $P(AC) = P(A)P(C)$
+     - c. $P(BC) = P(B)P(C)$
+   - （4）$A, B, C$ 相互独立（注意与前者的区分）：
+     - a. $P(AB) = P(A)P(B)$
+     - b. $P(AC) = P(A)P(C)$
+     - c. $P(BC) = P(B)P(C)$
+     - d. $P(ABC) = P(A) P(B) P(C)$
+     - （⭐ $\textcolor{red}{易错}$）e. 不重叠分组，各自运算后仍独立；重叠分组，例如 $AC$ 与 $C$，只有当 $P(A) = 0$ 或 $P(C) = 0$ 或 $P(C) = 1$ 时才会独立，其余情况不独立（$P(C)\in (0, 1)$ 时，$AC$ 与 $B$ 相互独立，但 $AC$ 与 $C$ 不相互独立）
+
+
+
+> 💡 两事件独立，进而有：
+> - $P(A\cup B) = P(A) + P(B) - P(A)P(B) = 1 - P(\overline{A})P(\overline{B})$
+
 
 
 > ⚠️ 本章易错细节
@@ -76,21 +95,26 @@ description: |
 
 1. 分布函数的定义：$F(x) = P\{X \le x\}, -\infty < x< \infty$
 
-2. 分布函数的性质（一般出选择题）
+> ⚠️ 关于分布函数和概率密度的书写规范（易错）
+> - （1）写分布函数 $F$ 的时候，如果存在多种情况，一定不要漏掉 $F(x) = 0$ 和 $F(x) = 1$
+> - （2）写概率密度函数 $f$ 的时候，如果有指定区间的话，一定不要忘记把区间外密度 $f = 0$ 也写上去，不然不完整
+
+
+2. 分布函数的性质（三个条件都要满足，一般出选择题）
    - （1）单调不减性：$F(x)$ 是单调非减函数
-   - （2）有界性：$0\le F(x) \le 1$
+   - （2）有界性：$0\le F(x) \le 1$，且 $F(+\infty) = 1$，$F(-\infty) = 0$
    - （3）右连续性：对任意 $x_0$ 有 $\lim\limits_{x\to x_0^+} F(x) = F(x_0)$ 即 $F(x_0 + 0) = F(x_0)$
 
 3. 设 $F_1(x), F_2(x)$ 均是分布函数，则
-   - （1）当 $a_i \ge 0, a_1 + a_2 = 1$ 时，$a_1 F_1(x) + a_2 F_2(x)$ 仍为分布函数
+   - （1）当 $a_i \ge 0, a_1 + a_2 = 1$ 时，$a_1 F_1(x) + a_2 F_2(x)$ 仍为某随机变量的分布函数
    - （2）$F_1(x)F_2(x)$ 仍为分布函数（这也是 $X, Y$ 独立时 $\max\{X, Y\}$ 的分布函数）
    - （3）$1 - [1 - F_1(x)][1 - F_2(x)]$ 仍为分布函数（这也是 $X, Y$ 独立时 $\min\{X, Y\}$ 的分布函数）
 
-4. 当 $a_1\ge 0, a_2 \ge 0$ 且 $a_1 + a_2 = 1$ 时，$a_1 f_1(x) + a_2 f_2(x)$ 必为某随机变量的概率密度 
 
 > ✍ 做题小结论：
 > - 如果 $X$ 的分布函数 $F(x)$ 是连续函数，则有 $Y=F(X) ～ U(0, 1)$（🇷🇺 套娃，坐标余丙森强化`例 2.14`）
 > - 如果遇到 $Y = F(X)$ 这种分布套分布的问题，可以尝试将 $F(X)$ 图像画出来分类讨论
+> - $P\{X= x\} = 0 \Leftrightarrow F(x) - F(x-0) = 0 \Leftrightarrow F(x) = F(x-0) \Leftrightarrow F(x)$ 在 $x$ 处连续
 
 
 ### 2.2 常见离散型随机变量及其分布律
@@ -101,6 +125,8 @@ description: |
 2. 二项分布
    - $X～B(n, p)$
    - $P\{X = k\} = C_n^k p^k (1-p)^{n-k}$
+   - 在独立条件下，二项分布具有可加性，即设 $X～B(m, p), Y～B(n, p)$，则 $X + Y ～B(m+n, p)$（⚠️ 注意：只可加不可减）
+   - 若 $X_1, X_2$ 相互独立且 $X_1, X_2～B(1, \dfrac{1}{2}) \Leftrightarrow X_1, X_2 ～ \begin{pmatrix} 0 & 1 \\ \dfrac{1}{2} & \dfrac{1}{2} \end{pmatrix}$，则 $X_2 - X_1 ～ \begin{pmatrix} -1 & 0 & 1 \\ \dfrac{1}{4} & \dfrac{1}{2} & \dfrac{1}{4} \end{pmatrix}$
 
 3. 泊松分布
    - $X～P(\lambda)$，其中 $\lambda \ge 0$
@@ -132,13 +158,16 @@ description: |
    - $P\{ X = k\} = \dfrac{C_M^k C_{N-M}^{n-k}}{C_N^n}$
 
 ### 2.3 常见连续型随机变量及其概率密度
+1. 概率密度
+   - （1）定义：$F(x) = \int^{x}_{-\infty} f(t)dt$
 
-1. 均匀分布
+
+2. 均匀分布
    - $X～U(a, b)$
    - 概率密度：$f(x) = \begin{cases} \dfrac{1}{b-a}, & a<x<b \\ 0,& otherwise \end{cases}$
    - 分布函数：$F(X) = \begin{cases} 0, & x<a \\ \dfrac{x-a}{b-a}, & a\le x < b \\ 1, & x\ge b \end{cases}$
 
-2. 指数分布
+3. 指数分布
    - $X～E(\lambda)$，其中 $\lambda \ge 0$
    - 概率密度：$f(x) = \begin{cases} \lambda e^{-\lambda x}, & x>0 \\ 0, & otherwise\end{cases}$
    - 分布函数：$F(X) = \begin{cases} 0, & x\le 0 \\ 1-e^{-\lambda x}, & x>0\end{cases}$
@@ -156,14 +185,29 @@ description: |
 > - 对任意 $X～N(\mu, \sigma^2)$，有 $\dfrac{X - \mu}{\sigma}～N(0, 1)$
 > - $\Phi(-a) = 1 - \Phi(a)$
 > - $aX+b ～N(a\mu + b, a^2\sigma^2)$
+> - 设 $X～N(\mu, \sigma^2)$，则分布函数 $F(x) = P\{X \le x\} = P\{ \dfrac{X-\mu}{\sigma} \le \dfrac{x-\mu}{\sigma}\} = \Phi(\dfrac{x- \mu}{\sigma})$
 
 > ⚠️ 正态分布常考难点
 > - 做题的时候，给定类似于 $f(x) = A e^{x(B - x)}$ 要能看出来是正态分布（$A e^{x(B - x)} = A e^{Bx - x^2} = A e^{-(x-\frac{B}{2})^2 + \frac{B^2}{4}} = A e^{\frac{B^2}{4}} e^{-(x-\frac{B}{2})^2}$）
 > - 计算 $E(e^X) = \int^{+\infty}_{-\infty} e^x \dfrac{1}{\sqrt{2\pi} \sigma} e^{\frac{(x-\mu)^2}{2\sigma^2}} dx$，思路是将这个积分里的式子转换成另一个正态分布的的概率密度函数（27 张宇 1000a P70 第 9 题）
+> - $X～N(\mu, \sigma^2)$，计算 $E(|X|)$ 与 $D(|X|)$（用定义算）
+
+
+### 2.4 连续型随机变量与概率密度相关问题求解
+1. $Y = g(X)$
+   - （1）若 $X$ 的概率密度为 $f_X(x)$，则
+     - a. $Y$ 为离散型：求 $Y$ 的分布律
+     - b. $Y$ 为连续型：先求 $Y$ 的分布函数，再求概率密度
+     - c. $Y$ 既不是离散型也不是连续型：只求分布函数
+   - （2）$Y$ 为非离散型时分布函数的求解：$F_Y(y) = P\{Y\le y\} = P\{g(X) \le y\} = P\{\varphi(y) \le X \le \psi(y)\} = \int^{\varphi(y)}_{\psi(y)} f_X(x) dx$（若 $Y$ 为连续型，可进一步求导得到 $Y$ 的概率密度 $f_Y(y) = F'_Y(y)$）
+   - （3）计算时的注意事项
+     - a. $\int^{\varphi(y)}_{\psi(y)} f_X(x) dx$ 计算过程中，经常需要对 $y$ 分段讨论（比如 $Y = \max \{\dfrac{1}{X}, X\}$）
+
 
 
 ## 3. 二维随机变量及其分布
 
+> ⚠️ 本小节计算时极其容易在取值范围上出错，一定要谨慎分类讨论，可画图辅助判断！
 
 ### 3.1 二维随机变量及其分布
 1. 二维随机变量 $(X, Y)$ 落在矩形区域 $D = \{ (X, Y) | x_1 < X \le x_2, y_1 < Y \le y_2\}$ 上的概率为 $P\{x_1 < X \le x_2, y_1 < Y \le y_2\} = F(x_2, y_2) - F(x_1, y_2) - F(x_2, y_1) + F(x_1, y_1)$
@@ -171,6 +215,8 @@ description: |
 2. 二维随机变量的边缘分布
    - （1）$F_X(x) = F(X, +\infty) = \lim\limits_{y\to +\infty}F(X, Y)$
    - （2）$F_Y(y) = F(+\infty, Y) = \lim\limits_{x\to +\infty}F(X, Y)$
+
+> ⚠️ 易错点：边缘分布不能唯一确定联合分布【880-18-基础-选择-3】
 
 3. 卷积公式（应对特殊分布）：
    - （1）$Z = X + Y$：$f_Z(z) = \int^{+\infty}_{-\infty} f(x, z-x) dx = \int^{+\infty}_{-\infty} f(z-y, y) dy$
@@ -227,8 +273,14 @@ description: |
 
 
 ### 3.5 连续型随机变量 (X, Y) 的分布函数 F(x, y)
-1. 求解方法：设 $F(x, y) = \int^{x}_{-\infty} \int^{y}_{-\infty} f(u, v) dudv$，然后分类讨论，画图求解
+1. $F(X, Y)$ 求解方法：设 $F(x, y) = \int^{x}_{-\infty} \int^{y}_{-\infty} f(u, v) dudv$，然后分类讨论，画图求解
 
+2. $Z = f(X, Y)$ 时 $F_Z(z)$ 的求解
+   - （1）根据题目条件得到 $f(x, y)$
+   - （2）在 $xOy$ 平面上画出 $f(x, y)$ 的区域 $D$
+   - （3）在 $xOy$ 平面上画出 $y = g(x, z)$ 曲线 $s$
+   - （4）根据区域 $D$ 和 $s$ 画出积分区域
+   - （5）二重积分计算 $F_Z(z)$
 
 ## 4. 数字特征
 ### 4.1 随机变量的数学期望和方差
@@ -256,9 +308,10 @@ description: |
    - （1）$D(c) = 0$
    - （2）$D(cX) = c^2 D(X)$，$D(aX + b) = a^2 D(X)$
    - （3）$D(X \pm Y) = D(X) + D(Y) \pm 2Cov(X, Y)$
-   - （4）若 $X$ 与 $Y$ 是相互独立的随机变量 $\Rightarrow D(X\pm Y) = D(X) + D(Y)$
-   - （5）$D(X\pm Y) = D(X) + D(Y) \Leftrightarrow X$ 与 $Y$ 不相关
-   - （6）$X$ 与 $Y$ 相互独立，且 $E(X) = E(Y) = 0 \Rightarrow D(XY) = D(X) D(Y)$ 
+   - （4）$D(X \pm Y \pm Z) = D(X) + D(Y) + D(Z) \pm 2Cov(X, Y) \pm 2Cov(X, Z) \pm 2Cov(Y, Z)$
+   - （5）若 $X$ 与 $Y$ 是相互独立的随机变量 $\Rightarrow D(X\pm Y) = D(X) + D(Y)$
+   - （6）$D(X\pm Y) = D(X) + D(Y) \Leftrightarrow X$ 与 $Y$ 不相关
+   - （7）$X$ 与 $Y$ 相互独立，且 $E(X) = E(Y) = 0 \Rightarrow D(XY) = D(X) D(Y)$ 
 
 8. 常见随机变量分布的数学期望与方差
 
@@ -286,7 +339,7 @@ description: |
 
 2. 协方差的性质
    - （1）$Cov(X, Y) = Cov(Y, X)$
-   - （2）$Cov(X, Y) = D(X)$
+   - （2）$Cov(X, X) = D(X)$
    - （3）$Cov(X, c) = 0$
    - （4）$Cov(aX, bY) = abCov(X, Y)$
    - （5）$Cov(X_1+X_2, Y) = Cov(X_1, Y) + Cov(X_2, Y)$
@@ -305,10 +358,10 @@ description: |
 
 
 ### 4.3 随机变量的矩
-1. $k$ 阶原点矩：$E(X^k)$
-2. $k$ 阶中心矩：$E\{[X - E(X)]^k\}$
+1. $k$ 阶原点矩：$E(X^k)$（1 阶原点矩就是期望）
+2. $k$ 阶中心矩：$E\{[X - E(X)]^k\}$（2 阶中心矩就是方差）
 3. $k+l$ 阶混合原点矩：$E(X^k Y^l)$
-4. $k+l$ 阶混合中心矩：$E\{[X - E(X)]^k [Y - E(Y)]^l\}$
+4. $k+l$ 阶混合中心矩：$E\{[X - E(X)]^k [Y - E(Y)]^l\}$（1+1 阶混合中心矩就是协方差）
 
 ## 5. 大数定律和中心极限定理
 ### 5.1 大数定律
@@ -336,9 +389,16 @@ description: |
    - $\lim\limits_{n\to \infty} P\{|\dfrac{1}{n}\sum\limits_{i=1}^{n}X_i - \mu|<\epsilon\} = 1$
 
 ### 5.2 中心极限定理
-1. **列维-林德伯格中心极限定理（独立、同分布、相同期望方差）**：设 $X_1, X_2, ..., X_n$ 独立且同分布，且有相同数学期望 $E(X_i) = \mu$ 和方差 $D(X_i) = \sigma^2$，则对任意实数 $x$，有
+1. **列维-林德伯格中心极限定理（条件：独立、同分布、期望方差均存在）**：设 $X_1, X_2, ..., X_n$ 独立且同分布，且有相同数学期望 $E(X_i) = \mu$ 和方差 $D(X_i) = \sigma^2$，则对任意实数 $x$，有
    - $\lim\limits_{n\to\infty} P\{\dfrac{\frac{1}{n}\sum_{i=1}^{n}X_i - \mu}{\sigma / \sqrt{n}} \le x\} = \int^{x}_{-\infty} \dfrac{1}{\sqrt{2\pi}} e^{-\frac{t^2}{2}} dt = \Phi(x)$
-   - 定理表明：当 $n$ 充分大时，$\overline{X} = \dfrac{1}{n}\sum\limits_{i=1}^{n}X_i\overset{近似}{～}N(\mu, \sigma^2)$，其标准化 $\dfrac{\overline{X} - \mu}{\sigma / \sqrt{n}}$ 近似服从标准正态分布 $N(0, 1)$
+   - 定理表明：当 $n$ 充分大时，$\overline{X} = \dfrac{1}{n}\sum\limits_{i=1}^{n}X_i\overset{近似}{～}N(\mu, \dfrac{\sigma^2}{n})$，其标准化 $\dfrac{\overline{X} - \mu}{\sigma / \sqrt{n}}$ 近似服从标准正态分布 $N(0, 1)$
+
+> ⚠️ 易错题：设随机变量 $X_1, X_2, \cdots, X_n$ 相互独立，记 $Y_n = X_1 + X_2 + \cdots + X_n$，根据列维-林德伯格中心极限定理，$Y_n$ 近似服从正态分布（$n$ 充分大），则只要 $X_1, X_2, \cdots, X_n$（ ）
+> - A. 服从同一离散型分布（❌，期望或方差不一定存在，例如 $P(X = k) = \dfrac{6}{\pi^2 k^2}, (k=1, 2, 3, ...)$，其所有情况之和为 1 是合法的，但 $E(X) = \dfrac{6}{\pi^2} \sum\limits_{k=1}^{\infty} \dfrac{1}{k} \rightarrow \infty$ 不存在）
+> - B. 服从同一连续型分布（❌，期望或方差不一定存在，和上面 $A$ 一样，同样可举出反例 $f(x) = \dfrac{1}{\pi(1 + x^2)}$）
+> - C. 服从同一指数分布（✅ 指数分布的期望与方差均存在）
+> - D. 具有相同的期望和方差（❌，有相同的期望与方差未必有相同的分布）
+
 
 2. **棣莫佛-拉普拉斯中心极限定理（二项分布的极限是正态）**：设随机变量 $Y_n ～B(n, p)$，则对任意实数 $x$，有
    - $\lim\limits_{n\to\infty} P\{\dfrac{Y_n - np}{\sqrt{np(1-p)}} \le x\} = \int^{x}_{-\infty} \dfrac{1}{\sqrt{2\pi}} e^{-\frac{t^2}{2}} dt = \Phi(x)$
@@ -386,7 +446,7 @@ description: |
    - （3）设 $\chi_i^2～\chi^2(n_i)$，且 $\chi_1^2$，$\chi_2^2$ 相互独立，则 $\chi_1^2 + \chi_2^2 ～ \chi^2(n_1 + n_2)$
 
 
-### 6.4 t 分布
+### 6.4 t 分布（双边）
 1. 定义：设 $X～N(0, 1)$，$Y～\chi^2(n)$，且 $X$ 与 $Y$ 相互独立，则称 $T = \dfrac{X}{\sqrt{Y/n}}$ 为服从自由度为 $n$ 的 $t$ 分布，记作 $T～t(n)$
 
 2. 性质：
@@ -417,25 +477,33 @@ description: |
 3. $F$ 分布的上侧 $\alpha$ 分位点
    - $P\{F > F_{\alpha}(n_1, n_2)\} = \int^{+\infty}_{F_{\alpha}(n_1, n_2)}f(x)dx = \alpha$
 
+![statistics1](/images/mathematic/statistics1.png)
+
+> 💡 上侧分位点，顾名思义，就是从右侧 1 开始的分位点
+
 ### 6.7 单正态总体下常用统计量的分布
 设 $X ～ N(\mu, \sigma^2)$，$(X_1, X_2, ..., X_n)$ 为来自总体 $X$ 的简单随机样本，则
 
 1. 关于 $\overline{X}$
    - （1）$\overline{X} = \dfrac{1}{n}\sum\limits_{i=1}^{n} X_i ～ N(\mu, \dfrac{\sigma^2}{n})$
-   - （2）$\dfrac{\overline{X} - \mu}{\frac{\sigma}{\sqrt{n}}}～N(0, 1)$
+   - （2）$\dfrac{\overline{X} - \mu}{\sqrt{\frac{\sigma^2}{n}}}～N(0, 1)$
    - （3）$\overline{X}$ 与 $S^2$ 相互独立，且有 $\dfrac{\overline{X} - \mu}{\frac{S}{\sqrt{n}}}～t(n - 1)$
 
-2. 关于 $S^2$
+> 💡 关于（3）的证明：
+> $\dfrac{\overline{X} - \mu}{\frac{S}{\sqrt{n}}} = \dfrac{\frac{\overline{X} - \mu}{\sigma / \sqrt{n}}}{\frac{\sqrt{S^2 / n}}{\sigma /\sqrt{n}}} = \dfrac{\frac{\overline{X} - \mu}{\sigma / \sqrt{n}}}{\sqrt{S^2 / \sigma^2}} = \dfrac{\frac{\overline{X} - \mu}{\sigma / \sqrt{n}}}{\sqrt{\frac{1}{n-1} \sum\limits_{i=1}^n (\frac{X_i - \overline{X}}{\sigma})^2}}$，分子～ $N(0, 1)$，分母～ $\chi^2(n-1)$
+
+
+1. 关于 $S^2$
    - （1）$\overline{X}$ 与 $S^2$ 相互独立，且 $\dfrac{(n-1)S^2}{\sigma^2} = \dfrac{\sum\limits_{i=1}^{n} (X_i - \overline{X})^2}{\sigma^2} ～ \chi^2(n - 1)$
    - （2）$\dfrac{\sum\limits_{i=1}^{n} (X_i - \mu)^2}{\sigma^2} ～ \chi^2(n)$（提示：$\dfrac{X_i - \mu}{\sigma} ～ N(0, 1)$）
 
-> ⚠️ 东西有点多，但一定要熟练掌握！
+> ⚠️ 东西有点多，容易遗忘，但一定要熟练掌握！
 
 ### 6.8 双正态总体
 设 $X_1, X_2, ..., X_{n_1}$ 和 $Y_1, Y_2, ..., Y_{n_2}$ 分别为来自正态分布 $N(\mu_1, \sigma_1^2)$ 和 $N(\mu_2, \sigma_2^2)$ 的简单随机样本，且两组样本相互独立，令两个样本的均值和方差分别为
-   - $\overline{X} = \dfrac{1}{n_1}\sum\limits_{i=1}^{n_1}X_i$
+   - $\overline{X} = \dfrac{1}{n_1}\sum\limits_{i=1}^{n_1}X_i ～ N(\mu_1, \dfrac{\sigma_1^2}{n_1})$
    - $S_1^2 = \dfrac{1}{n_1 - 1} \sum\limits_{i=1}^{n_1} (X_i - \overline{X})^2$
-   - $\overline{Y} = \dfrac{1}{n_2}\sum\limits_{i=1}^{n_2}Y_i$
+   - $\overline{Y} = \dfrac{1}{n_2}\sum\limits_{i=1}^{n_2}Y_i ～ N(\mu_2, \dfrac{\sigma_2^2}{n_2})$
    - $S_2^2 = \dfrac{1}{n_2 - 1} \sum\limits_{i=1}^{n_2} (Y_i - \overline{Y})^2$
 
 则有
@@ -455,7 +523,7 @@ description: |
 
 > 💡 这里可以看看 27 余丙森强化`例 6.4`
 
-## 7. 参数估计
+## 7. 参数估计（重中之重）
 ### 7.1 参数的点估计、估计量、估计值
 
 1. **估计量** $\hat{\theta}(X_1, X_2, ..., X_n)$ 是一个随机变量
@@ -492,7 +560,7 @@ description: |
    - （1）求出总体矩（原点矩或中心矩）$E(X^i)$ 或 $E[X - E(X)]^i$
    - （2）令总体矩等于相应的样本矩，得方程组，即 
      - 原点矩 $\dfrac{1}{n} \sum\limits_{j=1}^{n}X_j^i = E(X^i)$
-     - 或样本矩 $\dfrac{1}{n} \sum\limits_{j=1}^{n}(X_j - \overline{X})^i = E[X - E(X)]^i$
+     - 或中心矩 $\dfrac{1}{n} \sum\limits_{j=1}^{n}(X_j - \overline{X})^i = E[X - E(X)]^i$
    - （3）解上面的方程组，得 $\theta_i$ 的矩估计值为 $\hat{\theta}_i(x_1, x_2, ..., x_n)$，$\theta_i$ 的矩估计量为 $\hat{\theta}_i(X_1, X_2, ..., X_n)$
 
 > ⚠️ 有 $k$ 个未知参数就求到 $k$ 阶原点矩或中心矩，为方便计算，一般取原点矩
