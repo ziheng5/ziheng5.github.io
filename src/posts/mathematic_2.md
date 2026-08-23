@@ -206,6 +206,19 @@ description: |
    - （3）若 $\lambda$ 为单复根 $\alpha \pm \beta$，则写 $e^{\alpha x} (C_1 \cos \beta x + C_2 \sin \beta x)$
    - （4）若 $\lambda$ 为二重复根 $\alpha \pm \beta$，则写 $e^{\alpha x} (C_1 \cos \beta x + C_2 \sin \beta x + C_3 x\cos \beta x + C_4 x\sin \beta x)$
 
+
+> 📢 紧急插播：二阶差分方程（应用甚广！）
+> - （1）二阶差分方程包含两步记忆：$y_{n+2} = a y_{n+1} b y_n + f(n)$，在数列极限、无穷级数、特殊行列式和几乎绝大多数递推问题中都可以应用
+> - （2）与微分方程的区别：
+>   - a. 微分方程：$y(x)$、连续变化、$y'$ 与 $y''$、特征方程
+>   - b. 差分方程：$y_n$、离散变化、$y_{n+1}$ 与 $y_{n+2}$、也有特征方程
+> - （3）齐次计算方式：对于 $y_{n+2} + ay_{n+1} + by_n = 0$
+>   - a. 计算特征方程 $r^2 + ar + b = 0$ 解得特征根 $r_1$ 和 $r_2$
+>   - b. $y_n = \begin{cases} C_1r_1^n + C_2r_2^n, & r_1\ne r_2 \\ (C_1 + C_2 n)r^n, & r_1=r_2=r \\ \rho^n(C_1 \cos n\theta + C_2 \sin n\theta), & r_{1,2} = \rho(\cos\theta \pm i\sin\theta) \end{cases}$
+> - （4）非齐次计算方法：
+>   - （1）先求出齐次解
+>   - （2）凑一个特解，然后加上去
+
 ## 16. 无穷级数
 
 > 👉 本章强化阶段强烈推荐 26 年方浩强化无穷级数章节的课程，质量很高（尤其是小猪配齐）

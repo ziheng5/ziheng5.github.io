@@ -41,21 +41,38 @@ description: |
    - （4）行列式按列展开：$|A| = a_{1j}A_{1j} + a_{2j}A_{2j} + \cdots + a_{nj}A_{nj} = \sum\limits_{k=1}^n a_{kj}A_{kj}$
    - （5）行列式任一行（列）元素与另一行（列）元素的代数余子式乘积之和为 0，即 $\sum\limits_{k=1}^n a_{ik}A_{jk} = a_{i1}A_{j1} + a_{i2}A_{j2} + \cdots + a_{in}A_{jn} = 0, i\ne j$（$\sum\limits_{k=1}^n a_{ki}A_{kj} = a_{1i}A_{1j} + a_{2i}A_{2j} + \cdots + a_{ni}A_{nj} = 0, i\ne j$）
 
+> 💡 学会展开之后，做题时有一种比较巧妙的操作：加边
+> - （1）设 $x_1 x_2 x_3 x_4 \ne 0$，则 $\begin{vmatrix} x_1 + a_1^2 & a_1a_2 & a_1a_3 & a_1a_4 \\ a_2a_1 & x_2 + a_2^2 & a_2a_3 & a_2a_4 \\ a_3a_1 & a_3a_2 & x_3 + a_3^2 & a_3a_4 \\ a_4a_1 & a_4a_2 & a_4a_3 & x_4 + a_4^2 \end{vmatrix} = \begin{vmatrix} 1 & a_1 & a_2 & a_3 & a_4 \\ 0 & x_1 + a_1^2 & a_1a_2 & a_1a_3 & a_1a_4 \\ 0 & a_2a_1 & x_2 + a_2^2 & a_2a_3 & a_2a_4 \\ 0 & a_3a_1 & a_3a_2 & x_3 + a_3^2 & a_3a_4 \\ 0 & a_4a_1 & a_4a_2 & a_4a_3 & x_4 + a_4^2 \end{vmatrix} = \begin{vmatrix} 1 & a_1 & a_2 & a_3 & a_4 \\ -a_1 & x_1 & 0 & 0 & 0 \\ -a_2 & 0 & x_2 & 0 & 0 \\ -a_3 & 0 & 0 & x_3 & 0 \\ -a_4 & 0 & 0 & 0 & x_4 \end{vmatrix} = \begin{vmatrix} 1 + \sum\limits_{i=1}^{4} \frac{a_i^2}{x_i^2} & 0 & 0 & 0 & 0 \\ -a_1 & x_1 & 0 & 0 & 0 \\ -a_2 & 0 & x_2 & 0 & 0 \\ -a_3 & 0 & 0 & x_3 & 0 \\ -a_4 & 0 & 0 & 0 & x_4 \end{vmatrix} = x_1 x_2 x_3 x_4(1 + \sum\limits_{i=1}^{4}\frac{a_i^2}{x_i^2})$
+
+> 💡 余子式与代数余子式的计算问题一般有三种方法
+> - （1）余子式的定义（计算 1～2 个余子式时适用）
+> - （2）展开定理（计算一行或一列余子式适用）：$k_1 A_{i1} + k_2 A_{i2} + \cdots + k_n A_{in} = \begin{vmatrix} \vdots & \vdots & \vdots & \vdots \\ k_1 & k_2 & \cdots & k_n \\ \vdots & \vdots & \vdots & \vdots \end{vmatrix}$
+> - （3）伴随矩阵（题目需要计算所有代数余子式时适用）
+
+
 4. **特殊行列式**
    - （1）上（下）三角形行列式的值等于主对角线元素的乘积：$\begin{vmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ 0 & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots & \ddots & \vdots \\ 0 & 0 & \cdots & a_{nn} \end{vmatrix} = \begin{vmatrix} a_{11} & 0 & \cdots & 0 \\ a_{21} & a_{22} & \cdots & 0 \\ \vdots & \vdots &  & \vdots \\ a_{n1} & a_{n2} & \cdots & a_{nn} \end{vmatrix} = a_{11} a_{22} \cdots a_{nn}$
-   - （2）关于副对角线的行列式：$\begin{vmatrix} a_{11} & \cdots & a_{1, n-1} & a_{1,n} \\ a_{21} & \cdots & a_{2, n-1} & a_{2n} \\ \vdots &  & \vdots & \vdots \\ a_{n1} & \cdots & 0 & 0 \end{vmatrix} =        \begin{vmatrix} 0 & \cdots & 0 & a_{1,n} \\ 0 & \cdots & a_{2, n-1} & a_{2n} \\ \vdots &  & \vdots & \vdots \\ a_{n1} & \cdots & a_{n, n-1} & a_{n, n} \end{vmatrix} = \begin{vmatrix} 0 & \cdots & 0 & a_{1,n} \\ 0 & \cdots & a_{2, n-1} & 0 \\ \vdots &  & \vdots & \vdots \\ a_{n1} & \cdots & 0 & 0 \end{vmatrix} = (-1)^{\frac{n(n-1)}{2}} a_{1n}a_{2,n-1}\cdots a_{n,1}$
-   - （3）拉普拉斯展开式：设 $A$ 为 $m$ 阶矩阵，$B$ 为 $n$ 阶矩阵，则 $\begin{vmatrix} A & O \\ O & B \end{vmatrix} = \begin{vmatrix} A & O \\ C & B \end{vmatrix} = \begin{vmatrix} A & C \\ O & B \end{vmatrix} = |A||B|$、$\begin{vmatrix} O & A \\ B & O \end{vmatrix} = \begin{vmatrix} O & A \\ B & C \end{vmatrix} = \begin{vmatrix} C & A \\ B & O \end{vmatrix} = (-1)^{mn}|A||B|$
-   - （4）范德蒙德行列式：$\begin{vmatrix} 1 & 1 & \cdots & 1 \\ x_1 & x_2 & \cdots & x_n \\ x_1^2 & x_2^2 & \cdots & x_n^2 \\ \cdots & \cdots & \cdots & \cdots \\ x_1^{n-1} & x_2^{n-1} & \cdots & x_n^{n-1} \end{vmatrix} = \prod\limits_{1\le i < j \le n} (x_j - x_i)$
+   - （2）关于副对角线的行列式：$\begin{vmatrix} a_{11} & \cdots & a_{1, n-1} & a_{1,n} \\ a_{21} & \cdots & a_{2, n-1} & a_{2n} \\ \vdots &  & \vdots & \vdots \\ a_{n1} & \cdots & 0 & 0 \end{vmatrix} =        \begin{vmatrix} 0 & \cdots & 0 & a_{1,n} \\ 0 & \cdots & a_{2, n-1} & a_{2n} \\ \vdots &  & \vdots & \vdots \\ a_{n1} & \cdots & a_{n, n-1} & a_{n, n} \end{vmatrix} = \begin{vmatrix} 0 & \cdots & 0 & a_{1,n} \\ 0 & \cdots & a_{2, n-1} & 0 \\ \vdots &  & \vdots & \vdots \\ a_{n1} & \cdots & 0 & 0 \end{vmatrix} = (-1)^{\textcolor{red}{\frac{n(n-1)}{2}}} a_{1n}a_{2,n-1}\cdots a_{n,1}$
+   - （3）$n$ 阶 $ab$ 型行列式：$\begin{vmatrix} a & b & \cdots & b \\ b & a & \cdots & b \\ \vdots & \vdots & \ddots & \vdots \\ b & b & \cdots & a \end{vmatrix} = [a + (n - 1)b](a - b)^{n-1}$
+   - （4）拉普拉斯展开式：设 $A$ 为 $m$ 阶矩阵，$B$ 为 $n$ 阶矩阵，则 $\begin{vmatrix} A & O \\ O & B \end{vmatrix} = \begin{vmatrix} A & O \\ C & B \end{vmatrix} = \begin{vmatrix} A & C \\ O & B \end{vmatrix} = |A||B|$、$\begin{vmatrix} O & A \\ B & O \end{vmatrix} = \begin{vmatrix} O & A \\ B & C \end{vmatrix} = \begin{vmatrix} C & A \\ B & O \end{vmatrix} = (-1)^{\textcolor{red}{mn}}|A||B|$
+   - （5）范德蒙德行列式：$\begin{vmatrix} 1 & 1 & \cdots & 1 \\ x_1 & x_2 & \cdots & x_n \\ x_1^2 & x_2^2 & \cdots & x_n^2 \\ \cdots & \cdots & \cdots & \cdots \\ x_1^{n-1} & x_2^{n-1} & \cdots & x_{\textcolor{red}{n}}^{\textcolor{red}{n-1}} \end{vmatrix} = \prod\limits_{1\le i < j \le n} (x_j - x_i)$
+   - ⭐⭐⭐（6）三对角线行列式：$D_n$ 按第一行展开得到 $aD_{n-1} + bD_{n-2}$，然后向后递推（可能会用到二阶差分方程：[传送门](https://coldrain.top/2026/06/24/mathematic_2/#16-%E6%97%A0%E7%A9%B7%E7%BA%A7%E6%95%B0)）
 
-5. **余子式与代数余子式的线性组合运算**
-   - $k_1 A_{i1} + k_2 A_{i2} + \cdots + k_n A_{in} = \begin{vmatrix} \vdots & \vdots & \vdots & \vdots \\ k_1 & k_2 & \cdots & k_n \\ \vdots & \vdots & \vdots & \vdots \end{vmatrix}$
+> 💡 $\begin{vmatrix} 0 & 1 & 0 & 0 \\ 0 & 0 & 2 & 0 \\ 0 & 0 & 0 & 3 \\ 4 & 0 & 0 & 0 \end{vmatrix}$ 也是拉普拉斯的经典形式！
 
-6. **克莱姆法则**（有时候有奇效）
+
+> 💡 2 道关于范德蒙行列式的难题：
+> - （1）$\begin{vmatrix} a & a^2 & bc \\ b & b^2 & ac \\ c & c^2 & ab \end{vmatrix} = \begin{vmatrix} a & a^2 & a^2 + ab + bc + ac \\ b & b^2 & b^2 + ab + bc + ac \\ c & c^2 & c^2 + ab + bc + ac \end{vmatrix} = \begin{vmatrix} a & a^2 & ab + bc + ac \\ b & b^2 & ab + bc + ac \\ c & c^2 & ab + bc + ac \end{vmatrix} = (ab + bc + ac)\begin{vmatrix} 1 & a & a^2\\ 1 & b & b^2 \\ 1 & c & c^2 \end{vmatrix}$
+> - （2）计算 $D_n = \begin{vmatrix} 1 & 1 & \cdots & 1 \\ x_1 & x_2 & \cdots & x_n \\ x_1^2 & x_2^2 & \cdots & x_n^2 \\ \vdots & \vdots & \ddots & \vdots \\ x_1^{n-2} & x_2^{n-2} & \cdots & x_n^{n-2} \\ x_1^{n} & x_2^{n} & \cdots & x_n^{n} \end{vmatrix} \Rightarrow D_{n+1} \begin{vmatrix} 1 & 1 & \cdots & 1 & 1 \\ x_1 & x_2 & \cdots & x_n & y \\ x_1^2 & x_2^2 & \cdots & x_n^2 & y^2 \\ \vdots & \vdots & \ddots & \vdots &\vdots \\ x_1^{n-2} & x_2^{n-2} & \cdots & x_n^{n-2} & y^{n-2} \\ x_1^{n-1} & x_2^{n-1} & \cdots & x_n^{n-1} & \textcolor{red}{y^{n-1}} \\ x_1^{n} & x_2^{n} & \cdots & x_n^{n} & y^n \end{vmatrix} = (y-x_1)(y-x_2)\cdots (y-x_n) \prod\limits_{1\le i < j \le n}(x_j - x_i)$；$D_{n+1}$ 中 $y^{n-1}$ 的系数为 $-(x_1 + x_2 + \cdots + x_n)\prod\limits_{1\le i < j \le n} (x_j - x_i)$；$D_{n+1}$ 按 $n+1$ 列展开得 $D_{n+1} = A_{1,n+1} + \cdots + y^{n-1} A_{n, n+1} + y^nA_{n+1, n+1} \Rightarrow A_{n, n+1} = -(x_1 + x_2 + \cdots + x_n)\prod\limits_{1\le i < j \le n} (x_j - x_i) \Rightarrow D_n = M_{n, n+1} = -A_{n, n+1} = (x_1 + x_2 + \cdots + x_n)\prod\limits_{1\le i < j \le n} (x_j - x_i)$ 
+> - 【（2）的补充】（3）$\begin{vmatrix} 1 & 1 & 1 & 1 \\ a & b & c & d \\ a^2 & b^2 & c^2 & d^2 \\ a^4 & b^4 & c^4 & d^4 \end{vmatrix} = (a + b + c + d)(d-a)(d-b)(d-c)(c-a)(c-b)(b-a)$
+
+
+
+5. **克莱姆法则**（有时候有奇效）
    - （1）对 $n$ 个方程 $n$ 个未知数的非齐次线性方程组 $\begin{cases} a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n = b_1  \\ a_{21}x_1 + a_{22}x_2 + \cdots + a_{2n}x_n = b_2 \\ \cdots \\ a_{n1}x_1 + a_{n2}x_2 + \cdots + a_{nn}x_n = b_n \end{cases}$，若系数行列式 $D = \begin{vmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots &  & \vdots \\ a_{n1} & a_{n2} & \cdots & a_{nn} \end{vmatrix} \ne 0$（$\Leftrightarrow$ 系数矩阵 $A$ 可逆 $\Leftrightarrow$ 矩阵 $A$ 满秩），则方程组有唯一解，且解为 $x_i = \dfrac{D_i}{D}$，其中 $D_i$ 是由常数项 $b_1, b_2, \cdots, b_n$ 替换掉 $D$ 中的第 $i$ 列元素得到的行列式（反之，$D = 0$ 时方程组有无穷多的解）
    - （2）对 $n$ 个方程 $n$ 个未知数的齐次线性方程组 $\begin{cases} a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n = 0  \\ a_{21}x_1 + a_{22}x_2 + \cdots + a_{2n}x_n = 0 \\ \cdots \\ a_{n1}x_1 + a_{n2}x_2 + \cdots + a_{nn}x_n = 0 \end{cases}$，若 $D \ne 0$ 则齐次方程组只有 0 解；若 $D = 0$ 则齐次方程组有非零解
 
-
-7. **抽象行列式的计算**（综合提高）
+6. **抽象行列式的计算**（综合提高）
    - （1）设 $\alpha_1$、$\alpha_2$、$\alpha_3$ 均为三维列向量，矩阵 $A = (\alpha_1, \alpha_2, \alpha_3)$，已知 $|A|$ 求 $B = (\alpha_1 + \alpha_2 + \alpha_3, \alpha_1 + 2\alpha_2 + 4\alpha_3, \alpha_1 + 3\alpha_2 + 9\alpha_3)$（思路：$B = (\alpha_1, \alpha_2, \alpha_3)\cdot \begin{pmatrix} 1 & 1 & 1 \\ 1 & 2 & 4 \\ 1 & 3 & 9 \end{pmatrix}$）
    - （2）三阶矩阵 $A, B$ 满足 $A^2 B - A - B = E$，其中 $E$ 为三阶单位矩阵，已知 $A$ 求 $|B|$（提示：$AB = 0$，则有 $r(A) + r(B) \le n$；行列式不为 0，则矩阵满秩）
    - （3）$B$ 是 3 阶正交矩阵，且 $|B| < 0$，$A$ 是三阶矩阵，且 $|A - B| = 6$，求 $|E - BA^T|$（提示：正交矩阵的行列式要么等于 1，要么等于 -1，且 $E = BB^T = B^TB$）
@@ -92,7 +109,7 @@ description: |
      - d. $(AB)^* = B^* A^*$（穿透性质）
      - e. $(A^T)^* = (A^*)^T$，$(A^{-1})^* = (A^*)^{-1}$，$(A^*)^* = |A|^{n-2} A$
 
-> ⚠️ 注意伴随矩阵的下标！这里也可能会出考题 🌚【880-十-基础题-选择-3】
+> ⚠️ 注意伴随矩阵的下标！这里也可能会出题 🌚【880-十-基础题-选择-3】
 
 
 5. **矩阵的秩相关结论**（要牢记）
