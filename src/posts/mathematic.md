@@ -243,6 +243,7 @@ description: |
 
 > 💡 可微 $\Leftrightarrow$ 可导
 
+> 💡 设 $f(x)$ 二阶可导，$f''(x) \ne 0 \Leftrightarrow f''(x)$ 要么恒大于 0，要么恒小于 0
 
 ## 4. 一元函数微分学（计算）
 

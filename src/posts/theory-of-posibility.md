@@ -21,20 +21,34 @@ description: |
 
 ## 1. 随机事件及其概率
 
-> ✍ 本部分内容过于简单，所以这里只记录重点公式与结论
+> 💡 本章易错题：
+> - 【880-16-基础-选择-4、7】
+> - 【880-16-综合-填空-1、4、5】
+
+1. 事件的关系
+   - （1）吸收律：若 $A \subseteq B$，则 $A\cup B = B$，$A\cap B = A$
+   - （2）分配率：
+     - $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$
+     - $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$
+   - （3）对偶律：
+     - $\overline{A \cup B} = \overline{A} \cap \overline{B}$
+     - $\overline{A \cap B} = \overline{A} \cup \overline{B}$
+   - （4）涉及复杂随机事件运算时，考虑使用韦恩图来降低难度
 
 
-1. 对立运算
+2. 对立运算
    - $P(\overline{A}) = 1- P(A)$
 
-2. 加法运算（并集）
+3. 加法运算（并集）
    - $P(A\cup B) = P(A+B) = P(A) + P(B) - P(AB)$
    - $P(A\cup B \cup C) = P(A+B+C) = P(A) + P(B) + P(C)- P(AB) - P(AC) - P(BC) + P(ABC)$
  
 > 💡 加法运算这里 Coldrain 刻意将 “$\cup$” 与 “+” 都写了上去，因为在有些题目中将“并”运算换成加法运算可以**快速化简**冗长的随机事件表达式
 
-3. 互不相容
+3. 互不相容（互斥）
    - $P(AB) = 0$
+   - $A \cap B = \emptyset$
+   - $\overline{A} \cup \overline{B} = \Omega$
 
 
 4. 减法运算
@@ -64,7 +78,7 @@ description: |
    - （2）重要结论
      - a. $A$ 与 $B$ 独立 $\Leftrightarrow$ $A$ 与 $\overline{B}$ 独立 $\Leftrightarrow$ $\overline{A}$ 与 $B$ 独立 $\Leftrightarrow$ $\overline{A}$ 与 $\overline{B}$ 独立
      - b. 概率为 0 和 1 的事件与任何一个事件都相互独立
-     - c. 设 $B \in (0, 1)$，则 $A$ 与 $B$ 独立 $\Leftrightarrow P(A|B) = P(A |\overline{B}) \Leftrightarrow P( A|B) + P(\overline{A} |\overline{B}) = 1 \Leftrightarrow P(A|\overline{B}) + P(\overline{A}|B) = 1$
+     - c. 设 $B \in (0, 1)$，则 $A$ 与 $B$ 独立 $\Leftrightarrow P(A|B) = P(A |\overline{B}) = P(A) \Leftrightarrow P( A|B) + P(\overline{A} |\overline{B}) = 1 \Leftrightarrow P(A|\overline{B}) + P(\overline{A}|B) = 1$
    - （3）$A, B, C$ 两两独立：
      - a. $P(AB) = P(A)P(B)$
      - b. $P(AC) = P(A)P(C)$
@@ -82,11 +96,16 @@ description: |
 > - $P(A\cup B) = P(A) + P(B) - P(A)P(B) = 1 - P(\overline{A})P(\overline{B})$
 
 
+10. 三大概型（知道分别是什么情况即可，做题时一定要小心，这里经常出现逻辑陷阱）
+    - （1）古典概型：列举，有限个样本点
+    - （2）几何概型：画图，无限个样本点
+    - （3）伯努利概型：每次只有对立的两种结果，独立重复 $n$ 次试验（伯努利）
+
+
 
 > ⚠️ 本章易错细节
-> - $P(A) = 0$，不代表 $A$ 为空集！
-
-
+> - （1）$P(A) = 0$，不代表 $A$ 为空集！
+> - 【逻辑陷阱】（2）已知 10 部手机里有 7 个合格品和 3 个次品，每次取一个测试，测试后不放回，那么事件 “直到将 3 个次品都找到为之，需要测试 7 次” $\Leftrightarrow$ “第 7 次测试刚好测试出第 3 个次品” $\cup$ “7 次测试出来全是合格品，剩下 3 个全是次品”
 
 ## 2. 一维随机变量及其分布
 
@@ -105,6 +124,12 @@ description: |
    - （2）有界性：$0\le F(x) \le 1$，且 $F(+\infty) = 1$，$F(-\infty) = 0$
    - （3）右连续性：对任意 $x_0$ 有 $\lim\limits_{x\to x_0^+} F(x) = F(x_0)$ 即 $F(x_0 + 0) = F(x_0)$
 
+> 💡 关于右连续性
+> - （1）左闭右开可以保证右连续性
+> - （2）若 $F(x)$ 为分布函数，则 $1 - F(-x)$ 未必是分布函数，因为右连续倒过来就变成左连续，无法保证右连续
+> - （3）$P\{x_1 \le X \le x_2\} = F(x_2) - F(x_1)$，而 $P\{x_1 < X < x_2\} = F(x_2 - 0) - F(x_1 + 0)$（例如 $F(x) = \begin{cases} 0, & x<0 \\ \dfrac{1}{2}, & 0\le x<1 \\ 1 - e^{-x}, & x\ge 1 \end{cases}$）
+
+
 3. 设 $F_1(x), F_2(x)$ 均是分布函数，则
    - （1）当 $a_i \ge 0, a_1 + a_2 = 1$ 时，$a_1 F_1(x) + a_2 F_2(x)$ 仍为某随机变量的分布函数
    - （2）$F_1(x)F_2(x)$ 仍为分布函数（这也是 $X, Y$ 独立时 $\max\{X, Y\}$ 的分布函数）
@@ -115,6 +140,9 @@ description: |
 > - 如果 $X$ 的分布函数 $F(x)$ 是连续函数，则有 $Y=F(X) ～ U(0, 1)$（🇷🇺 套娃，坐标余丙森强化`例 2.14`）
 > - 如果遇到 $Y = F(X)$ 这种分布套分布的问题，可以尝试将 $F(X)$ 图像画出来分类讨论
 > - $P\{X= x\} = 0 \Leftrightarrow F(x) - F(x-0) = 0 \Leftrightarrow F(x) = F(x-0) \Leftrightarrow F(x)$ 在 $x$ 处连续
+
+
+4. 
 
 
 ### 2.2 常见离散型随机变量及其分布律
