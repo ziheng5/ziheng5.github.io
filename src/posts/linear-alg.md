@@ -266,11 +266,13 @@ description: |
      - d. $(\alpha, \beta) = (\beta, \alpha) = \alpha^T\beta = \beta^T \alpha$
 
 2. **判断向量组线性相关性的主要方法**
-   - （1）线性相关的定义：存在一组不全为 0 的 $k$，使得 $k_1\alpha_1 + k_2\alpha_2 + \cdots + k_s\alpha_s = 0$（也就是说存在一个向量是其余向量的线性组合）
+   - （1）定义法：存在一组不全为 0 的 $k$，使得 $k_1\alpha_1 + k_2\alpha_2 + \cdots + k_s\alpha_s = 0$（也就是说存在一个向量是其余向量的线性组合）
    - （2）齐次线性方程组 $(\alpha_1, \alpha_2, \cdots, \alpha_s) \begin{pmatrix} k_1 \\ k_2 \\ \vdots \\ k_n \end{pmatrix} = 0$ 有非零解（线性无关的话是只有零解）
    - （3）$r(\alpha_1, \alpha_2, \cdots, \alpha_s) < s(线性无关的话=s)$
 
 > 💡 向量组线性无关等价于该向量组中任意一个向量均不能由其他向量线性表示
+
+> ✍ 证明线性无关的题目中常常用到下面的技巧：题目给定 $A \alpha_i = f(\alpha_{i+1})$，则可以用定义法，先设 $k_1 \alpha_1 + k_2 \alpha_2 + \cdots + k_n\alpha_n = 0$，然后反复左乘 $A$，最终证明 $k_1 = k_2 = \cdots = k_n = 0$
 
 3. **判断向量组线性表示的主要方法**
    - （1）线性表出的定义：$\beta = k_1 \alpha_1 + k_2 \alpha_2 + \cdots + k_s \alpha_s$
@@ -480,6 +482,16 @@ description: |
 
 > ⚠️ 线代的核心内容，考试重难点
 
+> 💡 本章重点习题
+> - 【880-14-基础-选择-2、5】
+> - 【880-14-基础-填空-4】
+> - 【880-14-基础-解答-6、8、9】
+> - 【880-14-综合-选择-3、7】
+> - 【880-14-综合-填空-1、3】
+> - 【880-14-综合-解答-2、3、6、11、13、17】
+> - 【880-14-拓展-1】
+
+
 1. **特征值与特征向量的定义**
    - 设 $A$ 为 $n$ 阶矩阵，若 $A\alpha = \lambda \alpha(\alpha \ne 0)$，则称 $\lambda$ 是 $A$ 的特征值，$\alpha$ 是 $A$ 的属于 $\lambda$ 的特征向量
 
@@ -508,7 +520,7 @@ description: |
      - f. 上（下）三角矩阵、主对角矩阵的特征值为主对角线元素
      - g. 设 $A$ 为 $n$ 阶矩阵，则 $aA + bE(a\ne 0)$ 不可逆 $\Leftrightarrow |aA+bE| = 0 \Leftrightarrow \lambda = - \dfrac{b}{a}$ 为 $A$ 的特征值
 
-> 💡 小结论：设 $A, B$ 为 $n$ 阶矩阵，则 $AB$ 与 $BA$ 有相同的行列式、$\textcolor{red}{特征值}$、迹【24 考研选择】
+> ⭐⭐⭐ 小结论：设 $A, B$ 为 $n$ 阶矩阵，则 $AB$ 与 $BA$ 有相同的 $\textcolor{red}{行列式、特征值、迹}$，即 $\textcolor{red}{|AB| = |BA|，\lambda_{AB} = \lambda_{BA}, tr(AB) = tr(BA)}$【24 考研选择】
 >
 > 证明：
 > - （1）设 $\alpha$ 为 $AB$ 的特征值为 $\lambda$ 的特征向量，则 $(AB)\alpha = \lambda\alpha$，得 $(BA)(B\alpha) = \lambda(BA)$
@@ -585,8 +597,8 @@ description: |
 7. **实对称矩阵**
    - （1）若 $A$ 为实对称矩阵，则
      - a. 特征值均为实数，特征向量均为实向量
-     - b. 不同特征值对应的特征向量正交（即 $\lambda_1 \ne \lambda_2 \Rightarrow \xi_1 \perp \xi_2 \Rightarrow (\xi_1, \xi_2) = 0$，建方程）
-     - c. 可 $\textcolor{red}{正交}$ 相似对角化（即存在正交矩阵 $P$ 使 $P^{-1} A P = P^T AP = \Lambda$）
+     - b. 不同特征值对应的特征向量 $\textcolor{red}{正交}$（即 $\lambda_1 \ne \lambda_2 \Rightarrow \xi_1 \perp \xi_2 \Rightarrow (\xi_1, \xi_2) = 0$，建方程）
+     - c. 可 $\textcolor{red}{正交}$ 相似对角化，即存在正交矩阵 $P$ 使 $P^{-1} A P = P^T AP = \Lambda$（反之，若 $A$ 不是实对称矩阵，则 $\textcolor{red}{不存在正交矩阵 Q 使 Q^{-1}AQ = \Lambda}$）
    - （2）实对称矩阵相似对角化的基本步骤：
      - a. 求特征值
      - b. 求特征值对应的特征向量
@@ -626,6 +638,17 @@ description: |
 > ![problem3](/images/mathematic/linear3.png)
 
 ## 6. 二次型
+
+
+> 💡 本章重点习题
+> - 【880-15-基础-选择-5、6、9】
+> - 【880-15-基础-解答-3、5、6】
+> - 【880-15-综合-选择-6、9、】
+> - 【880-15-综合-解答-2、3、4、9、12】
+> - 【880-15-拓展-解答-5】
+
+
+
 1. **二次型及其表示**
    - （1）含有 $n$ 个变量：$x_1, x_2, \cdots, x_n$ 的二次齐次函数 $f(x_1, x_2, \cdots, x_n) = a_{11}x_1^2 + a_{22}x_2^2 + \cdots + a_{nn}x_n^2 + 2a_{12}x_1x_2 + 2a_{13}x_1x_3 + \cdots + 2a_{n-1, n}x_{n-1}x_n$，称为 $n$ 元二次型
    - （2）也可以写成 $f(x_1, x_2, \cdots, x_n) = \sum\limits_{i=1}^{n} \sum\limits_{j=1}^{n}a_{ij} x_i x_j$ 的形式。出现该形式时，不要犹豫，立即推：记 $x = (x_1, x_2, \cdots, x_n)^T$，$A = (a_{ij})_{n\times n}$，则 $f(x_1, x_2, \cdots, x_n) = x^T A x$（需要注意的是，此时 $A$ 矩阵还不能称为二次型矩阵，若增加条件 $a_{ij} = a_{ji}$，也即 $A^T = A$，此时实对称矩阵 $A$ 被称为二次型矩阵，且 $r(A)$ 是二次型的秩）
@@ -641,9 +664,10 @@ description: |
      - b. 若 $A\simeq B$，则 $B\simeq A$
      - c. 若 $A \simeq B, B\simeq C$，则 $A \simeq C$
      - d. $r(A) = r(B)$
+     - e. 实对称矩阵只能和实对称矩阵合同，非对称矩阵只能和非对称矩阵合同
    - （3）合同的充要条件：
-     - a. 二次型 $x^TAx$ 与 $x^TBx$ 有相同的正、负惯性指数
-     - b. $A, B$ 有相同的正、负特征值个数
+     - a. $A, B$ 为同阶实对称矩阵，且二次型 $x^TAx$ 与 $x^TBx$ 有相同的正、负惯性指数
+     - b. $A, B$ 为同阶实对称矩阵，且$A, B$ 有相同的正、负特征值个数
    - （4）合同的充分条件：
      - a. 若 $n$ 阶实对称矩阵 $A$ 与 $B$ 相似，则 $A$ 与 $B$ 合同（但并不意味着所有既相似又合同的矩阵都是实对称矩阵）
    - （5）合同的必要条件
@@ -654,9 +678,11 @@ description: |
 > 💡 上面图中
 > - （1）等价只要求 $r(A) = r(B)$，条件比较弱
 > - （2）相似，意味着存在可逆矩阵 $P$ 使得 $B = P^{-1} AP$
-> - （3）合同，意味着存在矩阵 $Q$ 使得 $B = Q^T AQ$
+> - （3）合同，意味着存在可逆矩阵 $Q$ 使得 $B = Q^T AQ$
 > - （4）既相似又合同，意味着同时存在矩阵 $Q$ 和可逆矩阵 $P$，使 $B = Q^TAQ = P^{-1}AP$
 > - （5）既相似又合同里面，有一种特殊情况 “正交变换”，即存在正交矩阵 $Q$，使得 $B = Q^TAQ = Q^{-1}AQ$（即正交变换 $\Rightarrow$ 既合同又相似）
+> - （6）合同但不相似，意味着仅存在可逆（非正交）线性变换 $B = Q^T AQ$
+> - （7）相似但不合同，意味着仅存在可逆（非正交）线性变换 $B = P^{-1}AP$
 
 
 3. **二次型的标准形、规范形**
@@ -699,7 +725,7 @@ description: |
 
 > 💡 这里回想一下之前学过的性质：
 > - （1）正交矩阵的特征值只能是 1 或 -1（从而可以一步化到规范形）
-> - （2）如果 $A,B$ 均是实对称矩阵，且 $A～B$，则一定存在一个正交矩阵 $Q$ 使得 $Q^TAQ = B$
+> - （2）如果 $A,B$ 均是实对称矩阵，且 $A～B$，则存在正交矩阵 $Q$ 使得 $Q^{-1}AQ = Q^TAQ = B$；若 $A$ 与 $B$ 不相似，则仅存在可逆（非正交）线性变换 $P^TAP = B$ 
 
 
 > 💡 平方和形式（即 $f = (...)^2 + (...)^2 + \cdots$）的二次型具有哪些性质（设 $y = Bx$）
@@ -721,13 +747,15 @@ description: |
    - （2）二次型正定的充要条件
      - a. 对任意 $x\ne 0$ 有 $x^TAx > 0$
      - b. $f$ 的正惯性指数 $p = n$
-     - c. 存在可逆矩阵 $D$ 使得 $A=  D^TD = ||D||^2$
+     - c. 存在可逆矩阵 $D$ 使得 $A=  D^TD$（也就是说任意矩阵 $P$ 若可逆，则 $P^TP$ 一定正定）
      - d. $A\simeq E$（即 $A$ 与 $E$ 合同）
      - e. $A$ 的特征值都大于 0
      - f. $A$ 的顺序主子式均大于 0
    - （3）二次型正定的必要条件
      - a. $a_{ii} > 0$
      - b. $|A| > 0$
+
+> ⚠️ 验证矩阵是正定矩阵，应先验证其是对称矩阵
 
 > 💡 小结论：设 $A$ 为 $m$ 阶实对称矩阵，$B$ 为 $n$ 阶实对称矩阵，则 $\begin{pmatrix} A & O \\ O & B \end{pmatrix}$ 为正定矩阵 $\Leftrightarrow A, B$ 均为正定矩阵【2005，数三】
 
@@ -737,18 +765,22 @@ description: |
 > - （1）正交相似对角化 $Q^TAQ = \Lambda \Leftrightarrow A = Q\Lambda Q^T = Q \begin{pmatrix} \lambda_1 & & & \\ & \lambda_2 & & \\ & & \ddots & \\ & & & \lambda_n \end{pmatrix}Q^T$
 > - （2）取 $B = Q \begin{pmatrix} \sqrt[m]{\lambda_1} & & & \\ & \sqrt[m]{\lambda_2} & & \\ & & \ddots & \\ & & & \sqrt[m]{\lambda_n} \end{pmatrix}Q^T$
 
-8. **二次型的最值**（一种比较特殊的题型）
+8. **二次型的最值**（证明要会，高数线代都可能遇到，比如求点到直线距离最小值）
     - （1）设 $f(x_1, x_2, \cdots, x_n) = x^TAx$，二次型矩阵 $A$ 的特征值为 $\lambda_1, \lambda_2, \cdots, \lambda_n$，且 $\lambda_1 \le \lambda_2 \le \cdots \le \lambda_n$，则 $\lambda_1 x^Tx \le x^TAx \le \lambda_n x^Tx$
     - （2）证明：
       - a. 存在正交变换 $x = Qy$ 使得 $x^TAx = \lambda_1y_1^2 + \lambda_2y_2^2 + \cdots + \lambda_ny_n^2$
       - b. $x^Tx = (Qy)^T(Qy) = y^TQ^TQy = y^Ty = y_1^2 + y_2^2 + \cdots + y_n^2$
-      - c. 又 $\lambda_1 \le \lambda_2 \le \cdots \le \lambda_n$，故 ...
+      - c. 又 $\lambda_1 \le \lambda_2 \le \cdots \le \lambda_n$，故 $\begin{cases} \lambda_1(y_1^2 + y_2^2 + \cdots + y_n^2) \le \lambda_1y_1^2 + \lambda_2y_2^2 + \cdots + \lambda_ny_n^2 \\ \lambda_n(y_1^2 + y_2^2 + \cdots + y_n^2) \ge \lambda_1y_1^2 + \lambda_2y_2^2 + \cdots + \lambda_ny_n^2 \end{cases}$
 
+> 💡 一个可以用二次型来做的多元函数微分学题目：
+> - ![linear10](/images/mathematic/linear10.jpg)
+> - （1）第一问易得 $a= -4$，$b = 5$ 即 $f(x, y) = x^2 -4xy + 5 y^2$
+> - （2）第二问相当于求 $f(x, y)$ 在约束 $x^2 + y^2$ 下的最大值和最小值
+> - （3）$f(x, y) = x^2 -4xy + 5y^2 = (x, y) \begin{pmatrix} 1 & -2 \\ -2 & 5 \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix}$
+> - （4）求 $A$ 的特征值 $|\lambda E - A| = (1-\lambda)(5-\lambda) - 4 = 0$ 得 $\lambda = 3\pm 2\sqrt{2}$
+> - （5）对于 $x^TAx$ 有 $\lambda_{min}(x^2 + y^2) \le x^TAx \le \lambda_{max}(x^2 + y^2) \Leftrightarrow d = \sqrt{x^2 + y^2} \in [\dfrac{1}{\sqrt{\lambda_{max}}}, \dfrac{1}{\sqrt{\lambda_{min}}}]$ 
+> - （6）当然，第二问也可以用常规做法（拉格朗日数乘法）来做，相当于求 $f(x, y) = x^2 + y^2$ 在约束条件 $g(x, y) = x^2 - 4xy + 5y^2 -1 = 0$ 下的最值（[传送门](https://coldrain.top/2026/06/24/mathematic_2/#13-%E5%A4%9A%E5%85%83%E5%87%BD%E6%95%B0%E5%BE%AE%E5%88%86%E5%AD%A6)），令 $F(x, y, \lambda) = f(x, y) + \lambda (x, y)$，然后解方程组 $\begin{cases} F'_x = 0 \\ F'_y = 0 \\ F'_z = 0 \\ F'_{\lambda} = 0 \end{cases}$
 
-
-> 💡 二次型奇技淫巧大观（❓）
-> - （1）$f(x_1, x_2, x_3) = 2(a_1x_1 + a_2x_2 + a_3 x_3)^2 = 2 (x_1, x_2, x_3) \begin{pmatrix} a_1 \\ a_2 \\ a_3 \end{pmatrix}(a_1, a_2, a_3) \begin{pmatrix} x_1 \\ x_2 \\ x_3 \end{pmatrix}$【2013，数一】
-> - （2）设 $x = (x_1, x_2, \cdots, x_n)^T$ 与 $y = (y_1, y_2, \cdots, y_n)^T$，则 $(x^T, y^T) \begin{pmatrix} A & O \\ O & B \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix} = x^TAx + y^TBy$【2005，数三】
 
 
 > 💡 $AA^T$ 矩阵结论大观（可以从头到尾推一遍）
@@ -774,3 +806,11 @@ description: |
       - b. （两正）柱面：$\dfrac{x^2}{a^2} + \dfrac{y^2}{b^2} = 1$
       - c. （两正一负）单叶双曲面：$\dfrac{x^2}{a^2} + \dfrac{y^2}{b^2} - \dfrac{z^2}{c^2} = 1$
       - d. （一正两负）双叶双曲面：$\dfrac{x^2}{a^2} - \dfrac{y^2}{b^2} - \dfrac{z^2}{c^2} = 1$
+
+
+
+> 💡 二次型奇技淫巧大观（❓）
+> - （1）$f(x_1, x_2, x_3) = 2(a_1x_1 + a_2x_2 + a_3 x_3)^2 = 2 (x_1, x_2, x_3) \begin{pmatrix} a_1 \\ a_2 \\ a_3 \end{pmatrix}(a_1, a_2, a_3) \begin{pmatrix} x_1 \\ x_2 \\ x_3 \end{pmatrix}$【2013，数一】
+> - （2）设 $x = (x_1, x_2, \cdots, x_n)^T$ 与 $y = (y_1, y_2, \cdots, y_n)^T$，则 $(x^T, y^T) \begin{pmatrix} A & O \\ O & B \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix} = x^TAx + y^TBy$【2005，数三】
+> - （3）$|X^TAX| < |X^TX| \Leftrightarrow -X^TX < X^TAX < X^TX \Leftrightarrow \begin{cases} X^T(A+E)X > 0 \\ X^T(E-A)X > 0 \end{cases} \Leftrightarrow (A+E), (E-A)$ 正定【880 二次型综合选择题 6、8】
+> - （4）$f(x_1, x_2, x_3) = \begin{vmatrix} A & -X \\ X^T & 0 \end{vmatrix} = \begin{vmatrix} A & -X \\ X^T & 0 \end{vmatrix}\begin{vmatrix} E & A^{-1}X \\ 0 & 1 \end{vmatrix} = \begin{vmatrix} \begin{pmatrix} A & -X \\ X^T & 0 \end{pmatrix} \begin{pmatrix} E & A^{-1}X \\ 0 & 1 \end{pmatrix}\end{vmatrix} = \begin{vmatrix} A & 0 \\ X^T & X^TA^{-1}X \end{vmatrix} = |A| X^TA^{-1}X = X^T|A|A^{-1}X = X^TA^*X$【880 二次型拓展解答题 5】
